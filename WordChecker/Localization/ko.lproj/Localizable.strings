@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  WordChecker
+
+  Created by Jaewon Yun on 2023/08/23.
+  
+*/
+
+cancel = "취소";
+add = "추가";
+addWord = "단어 추가";
+next = "다음";
