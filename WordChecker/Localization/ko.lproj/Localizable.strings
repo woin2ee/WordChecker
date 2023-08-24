@@ -10,3 +10,4 @@ cancel = "취소";
 add = "추가";
 addWord = "단어 추가";
 next = "다음";
+noWords = "단어 없음";

@@ -15,5 +15,6 @@ struct WCStrings {
     static let add = NSLocalizedString("add", comment: "")
     static let addWord = NSLocalizedString("addWord", comment: "")
     static let next = NSLocalizedString("next", comment: "")
+    static let noWords = NSLocalizedString("noWords", comment: "")
     
 }

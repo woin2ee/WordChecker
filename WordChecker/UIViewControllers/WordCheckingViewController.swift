@@ -11,10 +11,13 @@ final class WordCheckingViewController: UIViewController {
     
     let wcRealm: WCRepository
     
+    var words: [Word] = []
+    
+    var wordsIterator: IndexingIterator<[Word]>?
+    
     let wordLabel: UILabel = {
         let label: UILabel = .init()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "단어 없음"
         label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .title3)
         label.numberOfLines = 0
@@ -30,7 +33,13 @@ final class WordCheckingViewController: UIViewController {
         title.font = .preferredFont(forTextStyle: .title2, weight: .semibold)
         config.attributedTitle = title
         let action: UIAction = .init { [weak self] _ in
-            
+            guard let self = self, self.words.isNotEmpty else { return }
+            if let nextWord = self.wordsIterator?.next() {
+                self.wordLabel.text = nextWord.word
+            } else {
+                self.wordsIterator = self.words.makeIterator()
+                self.wordLabel.text = self.wordsIterator?.next()?.word
+            }
         }
         let button: UIButton = .init(configuration: config, primaryAction: action)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -53,8 +62,13 @@ final class WordCheckingViewController: UIViewController {
         self.view.backgroundColor = .systemBackground
         setupSubviews()
         setupNavigationBar()
-//        wordsIterator = wcRealm.getAllWords().shuffled().makeIterator()
-//        wordLabel.text = wordsIterator?.next()?.word
+        words = wcRealm.getAllWords().shuffled()
+        wordsIterator = words.makeIterator()
+        if let word = wordsIterator?.next() {
+            wordLabel.text = word.word
+        } else {
+            wordLabel.text = WCStrings.noWords
+        }
     }
     
     private func setupSubviews() {
@@ -85,6 +99,7 @@ final class WordCheckingViewController: UIViewController {
                 }
                 let word: Word = .init(word: wordString)
                 try? self?.wcRealm.saveWord(word)
+                self?.words.append(word)
             }
             alertController.addAction(cancelAction)
             alertController.addAction(addAction)
