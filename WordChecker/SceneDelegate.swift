@@ -24,7 +24,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             print("Realm file url : \(realm.configuration.fileURL)")
         #endif
         let wcRepository: WCRepository = .init(realm: realm)
-        let wordCheckingViewController: WordCheckingViewController = .init(wcRealm: wcRepository)
+        let wordCheckingViewModel: WordCheckingViewModel = .init(wcRealm: wcRepository)
+        let wordCheckingViewController: WordCheckingViewController = .init(viewModel: wordCheckingViewModel)
         let rootNavigationController: UINavigationController = .init(rootViewController: wordCheckingViewController)
         window?.rootViewController = rootNavigationController
     }
