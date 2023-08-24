@@ -10,3 +10,4 @@ cancel = "Cancel";
 add = "Add";
 addWord = "Add Word";
 next = "Next";
+noWords = "No words";
