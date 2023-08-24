@@ -18,6 +18,10 @@
 		DA7A09E62A95F5EE0046AAC4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA7A09E82A95F5EE0046AAC4 /* Localizable.strings */; };
 		DA7A09EC2A95F8E80046AAC4 /* WCStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09EB2A95F8E80046AAC4 /* WCStrings.swift */; };
 		DA7A09EF2A95FEAF0046AAC4 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09EE2A95FEAF0046AAC4 /* UIFont+.swift */; };
+		DA7A09F32A9756780046AAC4 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = DA7A09F22A9756780046AAC4 /* Realm */; };
+		DA7A09F52A9756780046AAC4 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA7A09F42A9756780046AAC4 /* RealmSwift */; };
+		DA7A09F72A9756B90046AAC4 /* WCRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09F62A9756B90046AAC4 /* WCRepository.swift */; };
+		DA7A09F92A97571F0046AAC4 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09F82A97571F0046AAC4 /* Word.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +58,8 @@
 		DA7A09EA2A95F6110046AAC4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA7A09EB2A95F8E80046AAC4 /* WCStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCStrings.swift; sourceTree = "<group>"; };
 		DA7A09EE2A95FEAF0046AAC4 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
+		DA7A09F62A9756B90046AAC4 /* WCRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCRepository.swift; sourceTree = "<group>"; };
+		DA7A09F82A97571F0046AAC4 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +67,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA7A09F52A9756780046AAC4 /* RealmSwift in Frameworks */,
+				DA7A09F32A9756780046AAC4 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +152,8 @@
 		DA7A09E02A95F03C0046AAC4 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				DA7A09F62A9756B90046AAC4 /* WCRepository.swift */,
+				DA7A09F82A97571F0046AAC4 /* Word.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -182,6 +192,10 @@
 			dependencies = (
 			);
 			name = WordChecker;
+			packageProductDependencies = (
+				DA7A09F22A9756780046AAC4 /* Realm */,
+				DA7A09F42A9756780046AAC4 /* RealmSwift */,
+			);
 			productName = WordChecker;
 			productReference = DA7A09AC2A950FBB0046AAC4 /* WordChecker.app */;
 			productType = "com.apple.product-type.application";
@@ -255,6 +269,9 @@
 				ko,
 			);
 			mainGroup = DA7A09A32A950FBB0046AAC4;
+			packageReferences = (
+				DA7A09F12A9756780046AAC4 /* XCRemoteSwiftPackageReference "realm-swift" */,
+			);
 			productRefGroup = DA7A09AD2A950FBB0046AAC4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -299,8 +316,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA7A09B42A950FBB0046AAC4 /* WordCheckingViewController.swift in Sources */,
+				DA7A09F92A97571F0046AAC4 /* Word.swift in Sources */,
 				DA7A09B02A950FBB0046AAC4 /* AppDelegate.swift in Sources */,
 				DA7A09EF2A95FEAF0046AAC4 /* UIFont+.swift in Sources */,
+				DA7A09F72A9756B90046AAC4 /* WCRepository.swift in Sources */,
 				DA7A09EC2A95F8E80046AAC4 /* WCStrings.swift in Sources */,
 				DA7A09B22A950FBB0046AAC4 /* SceneDelegate.swift in Sources */,
 			);
@@ -659,6 +678,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DA7A09F12A9756780046AAC4 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.42.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DA7A09F22A9756780046AAC4 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA7A09F12A9756780046AAC4 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		DA7A09F42A9756780046AAC4 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA7A09F12A9756780046AAC4 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DA7A09A42A950FBB0046AAC4 /* Project object */;
 }

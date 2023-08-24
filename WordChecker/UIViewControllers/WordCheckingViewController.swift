@@ -9,10 +9,12 @@ import UIKit
 
 final class WordCheckingViewController: UIViewController {
     
+    let wcRealm: WCRepository
+    
     let wordLabel: UILabel = {
         let label: UILabel = .init()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Distribution Distribution Distribution Distribution Distribution Distribution"
+        label.text = "단어 없음"
         label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .title3)
         label.numberOfLines = 0
@@ -28,7 +30,7 @@ final class WordCheckingViewController: UIViewController {
         title.font = .preferredFont(forTextStyle: .title2, weight: .semibold)
         config.attributedTitle = title
         let action: UIAction = .init { [weak self] _ in
-            print("tap!")
+            
         }
         let button: UIButton = .init(configuration: config, primaryAction: action)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -37,11 +39,22 @@ final class WordCheckingViewController: UIViewController {
     
     let addWordButton: UIBarButtonItem = .init(systemItem: .add)
     
+    init(wcRealm: WCRepository) {
+        self.wcRealm = wcRealm
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("\(#function)---\(#file)---\(#line)")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         setupSubviews()
         setupNavigationBar()
+//        wordsIterator = wcRealm.getAllWords().shuffled().makeIterator()
+//        wordLabel.text = wordsIterator?.next()?.word
     }
     
     private func setupSubviews() {
@@ -63,16 +76,32 @@ final class WordCheckingViewController: UIViewController {
     
     private func setupNavigationBar() {
         self.navigationItem.rightBarButtonItem = addWordButton
-        addWordButton.primaryAction = .init(handler: { [weak self] _ in
+        addWordButton.primaryAction = .init { [weak self] _ in
             let alertController = UIAlertController(title: WCStrings.addWord, message: "", preferredStyle: .alert)
-            alertController.addTextField()
             let cancelAction: UIAlertAction = .init(title: WCStrings.cancel, style: .cancel)
             let addAction: UIAlertAction = .init(title: WCStrings.add, style: .default) { [weak self] _ in
-                print(alertController.textFields?.first?.text)
+                guard let wordString = alertController.textFields?.first?.text else {
+                    return
+                }
+                let word: Word = .init(word: wordString)
+                try? self?.wcRealm.saveWord(word)
             }
             alertController.addAction(cancelAction)
             alertController.addAction(addAction)
+            alertController.addTextField {
+                let action: UIAction = .init { _ in
+                    if let textField = alertController.textFields?.first {
+                        let text = textField.text ?? ""
+                        if text.isEmpty {
+                            addAction.isEnabled = false
+                        } else {
+                            addAction.isEnabled = true
+                        }
+                    }
+                }
+                $0.addAction(action, for: .allEditingEvents)
+            }
             self?.present(alertController, animated: true)
-        })
+        }
     }
 }
