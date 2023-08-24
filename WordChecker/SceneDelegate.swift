@@ -5,6 +5,7 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
+import RealmSwift
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -16,7 +17,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = .init(windowScene: windowScene)
         window?.makeKeyAndVisible()
         
-        let wordCheckingViewController: WordCheckingViewController = .init()
+        var realmConfig: Realm.Configuration = .defaultConfiguration
+        realmConfig.schemaVersion = 1
+        let realm: Realm = try! .init(configuration: realmConfig)
+        #if DEBUG
+            print("Realm file url : \(realm.configuration.fileURL)")
+        #endif
+        let wcRepository: WCRepository = .init(realm: realm)
+        let wordCheckingViewController: WordCheckingViewController = .init(wcRealm: wcRepository)
         let rootNavigationController: UINavigationController = .init(rootViewController: wordCheckingViewController)
         window?.rootViewController = rootNavigationController
     }
