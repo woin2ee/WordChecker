@@ -5,15 +5,14 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
+import Combine
 import UIKit
 
 final class WordCheckingViewController: UIViewController {
     
-    let wcRealm: WCRepository
+    private var cancellableBag: Set<AnyCancellable> = .init()
     
-    var words: [Word] = []
-    
-    var wordsIterator: IndexingIterator<[Word]>?
+    private let viewModel: WordCheckingViewModel
     
     let wordLabel: UILabel = {
         let label: UILabel = .init()
@@ -32,24 +31,15 @@ final class WordCheckingViewController: UIViewController {
         var title: AttributedString = .init(stringLiteral: WCStrings.next)
         title.font = .preferredFont(forTextStyle: .title2, weight: .semibold)
         config.attributedTitle = title
-        let action: UIAction = .init { [weak self] _ in
-            guard let self = self, self.words.isNotEmpty else { return }
-            if let nextWord = self.wordsIterator?.next() {
-                self.wordLabel.text = nextWord.word
-            } else {
-                self.wordsIterator = self.words.makeIterator()
-                self.wordLabel.text = self.wordsIterator?.next()?.word
-            }
-        }
-        let button: UIButton = .init(configuration: config, primaryAction: action)
+        let button: UIButton = .init(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     let addWordButton: UIBarButtonItem = .init(systemItem: .add)
     
-    init(wcRealm: WCRepository) {
-        self.wcRealm = wcRealm
+    init(viewModel: WordCheckingViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -62,13 +52,7 @@ final class WordCheckingViewController: UIViewController {
         self.view.backgroundColor = .systemBackground
         setupSubviews()
         setupNavigationBar()
-        words = wcRealm.getAllWords().shuffled()
-        wordsIterator = words.makeIterator()
-        if let word = wordsIterator?.next() {
-            wordLabel.text = word.word
-        } else {
-            wordLabel.text = WCStrings.noWords
-        }
+        bindViewModel()
     }
     
     private func setupSubviews() {
@@ -90,16 +74,32 @@ final class WordCheckingViewController: UIViewController {
     
     private func setupNavigationBar() {
         self.navigationItem.rightBarButtonItem = addWordButton
+    }
+    
+    private func bindViewModel() {
+        viewModel.$currentWord
+            .sink { [weak self] word in
+                if let word = word {
+                    self?.wordLabel.text = word.word
+                } else {
+                    self?.wordLabel.text = WCStrings.noWords
+                }
+            }
+            .store(in: &cancellableBag)
+        
+        
+        nextButton.addAction(.init { [weak self] _ in
+            self?.viewModel.updateToNextWord()
+        }, for: .touchUpInside)
+        
         addWordButton.primaryAction = .init { [weak self] _ in
             let alertController = UIAlertController(title: WCStrings.addWord, message: "", preferredStyle: .alert)
             let cancelAction: UIAlertAction = .init(title: WCStrings.cancel, style: .cancel)
             let addAction: UIAlertAction = .init(title: WCStrings.add, style: .default) { [weak self] _ in
-                guard let wordString = alertController.textFields?.first?.text else {
+                guard let word = alertController.textFields?.first?.text else {
                     return
                 }
-                let word: Word = .init(word: wordString)
-                try? self?.wcRealm.saveWord(word)
-                self?.words.append(word)
+                self?.viewModel.saveNewWord(word)
             }
             alertController.addAction(cancelAction)
             alertController.addAction(addAction)
@@ -119,4 +119,5 @@ final class WordCheckingViewController: UIViewController {
             self?.present(alertController, animated: true)
         }
     }
+    
 }
