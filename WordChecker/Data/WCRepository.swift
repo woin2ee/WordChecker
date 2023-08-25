@@ -10,9 +10,25 @@ import RealmSwift
 
 final class WCRepository {
     
+    static let shared: WCRepository = {
+        var realmConfig: Realm.Configuration = .init(
+            schemaVersion: 2,
+            migrationBlock: { migration, oldSchemaVersion in
+                if oldSchemaVersion < 2 {
+                    migration.renameProperty(onType: Word.className(), from: "id", to: "objectID")
+                }
+            }
+        )
+        let realm: Realm = try! .init(configuration: realmConfig)
+        #if DEBUG
+            print("Realm file url : \(realm.configuration.fileURL)")
+        #endif
+        return .init(realm: realm)
+    }()
+    
     let realm: Realm
     
-    init(realm: Realm) {
+    private init(realm: Realm) {
         self.realm = realm
     }
     
@@ -25,6 +41,15 @@ final class WCRepository {
     func getAllWords() -> [Word] {
         let words = realm.objects(Word.self)
         return Array(words)
+    }
+    
+    func deleteWord(by objectID: ObjectId) throws {
+        guard let object = realm.object(ofType: Word.self, forPrimaryKey: objectID) else {
+            throw RealmError.notMatchedObjectID(type: Word.self, objectID: objectID)
+        }
+        try realm.write {
+            self.realm.delete(object)
+        }
     }
     
 }

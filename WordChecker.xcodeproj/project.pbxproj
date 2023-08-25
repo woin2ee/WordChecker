@@ -26,6 +26,9 @@
 		DA7A0A052A9786420046AAC4 /* WordCheckingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A042A9786420046AAC4 /* WordCheckingViewModel.swift */; };
 		DA7A0A072A979BC90046AAC4 /* CircularLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A062A979BC90046AAC4 /* CircularLinkedList.swift */; };
 		DA7A0A092A9859580046AAC4 /* WordChecking+BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A082A9859580046AAC4 /* WordChecking+BottomButton.swift */; };
+		DA7A0A0C2A985F720046AAC4 /* WordListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A0B2A985F720046AAC4 /* WordListViewController.swift */; };
+		DA7A0A0E2A9861950046AAC4 /* WordListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A0D2A9861950046AAC4 /* WordListViewModel.swift */; };
+		DA7A0A102A989CB60046AAC4 /* RealmError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A0F2A989CB60046AAC4 /* RealmError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +71,9 @@
 		DA7A0A042A9786420046AAC4 /* WordCheckingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCheckingViewModel.swift; sourceTree = "<group>"; };
 		DA7A0A062A979BC90046AAC4 /* CircularLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularLinkedList.swift; sourceTree = "<group>"; };
 		DA7A0A082A9859580046AAC4 /* WordChecking+BottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordChecking+BottomButton.swift"; sourceTree = "<group>"; };
+		DA7A0A0B2A985F720046AAC4 /* WordListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewController.swift; sourceTree = "<group>"; };
+		DA7A0A0D2A9861950046AAC4 /* WordListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewModel.swift; sourceTree = "<group>"; };
+		DA7A0A0F2A989CB60046AAC4 /* RealmError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +161,7 @@
 			children = (
 				DA7A09F62A9756B90046AAC4 /* WCRepository.swift */,
 				DA7A09F82A97571F0046AAC4 /* Word.swift */,
+				DA7A0A0F2A989CB60046AAC4 /* RealmError.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -189,6 +196,7 @@
 		DA7A0A022A97862C0046AAC4 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				DA7A0A0A2A985F640046AAC4 /* WordList */,
 				DA7A0A032A9786320046AAC4 /* WordChecking */,
 			);
 			path = Scenes;
@@ -202,6 +210,15 @@
 				DA7A0A082A9859580046AAC4 /* WordChecking+BottomButton.swift */,
 			);
 			path = WordChecking;
+			sourceTree = "<group>";
+		};
+		DA7A0A0A2A985F640046AAC4 /* WordList */ = {
+			isa = PBXGroup;
+			children = (
+				DA7A0A0B2A985F720046AAC4 /* WordListViewController.swift */,
+				DA7A0A0D2A9861950046AAC4 /* WordListViewModel.swift */,
+			);
+			path = WordList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -345,11 +362,14 @@
 			files = (
 				DA7A0A052A9786420046AAC4 /* WordCheckingViewModel.swift in Sources */,
 				DA7A0A092A9859580046AAC4 /* WordChecking+BottomButton.swift in Sources */,
+				DA7A0A0C2A985F720046AAC4 /* WordListViewController.swift in Sources */,
 				DA7A09B42A950FBB0046AAC4 /* WordCheckingViewController.swift in Sources */,
 				DA7A0A002A97853F0046AAC4 /* Collection+isNotEmpty.swift in Sources */,
 				DA7A0A072A979BC90046AAC4 /* CircularLinkedList.swift in Sources */,
+				DA7A0A102A989CB60046AAC4 /* RealmError.swift in Sources */,
 				DA7A09F92A97571F0046AAC4 /* Word.swift in Sources */,
 				DA7A09B02A950FBB0046AAC4 /* AppDelegate.swift in Sources */,
+				DA7A0A0E2A9861950046AAC4 /* WordListViewModel.swift in Sources */,
 				DA7A09EF2A95FEAF0046AAC4 /* UIFont+preferredFont.swift in Sources */,
 				DA7A09F72A9756B90046AAC4 /* WCRepository.swift in Sources */,
 				DA7A09EC2A95F8E80046AAC4 /* WCStrings.swift in Sources */,

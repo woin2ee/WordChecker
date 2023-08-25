@@ -12,3 +12,5 @@ addWord = "Add Word";
 next = "Next";
 noWords = "No words";
 list = "List";
+wordList = "Word list";
+delete = "Delete";

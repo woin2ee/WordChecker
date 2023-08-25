@@ -17,14 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = .init(windowScene: windowScene)
         window?.makeKeyAndVisible()
         
-        var realmConfig: Realm.Configuration = .defaultConfiguration
-        realmConfig.schemaVersion = 1
-        let realm: Realm = try! .init(configuration: realmConfig)
-        #if DEBUG
-            print("Realm file url : \(realm.configuration.fileURL)")
-        #endif
-        let wcRepository: WCRepository = .init(realm: realm)
-        let wordCheckingViewModel: WordCheckingViewModel = .init(wcRealm: wcRepository)
+        let wordCheckingViewModel: WordCheckingViewModel = .init(wcRealm: .shared)
         let wordCheckingViewController: WordCheckingViewController = .init(viewModel: wordCheckingViewModel)
         let rootNavigationController: UINavigationController = .init(rootViewController: wordCheckingViewController)
         window?.rootViewController = rootNavigationController
