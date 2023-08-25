@@ -22,6 +22,8 @@ protocol WordCheckingViewModelInput {
     
     func updateWordList()
     
+    func shuffleWordList()
+    
 }
 
 final class WordCheckingViewModel {
@@ -30,12 +32,12 @@ final class WordCheckingViewModel {
     
     @Published var currentWord: Word?
     
-    private var words: CircularLinkedList<Word>
+    private var wordList: CircularLinkedList<Word>
     
     init(wcRealm: WCRepository) {
         self.wcRealm = wcRealm
-        self.words = .init(wcRealm.getAllWords().shuffled())
-        if let firstWord = words.current {
+        self.wordList = .init(wcRealm.getAllWords().shuffled())
+        if let firstWord = wordList.current {
             self.currentWord = firstWord
         }
     }
@@ -47,31 +49,38 @@ extension WordCheckingViewModel: WordCheckingViewModelInput {
     func updateWordList() {
         let currentWord = self.currentWord
         let updatedWordList = wcRealm.getAllWords().shuffled()
-        words = .init(updatedWordList)
-        guard words.count > 0 else {
+        wordList = .init(updatedWordList)
+        guard wordList.count > 0 else {
             self.currentWord = nil
             return
         }
-        for _ in 0..<words.count {
-            if words.next() == currentWord {
-                self.currentWord = words.current
+        for _ in 0..<wordList.count {
+            if wordList.next() == currentWord {
+                self.currentWord = wordList.current
                 return
             }
-            self.currentWord = words.current
+            self.currentWord = wordList.current
         }
     }
     
     func updateToNextWord() {
-        currentWord = words.next()
+        currentWord = wordList.next()
     }
     
     func saveNewWord(_ word: String) {
         let word: Word = .init(word: word)
         try? wcRealm.saveWord(word)
-        words.append(word)
-        if words.count == 1 {
-            currentWord = words.current
+        wordList.append(word)
+        if wordList.count == 1 {
+            currentWord = wordList.current
         }
+    }
+    
+    func shuffleWordList() {
+        repeat {
+            wordList.shuffle()
+        } while wordList.current == self.currentWord
+        self.currentWord = wordList.current
     }
     
 }

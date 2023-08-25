@@ -45,4 +45,10 @@ struct CircularLinkedList<Element> {
         elements.append(newElement)
     }
     
+    /// 연결되어있는 요소들을 섞고 현재 가리키고 있는 요소를 재설정합니다.
+    mutating func shuffle() {
+        elements.shuffle()
+        currentIndex = 0
+    }
+    
 }
