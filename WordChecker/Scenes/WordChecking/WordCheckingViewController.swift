@@ -7,6 +7,7 @@
 
 import Combine
 import UIKit
+import WebKit
 
 final class WordCheckingViewController: UIViewController {
     
@@ -38,6 +39,26 @@ final class WordCheckingViewController: UIViewController {
     
     let shuffleButton: BottomButton = .init(title: WCStrings.shuffleOrder)
     
+    lazy var translateButton: BottomButton = {
+        let button: BottomButton = .init(title: WCStrings.translate)
+        let action: UIAction = .init { [weak self] _ in
+            let webView: WKWebView = .init()
+            guard
+                let currentWord = self?.viewModel.currentWord?.word,
+                let url = URL(string: "https://papago.naver.com/?sk=en&tk=ko&hn=1&st=\(currentWord)")
+            else {
+                return
+            }
+            let urlRequest: URLRequest = .init(url: url)
+            webView.load(urlRequest)
+            let webViewController: UIViewController = .init()
+            webViewController.view = webView
+            self?.navigationController?.pushViewController(webViewController, animated: true)
+        }
+        button.addAction(action, for: .touchUpInside)
+        return button
+    }()
+    
     let addWordButton: UIBarButtonItem = .init(systemItem: .add)
     
     init(viewModel: WordCheckingViewModel) {
@@ -67,6 +88,7 @@ final class WordCheckingViewController: UIViewController {
         self.view.addSubview(listButton)
         self.view.addSubview(nextButton)
         self.view.addSubview(shuffleButton)
+        self.view.addSubview(translateButton)
         
         NSLayoutConstraint.activate([
             wordLabel.leadingAnchor.constraint(greaterThanOrEqualToSystemSpacingAfter: self.view.safeAreaLayoutGuide.leadingAnchor, multiplier: 3.0),
@@ -93,6 +115,13 @@ final class WordCheckingViewController: UIViewController {
             shuffleButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: buttonCollectionSpacingToSafeArea),
             shuffleButton.widthAnchor.constraint(equalTo: listButton.widthAnchor),
             listButton.topAnchor.constraint(equalToSystemSpacingBelow: shuffleButton.bottomAnchor, multiplier: 1.0),
+        ])
+        // translate button
+        NSLayoutConstraint.activate([
+            translateButton.leadingAnchor.constraint(equalToSystemSpacingAfter: shuffleButton.trailingAnchor, multiplier: 1.0),
+            translateButton.widthAnchor.constraint(equalTo: shuffleButton.widthAnchor),
+            self.view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: translateButton.trailingAnchor, constant: buttonCollectionSpacingToSafeArea),
+            nextButton.topAnchor.constraint(equalToSystemSpacingBelow: translateButton.bottomAnchor, multiplier: 1.0),
         ])
     }
     
