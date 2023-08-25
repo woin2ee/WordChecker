@@ -14,3 +14,5 @@ noWords = "No words";
 list = "List";
 wordList = "Word list";
 delete = "Delete";
+edit = "Edit";
+editWord = "Edit word";

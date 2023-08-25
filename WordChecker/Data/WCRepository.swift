@@ -38,17 +38,29 @@ final class WCRepository {
         }
     }
     
+    func getWord(by objectID: ObjectId) throws -> Word {
+        guard let object = realm.object(ofType: Word.self, forPrimaryKey: objectID) else {
+            throw RealmError.notMatchedObjectID(type: Word.self, objectID: objectID)
+        }
+        return object
+    }
+    
     func getAllWords() -> [Word] {
         let words = realm.objects(Word.self)
         return Array(words)
     }
     
     func deleteWord(by objectID: ObjectId) throws {
-        guard let object = realm.object(ofType: Word.self, forPrimaryKey: objectID) else {
-            throw RealmError.notMatchedObjectID(type: Word.self, objectID: objectID)
-        }
+        let object = try getWord(by: objectID)
         try realm.write {
             self.realm.delete(object)
+        }
+    }
+    
+    func updateWord(for objectID: ObjectId, withNewWord newWord: String) throws {
+        let updateTarget = try getWord(by: objectID)
+        try realm.write {
+            updateTarget.word = newWord
         }
     }
     

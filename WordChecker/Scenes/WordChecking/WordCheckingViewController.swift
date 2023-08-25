@@ -110,18 +110,16 @@ final class WordCheckingViewController: UIViewController {
             }
             alertController.addAction(cancelAction)
             alertController.addAction(addAction)
-            alertController.addTextField {
+            alertController.addTextField { textField in
                 let action: UIAction = .init { _ in
-                    if let textField = alertController.textFields?.first {
-                        let text = textField.text ?? ""
-                        if text.isEmpty {
-                            addAction.isEnabled = false
-                        } else {
-                            addAction.isEnabled = true
-                        }
+                    let text = textField.text ?? ""
+                    if text.isEmpty {
+                        addAction.isEnabled = false
+                    } else {
+                        addAction.isEnabled = true
                     }
                 }
-                $0.addAction(action, for: .allEditingEvents)
+                textField.addAction(action, for: .allEditingEvents)
             }
             self?.present(alertController, animated: true)
         }
