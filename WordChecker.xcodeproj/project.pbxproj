@@ -25,6 +25,7 @@
 		DA7A0A002A97853F0046AAC4 /* Collection+isNotEmpty.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09FF2A97853F0046AAC4 /* Collection+isNotEmpty.swift */; };
 		DA7A0A052A9786420046AAC4 /* WordCheckingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A042A9786420046AAC4 /* WordCheckingViewModel.swift */; };
 		DA7A0A072A979BC90046AAC4 /* CircularLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A062A979BC90046AAC4 /* CircularLinkedList.swift */; };
+		DA7A0A092A9859580046AAC4 /* WordChecking+BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A082A9859580046AAC4 /* WordChecking+BottomButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		DA7A09FF2A97853F0046AAC4 /* Collection+isNotEmpty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+isNotEmpty.swift"; sourceTree = "<group>"; };
 		DA7A0A042A9786420046AAC4 /* WordCheckingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCheckingViewModel.swift; sourceTree = "<group>"; };
 		DA7A0A062A979BC90046AAC4 /* CircularLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularLinkedList.swift; sourceTree = "<group>"; };
+		DA7A0A082A9859580046AAC4 /* WordChecking+BottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordChecking+BottomButton.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +199,7 @@
 			children = (
 				DA7A09B32A950FBB0046AAC4 /* WordCheckingViewController.swift */,
 				DA7A0A042A9786420046AAC4 /* WordCheckingViewModel.swift */,
+				DA7A0A082A9859580046AAC4 /* WordChecking+BottomButton.swift */,
 			);
 			path = WordChecking;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA7A0A052A9786420046AAC4 /* WordCheckingViewModel.swift in Sources */,
+				DA7A0A092A9859580046AAC4 /* WordChecking+BottomButton.swift in Sources */,
 				DA7A09B42A950FBB0046AAC4 /* WordCheckingViewController.swift in Sources */,
 				DA7A0A002A97853F0046AAC4 /* Collection+isNotEmpty.swift in Sources */,
 				DA7A0A072A979BC90046AAC4 /* CircularLinkedList.swift in Sources */,
