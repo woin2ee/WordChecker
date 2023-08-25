@@ -20,6 +20,8 @@ protocol WordCheckingViewModelInput {
     
     func saveNewWord(_ word: String)
     
+    func updateWordList()
+    
 }
 
 final class WordCheckingViewModel {
@@ -41,6 +43,23 @@ final class WordCheckingViewModel {
 }
 
 extension WordCheckingViewModel: WordCheckingViewModelInput {
+    
+    func updateWordList() {
+        let currentWord = self.currentWord
+        let updatedWordList = wcRealm.getAllWords().shuffled()
+        words = .init(updatedWordList)
+        guard words.count > 0 else {
+            self.currentWord = nil
+            return
+        }
+        for _ in 0..<words.count {
+            if words.next() == currentWord {
+                self.currentWord = words.current
+                return
+            }
+            self.currentWord = words.current
+        }
+    }
     
     func updateToNextWord() {
         currentWord = words.next()
