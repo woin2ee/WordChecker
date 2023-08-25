@@ -9,11 +9,7 @@ import Foundation
 
 struct CircularLinkedList<Element> {
     
-    private var elements: [Element] = [] {
-        didSet {
-            print(elements)
-        }
-    }
+    private var elements: [Element] = []
     
     private var currentIndex: Int = 0
     
