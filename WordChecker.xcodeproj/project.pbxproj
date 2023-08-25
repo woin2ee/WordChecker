@@ -126,15 +126,14 @@
 		DA7A09AE2A950FBB0046AAC4 /* WordChecker */ = {
 			isa = PBXGroup;
 			children = (
-				DA7A0A022A97862C0046AAC4 /* Scenes */,
+				DA7A0A122A9910A70046AAC4 /* Application */,
+				DA7A09E02A95F03C0046AAC4 /* Data */,
 				DA7A0A012A97855A0046AAC4 /* Extensions */,
 				DA7A09BD2A950FBC0046AAC4 /* Info.plist */,
-				DA7A09AF2A950FBB0046AAC4 /* AppDelegate.swift */,
-				DA7A09B12A950FBB0046AAC4 /* SceneDelegate.swift */,
-				DA7A09E02A95F03C0046AAC4 /* Data */,
 				DA7A09ED2A95F9C60046AAC4 /* Localization */,
 				DA7A09F02A96012B0046AAC4 /* Resources */,
-				DA7A0A062A979BC90046AAC4 /* CircularLinkedList.swift */,
+				DA7A0A022A97862C0046AAC4 /* Scenes */,
+				DA7A0A132A9910DB0046AAC4 /* Utilities */,
 			);
 			path = WordChecker;
 			sourceTree = "<group>";
@@ -159,8 +158,8 @@
 		DA7A09E02A95F03C0046AAC4 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				DA7A0A112A9910760046AAC4 /* ObjectModels */,
 				DA7A09F62A9756B90046AAC4 /* WCRepository.swift */,
-				DA7A09F82A97571F0046AAC4 /* Word.swift */,
 				DA7A0A0F2A989CB60046AAC4 /* RealmError.swift */,
 			);
 			path = Data;
@@ -219,6 +218,31 @@
 				DA7A0A0D2A9861950046AAC4 /* WordListViewModel.swift */,
 			);
 			path = WordList;
+			sourceTree = "<group>";
+		};
+		DA7A0A112A9910760046AAC4 /* ObjectModels */ = {
+			isa = PBXGroup;
+			children = (
+				DA7A09F82A97571F0046AAC4 /* Word.swift */,
+			);
+			path = ObjectModels;
+			sourceTree = "<group>";
+		};
+		DA7A0A122A9910A70046AAC4 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				DA7A09AF2A950FBB0046AAC4 /* AppDelegate.swift */,
+				DA7A09B12A950FBB0046AAC4 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		DA7A0A132A9910DB0046AAC4 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				DA7A0A062A979BC90046AAC4 /* CircularLinkedList.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
