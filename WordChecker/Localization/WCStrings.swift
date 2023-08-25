@@ -19,5 +19,7 @@ struct WCStrings {
     static let list = NSLocalizedString("list", comment: "")
     static let wordList = NSLocalizedString("wordList", comment: "")
     static let delete = NSLocalizedString("delete", comment: "")
+    static let edit = NSLocalizedString("edit", comment: "")
+    static let editWord = NSLocalizedString("editWord", comment: "")
     
 }

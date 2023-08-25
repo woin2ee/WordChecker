@@ -14,3 +14,5 @@ noWords = "단어 없음";
 list = "목록";
 wordList = "단어 목록";
 delete = "삭제";
+edit = "수정";
+editWord = "단어 수정";

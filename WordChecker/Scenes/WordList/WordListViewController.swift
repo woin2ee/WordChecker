@@ -87,7 +87,33 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
             self?.viewModel.deleteWord(for: indexPath)
             completionHandler(true)
         }
-        return .init(actions: [deleteAction])
+        let editAction: UIContextualAction = .init(style: .normal, title: WCStrings.edit) { [weak self] action, view, completionHandler in
+            let alertController = UIAlertController(title: WCStrings.editWord, message: "", preferredStyle: .alert)
+            let cancelAction: UIAlertAction = .init(title: WCStrings.cancel, style: .cancel)
+            let addAction: UIAlertAction = .init(title: WCStrings.edit, style: .default) { [weak self] _ in
+                guard let newWord = alertController.textFields?.first?.text else {
+                    return
+                }
+                self?.viewModel.editWord(for: indexPath, toNewWord: newWord)
+            }
+            alertController.addAction(cancelAction)
+            alertController.addAction(addAction)
+            alertController.addTextField { [weak self] textField in
+                textField.text = self?.viewModel.words[indexPath.row].word
+                let action: UIAction = .init { _ in
+                    let text = textField.text ?? ""
+                    if text.isEmpty {
+                        addAction.isEnabled = false
+                    } else {
+                        addAction.isEnabled = true
+                    }
+                }
+                textField.addAction(action, for: .allEditingEvents)
+            }
+            self?.present(alertController, animated: true)
+            completionHandler(true)
+        }
+        return .init(actions: [deleteAction, editAction])
     }
     
 }

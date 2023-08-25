@@ -12,6 +12,8 @@ protocol WordListViewModelInput {
     
     func deleteWord(for indexPath: IndexPath)
     
+    func editWord(for indexPath: IndexPath, toNewWord newWord: String)
+    
 }
 
 final class WordListViewModel {
@@ -33,6 +35,14 @@ extension WordListViewModel: WordListViewModelInput {
         let deleteTarget = words[indexPath.row]
         try? wcRealm.deleteWord(by: deleteTarget.objectID)
         words.remove(at: indexPath.row)
+    }
+    
+    func editWord(for indexPath: IndexPath, toNewWord newWord: String) {
+        let updateTarget = words[indexPath.row]
+        try? wcRealm.updateWord(for: updateTarget.objectID, withNewWord: newWord)
+        if let updatedObject = try? wcRealm.getWord(by: updateTarget.objectID) {
+            words[indexPath.row] = updatedObject
+        }
     }
     
 }
