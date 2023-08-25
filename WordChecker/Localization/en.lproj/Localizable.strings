@@ -17,3 +17,4 @@ delete = "Delete";
 edit = "Edit";
 editWord = "Edit word";
 shuffleOrder = "Shuffle order";
+translate = "Translate";
