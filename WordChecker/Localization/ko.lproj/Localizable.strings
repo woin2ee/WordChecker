@@ -11,3 +11,4 @@ add = "추가";
 addWord = "단어 추가";
 next = "다음";
 noWords = "단어 없음";
+list = "목록";

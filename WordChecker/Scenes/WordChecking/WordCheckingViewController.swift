@@ -23,18 +23,9 @@ final class WordCheckingViewController: UIViewController {
         return label
     }()
     
-    lazy var nextButton: UIButton = {
-        var config: UIButton.Configuration = .filled()
-        config.baseForegroundColor = .systemBackground
-        config.baseBackgroundColor = .systemOrange
-        config.buttonSize = .large
-        var title: AttributedString = .init(stringLiteral: WCStrings.next)
-        title.font = .preferredFont(forTextStyle: .title2, weight: .semibold)
-        config.attributedTitle = title
-        let button: UIButton = .init(configuration: config)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    let nextButton: BottomButton = .init(title: WCStrings.next)
+    
+    let listButton: BottomButton = .init(title: WCStrings.list)
     
     let addWordButton: UIBarButtonItem = .init(systemItem: .add)
     
@@ -57,6 +48,7 @@ final class WordCheckingViewController: UIViewController {
     
     private func setupSubviews() {
         self.view.addSubview(wordLabel)
+        self.view.addSubview(listButton)
         self.view.addSubview(nextButton)
         
         NSLayoutConstraint.activate([
@@ -67,7 +59,14 @@ final class WordCheckingViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            nextButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            listButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            listButton.bottomAnchor.constraint(equalToSystemSpacingBelow: self.view.safeAreaLayoutGuide.bottomAnchor, multiplier: 1.0),
+        ])
+        
+        NSLayoutConstraint.activate([
+            nextButton.leadingAnchor.constraint(equalToSystemSpacingAfter: listButton.trailingAnchor, multiplier: 1.0),
+            nextButton.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            nextButton.widthAnchor.constraint(equalTo: listButton.widthAnchor),
             nextButton.bottomAnchor.constraint(equalToSystemSpacingBelow: self.view.safeAreaLayoutGuide.bottomAnchor, multiplier: 1.0),
         ])
     }
@@ -86,7 +85,6 @@ final class WordCheckingViewController: UIViewController {
                 }
             }
             .store(in: &cancellableBag)
-        
         
         nextButton.addAction(.init { [weak self] _ in
             self?.viewModel.updateToNextWord()
