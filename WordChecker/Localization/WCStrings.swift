@@ -21,5 +21,6 @@ struct WCStrings {
     static let delete = NSLocalizedString("delete", comment: "")
     static let edit = NSLocalizedString("edit", comment: "")
     static let editWord = NSLocalizedString("editWord", comment: "")
+    static let shuffleOrder = NSLocalizedString("shuffleOrder", comment: "")
     
 }

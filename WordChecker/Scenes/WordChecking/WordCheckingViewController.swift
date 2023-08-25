@@ -36,6 +36,8 @@ final class WordCheckingViewController: UIViewController {
         return button
     }()
     
+    let shuffleButton: BottomButton = .init(title: WCStrings.shuffleOrder)
+    
     let addWordButton: UIBarButtonItem = .init(systemItem: .add)
     
     init(viewModel: WordCheckingViewModel) {
@@ -64,6 +66,7 @@ final class WordCheckingViewController: UIViewController {
         self.view.addSubview(wordLabel)
         self.view.addSubview(listButton)
         self.view.addSubview(nextButton)
+        self.view.addSubview(shuffleButton)
         
         NSLayoutConstraint.activate([
             wordLabel.leadingAnchor.constraint(greaterThanOrEqualToSystemSpacingAfter: self.view.safeAreaLayoutGuide.leadingAnchor, multiplier: 3.0),
@@ -72,16 +75,24 @@ final class WordCheckingViewController: UIViewController {
             wordLabel.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerYAnchor),
         ])
         
+        let buttonCollectionSpacingToSafeArea: CGFloat = 20.0
+        // list button
         NSLayoutConstraint.activate([
-            listButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            listButton.bottomAnchor.constraint(equalToSystemSpacingBelow: self.view.safeAreaLayoutGuide.bottomAnchor, multiplier: 1.0),
+            listButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: buttonCollectionSpacingToSafeArea),
+            self.view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: listButton.bottomAnchor, multiplier: 1.0),
         ])
-        
+        // next button
         NSLayoutConstraint.activate([
             nextButton.leadingAnchor.constraint(equalToSystemSpacingAfter: listButton.trailingAnchor, multiplier: 1.0),
-            nextButton.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            nextButton.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -buttonCollectionSpacingToSafeArea),
             nextButton.widthAnchor.constraint(equalTo: listButton.widthAnchor),
-            nextButton.bottomAnchor.constraint(equalToSystemSpacingBelow: self.view.safeAreaLayoutGuide.bottomAnchor, multiplier: 1.0),
+            self.view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: nextButton.bottomAnchor, multiplier: 1.0),
+        ])
+        // shuffle button
+        NSLayoutConstraint.activate([
+            shuffleButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: buttonCollectionSpacingToSafeArea),
+            shuffleButton.widthAnchor.constraint(equalTo: listButton.widthAnchor),
+            listButton.topAnchor.constraint(equalToSystemSpacingBelow: shuffleButton.bottomAnchor, multiplier: 1.0),
         ])
     }
     
@@ -99,6 +110,10 @@ final class WordCheckingViewController: UIViewController {
                 }
             }
             .store(in: &cancellableBag)
+        
+        shuffleButton.addAction(.init { [weak self] _ in
+            self?.viewModel.shuffleWordList()
+        }, for: .touchUpInside)
         
         nextButton.addAction(.init { [weak self] _ in
             self?.viewModel.updateToNextWord()
