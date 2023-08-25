@@ -10,7 +10,7 @@ import RealmSwift
 
 final class Word: Object {
     
-    @Persisted(primaryKey: true) var id: ObjectId
+    @Persisted(primaryKey: true) var objectID: ObjectId
     
     @Persisted var word: String
     

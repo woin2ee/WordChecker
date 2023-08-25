@@ -12,3 +12,5 @@ addWord = "단어 추가";
 next = "다음";
 noWords = "단어 없음";
 list = "목록";
+wordList = "단어 목록";
+delete = "삭제";

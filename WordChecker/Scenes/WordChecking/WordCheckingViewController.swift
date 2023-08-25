@@ -25,7 +25,16 @@ final class WordCheckingViewController: UIViewController {
     
     let nextButton: BottomButton = .init(title: WCStrings.next)
     
-    let listButton: BottomButton = .init(title: WCStrings.list)
+    lazy var listButton: BottomButton = {
+        let button: BottomButton = .init(title: WCStrings.list)
+        let action: UIAction = .init { [weak self] _ in
+            let wordListViewModel: WordListViewModel = .init(wcRealm: .shared)
+            let wordListViewController: WordListViewController = .init(viewModel: wordListViewModel)
+            self?.navigationController?.pushViewController(wordListViewController, animated: true)
+        }
+        button.addAction(action, for: .touchUpInside)
+        return button
+    }()
     
     let addWordButton: UIBarButtonItem = .init(systemItem: .add)
     
