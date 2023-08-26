@@ -51,7 +51,7 @@ final class WordListViewController: UIViewController {
         self.view.addSubview(wordListTableView)
         
         NSLayoutConstraint.activate([
-            wordListTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            wordListTableView.topAnchor.constraint(equalTo: self.view.topAnchor),
             wordListTableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             wordListTableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             wordListTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
