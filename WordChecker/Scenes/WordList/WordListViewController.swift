@@ -55,10 +55,14 @@ final class WordListViewController: UIViewController {
     
     private func setupNavigationBar() {
         self.navigationItem.title = WCStrings.wordList
+        let searchController: UISearchController = .init(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.delegate = self
+        self.navigationItem.searchController = searchController
     }
     
     private func bindViewModel() {
-        viewModel.$words
+        viewModel.$wordList
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.wordListTableView.reloadData()
@@ -71,13 +75,13 @@ final class WordListViewController: UIViewController {
 extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.words.count
+        return viewModel.wordList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath)
         var config: UIListContentConfiguration = .cell()
-        config.text = viewModel.words[indexPath.row].word
+        config.text = viewModel.wordList[indexPath.row].word
         cell.contentConfiguration = config
         return cell
     }
@@ -99,7 +103,7 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
             alertController.addAction(cancelAction)
             alertController.addAction(addAction)
             alertController.addTextField { [weak self] textField in
-                textField.text = self?.viewModel.words[indexPath.row].word
+                textField.text = self?.viewModel.wordList[indexPath.row].word
                 let action: UIAction = .init { _ in
                     let text = textField.text ?? ""
                     if text.isEmpty {
@@ -114,6 +118,19 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
             completionHandler(true)
         }
         return .init(actions: [deleteAction, editAction])
+    }
+    
+}
+
+extension WordListViewController: UISearchResultsUpdating, UISearchControllerDelegate {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+        self.viewModel.filterWordList(with: text)
+    }
+    
+    func didDismissSearchController(_ searchController: UISearchController) {
+        self.viewModel.updateWordList()
     }
     
 }
