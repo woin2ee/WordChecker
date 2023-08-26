@@ -60,9 +60,11 @@ final class WordListViewController: UIViewController {
     
     private func setupNavigationBar() {
         self.navigationItem.title = WCStrings.wordList
-        let searchController: UISearchController = .init(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        searchController.delegate = self
+        let searchResultsController: WordSearchResultsController = .init(viewModel: viewModel)
+        let searchController: UISearchController = .init(searchResultsController: searchResultsController)
+        searchController.view.backgroundColor = .systemBackground
+        searchController.searchResultsUpdater = searchResultsController
+        searchController.delegate = searchResultsController
         self.navigationItem.searchController = searchController
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
@@ -77,6 +79,8 @@ final class WordListViewController: UIViewController {
     }
     
 }
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -100,22 +104,22 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
         let editAction: UIContextualAction = .init(style: .normal, title: WCStrings.edit) { [weak self] action, view, completionHandler in
             let alertController = UIAlertController(title: WCStrings.editWord, message: "", preferredStyle: .alert)
             let cancelAction: UIAlertAction = .init(title: WCStrings.cancel, style: .cancel)
-            let addAction: UIAlertAction = .init(title: WCStrings.edit, style: .default) { [weak self] _ in
+            let completeAction: UIAlertAction = .init(title: WCStrings.edit, style: .default) { [weak self] _ in
                 guard let newWord = alertController.textFields?.first?.text else {
                     return
                 }
                 self?.viewModel.editWord(for: indexPath, toNewWord: newWord)
             }
             alertController.addAction(cancelAction)
-            alertController.addAction(addAction)
+            alertController.addAction(completeAction)
             alertController.addTextField { [weak self] textField in
                 textField.text = self?.viewModel.wordList[indexPath.row].word
                 let action: UIAction = .init { _ in
                     let text = textField.text ?? ""
                     if text.isEmpty {
-                        addAction.isEnabled = false
+                        completeAction.isEnabled = false
                     } else {
-                        addAction.isEnabled = true
+                        completeAction.isEnabled = true
                     }
                 }
                 textField.addAction(action, for: .allEditingEvents)
@@ -124,19 +128,6 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
             completionHandler(true)
         }
         return .init(actions: [deleteAction, editAction])
-    }
-    
-}
-
-extension WordListViewController: UISearchResultsUpdating, UISearchControllerDelegate {
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else { return }
-        self.viewModel.filterWordList(with: text)
-    }
-    
-    func didDismissSearchController(_ searchController: UISearchController) {
-        self.viewModel.updateWordList()
     }
     
 }
