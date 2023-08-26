@@ -14,8 +14,6 @@ protocol WordListViewModelInput {
     
     func editWord(for indexPath: IndexPath, toNewWord newWord: String)
     
-    func filterWordList(with text: String)
-    
     func updateWordList()
     
 }
@@ -37,12 +35,6 @@ extension WordListViewModel: WordListViewModelInput {
     
     func updateWordList() {
         wordList = wcRealm.getAllWords()
-    }
-    
-    func filterWordList(with text: String) {
-        let keyword = text.lowercased()
-        let allWordList = wcRealm.getAllWords()
-        wordList = allWordList.filter { $0.word.lowercased().contains(keyword) }
     }
     
     func deleteWord(for indexPath: IndexPath) {

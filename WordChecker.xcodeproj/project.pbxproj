@@ -29,6 +29,7 @@
 		DA7A0A0C2A985F720046AAC4 /* WordListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A0B2A985F720046AAC4 /* WordListViewController.swift */; };
 		DA7A0A0E2A9861950046AAC4 /* WordListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A0D2A9861950046AAC4 /* WordListViewModel.swift */; };
 		DA7A0A102A989CB60046AAC4 /* RealmError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A0F2A989CB60046AAC4 /* RealmError.swift */; };
+		DA7A0A172A9A540A0046AAC4 /* WordSearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A162A9A540A0046AAC4 /* WordSearchResultsController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		DA7A0A0B2A985F720046AAC4 /* WordListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewController.swift; sourceTree = "<group>"; };
 		DA7A0A0D2A9861950046AAC4 /* WordListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewModel.swift; sourceTree = "<group>"; };
 		DA7A0A0F2A989CB60046AAC4 /* RealmError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmError.swift; sourceTree = "<group>"; };
+		DA7A0A162A9A540A0046AAC4 /* WordSearchResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordSearchResultsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +218,7 @@
 			children = (
 				DA7A0A0B2A985F720046AAC4 /* WordListViewController.swift */,
 				DA7A0A0D2A9861950046AAC4 /* WordListViewModel.swift */,
+				DA7A0A162A9A540A0046AAC4 /* WordSearchResultsController.swift */,
 			);
 			path = WordList;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 			files = (
 				DA7A0A052A9786420046AAC4 /* WordCheckingViewModel.swift in Sources */,
 				DA7A0A092A9859580046AAC4 /* WordChecking+BottomButton.swift in Sources */,
+				DA7A0A172A9A540A0046AAC4 /* WordSearchResultsController.swift in Sources */,
 				DA7A0A0C2A985F720046AAC4 /* WordListViewController.swift in Sources */,
 				DA7A09B42A950FBB0046AAC4 /* WordCheckingViewController.swift in Sources */,
 				DA7A0A002A97853F0046AAC4 /* Collection+isNotEmpty.swift in Sources */,
