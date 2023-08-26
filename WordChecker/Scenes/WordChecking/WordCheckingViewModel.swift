@@ -59,8 +59,8 @@ extension WordCheckingViewModel: WordCheckingViewModelInput {
                 self.currentWord = wordList.current
                 return
             }
-            self.currentWord = wordList.current
         }
+        self.currentWord = wordList.current
     }
     
     func updateToNextWord() {
