@@ -42,6 +42,11 @@ final class WordListViewController: UIViewController {
         bindViewModel()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationItem.hidesSearchBarWhenScrolling = true
+    }
+    
     private func setupSubviews() {
         self.view.addSubview(wordListTableView)
         
@@ -59,6 +64,7 @@ final class WordListViewController: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.delegate = self
         self.navigationItem.searchController = searchController
+        self.navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     private func bindViewModel() {
