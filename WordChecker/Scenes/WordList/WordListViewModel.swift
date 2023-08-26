@@ -14,34 +14,48 @@ protocol WordListViewModelInput {
     
     func editWord(for indexPath: IndexPath, toNewWord newWord: String)
     
+    func filterWordList(with text: String)
+    
+    func updateWordList()
+    
 }
 
 final class WordListViewModel {
     
     private let wcRealm: WCRepository
     
-    @Published var words: [Word]
+    @Published var wordList: [Word]
     
     init(wcRealm: WCRepository) {
         self.wcRealm = wcRealm
-        self.words = wcRealm.getAllWords()
+        self.wordList = wcRealm.getAllWords()
     }
     
 }
 
 extension WordListViewModel: WordListViewModelInput {
     
+    func updateWordList() {
+        wordList = wcRealm.getAllWords()
+    }
+    
+    func filterWordList(with text: String) {
+        let keyword = text.lowercased()
+        let allWordList = wcRealm.getAllWords()
+        wordList = allWordList.filter { $0.word.lowercased().contains(keyword) }
+    }
+    
     func deleteWord(for indexPath: IndexPath) {
-        let deleteTarget = words[indexPath.row]
+        let deleteTarget = wordList[indexPath.row]
         try? wcRealm.deleteWord(by: deleteTarget.objectID)
-        words.remove(at: indexPath.row)
+        wordList.remove(at: indexPath.row)
     }
     
     func editWord(for indexPath: IndexPath, toNewWord newWord: String) {
-        let updateTarget = words[indexPath.row]
+        let updateTarget = wordList[indexPath.row]
         try? wcRealm.updateWord(for: updateTarget.objectID, withNewWord: newWord)
         if let updatedObject = try? wcRealm.getWord(by: updateTarget.objectID) {
-            words[indexPath.row] = updatedObject
+            wordList[indexPath.row] = updatedObject
         }
     }
     
