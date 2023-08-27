@@ -29,11 +29,11 @@ final class WordCheckingViewController: UIViewController {
     lazy var listButton: BottomButton = {
         let button: BottomButton = .init(title: WCStrings.list)
         let action: UIAction = .init { [weak self] _ in
-            let wordListViewModel: WordListViewModel = .init(wcRealm: .shared)
-            let wordListViewController: WordListViewController = .init(viewModel: wordListViewModel)
+            let wordListViewController: WordListViewController = DIContainer.shared.resolve()
             self?.navigationController?.pushViewController(wordListViewController, animated: true)
         }
         button.addAction(action, for: .touchUpInside)
+        button.accessibilityIdentifier = WCScene.WordChecking.AccessibilityIdentifier.listButton
         return button
     }()
     
