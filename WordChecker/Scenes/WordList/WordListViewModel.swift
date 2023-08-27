@@ -20,13 +20,13 @@ protocol WordListViewModelInput {
 
 final class WordListViewModel {
     
-    private let wcRealm: WCRepository
+    private let wcRepository: WCRepository
     
     @Published var wordList: [Word]
     
-    init(wcRealm: WCRepository) {
-        self.wcRealm = wcRealm
-        self.wordList = wcRealm.getAllWords()
+    init(wcRepository: WCRepository) {
+        self.wcRepository = wcRepository
+        self.wordList = wcRepository.getAllWords()
     }
     
 }
@@ -34,19 +34,19 @@ final class WordListViewModel {
 extension WordListViewModel: WordListViewModelInput {
     
     func updateWordList() {
-        wordList = wcRealm.getAllWords()
+        wordList = wcRepository.getAllWords()
     }
     
     func deleteWord(for indexPath: IndexPath) {
         let deleteTarget = wordList[indexPath.row]
-        try? wcRealm.deleteWord(by: deleteTarget.objectID)
+        try? wcRepository.deleteWord(by: deleteTarget.objectID)
         wordList.remove(at: indexPath.row)
     }
     
     func editWord(for indexPath: IndexPath, toNewWord newWord: String) {
         let updateTarget = wordList[indexPath.row]
-        try? wcRealm.updateWord(for: updateTarget.objectID, withNewWord: newWord)
-        if let updatedObject = try? wcRealm.getWord(by: updateTarget.objectID) {
+        try? wcRepository.updateWord(for: updateTarget.objectID, withNewWord: newWord)
+        if let updatedObject = try? wcRepository.getWord(by: updateTarget.objectID) {
             wordList[indexPath.row] = updatedObject
         }
     }

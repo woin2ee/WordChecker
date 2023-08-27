@@ -28,15 +28,15 @@ protocol WordCheckingViewModelInput {
 
 final class WordCheckingViewModel {
     
-    private let wcRealm: WCRepository
+    private let wcRepository: WCRepository
     
     @Published var currentWord: Word?
     
     private var wordList: CircularLinkedList<Word>
     
-    init(wcRealm: WCRepository) {
-        self.wcRealm = wcRealm
-        self.wordList = .init(wcRealm.getAllWords().shuffled())
+    init(wcRepository: WCRepository) {
+        self.wcRepository = wcRepository
+        self.wordList = .init(wcRepository.getAllWords().shuffled())
         if let firstWord = wordList.current {
             self.currentWord = firstWord
         }
@@ -48,7 +48,7 @@ extension WordCheckingViewModel: WordCheckingViewModelInput {
     
     func updateWordList() {
         let currentWord = self.currentWord
-        let updatedWordList = wcRealm.getAllWords().shuffled()
+        let updatedWordList = wcRepository.getAllWords().shuffled()
         wordList = .init(updatedWordList)
         guard wordList.count > 0 else {
             self.currentWord = nil
@@ -69,7 +69,7 @@ extension WordCheckingViewModel: WordCheckingViewModelInput {
     
     func saveNewWord(_ word: String) {
         let word: Word = .init(word: word)
-        try? wcRealm.saveWord(word)
+        try? wcRepository.saveWord(word)
         wordList.append(word)
         if wordList.count == 1 {
             currentWord = wordList.current

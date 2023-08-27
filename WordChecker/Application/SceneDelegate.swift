@@ -17,8 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = .init(windowScene: windowScene)
         window?.makeKeyAndVisible()
         
-        let wordCheckingViewModel: WordCheckingViewModel = .init(wcRealm: .shared)
-        let wordCheckingViewController: WordCheckingViewController = .init(viewModel: wordCheckingViewModel)
+        let wordCheckingViewController: WordCheckingViewController = DIContainer.shared.resolve()
         let rootNavigationController: UINavigationController = .init(rootViewController: wordCheckingViewController)
         window?.rootViewController = rootNavigationController
     }

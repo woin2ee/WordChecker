@@ -10,25 +10,9 @@ import RealmSwift
 
 final class WCRepository {
     
-    static let shared: WCRepository = {
-        var realmConfig: Realm.Configuration = .init(
-            schemaVersion: 2,
-            migrationBlock: { migration, oldSchemaVersion in
-                if oldSchemaVersion < 2 {
-                    migration.renameProperty(onType: Word.className(), from: "id", to: "objectID")
-                }
-            }
-        )
-        let realm: Realm = try! .init(configuration: realmConfig)
-        #if DEBUG
-            print("Realm file url : \(realm.configuration.fileURL)")
-        #endif
-        return .init(realm: realm)
-    }()
-    
     let realm: Realm
     
-    private init(realm: Realm) {
+    init(realm: Realm) {
         self.realm = realm
     }
     
