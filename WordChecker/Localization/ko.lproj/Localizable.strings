@@ -18,3 +18,4 @@ edit = "수정";
 editWord = "단어 수정";
 shuffleOrder = "순서 섞기";
 translate = "번역";
+deleteWord = "단어 삭제";

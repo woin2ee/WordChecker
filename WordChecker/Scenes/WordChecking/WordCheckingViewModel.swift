@@ -24,6 +24,8 @@ protocol WordCheckingViewModelInput {
     
     func shuffleWordList()
     
+    func deleteCurrentWord()
+    
 }
 
 final class WordCheckingViewModel {
@@ -45,6 +47,13 @@ final class WordCheckingViewModel {
 }
 
 extension WordCheckingViewModel: WordCheckingViewModelInput {
+    
+    func deleteCurrentWord() {
+        guard let currentWord = self.currentWord else { return }
+        wordList.deleteCurrent()
+        self.currentWord = wordList.current
+        try? wcRepository.deleteWord(by: currentWord.objectID)
+    }
     
     func updateWordList() {
         let currentWord = self.currentWord
@@ -77,6 +86,7 @@ extension WordCheckingViewModel: WordCheckingViewModelInput {
     }
     
     func shuffleWordList() {
+        guard wordList.count > 1 else { return }
         repeat {
             wordList.shuffle()
         } while wordList.current == self.currentWord
