@@ -14,13 +14,12 @@ final class WordCheckerUITests: XCTestCase {
         continueAfterFailure = false
     }
     
-    func test() {
-         
+    func testAddOneWord() {
         let app = XCUIApplication()
         app.setLaunchArguments([.useInMemoryDB])
         app.launch()
         
-        app.buttons[WCScene.WordChecking.AccessibilityIdentifier.listButton].tap()
+        app.buttons[AccessibilityIdentifier.WordChecking.listButton].tap()
         
 //        let button = app.navigationBars["단어 목록"].buttons["뒤로"]
 //        button.tap()

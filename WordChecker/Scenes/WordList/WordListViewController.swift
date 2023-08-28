@@ -59,7 +59,7 @@ final class WordListViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        self.navigationItem.title = WCStrings.wordList
+        self.navigationItem.title = WCString.wordList
         let searchResultsController: WordSearchResultsController = .init(viewModel: viewModel)
         let searchController: UISearchController = .init(searchResultsController: searchResultsController)
         searchController.view.backgroundColor = .systemBackground
@@ -97,14 +97,14 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction: UIContextualAction = .init(style: .destructive, title: WCStrings.delete) { [weak self] action, view, completionHandler in
+        let deleteAction: UIContextualAction = .init(style: .destructive, title: WCString.delete) { [weak self] action, view, completionHandler in
             self?.viewModel.deleteWord(for: indexPath)
             completionHandler(true)
         }
-        let editAction: UIContextualAction = .init(style: .normal, title: WCStrings.edit) { [weak self] action, view, completionHandler in
-            let alertController = UIAlertController(title: WCStrings.editWord, message: "", preferredStyle: .alert)
-            let cancelAction: UIAlertAction = .init(title: WCStrings.cancel, style: .cancel)
-            let completeAction: UIAlertAction = .init(title: WCStrings.edit, style: .default) { [weak self] _ in
+        let editAction: UIContextualAction = .init(style: .normal, title: WCString.edit) { [weak self] action, view, completionHandler in
+            let alertController = UIAlertController(title: WCString.editWord, message: "", preferredStyle: .alert)
+            let cancelAction: UIAlertAction = .init(title: WCString.cancel, style: .cancel)
+            let completeAction: UIAlertAction = .init(title: WCString.edit, style: .default) { [weak self] _ in
                 guard let newWord = alertController.textFields?.first?.text else {
                     return
                 }

@@ -24,23 +24,23 @@ final class WordCheckingViewController: UIViewController {
         return label
     }()
     
-    let nextButton: BottomButton = .init(title: WCStrings.next)
+    let nextButton: BottomButton = .init(title: WCString.next)
     
     lazy var listButton: BottomButton = {
-        let button: BottomButton = .init(title: WCStrings.list)
+        let button: BottomButton = .init(title: WCString.list)
         let action: UIAction = .init { [weak self] _ in
             let wordListViewController: WordListViewController = DIContainer.shared.resolve()
             self?.navigationController?.pushViewController(wordListViewController, animated: true)
         }
         button.addAction(action, for: .touchUpInside)
-        button.accessibilityIdentifier = WCScene.WordChecking.AccessibilityIdentifier.listButton
+        button.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.listButton
         return button
     }()
     
-    let shuffleButton: BottomButton = .init(title: WCStrings.shuffleOrder)
+    let shuffleButton: BottomButton = .init(title: WCString.shuffleOrder)
     
     lazy var translateButton: BottomButton = {
-        let button: BottomButton = .init(title: WCStrings.translate)
+        let button: BottomButton = .init(title: WCString.translate)
         let action: UIAction = .init { [weak self] _ in
             let webView: WKWebView = .init()
             guard
@@ -135,7 +135,7 @@ final class WordCheckingViewController: UIViewController {
                 if let word = word {
                     self?.wordLabel.text = word.word
                 } else {
-                    self?.wordLabel.text = WCStrings.noWords
+                    self?.wordLabel.text = WCString.noWords
                 }
             }
             .store(in: &cancellableBag)
@@ -149,9 +149,9 @@ final class WordCheckingViewController: UIViewController {
         }, for: .touchUpInside)
         
         addWordButton.primaryAction = .init { [weak self] _ in
-            let alertController = UIAlertController(title: WCStrings.addWord, message: "", preferredStyle: .alert)
-            let cancelAction: UIAlertAction = .init(title: WCStrings.cancel, style: .cancel)
-            let addAction: UIAlertAction = .init(title: WCStrings.add, style: .default) { [weak self] _ in
+            let alertController = UIAlertController(title: WCString.addWord, message: "", preferredStyle: .alert)
+            let cancelAction: UIAlertAction = .init(title: WCString.cancel, style: .cancel)
+            let addAction: UIAlertAction = .init(title: WCString.add, style: .default) { [weak self] _ in
                 guard let word = alertController.textFields?.first?.text else {
                     return
                 }
