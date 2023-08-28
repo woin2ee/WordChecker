@@ -54,7 +54,7 @@ final class WordSearchResultsController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction: UIContextualAction = .init(style: .destructive, title: WCStrings.delete) { [weak self] action, view, completionHandler in
+        let deleteAction: UIContextualAction = .init(style: .destructive, title: WCString.delete) { [weak self] action, view, completionHandler in
             guard let self = self else { return }
             let targetItem = self.searchedList[indexPath.row]
             guard let row = self.viewModel.wordList.firstIndex(of: targetItem) else { return }
@@ -62,10 +62,10 @@ final class WordSearchResultsController: UITableViewController {
             self.updateSearchedList(with: currentSearchBarText)
             completionHandler(true)
         }
-        let editAction: UIContextualAction = .init(style: .normal, title: WCStrings.edit) { [weak self] action, view, completionHandler in
-            let alertController = UIAlertController(title: WCStrings.editWord, message: "", preferredStyle: .alert)
-            let cancelAction: UIAlertAction = .init(title: WCStrings.cancel, style: .cancel)
-            let completeAction: UIAlertAction = .init(title: WCStrings.edit, style: .default) { [weak self] _ in
+        let editAction: UIContextualAction = .init(style: .normal, title: WCString.edit) { [weak self] action, view, completionHandler in
+            let alertController = UIAlertController(title: WCString.editWord, message: "", preferredStyle: .alert)
+            let cancelAction: UIAlertAction = .init(title: WCString.cancel, style: .cancel)
+            let completeAction: UIAlertAction = .init(title: WCString.edit, style: .default) { [weak self] _ in
                 guard let self = self, let newWord = alertController.textFields?.first?.text else { return }
                 let editedWord = self.searchedList[indexPath.row]
                 guard let row = self.viewModel.wordList.firstIndex(of: editedWord) else { return }
