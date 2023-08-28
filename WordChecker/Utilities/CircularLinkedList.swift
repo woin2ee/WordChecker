@@ -51,4 +51,12 @@ struct CircularLinkedList<Element> {
         currentIndex = 0
     }
     
+    mutating func deleteCurrent() {
+        guard count > 0 else { return }
+        elements.remove(at: currentIndex)
+        if currentIndex >= count {
+            currentIndex = 0
+        }
+    }
+    
 }

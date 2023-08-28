@@ -23,6 +23,7 @@ struct WCString {
     static let list = NSLocalizedString("list", bundle: bundle, comment: "")
     static let wordList = NSLocalizedString("wordList", bundle: bundle, comment: "")
     static let delete = NSLocalizedString("delete", bundle: bundle, comment: "")
+    static let deleteWord = NSLocalizedString("deleteWord", bundle: bundle, comment: "")
     static let edit = NSLocalizedString("edit", bundle: bundle, comment: "")
     static let editWord = NSLocalizedString("editWord", bundle: bundle, comment: "")
     static let shuffleOrder = NSLocalizedString("shuffleOrder", bundle: bundle, comment: "")
