@@ -41,6 +41,8 @@
 		DA7A0A2F2A9B91F10046AAC4 /* WCString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09EB2A95F8E80046AAC4 /* WCString.swift */; };
 		DA7A0A382A9C48440046AAC4 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A372A9C48440046AAC4 /* AccessibilityIdentifier.swift */; };
 		DA7A0A392A9C4F2D0046AAC4 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A372A9C48440046AAC4 /* AccessibilityIdentifier.swift */; };
+		DA7A0A3B2A9C64550046AAC4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA7A09E82A95F5EE0046AAC4 /* Localizable.strings */; };
+		DA7A0A3D2A9C71570046AAC4 /* XCUIElement+assertExistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A3C2A9C71570046AAC4 /* XCUIElement+assertExistence.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +94,7 @@
 		DA7A0A2B2A9B86ED0046AAC4 /* DataAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAssembly.swift; sourceTree = "<group>"; };
 		DA7A0A2D2A9B8F0E0046AAC4 /* UIViewControllerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerAssembly.swift; sourceTree = "<group>"; };
 		DA7A0A372A9C48440046AAC4 /* AccessibilityIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifier.swift; sourceTree = "<group>"; };
+		DA7A0A3C2A9C71570046AAC4 /* XCUIElement+assertExistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+assertExistence.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,8 +175,8 @@
 		DA7A09CF2A950FBC0046AAC4 /* WordCheckerUITests */ = {
 			isa = PBXGroup;
 			children = (
+				DA7A0A3E2A9C74CF0046AAC4 /* Utilities */,
 				DA7A09D02A950FBC0046AAC4 /* WordCheckerUITests.swift */,
-				DA7A0A1D2A9B75790046AAC4 /* XCUIApplication+launchEnvironment.swift */,
 			);
 			path = WordCheckerUITests;
 			sourceTree = "<group>";
@@ -294,6 +297,15 @@
 				DA7A0A372A9C48440046AAC4 /* AccessibilityIdentifier.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		DA7A0A3E2A9C74CF0046AAC4 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				DA7A0A1D2A9B75790046AAC4 /* XCUIApplication+launchEnvironment.swift */,
+				DA7A0A3C2A9C71570046AAC4 /* XCUIElement+assertExistence.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -433,6 +445,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA7A0A3B2A9C64550046AAC4 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,6 +495,7 @@
 				DA7A09D12A950FBC0046AAC4 /* WordCheckerUITests.swift in Sources */,
 				DA7A0A392A9C4F2D0046AAC4 /* AccessibilityIdentifier.swift in Sources */,
 				DA7A0A2F2A9B91F10046AAC4 /* WCString.swift in Sources */,
+				DA7A0A3D2A9C71570046AAC4 /* XCUIElement+assertExistence.swift in Sources */,
 				DA7A0A242A9B82CB0046AAC4 /* LaunchArguments.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

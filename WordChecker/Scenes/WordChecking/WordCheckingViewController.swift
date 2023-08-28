@@ -59,7 +59,11 @@ final class WordCheckingViewController: UIViewController {
         return button
     }()
     
-    let addWordButton: UIBarButtonItem = .init(systemItem: .add)
+    let addWordButton: UIBarButtonItem = {
+        let button: UIBarButtonItem = .init(systemItem: .add)
+        button.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.addWordButton
+        return button
+    }()
     
     init(viewModel: WordCheckingViewModel) {
         self.viewModel = viewModel

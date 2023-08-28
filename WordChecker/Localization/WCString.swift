@@ -7,21 +7,25 @@
 
 import Foundation
 
+private final class BundleFinder {}
+
 struct WCString {
     
     private init() {}
     
-    static let cancel = NSLocalizedString("cancel", comment: "")
-    static let add = NSLocalizedString("add", comment: "")
-    static let addWord = NSLocalizedString("addWord", comment: "")
-    static let next = NSLocalizedString("next", comment: "")
-    static let noWords = NSLocalizedString("noWords", comment: "")
-    static let list = NSLocalizedString("list", comment: "")
-    static let wordList = NSLocalizedString("wordList", comment: "")
-    static let delete = NSLocalizedString("delete", comment: "")
-    static let edit = NSLocalizedString("edit", comment: "")
-    static let editWord = NSLocalizedString("editWord", comment: "")
-    static let shuffleOrder = NSLocalizedString("shuffleOrder", comment: "")
-    static let translate = NSLocalizedString("translate", comment: "")
+    private static let bundle: Bundle = .init(for: BundleFinder.self)
+    
+    static let cancel = NSLocalizedString("cancel", bundle: bundle, comment: "")
+    static let add = NSLocalizedString("add", bundle: bundle, comment: "")
+    static let addWord = NSLocalizedString("addWord", bundle: bundle, comment: "")
+    static let next = NSLocalizedString("next", bundle: bundle, comment: "")
+    static let noWords = NSLocalizedString("noWords", bundle: bundle, comment: "")
+    static let list = NSLocalizedString("list", bundle: bundle, comment: "")
+    static let wordList = NSLocalizedString("wordList", bundle: bundle, comment: "")
+    static let delete = NSLocalizedString("delete", bundle: bundle, comment: "")
+    static let edit = NSLocalizedString("edit", bundle: bundle, comment: "")
+    static let editWord = NSLocalizedString("editWord", bundle: bundle, comment: "")
+    static let shuffleOrder = NSLocalizedString("shuffleOrder", bundle: bundle, comment: "")
+    static let translate = NSLocalizedString("translate", bundle: bundle, comment: "")
     
 }

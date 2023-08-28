@@ -19,19 +19,18 @@ final class WordCheckerUITests: XCTestCase {
         app.setLaunchArguments([.useInMemoryDB])
         app.launch()
         
-        app.buttons[AccessibilityIdentifier.WordChecking.listButton].tap()
+        app.staticTexts[WCString.noWords].assertExistence()
         
-//        let button = app.navigationBars["단어 목록"].buttons["뒤로"]
-//        button.tap()
-//        app.navigationBars.buttons["추가"].tap()
-//        app.alerts["단어 추가"].scrollViews.otherElements.buttons["추가"].tap()
-//        app.buttons["다음"].tap()
-//        staticText.tap()
-//        button.tap()
-//        app/*@START_MENU_TOKEN@*/.staticTexts["순서 섞기"]/*[[".buttons[\"순서 섞기\"].staticTexts[\"순서 섞기\"]",".staticTexts[\"순서 섞기\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-//        app.buttons["번역"].tap()
-//        app.navigationBars["UIView"].buttons["뒤로"].tap()
+        app.navigationBars.buttons[AccessibilityIdentifier.WordChecking.addWordButton].tap()
         
+        let addAlert = app.alerts[WCString.addWord]
+        addAlert.assertExistence()
+        addAlert.textFields.firstMatch.typeText("TestWord")
+        addAlert.buttons[WCString.add].tap()
+        
+        app.staticTexts["TestWord"].assertExistence()
+        
+        let image = app.screenshot().image
     }
     
 }

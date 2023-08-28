@@ -13,7 +13,7 @@ enum AccessibilityIdentifier {
         
         private init() {}
         
-        static let addButton = "WORDCHECKING_ADD_BUTTON"
+        static let addWordButton = "WORDCHECKING_ADD_WORD_BUTTON"
         
         static let listButton = "WORDCHECKING_LIST_BUTTON"
         
