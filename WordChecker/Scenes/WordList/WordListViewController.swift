@@ -47,15 +47,14 @@ final class WordListViewController: UIViewController {
         self.navigationItem.hidesSearchBarWhenScrolling = true
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        wordListTableView.frame = .init(origin: .zero, size: size)
+    }
+    
     private func setupSubviews() {
         self.view.addSubview(wordListTableView)
-        
-        NSLayoutConstraint.activate([
-            wordListTableView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            wordListTableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            wordListTableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            wordListTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-        ])
+        wordListTableView.frame = self.view.frame
     }
     
     private func setupNavigationBar() {
