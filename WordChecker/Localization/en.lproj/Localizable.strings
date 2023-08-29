@@ -10,6 +10,7 @@ cancel = "Cancel";
 add = "Add";
 addWord = "Add Word";
 next = "Next";
+previous = "Previous";
 noWords = "No words";
 list = "List";
 wordList = "Word list";

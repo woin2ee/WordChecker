@@ -18,6 +18,8 @@ protocol WordCheckingViewModelInput {
     
     func updateToNextWord()
     
+    func updateToPreviousWord()
+    
     func saveNewWord(_ word: String)
     
     func updateWordList()
@@ -74,6 +76,10 @@ extension WordCheckingViewModel: WordCheckingViewModelInput {
     
     func updateToNextWord() {
         currentWord = wordList.next()
+    }
+    
+    func updateToPreviousWord() {
+        currentWord = wordList.previous()
     }
     
     func saveNewWord(_ word: String) {
