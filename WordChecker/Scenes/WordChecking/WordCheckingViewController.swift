@@ -49,7 +49,7 @@ final class WordCheckingViewController: UIViewController {
             let webView: WKWebView = .init()
             guard
                 let currentWord = self?.viewModel.currentWord?.word,
-                let url = URL(string: "https://papago.naver.com/?sk=en&tk=ko&hn=1&st=\(currentWord)")
+                let url = URL(string: "https://papago.naver.com/?sk=en&tk=ko&hn=0&st=\(currentWord)")
             else {
                 return
             }
