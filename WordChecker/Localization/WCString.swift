@@ -19,6 +19,7 @@ struct WCString {
     static let add = NSLocalizedString("add", bundle: bundle, comment: "")
     static let addWord = NSLocalizedString("addWord", bundle: bundle, comment: "")
     static let next = NSLocalizedString("next", bundle: bundle, comment: "")
+    static let previous = NSLocalizedString("previous", bundle: bundle, comment: "")
     static let noWords = NSLocalizedString("noWords", bundle: bundle, comment: "")
     static let list = NSLocalizedString("list", bundle: bundle, comment: "")
     static let wordList = NSLocalizedString("wordList", bundle: bundle, comment: "")

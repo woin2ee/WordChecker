@@ -10,6 +10,7 @@ cancel = "취소";
 add = "추가";
 addWord = "단어 추가";
 next = "다음";
+previous = "이전";
 noWords = "단어 없음";
 list = "목록";
 wordList = "단어 목록";

@@ -41,6 +41,17 @@ struct CircularLinkedList<Element> {
         return current
     }
     
+    mutating func previous() -> Element? {
+        guard count > 1 else {
+            return elements.first
+        }
+        currentIndex -= 1
+        if currentIndex < 0 {
+            currentIndex = count - 1
+        }
+        return current
+    }
+    
     mutating func append(_ newElement: Element) {
         elements.append(newElement)
     }
