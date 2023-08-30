@@ -9,11 +9,11 @@ import Foundation
 import XCTest
 
 extension XCUIElement {
-    
+
     /// Asserts exist self.
     /// - Parameter timeout: The default value is 3.
     func assertExistence(timeout: TimeInterval = 3.0) {
         XCTAssert(self.waitForExistence(timeout: timeout))
     }
-    
+
 }

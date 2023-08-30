@@ -10,7 +10,7 @@ import Realm
 import RealmSwift
 
 enum RealmError: Error {
-    
+
     case notMatchedObjectID(type: Object.Type, objectID: ObjectId)
-    
+
 }

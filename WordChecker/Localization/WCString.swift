@@ -10,11 +10,11 @@ import Foundation
 private final class BundleFinder {}
 
 struct WCString {
-    
+
     private init() {}
-    
+
     private static let bundle: Bundle = .init(for: BundleFinder.self)
-    
+
     static let cancel = NSLocalizedString("cancel", bundle: bundle, comment: "")
     static let add = NSLocalizedString("add", bundle: bundle, comment: "")
     static let addWord = NSLocalizedString("addWord", bundle: bundle, comment: "")
@@ -29,5 +29,5 @@ struct WCString {
     static let editWord = NSLocalizedString("editWord", bundle: bundle, comment: "")
     static let shuffleOrder = NSLocalizedString("shuffleOrder", bundle: bundle, comment: "")
     static let translate = NSLocalizedString("translate", bundle: bundle, comment: "")
-    
+
 }
