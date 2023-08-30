@@ -26,8 +26,8 @@ struct CircularLinkedList<Element> {
 
     init() {}
 
-    init(_ s: some Sequence<Element>) {
-        self.elements = .init(s)
+    init(_ sequence: some Sequence<Element>) {
+        self.elements = .init(sequence)
     }
 
     mutating func next() -> Element? {
