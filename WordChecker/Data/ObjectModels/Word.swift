@@ -9,14 +9,14 @@ import Foundation
 import RealmSwift
 
 final class Word: Object {
-    
+
     @Persisted(primaryKey: true) var objectID: ObjectId
-    
+
     @Persisted var word: String
-    
+
     convenience init(word: String) {
         self.init()
         self.word = word
     }
-    
+
 }

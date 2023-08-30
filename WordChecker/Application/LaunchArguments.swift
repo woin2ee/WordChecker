@@ -8,7 +8,7 @@
 import Foundation
 
 public enum LaunchArguments: String {
-    
+
     case useInMemoryDB = "USE_IN_MEMORY_DB"
-    
+
 }

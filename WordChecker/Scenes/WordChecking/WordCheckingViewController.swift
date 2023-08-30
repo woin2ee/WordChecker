@@ -10,11 +10,11 @@ import UIKit
 import WebKit
 
 final class WordCheckingViewController: UIViewController {
-    
+
     private var cancellableBag: Set<AnyCancellable> = .init()
-    
+
     private let viewModel: WordCheckingViewModel
-    
+
     let wordLabel: UILabel = {
         let label: UILabel = .init()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -23,7 +23,7 @@ final class WordCheckingViewController: UIViewController {
         label.numberOfLines = 0
         return label
     }()
-    
+
     lazy var previousButton: BottomButton = {
         let button: BottomButton = .init(title: WCString.previous)
         let action: UIAction = .init { [weak self] _ in
@@ -32,7 +32,7 @@ final class WordCheckingViewController: UIViewController {
         button.addAction(action, for: .touchUpInside)
         return button
     }()
-    
+
     lazy var nextButton: BottomButton = {
         let button: BottomButton = .init(title: WCString.next)
         button.addAction(.init { [weak self] _ in
@@ -40,7 +40,7 @@ final class WordCheckingViewController: UIViewController {
         }, for: .touchUpInside)
         return button
     }()
-    
+
     lazy var listButton: BottomButton = {
         let button: BottomButton = .init(title: WCString.list)
         let action: UIAction = .init { [weak self] _ in
@@ -51,7 +51,7 @@ final class WordCheckingViewController: UIViewController {
         button.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.listButton
         return button
     }()
-    
+
     lazy var translateButton: BottomButton = {
         let button: BottomButton = .init(title: WCString.translate)
         let action: UIAction = .init { [weak self] _ in
@@ -71,18 +71,18 @@ final class WordCheckingViewController: UIViewController {
         button.addAction(action, for: .touchUpInside)
         return button
     }()
-    
+
     let pullDownButton: UIBarButtonItem = .init(image: .init(systemName: "ellipsis.circle"))
-    
+
     init(viewModel: WordCheckingViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("\(#function)---\(#file)---\(#line)")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
@@ -90,53 +90,53 @@ final class WordCheckingViewController: UIViewController {
         setupNavigationBar()
         bindViewModel()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.updateWordList()
     }
-    
+
     private func setupSubviews() {
         self.view.addSubview(wordLabel)
         self.view.addSubview(listButton)
         self.view.addSubview(previousButton)
         self.view.addSubview(nextButton)
         self.view.addSubview(translateButton)
-        
+
         NSLayoutConstraint.activate([
             wordLabel.leadingAnchor.constraint(greaterThanOrEqualToSystemSpacingAfter: self.view.safeAreaLayoutGuide.leadingAnchor, multiplier: 3.0),
             wordLabel.trailingAnchor.constraint(lessThanOrEqualToSystemSpacingAfter: self.view.safeAreaLayoutGuide.trailingAnchor, multiplier: 3.0),
             wordLabel.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
-            wordLabel.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerYAnchor),
+            wordLabel.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerYAnchor)
         ])
-        
+
         let buttonCollectionSpacingToSafeArea: CGFloat = 20.0
         // list button
         NSLayoutConstraint.activate([
             previousButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: buttonCollectionSpacingToSafeArea),
-            self.view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: previousButton.bottomAnchor, multiplier: 1.0),
+            self.view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: previousButton.bottomAnchor, multiplier: 1.0)
         ])
         // next button
         NSLayoutConstraint.activate([
             nextButton.leadingAnchor.constraint(equalToSystemSpacingAfter: previousButton.trailingAnchor, multiplier: 1.0),
             nextButton.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -buttonCollectionSpacingToSafeArea),
             nextButton.widthAnchor.constraint(equalTo: previousButton.widthAnchor),
-            self.view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: nextButton.bottomAnchor, multiplier: 1.0),
+            self.view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: nextButton.bottomAnchor, multiplier: 1.0)
         ])
         // list button
         NSLayoutConstraint.activate([
             listButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: buttonCollectionSpacingToSafeArea),
             previousButton.topAnchor.constraint(equalToSystemSpacingBelow: listButton.bottomAnchor, multiplier: 1.0),
-            listButton.widthAnchor.constraint(equalTo: nextButton.widthAnchor),
+            listButton.widthAnchor.constraint(equalTo: nextButton.widthAnchor)
         ])
         // translate button
         NSLayoutConstraint.activate([
             translateButton.widthAnchor.constraint(equalTo: nextButton.widthAnchor),
             self.view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: translateButton.trailingAnchor, constant: buttonCollectionSpacingToSafeArea),
-            nextButton.topAnchor.constraint(equalToSystemSpacingBelow: translateButton.bottomAnchor, multiplier: 1.0),
+            nextButton.topAnchor.constraint(equalToSystemSpacingBelow: translateButton.bottomAnchor, multiplier: 1.0)
         ])
     }
-    
+
     private func setupNavigationBar() {
         self.navigationItem.rightBarButtonItem = pullDownButton
         let menu: UIMenu = .init(children: [
@@ -174,11 +174,11 @@ final class WordCheckingViewController: UIViewController {
                 handler: { [weak self] _ in
                     self?.viewModel.deleteCurrentWord()
                 }
-            ),
+            )
         ])
         pullDownButton.menu = menu
     }
-    
+
     private func bindViewModel() {
         viewModel.$currentWord
             .sink { [weak self] word in
@@ -190,5 +190,5 @@ final class WordCheckingViewController: UIViewController {
             }
             .store(in: &cancellableBag)
     }
-    
+
 }

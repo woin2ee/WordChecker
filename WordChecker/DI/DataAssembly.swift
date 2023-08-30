@@ -10,7 +10,7 @@ import RealmSwift
 import Swinject
 
 final class DataAssembly: Assembly {
-    
+
     func assemble(container: Container) {
         let arguments = ProcessInfo.processInfo.arguments
         if arguments.contains(LaunchArguments.useInMemoryDB.rawValue) {
@@ -19,16 +19,18 @@ final class DataAssembly: Assembly {
             registerPersistentWCRepository(container: container)
         }
     }
-    
+
     private func registerInMemoryWCRepository(container: Container) {
         container.register(WCRepository.self) { _ in
             let config: Realm.Configuration = .init(inMemoryIdentifier: "WordChecker")
-            let realm: Realm = try! .init(configuration: config)
+            guard let realm: Realm = try? .init(configuration: config) else {
+                fatalError("Failed to initialize.")
+            }
             return .init(realm: realm)
         }
         .inObjectScope(.container)
     }
-    
+
     private func registerPersistentWCRepository(container: Container) {
         container.register(WCRepository.self) { _ in
             let config: Realm.Configuration = .init(
@@ -39,7 +41,9 @@ final class DataAssembly: Assembly {
                     }
                 }
             )
-            let realm: Realm = try! .init(configuration: config)
+            guard let realm: Realm = try? .init(configuration: config) else {
+                fatalError("Failed to initialize.")
+            }
             #if DEBUG
                 print("Realm file url : \(realm.configuration.fileURL?.debugDescription ?? "nil")")
             #endif
@@ -47,5 +51,5 @@ final class DataAssembly: Assembly {
         }
         .inObjectScope(.container)
     }
-    
+
 }

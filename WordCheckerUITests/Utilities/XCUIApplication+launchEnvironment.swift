@@ -10,9 +10,9 @@ import WordChecker
 import XCTest
 
 extension XCUIApplication {
-    
+
     func setLaunchArguments(_ arguments: [LaunchArguments]) {
         self.launchArguments = arguments.map(\.rawValue)
     }
-    
+
 }

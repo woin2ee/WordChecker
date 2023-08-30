@@ -43,6 +43,7 @@
 		DA7A0A392A9C4F2D0046AAC4 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A372A9C48440046AAC4 /* AccessibilityIdentifier.swift */; };
 		DA7A0A3B2A9C64550046AAC4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA7A09E82A95F5EE0046AAC4 /* Localizable.strings */; };
 		DA7A0A3D2A9C71570046AAC4 /* XCUIElement+assertExistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A3C2A9C71570046AAC4 /* XCUIElement+assertExistence.swift */; };
+		DA7A0A472A9F21FA0046AAC4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = DA7A0A462A9F21FA0046AAC4 /* .swiftlint.yml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,7 @@
 		DA7A0A2D2A9B8F0E0046AAC4 /* UIViewControllerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerAssembly.swift; sourceTree = "<group>"; };
 		DA7A0A372A9C48440046AAC4 /* AccessibilityIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifier.swift; sourceTree = "<group>"; };
 		DA7A0A3C2A9C71570046AAC4 /* XCUIElement+assertExistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+assertExistence.swift"; sourceTree = "<group>"; };
+		DA7A0A462A9F21FA0046AAC4 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +132,7 @@
 		DA7A09A32A950FBB0046AAC4 = {
 			isa = PBXGroup;
 			children = (
+				DA7A0A462A9F21FA0046AAC4 /* .swiftlint.yml */,
 				DA7A09AE2A950FBB0046AAC4 /* WordChecker */,
 				DA7A09C52A950FBC0046AAC4 /* WordCheckerTests */,
 				DA7A09CF2A950FBC0046AAC4 /* WordCheckerUITests */,
@@ -318,6 +321,7 @@
 				DA7A09A82A950FBB0046AAC4 /* Sources */,
 				DA7A09A92A950FBB0046AAC4 /* Frameworks */,
 				DA7A09AA2A950FBB0046AAC4 /* Resources */,
+				DA7A0A452A9F06290046AAC4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -445,11 +449,32 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA7A0A472A9F21FA0046AAC4 /* .swiftlint.yml in Resources */,
 				DA7A0A3B2A9C64550046AAC4 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DA7A0A452A9F06290046AAC4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n    swiftlint --fix && swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DA7A09A82A950FBB0046AAC4 /* Sources */ = {
