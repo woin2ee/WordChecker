@@ -16,7 +16,7 @@ final class WordCheckerUITests: XCTestCase {
 
     func testAddOneWord() {
         let app = XCUIApplication()
-        app.setLaunchArguments([.useInMemoryDataBase])
+        app.setLaunchArguments([.useInMemoryDatabase])
         app.launch()
 
         app.staticTexts[WCString.noWords].assertExistence()
