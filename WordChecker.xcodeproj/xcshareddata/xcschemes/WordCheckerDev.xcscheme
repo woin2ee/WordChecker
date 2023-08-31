@@ -14,9 +14,9 @@
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
-                     BlueprintIdentifier = "DA7A09AB2A950FBB0046AAC4"
-                     BuildableName = "WordChecker.app"
-                     BlueprintName = "WordChecker"
+                     BlueprintIdentifier = "DA6147FE2AA0774900CDA84C"
+                     BuildableName = "WordCheckerDev.app"
+                     BlueprintName = "WordCheckerDev"
                      ReferencedContainer = "container:WordChecker.xcodeproj">
                   </BuildableReference>
                </EnvironmentBuildable>
@@ -32,9 +32,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DA7A09AB2A950FBB0046AAC4"
-               BuildableName = "WordChecker.app"
-               BlueprintName = "WordChecker"
+               BlueprintIdentifier = "DA6147FE2AA0774900CDA84C"
+               BuildableName = "WordCheckerDev.app"
+               BlueprintName = "WordCheckerDev"
                ReferencedContainer = "container:WordChecker.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -44,32 +44,13 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      shouldAutocreateTestPlan = "YES">
-      <Testables>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DA7A09C12A950FBC0046AAC4"
-               BuildableName = "WordCheckerTests.xctest"
-               BlueprintName = "WordCheckerTests"
-               ReferencedContainer = "container:WordChecker.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DA7A09CB2A950FBC0046AAC4"
-               BuildableName = "WordCheckerUITests.xctest"
-               BlueprintName = "WordCheckerUITests"
-               ReferencedContainer = "container:WordChecker.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <TestPlans>
+         <TestPlanReference
+            reference = "container:WordChecker.xctestplan"
+            default = "YES">
+         </TestPlanReference>
+      </TestPlans>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -85,22 +66,12 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DA7A09AB2A950FBB0046AAC4"
-            BuildableName = "WordChecker.app"
-            BlueprintName = "WordChecker"
+            BlueprintIdentifier = "DA6147FE2AA0774900CDA84C"
+            BuildableName = "WordCheckerDev.app"
+            BlueprintName = "WordCheckerDev"
             ReferencedContainer = "container:WordChecker.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "-UITraitCollectionChangeLoggingEnabled YES"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-useInMemoryDataBase"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -112,9 +83,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DA7A09AB2A950FBB0046AAC4"
-            BuildableName = "WordChecker.app"
-            BlueprintName = "WordChecker"
+            BlueprintIdentifier = "DA6147FE2AA0774900CDA84C"
+            BuildableName = "WordCheckerDev.app"
+            BlueprintName = "WordCheckerDev"
             ReferencedContainer = "container:WordChecker.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
