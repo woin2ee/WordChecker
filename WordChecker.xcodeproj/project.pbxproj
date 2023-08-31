@@ -43,8 +43,6 @@
 		DA7A0A392A9C4F2D0046AAC4 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A372A9C48440046AAC4 /* AccessibilityIdentifier.swift */; };
 		DA7A0A3B2A9C64550046AAC4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA7A09E82A95F5EE0046AAC4 /* Localizable.strings */; };
 		DA7A0A3D2A9C71570046AAC4 /* XCUIElement+assertExistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A3C2A9C71570046AAC4 /* XCUIElement+assertExistence.swift */; };
-		DA7A0A492A9F29660046AAC4 /* generate_swifttlint_filelist.sh in Resources */ = {isa = PBXBuildFile; fileRef = DA7A0A482A9F29660046AAC4 /* generate_swifttlint_filelist.sh */; };
-		DA7A0A4A2A9F29700046AAC4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = DA7A0A462A9F21FA0046AAC4 /* .swiftlint.yml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -435,9 +433,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA7A0A4A2A9F29700046AAC4 /* .swiftlint.yml in Resources */,
 				DA7A09BC2A950FBC0046AAC4 /* LaunchScreen.storyboard in Resources */,
-				DA7A0A492A9F29660046AAC4 /* generate_swifttlint_filelist.sh in Resources */,
 				DA7A09E62A95F5EE0046AAC4 /* Localizable.strings in Resources */,
 				DA7A09B92A950FBC0046AAC4 /* Assets.xcassets in Resources */,
 			);
