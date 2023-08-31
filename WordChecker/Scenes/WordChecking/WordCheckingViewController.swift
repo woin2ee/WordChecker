@@ -72,7 +72,11 @@ final class WordCheckingViewController: UIViewController {
         return button
     }()
 
-    let pullDownButton: UIBarButtonItem = .init(image: .init(systemName: "ellipsis.circle"))
+    let moreButton: UIBarButtonItem = {
+        let button: UIBarButtonItem = .init(image: .init(systemName: "ellipsis.circle"))
+        button.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.moreButton
+        return button
+    }()
 
     init(viewModel: WordCheckingViewModel) {
         self.viewModel = viewModel
@@ -138,7 +142,7 @@ final class WordCheckingViewController: UIViewController {
     }
 
     private func setupNavigationBar() {
-        self.navigationItem.rightBarButtonItem = pullDownButton
+        self.navigationItem.rightBarButtonItem = moreButton
         let menu: UIMenu = .init(children: [
             UIAction(title: WCString.addWord, image: .init(systemName: "plus.app"), handler: { [weak self] _ in
                 let alertController = UIAlertController(title: WCString.addWord, message: "", preferredStyle: .alert)
@@ -176,7 +180,7 @@ final class WordCheckingViewController: UIViewController {
                 }
             )
         ])
-        pullDownButton.menu = menu
+        moreButton.menu = menu
     }
 
     private func bindViewModel() {
