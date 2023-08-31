@@ -7,6 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA6148052AA0774900CDA84C /* WordCheckingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A042A9786420046AAC4 /* WordCheckingViewModel.swift */; };
+		DA6148062AA0774900CDA84C /* WordChecking+BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A082A9859580046AAC4 /* WordChecking+BottomButton.swift */; };
+		DA6148072AA0774900CDA84C /* LaunchArguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A1F2A9B75930046AAC4 /* LaunchArguments.swift */; };
+		DA6148082AA0774900CDA84C /* DataAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A2B2A9B86ED0046AAC4 /* DataAssembly.swift */; };
+		DA6148092AA0774900CDA84C /* WordSearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A162A9A540A0046AAC4 /* WordSearchResultsController.swift */; };
+		DA61480A2AA0774900CDA84C /* WordListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A0B2A985F720046AAC4 /* WordListViewController.swift */; };
+		DA61480B2AA0774900CDA84C /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A292A9B85CF0046AAC4 /* DIContainer.swift */; };
+		DA61480C2AA0774900CDA84C /* WordCheckingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09B32A950FBB0046AAC4 /* WordCheckingViewController.swift */; };
+		DA61480D2AA0774900CDA84C /* Collection+isNotEmpty.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09FF2A97853F0046AAC4 /* Collection+isNotEmpty.swift */; };
+		DA61480E2AA0774900CDA84C /* CircularLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A062A979BC90046AAC4 /* CircularLinkedList.swift */; };
+		DA61480F2AA0774900CDA84C /* RealmError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A0F2A989CB60046AAC4 /* RealmError.swift */; };
+		DA6148102AA0774900CDA84C /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09F82A97571F0046AAC4 /* Word.swift */; };
+		DA6148112AA0774900CDA84C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09AF2A950FBB0046AAC4 /* AppDelegate.swift */; };
+		DA6148122AA0774900CDA84C /* WordListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A0D2A9861950046AAC4 /* WordListViewModel.swift */; };
+		DA6148132AA0774900CDA84C /* UIViewControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A2D2A9B8F0E0046AAC4 /* UIViewControllerAssembly.swift */; };
+		DA6148142AA0774900CDA84C /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A372A9C48440046AAC4 /* AccessibilityIdentifier.swift */; };
+		DA6148152AA0774900CDA84C /* UIFont+preferredFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09EE2A95FEAF0046AAC4 /* UIFont+preferredFont.swift */; };
+		DA6148162AA0774900CDA84C /* WCRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09F62A9756B90046AAC4 /* WCRepository.swift */; };
+		DA6148172AA0774900CDA84C /* WCString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09EB2A95F8E80046AAC4 /* WCString.swift */; };
+		DA6148182AA0774900CDA84C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09B12A950FBB0046AAC4 /* SceneDelegate.swift */; };
+		DA61481A2AA0774900CDA84C /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA6148012AA0774900CDA84C /* RealmSwift */; };
+		DA61481B2AA0774900CDA84C /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = DA6147FF2AA0774900CDA84C /* Realm */; };
+		DA61481C2AA0774900CDA84C /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = DA6148022AA0774900CDA84C /* Swinject */; };
+		DA61481E2AA0774900CDA84C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7A09BA2A950FBC0046AAC4 /* LaunchScreen.storyboard */; };
+		DA61481F2AA0774900CDA84C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA7A09E82A95F5EE0046AAC4 /* Localizable.strings */; };
+		DA6148202AA0774900CDA84C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA7A09B82A950FBC0046AAC4 /* Assets.xcassets */; };
+		DA6148302AA07D0800CDA84C /* DataAssembly_Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA61482F2AA07D0800CDA84C /* DataAssembly_Product.swift */; };
+		DA6148332AA07DA200CDA84C /* DataAssembly_Dev.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6148312AA07D1800CDA84C /* DataAssembly_Dev.swift */; };
 		DA7A09B02A950FBB0046AAC4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09AF2A950FBB0046AAC4 /* AppDelegate.swift */; };
 		DA7A09B22A950FBB0046AAC4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09B12A950FBB0046AAC4 /* SceneDelegate.swift */; };
 		DA7A09B42A950FBB0046AAC4 /* WordCheckingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09B32A950FBB0046AAC4 /* WordCheckingViewController.swift */; };
@@ -31,7 +59,6 @@
 		DA7A0A172A9A540A0046AAC4 /* WordSearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A162A9A540A0046AAC4 /* WordSearchResultsController.swift */; };
 		DA7A0A1C2A9B727C0046AAC4 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = DA7A0A1B2A9B727C0046AAC4 /* Realm */; };
 		DA7A0A1E2A9B75790046AAC4 /* XCUIApplication+launchEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A1D2A9B75790046AAC4 /* XCUIApplication+launchEnvironment.swift */; };
-		DA7A0A202A9B75930046AAC4 /* LaunchArguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A1F2A9B75930046AAC4 /* LaunchArguments.swift */; };
 		DA7A0A222A9B77140046AAC4 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = DA7A0A212A9B77140046AAC4 /* Realm */; };
 		DA7A0A242A9B82CB0046AAC4 /* LaunchArguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A1F2A9B75930046AAC4 /* LaunchArguments.swift */; };
 		DA7A0A272A9B85B00046AAC4 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = DA7A0A262A9B85B00046AAC4 /* Swinject */; };
@@ -46,23 +73,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		DA7A09C32A950FBC0046AAC4 /* PBXContainerItemProxy */ = {
+		DA6148272AA0790A00CDA84C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA7A09A42A950FBB0046AAC4 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = DA7A09AB2A950FBB0046AAC4;
-			remoteInfo = WordChecker;
+			remoteGlobalIDString = DA6147FE2AA0774900CDA84C;
+			remoteInfo = WordCheckerDev;
 		};
-		DA7A09CD2A950FBC0046AAC4 /* PBXContainerItemProxy */ = {
+		DA6148292AA0791000CDA84C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA7A09A42A950FBB0046AAC4 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = DA7A09AB2A950FBB0046AAC4;
-			remoteInfo = WordChecker;
+			remoteGlobalIDString = DA6147FE2AA0774900CDA84C;
+			remoteInfo = WordCheckerDev;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DA6148252AA0774900CDA84C /* WordCheckerDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordCheckerDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA61482F2AA07D0800CDA84C /* DataAssembly_Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAssembly_Product.swift; sourceTree = "<group>"; };
+		DA6148312AA07D1800CDA84C /* DataAssembly_Dev.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAssembly_Dev.swift; sourceTree = "<group>"; };
+		DA6D9BDF2AA086F900F827EE /* WordChecker.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = WordChecker.xctestplan; sourceTree = "<group>"; };
 		DA7A09AC2A950FBB0046AAC4 /* WordChecker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordChecker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA7A09AF2A950FBB0046AAC4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA7A09B12A950FBB0046AAC4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -100,6 +131,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		DA6148192AA0774900CDA84C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA61481A2AA0774900CDA84C /* RealmSwift in Frameworks */,
+				DA61481B2AA0774900CDA84C /* Realm in Frameworks */,
+				DA61481C2AA0774900CDA84C /* Swinject in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA7A09A92A950FBB0046AAC4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -132,6 +173,7 @@
 		DA7A09A32A950FBB0046AAC4 = {
 			isa = PBXGroup;
 			children = (
+				DA6D9BDF2AA086F900F827EE /* WordChecker.xctestplan */,
 				DA7A0A462A9F21FA0046AAC4 /* .swiftlint.yml */,
 				DA7A0A482A9F29660046AAC4 /* generate_swifttlint_filelist.sh */,
 				DA7A09AE2A950FBB0046AAC4 /* WordChecker */,
@@ -148,6 +190,7 @@
 				DA7A09AC2A950FBB0046AAC4 /* WordChecker.app */,
 				DA7A09C22A950FBC0046AAC4 /* WordCheckerTests.xctest */,
 				DA7A09CC2A950FBC0046AAC4 /* WordCheckerUITests.xctest */,
+				DA6148252AA0774900CDA84C /* WordCheckerDev.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -288,8 +331,10 @@
 		DA7A0A282A9B85C50046AAC4 /* DI */ = {
 			isa = PBXGroup;
 			children = (
-				DA7A0A292A9B85CF0046AAC4 /* DIContainer.swift */,
+				DA6148312AA07D1800CDA84C /* DataAssembly_Dev.swift */,
+				DA61482F2AA07D0800CDA84C /* DataAssembly_Product.swift */,
 				DA7A0A2B2A9B86ED0046AAC4 /* DataAssembly.swift */,
+				DA7A0A292A9B85CF0046AAC4 /* DIContainer.swift */,
 				DA7A0A2D2A9B8F0E0046AAC4 /* UIViewControllerAssembly.swift */,
 			);
 			path = DI;
@@ -315,6 +360,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		DA6147FE2AA0774900CDA84C /* WordCheckerDev */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA6148222AA0774900CDA84C /* Build configuration list for PBXNativeTarget "WordCheckerDev" */;
+			buildPhases = (
+				DA6148042AA0774900CDA84C /* Sources */,
+				DA6148192AA0774900CDA84C /* Frameworks */,
+				DA61481D2AA0774900CDA84C /* Resources */,
+				DA6148212AA0774900CDA84C /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WordCheckerDev;
+			packageProductDependencies = (
+				DA6147FF2AA0774900CDA84C /* Realm */,
+				DA6148012AA0774900CDA84C /* RealmSwift */,
+				DA6148022AA0774900CDA84C /* Swinject */,
+			);
+			productName = WordChecker;
+			productReference = DA6148252AA0774900CDA84C /* WordCheckerDev.app */;
+			productType = "com.apple.product-type.application";
+		};
 		DA7A09AB2A950FBB0046AAC4 /* WordChecker */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA7A09D62A950FBC0046AAC4 /* Build configuration list for PBXNativeTarget "WordChecker" */;
@@ -349,7 +417,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				DA7A09C42A950FBC0046AAC4 /* PBXTargetDependency */,
+				DA6148282AA0790A00CDA84C /* PBXTargetDependency */,
 			);
 			name = WordCheckerTests;
 			packageProductDependencies = (
@@ -370,7 +438,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				DA7A09CE2A950FBC0046AAC4 /* PBXTargetDependency */,
+				DA61482A2AA0791000CDA84C /* PBXTargetDependency */,
 			);
 			name = WordCheckerUITests;
 			packageProductDependencies = (
@@ -422,6 +490,7 @@
 			projectRoot = "";
 			targets = (
 				DA7A09AB2A950FBB0046AAC4 /* WordChecker */,
+				DA6147FE2AA0774900CDA84C /* WordCheckerDev */,
 				DA7A09C12A950FBC0046AAC4 /* WordCheckerTests */,
 				DA7A09CB2A950FBC0046AAC4 /* WordCheckerUITests */,
 			);
@@ -429,6 +498,16 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		DA61481D2AA0774900CDA84C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA61481E2AA0774900CDA84C /* LaunchScreen.storyboard in Resources */,
+				DA61481F2AA0774900CDA84C /* Localizable.strings in Resources */,
+				DA6148202AA0774900CDA84C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA7A09AA2A950FBB0046AAC4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -457,6 +536,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		DA6148212AA0774900CDA84C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"$(SRCROOT)/build/build_phases/WordChecker_swiftlint.xcfilelist",
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/build/build_phases/WordChecker_swiftlint_static_output",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n    swiftlint --fix && swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		DA7A0A452A9F06290046AAC4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -479,13 +577,41 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		DA6148042AA0774900CDA84C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA6148052AA0774900CDA84C /* WordCheckingViewModel.swift in Sources */,
+				DA6148062AA0774900CDA84C /* WordChecking+BottomButton.swift in Sources */,
+				DA6148072AA0774900CDA84C /* LaunchArguments.swift in Sources */,
+				DA6148082AA0774900CDA84C /* DataAssembly.swift in Sources */,
+				DA6148092AA0774900CDA84C /* WordSearchResultsController.swift in Sources */,
+				DA61480A2AA0774900CDA84C /* WordListViewController.swift in Sources */,
+				DA61480B2AA0774900CDA84C /* DIContainer.swift in Sources */,
+				DA61480C2AA0774900CDA84C /* WordCheckingViewController.swift in Sources */,
+				DA61480D2AA0774900CDA84C /* Collection+isNotEmpty.swift in Sources */,
+				DA61480E2AA0774900CDA84C /* CircularLinkedList.swift in Sources */,
+				DA61480F2AA0774900CDA84C /* RealmError.swift in Sources */,
+				DA6148102AA0774900CDA84C /* Word.swift in Sources */,
+				DA6148112AA0774900CDA84C /* AppDelegate.swift in Sources */,
+				DA6148122AA0774900CDA84C /* WordListViewModel.swift in Sources */,
+				DA6148132AA0774900CDA84C /* UIViewControllerAssembly.swift in Sources */,
+				DA6148142AA0774900CDA84C /* AccessibilityIdentifier.swift in Sources */,
+				DA6148152AA0774900CDA84C /* UIFont+preferredFont.swift in Sources */,
+				DA6148162AA0774900CDA84C /* WCRepository.swift in Sources */,
+				DA6148172AA0774900CDA84C /* WCString.swift in Sources */,
+				DA6148182AA0774900CDA84C /* SceneDelegate.swift in Sources */,
+				DA6148332AA07DA200CDA84C /* DataAssembly_Dev.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA7A09A82A950FBB0046AAC4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				DA7A0A052A9786420046AAC4 /* WordCheckingViewModel.swift in Sources */,
 				DA7A0A092A9859580046AAC4 /* WordChecking+BottomButton.swift in Sources */,
-				DA7A0A202A9B75930046AAC4 /* LaunchArguments.swift in Sources */,
+				DA6148302AA07D0800CDA84C /* DataAssembly_Product.swift in Sources */,
 				DA7A0A2C2A9B86ED0046AAC4 /* DataAssembly.swift in Sources */,
 				DA7A0A172A9A540A0046AAC4 /* WordSearchResultsController.swift in Sources */,
 				DA7A0A0C2A985F720046AAC4 /* WordListViewController.swift in Sources */,
@@ -530,15 +656,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		DA7A09C42A950FBC0046AAC4 /* PBXTargetDependency */ = {
+		DA6148282AA0790A00CDA84C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA7A09AB2A950FBB0046AAC4 /* WordChecker */;
-			targetProxy = DA7A09C32A950FBC0046AAC4 /* PBXContainerItemProxy */;
+			target = DA6147FE2AA0774900CDA84C /* WordCheckerDev */;
+			targetProxy = DA6148272AA0790A00CDA84C /* PBXContainerItemProxy */;
 		};
-		DA7A09CE2A950FBC0046AAC4 /* PBXTargetDependency */ = {
+		DA61482A2AA0791000CDA84C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA7A09AB2A950FBB0046AAC4 /* WordChecker */;
-			targetProxy = DA7A09CD2A950FBC0046AAC4 /* PBXContainerItemProxy */;
+			target = DA6147FE2AA0774900CDA84C /* WordCheckerDev */;
+			targetProxy = DA6148292AA0791000CDA84C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -563,6 +689,74 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		DA6148232AA0774900CDA84C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2AVC8X7323;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WordChecker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "단어확인기";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.WordChecker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		DA6148242AA0774900CDA84C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2AVC8X7323;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WordChecker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "단어확인기";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.WordChecker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 		DA7A09D42A950FBC0046AAC4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -838,6 +1032,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		DA6148222AA0774900CDA84C /* Build configuration list for PBXNativeTarget "WordCheckerDev" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA6148232AA0774900CDA84C /* Debug */,
+				DA6148242AA0774900CDA84C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DA7A09A72A950FBB0046AAC4 /* Build configuration list for PBXProject "WordChecker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -877,6 +1080,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		DA6148002AA0774900CDA84C /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.42.0;
+			};
+		};
+		DA6148032AA0774900CDA84C /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.0;
+			};
+		};
 		DA7A09F12A9756780046AAC4 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -896,6 +1115,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		DA6147FF2AA0774900CDA84C /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA6148002AA0774900CDA84C /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		DA6148012AA0774900CDA84C /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA6148002AA0774900CDA84C /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		DA6148022AA0774900CDA84C /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA6148032AA0774900CDA84C /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
 		DA7A09F22A9756780046AAC4 /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DA7A09F12A9756780046AAC4 /* XCRemoteSwiftPackageReference "realm-swift" */;

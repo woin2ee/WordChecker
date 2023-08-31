@@ -46,30 +46,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
-      <Testables>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DA7A09C12A950FBC0046AAC4"
-               BuildableName = "WordCheckerTests.xctest"
-               BlueprintName = "WordCheckerTests"
-               ReferencedContainer = "container:WordChecker.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DA7A09CB2A950FBC0046AAC4"
-               BuildableName = "WordCheckerUITests.xctest"
-               BlueprintName = "WordCheckerUITests"
-               ReferencedContainer = "container:WordChecker.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"

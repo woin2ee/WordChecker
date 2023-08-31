@@ -11,4 +11,6 @@ public enum LaunchArguments: String {
 
     case useInMemoryDataBase = "-useInMemoryDataBase"
 
+    case sampledDatabase = "-sampledDatabase"
+
 }

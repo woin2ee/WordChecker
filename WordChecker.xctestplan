@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "476B913C-6392-458D-BA50-1A523DA2070D",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "DA7A09C12A950FBC0046AAC4",
+        "name" : "WordCheckerTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "DA7A09CB2A950FBC0046AAC4",
+        "name" : "WordCheckerUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

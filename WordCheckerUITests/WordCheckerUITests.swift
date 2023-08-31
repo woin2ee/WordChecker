@@ -5,7 +5,7 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
-@testable import WordChecker
+@testable import WordCheckerDev
 import XCTest
 
 final class WordCheckerUITests: XCTestCase {
@@ -16,7 +16,7 @@ final class WordCheckerUITests: XCTestCase {
 
     func testAddOneWord() {
         let app = XCUIApplication()
-        app.setLaunchArguments([.useInMemoryDB])
+        app.setLaunchArguments([.useInMemoryDataBase])
         app.launch()
 
         app.staticTexts[WCString.noWords].assertExistence()

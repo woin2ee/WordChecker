@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import WordChecker
+import WordCheckerDev
 import XCTest
 
 extension XCUIApplication {
