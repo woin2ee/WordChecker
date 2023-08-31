@@ -9,7 +9,7 @@ import Foundation
 
 public enum LaunchArguments: String {
 
-    case useInMemoryDataBase = "-useInMemoryDataBase"
+    case useInMemoryDatabase = "-useInMemoryDatabase"
 
     case sampledDatabase = "-sampledDatabase"
 

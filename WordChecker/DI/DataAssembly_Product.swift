@@ -13,14 +13,13 @@ extension DataAssembly {
 
     func registerWCRepository(container: Container) {
         container.register(WCRepository.self) { _ in
-            let config: Realm.Configuration = .init(
-                schemaVersion: 2,
-                migrationBlock: { migration, oldSchemaVersion in
-                    if oldSchemaVersion < 2 {
-                        migration.renameProperty(onType: Word.className(), from: "id", to: "objectID")
-                    }
-                }
-            )
+            var config: Realm.Configuration = self.makeDefaultRealmConfiguration()
+            guard config.fileURL != nil else {
+                fatalError("Realm's url is nil.")
+            }
+            config.fileURL?.deleteLastPathComponent()
+            config.fileURL?.append(path: "WordChecker")
+            config.fileURL?.appendPathExtension("realm")
             guard let realm: Realm = try? .init(configuration: config) else {
                 fatalError("Failed to initialize.")
             }
