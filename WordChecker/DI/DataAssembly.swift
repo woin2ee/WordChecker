@@ -13,7 +13,7 @@ final class DataAssembly: Assembly {
 
     func assemble(container: Container) {
         let arguments = ProcessInfo.processInfo.arguments
-        if arguments.contains(LaunchArguments.useInMemoryDB.rawValue) {
+        if arguments.contains(LaunchArguments.useInMemoryDataBase.rawValue) {
             registerInMemoryWCRepository(container: container)
         } else {
             registerPersistentWCRepository(container: container)
