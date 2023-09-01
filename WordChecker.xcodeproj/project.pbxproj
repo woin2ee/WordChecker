@@ -90,6 +90,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DA4623EA2AA1C257007D00DE /* .swiftlint_precommit.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint_precommit.yml; sourceTree = "<group>"; };
 		DA6148252AA0774900CDA84C /* WordCheckerDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordCheckerDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA61482F2AA07D0800CDA84C /* DataAssembly_Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAssembly_Product.swift; sourceTree = "<group>"; };
 		DA6148312AA07D1800CDA84C /* DataAssembly_Dev.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAssembly_Dev.swift; sourceTree = "<group>"; };
@@ -175,6 +176,7 @@
 			children = (
 				DA6D9BDF2AA086F900F827EE /* WordChecker.xctestplan */,
 				DA7A0A462A9F21FA0046AAC4 /* .swiftlint.yml */,
+				DA4623EA2AA1C257007D00DE /* .swiftlint_precommit.yml */,
 				DA7A0A482A9F29660046AAC4 /* generate_swifttlint_filelist.sh */,
 				DA7A09AE2A950FBB0046AAC4 /* WordChecker */,
 				DA7A09C52A950FBC0046AAC4 /* WordCheckerTests */,
@@ -368,6 +370,7 @@
 				DA6148192AA0774900CDA84C /* Frameworks */,
 				DA61481D2AA0774900CDA84C /* Resources */,
 				DA6148212AA0774900CDA84C /* ShellScript */,
+				DA4623E72AA1BC2E007D00DE /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -391,6 +394,7 @@
 				DA7A09A92A950FBB0046AAC4 /* Frameworks */,
 				DA7A09AA2A950FBB0046AAC4 /* Resources */,
 				DA7A0A452A9F06290046AAC4 /* ShellScript */,
+				DA4623E82AA1BCDE007D00DE /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -536,6 +540,42 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		DA4623E72AA1BC2E007D00DE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Scripts/set_githooks_path.sh\n";
+		};
+		DA4623E82AA1BCDE007D00DE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Scripts/set_githooks_path.sh\n";
+		};
 		DA6148212AA0774900CDA84C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
