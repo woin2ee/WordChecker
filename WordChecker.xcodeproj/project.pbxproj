@@ -593,7 +593,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Scripts/run_swiftlint--fix_and_swiftlint.sh\n";
+			shellScript = "./Scripts/run_swiftlint.sh\n";
 		};
 		DA7A0A452A9F06290046AAC4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -612,7 +612,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Scripts/run_swiftlint--fix_and_swiftlint.sh\n";
+			shellScript = "./Scripts/run_swiftlint.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
