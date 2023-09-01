@@ -127,7 +127,7 @@
 		DA7A0A372A9C48440046AAC4 /* AccessibilityIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifier.swift; sourceTree = "<group>"; };
 		DA7A0A3C2A9C71570046AAC4 /* XCUIElement+assertExistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+assertExistence.swift"; sourceTree = "<group>"; };
 		DA7A0A462A9F21FA0046AAC4 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		DA7A0A482A9F29660046AAC4 /* generate_swifttlint_filelist.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = generate_swifttlint_filelist.sh; sourceTree = "<group>"; };
+		DA7A0A482A9F29660046AAC4 /* generate_swifttlint_filelist.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = generate_swifttlint_filelist.sh; path = Scripts/generate_swifttlint_filelist.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -553,7 +553,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n    swiftlint --fix && swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "./Scripts/run_swiftlint--fix_and_swiftlint.sh\n";
 		};
 		DA7A0A452A9F06290046AAC4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -572,7 +572,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n    swiftlint --fix && swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "./Scripts/run_swiftlint--fix_and_swiftlint.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
