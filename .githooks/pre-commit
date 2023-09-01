@@ -1,3 +1,43 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-echo "Hello!!!"
+if which swiftlint > /dev/null; then
+
+		COMMIT_TARGETS=$(git diff --stat --cached)
+		LINT_TARGETS=$(git diff --stat --cached --name-only | grep ".swift" | grep -v ".yml")
+#		echo ${LINT_TARGETS} # if you want show linting list, uncomment it.
+
+		if [[ -z ${COMMIT_TARGETS} ]]; then
+				echo "No files in staging area."
+				exit 1
+		fi
+
+		if [[ -n ${LINT_TARGETS} ]]; then
+				printf "\nSwiftLint Start.\n"
+
+#				RESULT=$(swiftlint ${LINT_TARGETS} --config .swiftlint_precommit.yml)
+				RESULT=$(swiftlint ${LINT_TARGETS} --quiet --config .swiftlint_precommit.yml)
+
+				if [ "$?" == "0" ]; then
+						printf "\nHave no error. Commit success.\n"
+				else
+						while read -r line; do
+								FILE_PATH=$(echo ${line} | cut -d ":" -f 1)
+								L=$(echo ${line} | cut -d ":" -f 2)
+								C=$(echo ${line} | cut -d ":" -f 3)
+								SEVERITY=$(echo ${line} | cut -d ":" -f 4 | cut -c 2-)
+								VIOLATION_NAME=$(echo ${line} | cut -d ":" -f 5 | cut -c 2-)
+								DESCRIPTION=$(echo ${line} | cut -d ":" -f 6 | cut -c 2-)
+								if [ "${SEVERITY}" == "error" ]; then
+										printf "\n ‼️ ${SEVERITY}: ${VIOLATION_NAME}\n"
+										printf "\t${FILE_PATH}:${L}:${C}\n"
+										printf "\t${DESCRIPTION}\n"
+								fi
+						done <<< "${RESULT}"
+
+						printf "\nCommit failed. (The \'swiftlint --fix\' command might be helpful.)\n"
+						exit 1
+				fi
+		fi
+else
+		echo "warning: SwiftLint not installed, download from 'https://github.com/realm/SwiftLint'"
+fi
