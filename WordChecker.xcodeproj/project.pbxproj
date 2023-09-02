@@ -70,6 +70,8 @@
 		DA7A0A392A9C4F2D0046AAC4 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A372A9C48440046AAC4 /* AccessibilityIdentifier.swift */; };
 		DA7A0A3B2A9C64550046AAC4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA7A09E82A95F5EE0046AAC4 /* Localizable.strings */; };
 		DA7A0A3D2A9C71570046AAC4 /* XCUIElement+assertExistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A3C2A9C71570046AAC4 /* XCUIElement+assertExistence.swift */; };
+		DAEE5D242AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D232AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift */; };
+		DAEE5D262AA38C3A00909097 /* XCUIElement+backButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D252AA38C3A00909097 /* XCUIElement+backButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +131,8 @@
 		DA7A0A3C2A9C71570046AAC4 /* XCUIElement+assertExistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+assertExistence.swift"; sourceTree = "<group>"; };
 		DA7A0A462A9F21FA0046AAC4 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		DA7A0A482A9F29660046AAC4 /* generate_swifttlint_filelist.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = generate_swifttlint_filelist.sh; path = Scripts/generate_swifttlint_filelist.sh; sourceTree = "<group>"; };
+		DAEE5D232AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+clearAndEnterText.swift"; sourceTree = "<group>"; };
+		DAEE5D252AA38C3A00909097 /* XCUIElement+backButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+backButton.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -355,6 +359,8 @@
 			children = (
 				DA7A0A1D2A9B75790046AAC4 /* XCUIApplication+launchEnvironment.swift */,
 				DA7A0A3C2A9C71570046AAC4 /* XCUIElement+assertExistence.swift */,
+				DAEE5D232AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift */,
+				DAEE5D252AA38C3A00909097 /* XCUIElement+backButton.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -685,11 +691,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA7A0A1E2A9B75790046AAC4 /* XCUIApplication+launchEnvironment.swift in Sources */,
+				DAEE5D242AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift in Sources */,
 				DA7A09D12A950FBC0046AAC4 /* WordCheckerUITests.swift in Sources */,
 				DA7A0A392A9C4F2D0046AAC4 /* AccessibilityIdentifier.swift in Sources */,
 				DA7A0A2F2A9B91F10046AAC4 /* WCString.swift in Sources */,
 				DA7A0A3D2A9C71570046AAC4 /* XCUIElement+assertExistence.swift in Sources */,
 				DA7A0A242A9B82CB0046AAC4 /* LaunchArguments.swift in Sources */,
+				DAEE5D262AA38C3A00909097 /* XCUIElement+backButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

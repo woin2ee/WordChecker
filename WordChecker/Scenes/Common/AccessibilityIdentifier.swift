@@ -9,9 +9,7 @@ import Foundation
 
 enum AccessibilityIdentifier {
 
-    struct WordChecking {
-
-        private init() {}
+    enum WordChecking {
 
         static let addWordButton = "WORDCHECKING_ADD_WORD_BUTTON"
 
