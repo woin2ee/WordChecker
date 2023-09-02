@@ -5,7 +5,7 @@ if [[ "$(uname -m)" == arm64 ]]; then
 fi
 
 if which swiftlint > /dev/null; then
-    swiftlint
+    swiftlint --fix && swiftlint
 else
     echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
 fi
