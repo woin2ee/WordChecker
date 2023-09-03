@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CircularLinkedList<Element> {
+struct CircularLinkedList<Element: Equatable> {
 
     private var elements: [Element] = []
 
@@ -65,6 +65,16 @@ struct CircularLinkedList<Element> {
     mutating func deleteCurrent() {
         guard count > 0 else { return }
         elements.remove(at: currentIndex)
+        if currentIndex >= count {
+            currentIndex = 0
+        }
+    }
+
+    mutating func delete(_ object: Element) {
+        guard let targetIndex = elements.firstIndex(where: { $0 == object }) else {
+            return
+        }
+        elements.remove(at: targetIndex)
         if currentIndex >= count {
             currentIndex = 0
         }

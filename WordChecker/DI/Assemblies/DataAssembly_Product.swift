@@ -17,6 +17,7 @@ extension DataAssembly {
             guard config.fileURL != nil else {
                 fatalError("Realm's url is nil.")
             }
+            // TODO: rename db file (데이터 유지하면서)
             config.fileURL?.deleteLastPathComponent()
             config.fileURL?.append(path: "WordChecker")
             config.fileURL?.appendPathExtension("realm")

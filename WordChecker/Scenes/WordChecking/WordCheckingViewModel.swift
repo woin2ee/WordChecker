@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import ReSwift
 
 // enum WordCheckingError: Error {
 //
@@ -22,28 +23,25 @@ protocol WordCheckingViewModelInput {
 
     func saveNewWord(_ word: String)
 
-    func updateWordList()
-
     func shuffleWordList()
 
     func deleteCurrentWord()
 
 }
 
-final class WordCheckingViewModel {
+final class WordCheckingViewModel: StoreSubscriber {
 
-    private let wcRepository: WCRepository
+    let store: AppStore
 
-    @Published var currentWord: Word?
+    @Published private(set) var currentWord: Word? // Action 이 아닌 임의로 변경할 시 DB/상태 에 적용 안됨
 
-    private var wordList: CircularLinkedList<Word>
+    init(store: AppStore) {
+        self.store = store
+        self.store.subscribe(self)
+    }
 
-    init(wcRepository: WCRepository) {
-        self.wcRepository = wcRepository
-        self.wordList = .init(wcRepository.getAllWords().shuffled())
-        if let firstWord = wordList.current {
-            self.currentWord = firstWord
-        }
+    func newState(state: AppState) {
+        self.currentWord = state.currentWord
     }
 
 }
@@ -51,50 +49,23 @@ final class WordCheckingViewModel {
 extension WordCheckingViewModel: WordCheckingViewModelInput {
 
     func deleteCurrentWord() {
-        guard let currentWord = self.currentWord else { return }
-        wordList.deleteCurrent()
-        self.currentWord = wordList.current
-        try? wcRepository.deleteWord(by: currentWord.objectID)
-    }
-
-    func updateWordList() {
-        let currentWord = self.currentWord
-        let updatedWordList = wcRepository.getAllWords().shuffled()
-        wordList = .init(updatedWordList)
-        guard wordList.count > 0 else {
-            self.currentWord = nil
-            return
-        }
-        for _ in 0..<wordList.count where wordList.next() == currentWord {
-            self.currentWord = wordList.current
-            return
-        }
-        self.currentWord = wordList.current
+        store.dispatch(AppStateAction.deleteCurrentWord)
     }
 
     func updateToNextWord() {
-        currentWord = wordList.next()
+        store.dispatch(AppStateAction.updateToNextWord)
     }
 
     func updateToPreviousWord() {
-        currentWord = wordList.previous()
+        store.dispatch(AppStateAction.updateToPreviousWord)
     }
 
     func saveNewWord(_ word: String) {
-        let word: Word = .init(word: word)
-        try? wcRepository.saveWord(word)
-        wordList.append(word)
-        if wordList.count == 1 {
-            currentWord = wordList.current
-        }
+        store.dispatch(AppStateAction.addWord(word: word))
     }
 
     func shuffleWordList() {
-        guard wordList.count > 1 else { return }
-        repeat {
-            wordList.shuffle()
-        } while wordList.current == self.currentWord
-        self.currentWord = wordList.current
+        store.dispatch(AppStateAction.shuffleWordList)
     }
 
 }
