@@ -102,17 +102,13 @@ final class WordSearchResultsController: UITableViewController {
 
 }
 
-// MARK: - UISearchResultsUpdating, UISearchControllerDelegate
+// MARK: - UISearchResultsUpdating
 
-extension WordSearchResultsController: UISearchResultsUpdating, UISearchControllerDelegate {
+extension WordSearchResultsController: UISearchResultsUpdating {
 
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
         currentSearchBarText = text
-    }
-
-    func willDismissSearchController(_ searchController: UISearchController) {
-        self.viewModel.updateWordList()
     }
 
 }

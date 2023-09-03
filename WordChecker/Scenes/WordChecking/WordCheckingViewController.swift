@@ -96,11 +96,6 @@ final class WordCheckingViewController: UIViewController {
         bindViewModel()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.updateWordList()
-    }
-
     private func setupSubviews() {
         self.view.addSubview(wordLabel)
         self.view.addSubview(listButton)

@@ -63,7 +63,6 @@ final class WordListViewController: UIViewController {
         let searchController: UISearchController = .init(searchResultsController: searchResultsController)
         searchController.view.backgroundColor = .systemBackground
         searchController.searchResultsUpdater = searchResultsController
-        searchController.delegate = searchResultsController
         self.navigationItem.searchController = searchController
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
