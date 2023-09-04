@@ -27,9 +27,7 @@ extension WordState: State {
     static func reducer(action: Action, state: WordState?) -> WordState {
         var state: WordState = state ?? .initialState(action: action, state: state) // TODO: How to Lazy 초기화?
 
-        guard let action = action as? WordStateAction else { return state }
-
-        switch action {
+        switch action as? WordStateAction {
         case .deleteWord(let index):
             let deleteTarget = state.wordList[index]
             state.wordList.remove(at: index)
@@ -70,6 +68,8 @@ extension WordState: State {
             state.shuffledWordList.deleteCurrent()
             state.currentWord = state.shuffledWordList.current
             try? repository.deleteWord(by: currentWord.objectID)
+        case .none:
+            break
         }
 
         return state
