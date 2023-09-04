@@ -18,7 +18,7 @@ final class DIContainer {
         self.assembler = .init([
             DataAssembly(),
             UIViewControllerAssembly(),
-            StateAssembly()
+            StoreAssembly()
         ])
     }
 

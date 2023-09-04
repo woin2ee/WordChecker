@@ -1,14 +1,18 @@
 //
-//  AppState.swift
+//  WordState.swift
 //  WordChecker
 //
-//  Created by Jaewon Yun on 2023/09/03.
+//  Created by Jaewon Yun on 2023/09/04.
 //
 
 import Foundation
 import ReSwift
 
-struct AppState {
+struct WordState {
+
+    private static let repository: WCRepository = DIContainer.shared.resolve()
+
+    // MARK: - State
 
     var wordList: [Word]
 
@@ -16,14 +20,14 @@ struct AppState {
 
     var currentWord: Word?
 
-    static let reducer: Reducer<Self> = { action, state in
-        let repository: WCRepository = DIContainer.shared.resolve()
+}
 
-        var state = state ?? initialAppState // TODO: How to Lazy 초기화?
+extension WordState: State {
 
-        guard let action = action as? AppStateAction else {
-            return state
-        }
+    static func reducer(action: Action, state: WordState?) -> WordState {
+        var state: WordState = state ?? .initialState(action: action, state: state) // TODO: How to Lazy 초기화?
+
+        guard let action = action as? WordStateAction else { return state }
 
         switch action {
         case .deleteWord(let index):
@@ -71,9 +75,7 @@ struct AppState {
         return state
     }
 
-    static var initialAppState: AppState {
-        let repository: WCRepository = DIContainer.shared.resolve()
-
+    static func initialState(action: Action, state: Self?) -> Self {
         let initialWordList = repository.getAllWords()
         let initialShuffledWordList: CircularLinkedList<Word> = .init(initialWordList.shuffled())
         let initialCurrentWord: Word? = initialShuffledWordList.count != 0 ? initialShuffledWordList.current : nil

@@ -71,19 +71,23 @@
 		DA7A0A3B2A9C64550046AAC4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA7A09E82A95F5EE0046AAC4 /* Localizable.strings */; };
 		DA7A0A3D2A9C71570046AAC4 /* XCUIElement+assertExistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A3C2A9C71570046AAC4 /* XCUIElement+assertExistence.swift */; };
 		DA8EC9EA2AA35CF200BDEEC2 /* ReSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA8EC9E92AA35CF200BDEEC2 /* ReSwift */; };
+		DA95B0612AA56E370093EEF5 /* WordState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B0602AA56E370093EEF5 /* WordState.swift */; };
+		DA95B0622AA56E8E0093EEF5 /* WordState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B0602AA56E370093EEF5 /* WordState.swift */; };
+		DA95B0642AA573E80093EEF5 /* WordStateAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B0632AA573E80093EEF5 /* WordStateAction.swift */; };
+		DA95B0682AA574D50093EEF5 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B0672AA574D50093EEF5 /* State.swift */; };
+		DA95B0692AA574F30093EEF5 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B0672AA574D50093EEF5 /* State.swift */; };
+		DA95B06A2AA575510093EEF5 /* WordStateAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B0632AA573E80093EEF5 /* WordStateAction.swift */; };
 		DAEE5D242AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D232AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift */; };
 		DAEE5D262AA38C3A00909097 /* XCUIElement+backButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D252AA38C3A00909097 /* XCUIElement+backButton.swift */; };
 		DAEE5D292AA3A7D100909097 /* ReSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DAEE5D282AA3A7D100909097 /* ReSwift */; };
-		DAEE5D2B2AA3A7FD00909097 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D2A2AA3A7FD00909097 /* AppStore.swift */; };
-		DAEE5D2C2AA42CC900909097 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D2A2AA3A7FD00909097 /* AppStore.swift */; };
+		DAEE5D2B2AA3A7FD00909097 /* StateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D2A2AA3A7FD00909097 /* StateStore.swift */; };
+		DAEE5D2C2AA42CC900909097 /* StateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D2A2AA3A7FD00909097 /* StateStore.swift */; };
 		DAEE5D2E2AA42D8100909097 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D2D2AA42D8100909097 /* AppState.swift */; };
 		DAEE5D2F2AA42DB600909097 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D2D2AA42D8100909097 /* AppState.swift */; };
-		DAEE5D312AA42DCF00909097 /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D302AA42DCF00909097 /* Actions.swift */; };
-		DAEE5D322AA42E0800909097 /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D302AA42DCF00909097 /* Actions.swift */; };
-		DAEE5D342AA4399A00909097 /* StateAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D332AA4399A00909097 /* StateAssembly.swift */; };
+		DAEE5D342AA4399A00909097 /* StoreAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D332AA4399A00909097 /* StoreAssembly.swift */; };
 		DAEE5D362AA4404E00909097 /* Resolver+resolve.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D352AA4404E00909097 /* Resolver+resolve.swift */; };
 		DAEE5D372AA4407000909097 /* Resolver+resolve.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D352AA4404E00909097 /* Resolver+resolve.swift */; };
-		DAEE5D382AA440EC00909097 /* StateAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D332AA4399A00909097 /* StateAssembly.swift */; };
+		DAEE5D382AA440EC00909097 /* StoreAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D332AA4399A00909097 /* StoreAssembly.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,12 +147,14 @@
 		DA7A0A3C2A9C71570046AAC4 /* XCUIElement+assertExistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+assertExistence.swift"; sourceTree = "<group>"; };
 		DA7A0A462A9F21FA0046AAC4 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		DA7A0A482A9F29660046AAC4 /* generate_swifttlint_filelist.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = generate_swifttlint_filelist.sh; path = Scripts/generate_swifttlint_filelist.sh; sourceTree = "<group>"; };
+		DA95B0602AA56E370093EEF5 /* WordState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordState.swift; sourceTree = "<group>"; };
+		DA95B0632AA573E80093EEF5 /* WordStateAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordStateAction.swift; sourceTree = "<group>"; };
+		DA95B0672AA574D50093EEF5 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		DAEE5D232AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+clearAndEnterText.swift"; sourceTree = "<group>"; };
 		DAEE5D252AA38C3A00909097 /* XCUIElement+backButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+backButton.swift"; sourceTree = "<group>"; };
-		DAEE5D2A2AA3A7FD00909097 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
+		DAEE5D2A2AA3A7FD00909097 /* StateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateStore.swift; sourceTree = "<group>"; };
 		DAEE5D2D2AA42D8100909097 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
-		DAEE5D302AA42DCF00909097 /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
-		DAEE5D332AA4399A00909097 /* StateAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateAssembly.swift; sourceTree = "<group>"; };
+		DAEE5D332AA4399A00909097 /* StoreAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAssembly.swift; sourceTree = "<group>"; };
 		DAEE5D352AA4404E00909097 /* Resolver+resolve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Resolver+resolve.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -386,11 +392,29 @@
 		DA8EC9E52AA35C5100BDEEC2 /* State */ = {
 			isa = PBXGroup;
 			children = (
-				DAEE5D2A2AA3A7FD00909097 /* AppStore.swift */,
-				DAEE5D2D2AA42D8100909097 /* AppState.swift */,
-				DAEE5D302AA42DCF00909097 /* Actions.swift */,
+				DAEE5D2A2AA3A7FD00909097 /* StateStore.swift */,
+				DA95B0672AA574D50093EEF5 /* State.swift */,
+				DA95B0662AA573F10093EEF5 /* App */,
+				DA95B0652AA573EA0093EEF5 /* Word */,
 			);
 			path = State;
+			sourceTree = "<group>";
+		};
+		DA95B0652AA573EA0093EEF5 /* Word */ = {
+			isa = PBXGroup;
+			children = (
+				DA95B0602AA56E370093EEF5 /* WordState.swift */,
+				DA95B0632AA573E80093EEF5 /* WordStateAction.swift */,
+			);
+			path = Word;
+			sourceTree = "<group>";
+		};
+		DA95B0662AA573F10093EEF5 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				DAEE5D2D2AA42D8100909097 /* AppState.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 		DAEE5D392AA4420900909097 /* Assemblies */ = {
@@ -400,7 +424,7 @@
 				DA61482F2AA07D0800CDA84C /* DataAssembly_Product.swift */,
 				DA7A0A2B2A9B86ED0046AAC4 /* DataAssembly.swift */,
 				DA7A0A2D2A9B8F0E0046AAC4 /* UIViewControllerAssembly.swift */,
-				DAEE5D332AA4399A00909097 /* StateAssembly.swift */,
+				DAEE5D332AA4399A00909097 /* StoreAssembly.swift */,
 			);
 			path = Assemblies;
 			sourceTree = "<group>";
@@ -683,24 +707,26 @@
 				DAEE5D372AA4407000909097 /* Resolver+resolve.swift in Sources */,
 				DA6148072AA0774900CDA84C /* LaunchArguments.swift in Sources */,
 				DA6148082AA0774900CDA84C /* DataAssembly.swift in Sources */,
+				DA95B0692AA574F30093EEF5 /* State.swift in Sources */,
 				DA6148092AA0774900CDA84C /* WordSearchResultsController.swift in Sources */,
 				DA61480A2AA0774900CDA84C /* WordListViewController.swift in Sources */,
 				DA61480B2AA0774900CDA84C /* DIContainer.swift in Sources */,
 				DA61480C2AA0774900CDA84C /* WordCheckingViewController.swift in Sources */,
 				DA61480D2AA0774900CDA84C /* Collection+isNotEmpty.swift in Sources */,
-				DAEE5D322AA42E0800909097 /* Actions.swift in Sources */,
 				DA61480E2AA0774900CDA84C /* CircularLinkedList.swift in Sources */,
 				DA61480F2AA0774900CDA84C /* RealmError.swift in Sources */,
 				DA6148102AA0774900CDA84C /* Word.swift in Sources */,
+				DA95B0622AA56E8E0093EEF5 /* WordState.swift in Sources */,
 				DA6148112AA0774900CDA84C /* AppDelegate.swift in Sources */,
 				DA6148122AA0774900CDA84C /* WordListViewModel.swift in Sources */,
 				DA6148132AA0774900CDA84C /* UIViewControllerAssembly.swift in Sources */,
 				DA6148142AA0774900CDA84C /* AccessibilityIdentifier.swift in Sources */,
 				DA6148152AA0774900CDA84C /* UIFont+preferredFont.swift in Sources */,
-				DAEE5D382AA440EC00909097 /* StateAssembly.swift in Sources */,
+				DAEE5D382AA440EC00909097 /* StoreAssembly.swift in Sources */,
 				DAEE5D2F2AA42DB600909097 /* AppState.swift in Sources */,
 				DA6148162AA0774900CDA84C /* WCRepository.swift in Sources */,
-				DAEE5D2C2AA42CC900909097 /* AppStore.swift in Sources */,
+				DA95B06A2AA575510093EEF5 /* WordStateAction.swift in Sources */,
+				DAEE5D2C2AA42CC900909097 /* StateStore.swift in Sources */,
 				DA6148172AA0774900CDA84C /* WCString.swift in Sources */,
 				DA6148182AA0774900CDA84C /* SceneDelegate.swift in Sources */,
 				DA6148332AA07DA200CDA84C /* DataAssembly_Dev.swift in Sources */,
@@ -714,15 +740,16 @@
 				DA7A0A052A9786420046AAC4 /* WordCheckingViewModel.swift in Sources */,
 				DA7A0A092A9859580046AAC4 /* WordChecking+BottomButton.swift in Sources */,
 				DAEE5D362AA4404E00909097 /* Resolver+resolve.swift in Sources */,
+				DA95B0612AA56E370093EEF5 /* WordState.swift in Sources */,
 				DA6148302AA07D0800CDA84C /* DataAssembly_Product.swift in Sources */,
+				DA95B0682AA574D50093EEF5 /* State.swift in Sources */,
 				DA7A0A2C2A9B86ED0046AAC4 /* DataAssembly.swift in Sources */,
 				DA7A0A172A9A540A0046AAC4 /* WordSearchResultsController.swift in Sources */,
-				DAEE5D312AA42DCF00909097 /* Actions.swift in Sources */,
 				DA7A0A0C2A985F720046AAC4 /* WordListViewController.swift in Sources */,
 				DA7A0A2A2A9B85CF0046AAC4 /* DIContainer.swift in Sources */,
 				DA7A09B42A950FBB0046AAC4 /* WordCheckingViewController.swift in Sources */,
 				DA7A0A002A97853F0046AAC4 /* Collection+isNotEmpty.swift in Sources */,
-				DAEE5D2B2AA3A7FD00909097 /* AppStore.swift in Sources */,
+				DAEE5D2B2AA3A7FD00909097 /* StateStore.swift in Sources */,
 				DA7A0A072A979BC90046AAC4 /* CircularLinkedList.swift in Sources */,
 				DA7A0A102A989CB60046AAC4 /* RealmError.swift in Sources */,
 				DA7A09F92A97571F0046AAC4 /* Word.swift in Sources */,
@@ -734,8 +761,9 @@
 				DA7A09EF2A95FEAF0046AAC4 /* UIFont+preferredFont.swift in Sources */,
 				DA7A09F72A9756B90046AAC4 /* WCRepository.swift in Sources */,
 				DA7A09EC2A95F8E80046AAC4 /* WCString.swift in Sources */,
+				DA95B0642AA573E80093EEF5 /* WordStateAction.swift in Sources */,
 				DA7A09B22A950FBB0046AAC4 /* SceneDelegate.swift in Sources */,
-				DAEE5D342AA4399A00909097 /* StateAssembly.swift in Sources */,
+				DAEE5D342AA4399A00909097 /* StoreAssembly.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
