@@ -61,8 +61,8 @@ final class WordListViewController: UIViewController {
         self.navigationItem.title = WCString.wordList
         let searchResultsController: WordSearchResultsController = .init(viewModel: viewModel)
         let searchController: UISearchController = .init(searchResultsController: searchResultsController)
-        searchController.view.backgroundColor = .systemBackground
         searchController.searchResultsUpdater = searchResultsController
+        searchController.delegate = self
         self.navigationItem.searchController = searchController
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
@@ -126,6 +126,22 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
             completionHandler(true)
         }
         return .init(actions: [deleteAction, editAction])
+    }
+
+}
+
+// MARK: - UISearchControllerDelegate
+
+extension WordListViewController: UISearchControllerDelegate {
+
+    func willPresentSearchController(_ searchController: UISearchController) {
+        searchController.view.backgroundColor = .systemBackground
+    }
+
+    func willDismissSearchController(_ searchController: UISearchController) {
+        UIView.animate(withDuration: 0.4) {
+            searchController.view.backgroundColor = .clear
+        }
     }
 
 }
