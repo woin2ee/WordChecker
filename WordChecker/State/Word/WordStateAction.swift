@@ -1,14 +1,14 @@
 //
-//  Actions.swift
+//  WordStateAction.swift
 //  WordChecker
 //
-//  Created by Jaewon Yun on 2023/09/03.
+//  Created by Jaewon Yun on 2023/09/04.
 //
 
 import Foundation
 import ReSwift
 
-enum AppStateAction: Action {
+enum WordStateAction: Action {
 
     case deleteWord(index: IndexPath.Index)
 

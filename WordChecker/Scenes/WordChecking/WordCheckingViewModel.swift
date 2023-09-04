@@ -9,12 +9,6 @@ import Combine
 import Foundation
 import ReSwift
 
-// enum WordCheckingError: Error {
-//
-//    case someError
-//
-// }
-
 protocol WordCheckingViewModelInput {
 
     func updateToNextWord()
@@ -31,16 +25,18 @@ protocol WordCheckingViewModelInput {
 
 final class WordCheckingViewModel: StoreSubscriber {
 
-    let store: AppStore
+    let store: StateStore
 
-    @Published private(set) var currentWord: Word? // Action 이 아닌 임의로 변경할 시 DB/상태 에 적용 안됨
+    @Published private(set) var currentWord: Word?
 
-    init(store: AppStore) {
+    init(store: StateStore) {
         self.store = store
-        self.store.subscribe(self)
+        self.store.subscribe(self) { subscription in
+            subscription.select(\.wordState)
+        }
     }
 
-    func newState(state: AppState) {
+    func newState(state: WordState) {
         self.currentWord = state.currentWord
     }
 
@@ -49,23 +45,23 @@ final class WordCheckingViewModel: StoreSubscriber {
 extension WordCheckingViewModel: WordCheckingViewModelInput {
 
     func deleteCurrentWord() {
-        store.dispatch(AppStateAction.deleteCurrentWord)
+        store.dispatch(WordStateAction.deleteCurrentWord)
     }
 
     func updateToNextWord() {
-        store.dispatch(AppStateAction.updateToNextWord)
+        store.dispatch(WordStateAction.updateToNextWord)
     }
 
     func updateToPreviousWord() {
-        store.dispatch(AppStateAction.updateToPreviousWord)
+        store.dispatch(WordStateAction.updateToPreviousWord)
     }
 
     func saveNewWord(_ word: String) {
-        store.dispatch(AppStateAction.addWord(word: word))
+        store.dispatch(WordStateAction.addWord(word: word))
     }
 
     func shuffleWordList() {
-        store.dispatch(AppStateAction.shuffleWordList)
+        store.dispatch(WordStateAction.shuffleWordList)
     }
 
 }

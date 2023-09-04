@@ -21,14 +21,16 @@ final class WordListViewModel: StoreSubscriber {
 
     @Published var wordList: [Word] = []
 
-    let store: AppStore
+    let store: StateStore
 
-    init(store: AppStore) {
+    init(store: StateStore) {
         self.store = store
-        self.store.subscribe(self)
+        self.store.subscribe(self) { subscription in
+            subscription.select(\.wordState)
+        }
     }
 
-    func newState(state: AppState) {
+    func newState(state: WordState) {
         self.wordList = state.wordList
     }
 
@@ -37,11 +39,11 @@ final class WordListViewModel: StoreSubscriber {
 extension WordListViewModel: WordListViewModelInput {
 
     func deleteWord(for indexPath: IndexPath) {
-        store.dispatch(AppStateAction.deleteWord(index: indexPath.row))
+        store.dispatch(WordStateAction.deleteWord(index: indexPath.row))
     }
 
     func editWord(for indexPath: IndexPath, toNewWord newWord: String) {
-        store.dispatch(AppStateAction.editWord(index: indexPath.row, newWord: newWord))
+        store.dispatch(WordStateAction.editWord(index: indexPath.row, newWord: newWord))
     }
 
 }
