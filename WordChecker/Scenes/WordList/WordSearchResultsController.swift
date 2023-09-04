@@ -36,6 +36,7 @@ final class WordSearchResultsController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .clear
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
     }
 
