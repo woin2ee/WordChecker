@@ -1,0 +1,25 @@
+/* 
+  Localizable.strings
+  WordChecker
+
+  Created by Jaewon Yun on 2023/08/23.
+  
+*/
+
+cancel = "Cancel";
+add = "Add";
+addWord = "Add Word";
+next = "Next";
+previous = "Previous";
+noWords = "No words";
+list = "List";
+wordList = "Word list";
+delete = "Delete";
+edit = "Edit";
+editWord = "Edit word";
+shuffleOrder = "Shuffle order";
+translate = "Translate";
+deleteWord = "Delete word";
+word = "Word";
+done = "Done";
+details = "Details";
