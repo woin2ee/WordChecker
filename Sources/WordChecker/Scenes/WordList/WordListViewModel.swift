@@ -8,8 +8,6 @@
 import Combine
 import Domain
 import Foundation
-import ReSwift
-import StateStore
 
 protocol WordListViewModelInput {
 
@@ -21,39 +19,63 @@ protocol WordListViewModelInput {
 
 protocol WordListViewModelOutput {
 
-    var wordListSubject: CurrentValueSubject<[Word], Never> { get }
+    var wordListPublisher: AnyPublisher<[Word], Never> { get }
+
+    var wordList: [Word] { get }
 
 }
 
 protocol WordListViewModelProtocol: WordListViewModelInput, WordListViewModelOutput {}
 
-final class WordListViewModel: WordListViewModelProtocol, StoreSubscriber {
-
-    let store: StateStore
+final class WordListViewModel: WordListViewModelProtocol {
 
     let wordListSubject: CurrentValueSubject<[Domain.Word], Never> = .init([])
 
-    init(store: StateStore) {
-        self.store = store
-        self.store.subscribe(self) {
-            $0.select(\.wordState)
-        }
-    }
+    let wordUseCase: WordUseCaseProtocol
 
-    func newState(state: WordState) {
-        wordListSubject.send(state.wordList)
+    init(wordUseCase: WordUseCaseProtocol) {
+        self.wordUseCase = wordUseCase
+        let initList = wordUseCase.getWordList()
+        wordListSubject.send(initList)
     }
 
 }
 
+// MARK: - Output
+
+extension WordListViewModel {
+
+    var wordListPublisher: AnyPublisher<[Word], Never> {
+        wordListSubject.eraseToAnyPublisher()
+    }
+
+    var wordList: [Word] {
+        wordListSubject.value
+    }
+
+}
+
+// MARK: - Input
+
 extension WordListViewModel {
 
     func deleteWord(index: IndexPath.Index) {
-        store.dispatch(WordState.Actions.deleteWord(index: index))
+        let deleteTarget: Word = wordListSubject.value[index]
+        wordUseCase.deleteWord(deleteTarget)
+        let newList = wordUseCase.getWordList()
+        wordListSubject.send(newList)
     }
 
     func editWord(index: IndexPath.Index, newWord: String) {
-        store.dispatch(WordState.Actions.editWord(index: index, newWord: newWord))
+        let updateTargetUUID = wordListSubject.value[index].uuid
+        let updateTarget: Word = .init(
+            uuid: updateTargetUUID,
+            word: newWord,
+            isMemorized: false
+        )
+        wordUseCase.updateWord(with: updateTargetUUID, to: updateTarget)
+        let newList = wordUseCase.getWordList()
+        wordListSubject.send(newList)
     }
 
 }

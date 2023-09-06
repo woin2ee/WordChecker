@@ -15,8 +15,6 @@ public protocol WordRepositoryProtocol {
 
     func get(by uuid: UUID) -> Word?
 
-    func update(_ word: Word)
-
     func delete(_ word: Word)
 
     func getUnmemorizedList() -> [Word]

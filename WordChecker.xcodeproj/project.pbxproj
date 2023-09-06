@@ -13,6 +13,23 @@
 		DA09BEB72AA84A420000CF8F /* WordListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEB42AA849200000CF8F /* WordListViewModel.swift */; };
 		DA09BEBA2AA84E6F0000CF8F /* WordDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEB82AA84E1A0000CF8F /* WordDetailViewModel.swift */; };
 		DA09BEBB2AA84E6F0000CF8F /* WordDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEB82AA84E1A0000CF8F /* WordDetailViewModel.swift */; };
+		DA09BEBF2AA85C2F0000CF8F /* UnmemorizedWordListStateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEBD2AA85C190000CF8F /* UnmemorizedWordListStateProtocol.swift */; };
+		DA09BEE42AA883B10000CF8F /* Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = DA09BEE32AA883B10000CF8F /* Utility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA09BEE82AA883BD0000CF8F /* CircularLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEC02AA8648A0000CF8F /* CircularLinkedList.swift */; };
+		DA09BEE92AA883D40000CF8F /* Utility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; };
+		DA09BEEA2AA883D40000CF8F /* Utility.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DA09BEF82AA899970000CF8F /* State.h in Headers */ = {isa = PBXBuildFile; fileRef = DA09BEF72AA899970000CF8F /* State.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA09BEFE2AA899AF0000CF8F /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; };
+		DA09BEFF2AA899AF0000CF8F /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DA09BF032AA899CA0000CF8F /* UnmemorizedWordListState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEEE2AA885FD0000CF8F /* UnmemorizedWordListState.swift */; };
+		DA09BF042AA899E10000CF8F /* Utility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; };
+		DA09BF052AA899E10000CF8F /* Utility.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DA09BF0B2AA89CF80000CF8F /* UnmemorizedWordListStateAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BF092AA89C920000CF8F /* UnmemorizedWordListStateAssembly.swift */; };
+		DA09BF0C2AA89CF90000CF8F /* UnmemorizedWordListStateAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BF092AA89C920000CF8F /* UnmemorizedWordListStateAssembly.swift */; };
+		DA09BF0D2AA8A7D60000CF8F /* State.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEF52AA899970000CF8F /* State.framework */; };
+		DA09BF0E2AA8A7D60000CF8F /* State.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEF52AA899970000CF8F /* State.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DA09BF112AA8A7DA0000CF8F /* State.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEF52AA899970000CF8F /* State.framework */; };
+		DA09BF122AA8A7DA0000CF8F /* State.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEF52AA899970000CF8F /* State.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA25895B2AA5F7F500431D40 /* RealmPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; };
 		DA25895C2AA5F7F500431D40 /* RealmPlatform.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA2589632AA5F8D600431D40 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589622AA5F8D000431D40 /* Word.swift */; };
@@ -20,26 +37,10 @@
 		DA25896D2AA5FA2A00431D40 /* Word+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA25896C2AA5FA2A00431D40 /* Word+Mapping.swift */; };
 		DA2589712AA6013B00431D40 /* RealmPlatformAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589702AA6013B00431D40 /* RealmPlatformAssembly.swift */; };
 		DA2589722AA6014500431D40 /* RealmPlatformAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589702AA6013B00431D40 /* RealmPlatformAssembly.swift */; };
-		DA25898B2AA6045E00431D40 /* StateStore.h in Headers */ = {isa = PBXBuildFile; fileRef = DA25898A2AA6045E00431D40 /* StateStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA2589902AA6047300431D40 /* ReSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA25898F2AA6047300431D40 /* ReSwift */; };
-		DA2589932AA6049F00431D40 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; };
-		DA2589942AA6049F00431D40 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DA2589B52AA605C800431D40 /* StateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589AE2AA605C800431D40 /* StateStore.swift */; };
-		DA2589B62AA605C800431D40 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589B02AA605C800431D40 /* AppState.swift */; };
-		DA2589B72AA605C800431D40 /* WordState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589B22AA605C800431D40 /* WordState.swift */; };
-		DA2589BC2AA7240200431D40 /* StateStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2589882AA6045E00431D40 /* StateStore.framework */; };
-		DA2589BD2AA7240200431D40 /* StateStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA2589882AA6045E00431D40 /* StateStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DA2589C02AA7240600431D40 /* StateStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2589882AA6045E00431D40 /* StateStore.framework */; };
-		DA2589C12AA7240600431D40 /* StateStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA2589882AA6045E00431D40 /* StateStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DA2589C42AA727A600431D40 /* CircularLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A062A979BC90046AAC4 /* CircularLinkedList.swift */; };
-		DA2589CB2AA7313900431D40 /* ReducerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589CA2AA7313900431D40 /* ReducerType.swift */; };
 		DA2589D12AA7362700431D40 /* UseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589D02AA7362700431D40 /* UseCaseAssembly.swift */; };
-		DA2589D62AA7378100431D40 /* ReducerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589D52AA7378100431D40 /* ReducerAssembly.swift */; };
 		DA2589DC2AA7410C00431D40 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = DA2589DB2AA7410C00431D40 /* Realm */; };
 		DA2589DE2AA7410C00431D40 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA2589DD2AA7410C00431D40 /* RealmSwift */; };
 		DA2589E32AA74EC800431D40 /* UseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589D02AA7362700431D40 /* UseCaseAssembly.swift */; };
-		DA2589E42AA74F4600431D40 /* ReducerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589D52AA7378100431D40 /* ReducerAssembly.swift */; };
-		DA2589E82AA7543A00431D40 /* StateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589E52AA7541300431D40 /* StateType.swift */; };
 		DA340BFE2AA5E4EE00C1C529 /* Domain.h in Headers */ = {isa = PBXBuildFile; fileRef = DA340BFD2AA5E4EE00C1C529 /* Domain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA340C012AA5E4EE00C1C529 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; };
 		DA340C032AA5E4EE00C1C529 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -100,46 +101,56 @@
 		DA7A0A392A9C4F2D0046AAC4 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A372A9C48440046AAC4 /* AccessibilityIdentifier.swift */; };
 		DA7A0A3B2A9C64550046AAC4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA7A09E82A95F5EE0046AAC4 /* Localizable.strings */; };
 		DA7A0A3D2A9C71570046AAC4 /* XCUIElement+assertExistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A3C2A9C71570046AAC4 /* XCUIElement+assertExistence.swift */; };
-		DA8EC9EA2AA35CF200BDEEC2 /* ReSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA8EC9E92AA35CF200BDEEC2 /* ReSwift */; };
 		DAC4B2DF2AA5A2A40091749E /* WordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC4B2DE2AA5A2A40091749E /* WordDetailViewController.swift */; };
 		DAC4B2E02AA5A2A40091749E /* WordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC4B2DE2AA5A2A40091749E /* WordDetailViewController.swift */; };
 		DAEE5D242AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D232AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift */; };
 		DAEE5D262AA38C3A00909097 /* XCUIElement+backButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D252AA38C3A00909097 /* XCUIElement+backButton.swift */; };
-		DAEE5D292AA3A7D100909097 /* ReSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DAEE5D282AA3A7D100909097 /* ReSwift */; };
-		DAEE5D342AA4399A00909097 /* StoreAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D332AA4399A00909097 /* StoreAssembly.swift */; };
 		DAEE5D362AA4404E00909097 /* Resolver+resolve.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D352AA4404E00909097 /* Resolver+resolve.swift */; };
 		DAEE5D372AA4407000909097 /* Resolver+resolve.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D352AA4404E00909097 /* Resolver+resolve.swift */; };
-		DAEE5D382AA440EC00909097 /* StoreAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D332AA4399A00909097 /* StoreAssembly.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		DA09BEEB2AA883D40000CF8F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA7A09A42A950FBB0046AAC4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA09BEE02AA883B10000CF8F;
+			remoteInfo = Utility;
+		};
+		DA09BEFC2AA899AA0000CF8F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA7A09A42A950FBB0046AAC4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA340BFA2AA5E4EE00C1C529;
+			remoteInfo = Domain;
+		};
+		DA09BF062AA899E10000CF8F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA7A09A42A950FBB0046AAC4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA09BEE02AA883B10000CF8F;
+			remoteInfo = Utility;
+		};
+		DA09BF0F2AA8A7D60000CF8F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA7A09A42A950FBB0046AAC4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA09BEF42AA899970000CF8F;
+			remoteInfo = State;
+		};
+		DA09BF132AA8A7DA0000CF8F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA7A09A42A950FBB0046AAC4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA09BEF42AA899970000CF8F;
+			remoteInfo = State;
+		};
 		DA25896E2AA5FBA900431D40 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA7A09A42A950FBB0046AAC4 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = DA340BFA2AA5E4EE00C1C529;
 			remoteInfo = Domain;
-		};
-		DA2589912AA6049200431D40 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA7A09A42A950FBB0046AAC4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DA340BFA2AA5E4EE00C1C529;
-			remoteInfo = Domain;
-		};
-		DA2589BE2AA7240200431D40 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA7A09A42A950FBB0046AAC4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DA2589872AA6045E00431D40;
-			remoteInfo = StateStore;
-		};
-		DA2589C22AA7240600431D40 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA7A09A42A950FBB0046AAC4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DA2589872AA6045E00431D40;
-			remoteInfo = StateStore;
 		};
 		DA340BFF2AA5E4EE00C1C529 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -193,13 +204,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		DA2589972AA6049F00431D40 /* Embed Frameworks */ = {
+		DA09BEED2AA883D40000CF8F /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				DA2589942AA6049F00431D40 /* Domain.framework in Embed Frameworks */,
+				DA09BEEA2AA883D40000CF8F /* Utility.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA09BF022AA899B00000CF8F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DA09BEFF2AA899AF0000CF8F /* Domain.framework in Embed Frameworks */,
+				DA09BF052AA899E10000CF8F /* Utility.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -210,9 +233,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				DA09BF122AA8A7DA0000CF8F /* State.framework in Embed Frameworks */,
 				DA340C032AA5E4EE00C1C529 /* Domain.framework in Embed Frameworks */,
 				DA340C382AA5F7B500C1C529 /* RealmPlatform.framework in Embed Frameworks */,
-				DA2589BD2AA7240200431D40 /* StateStore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -223,9 +246,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				DA09BF0E2AA8A7D60000CF8F /* State.framework in Embed Frameworks */,
 				DA340C0A2AA5E52300C1C529 /* Domain.framework in Embed Frameworks */,
 				DA25895C2AA5F7F500431D40 /* RealmPlatform.framework in Embed Frameworks */,
-				DA2589C12AA7240600431D40 /* StateStore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -236,19 +259,19 @@
 		DA09BEAD2AA818BF0000CF8F /* WordCheckingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCheckingViewModel.swift; sourceTree = "<group>"; };
 		DA09BEB42AA849200000CF8F /* WordListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewModel.swift; sourceTree = "<group>"; };
 		DA09BEB82AA84E1A0000CF8F /* WordDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailViewModel.swift; sourceTree = "<group>"; };
+		DA09BEBD2AA85C190000CF8F /* UnmemorizedWordListStateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnmemorizedWordListStateProtocol.swift; sourceTree = "<group>"; };
+		DA09BEC02AA8648A0000CF8F /* CircularLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularLinkedList.swift; sourceTree = "<group>"; };
+		DA09BEE12AA883B10000CF8F /* Utility.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Utility.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA09BEE32AA883B10000CF8F /* Utility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
+		DA09BEEE2AA885FD0000CF8F /* UnmemorizedWordListState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnmemorizedWordListState.swift; sourceTree = "<group>"; };
+		DA09BEF52AA899970000CF8F /* State.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = State.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA09BEF72AA899970000CF8F /* State.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = State.h; sourceTree = "<group>"; };
+		DA09BF092AA89C920000CF8F /* UnmemorizedWordListStateAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnmemorizedWordListStateAssembly.swift; sourceTree = "<group>"; };
 		DA2589622AA5F8D000431D40 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		DA2589692AA5F91B00431D40 /* WordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordRepository.swift; sourceTree = "<group>"; };
 		DA25896C2AA5FA2A00431D40 /* Word+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Word+Mapping.swift"; sourceTree = "<group>"; };
 		DA2589702AA6013B00431D40 /* RealmPlatformAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmPlatformAssembly.swift; sourceTree = "<group>"; };
-		DA2589882AA6045E00431D40 /* StateStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StateStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA25898A2AA6045E00431D40 /* StateStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StateStore.h; sourceTree = "<group>"; };
-		DA2589AE2AA605C800431D40 /* StateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateStore.swift; sourceTree = "<group>"; };
-		DA2589B02AA605C800431D40 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
-		DA2589B22AA605C800431D40 /* WordState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordState.swift; sourceTree = "<group>"; };
-		DA2589CA2AA7313900431D40 /* ReducerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReducerType.swift; sourceTree = "<group>"; };
 		DA2589D02AA7362700431D40 /* UseCaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseAssembly.swift; sourceTree = "<group>"; };
-		DA2589D52AA7378100431D40 /* ReducerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReducerAssembly.swift; sourceTree = "<group>"; };
-		DA2589E52AA7541300431D40 /* StateType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateType.swift; sourceTree = "<group>"; };
 		DA340BFB2AA5E4EE00C1C529 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA340BFD2AA5E4EE00C1C529 /* Domain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Domain.h; sourceTree = "<group>"; };
 		DA340C102AA5E57A00C1C529 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
@@ -281,7 +304,6 @@
 		DA7A09EB2A95F8E80046AAC4 /* WCString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCString.swift; sourceTree = "<group>"; };
 		DA7A09EE2A95FEAF0046AAC4 /* UIFont+preferredFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+preferredFont.swift"; sourceTree = "<group>"; };
 		DA7A09FF2A97853F0046AAC4 /* Collection+isNotEmpty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+isNotEmpty.swift"; sourceTree = "<group>"; };
-		DA7A0A062A979BC90046AAC4 /* CircularLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularLinkedList.swift; sourceTree = "<group>"; };
 		DA7A0A082A9859580046AAC4 /* WordChecking+BottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordChecking+BottomButton.swift"; sourceTree = "<group>"; };
 		DA7A0A0B2A985F720046AAC4 /* WordListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewController.swift; sourceTree = "<group>"; };
 		DA7A0A162A9A540A0046AAC4 /* WordSearchResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordSearchResultsController.swift; sourceTree = "<group>"; };
@@ -296,17 +318,23 @@
 		DAC4B2DE2AA5A2A40091749E /* WordDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailViewController.swift; sourceTree = "<group>"; };
 		DAEE5D232AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+clearAndEnterText.swift"; sourceTree = "<group>"; };
 		DAEE5D252AA38C3A00909097 /* XCUIElement+backButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+backButton.swift"; sourceTree = "<group>"; };
-		DAEE5D332AA4399A00909097 /* StoreAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAssembly.swift; sourceTree = "<group>"; };
 		DAEE5D352AA4404E00909097 /* Resolver+resolve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Resolver+resolve.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		DA2589852AA6045E00431D40 /* Frameworks */ = {
+		DA09BEDE2AA883B10000CF8F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA2589932AA6049F00431D40 /* Domain.framework in Frameworks */,
-				DA2589902AA6047300431D40 /* ReSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA09BEF22AA899970000CF8F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA09BEFE2AA899AF0000CF8F /* Domain.framework in Frameworks */,
+				DA09BF042AA899E10000CF8F /* Utility.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,6 +342,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA09BEE92AA883D40000CF8F /* Utility.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,11 +367,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA09BF0D2AA8A7D60000CF8F /* State.framework in Frameworks */,
 				DA340C092AA5E52300C1C529 /* Domain.framework in Frameworks */,
-				DA2589C02AA7240600431D40 /* StateStore.framework in Frameworks */,
 				DA25895B2AA5F7F500431D40 /* RealmPlatform.framework in Frameworks */,
 				DA61481C2AA0774900CDA84C /* Swinject in Frameworks */,
-				DAEE5D292AA3A7D100909097 /* ReSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,11 +378,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA09BF112AA8A7DA0000CF8F /* State.framework in Frameworks */,
 				DA340C012AA5E4EE00C1C529 /* Domain.framework in Frameworks */,
-				DA2589BC2AA7240200431D40 /* StateStore.framework in Frameworks */,
 				DA340C372AA5F7B500C1C529 /* RealmPlatform.framework in Frameworks */,
 				DA7A0A272A9B85B00046AAC4 /* Swinject in Frameworks */,
-				DA8EC9EA2AA35CF200BDEEC2 /* ReSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +404,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DA09BEBC2AA85C0C0000CF8F /* States */ = {
+			isa = PBXGroup;
+			children = (
+				DA09BEBD2AA85C190000CF8F /* UnmemorizedWordListStateProtocol.swift */,
+			);
+			path = States;
+			sourceTree = "<group>";
+		};
+		DA09BEE22AA883B10000CF8F /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				DA09BEE32AA883B10000CF8F /* Utility.h */,
+				DA09BEC02AA8648A0000CF8F /* CircularLinkedList.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		DA09BEF62AA899970000CF8F /* State */ = {
+			isa = PBXGroup;
+			children = (
+				DA09BEEE2AA885FD0000CF8F /* UnmemorizedWordListState.swift */,
+				DA09BEF72AA899970000CF8F /* State.h */,
+			);
+			path = State;
+			sourceTree = "<group>";
+		};
+		DA09BF082AA89C810000CF8F /* StateAssemblies */ = {
+			isa = PBXGroup;
+			children = (
+				DA09BF092AA89C920000CF8F /* UnmemorizedWordListStateAssembly.swift */,
+			);
+			path = StateAssemblies;
+			sourceTree = "<group>";
+		};
 		DA25895F2AA5F83E00431D40 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -412,45 +473,6 @@
 			path = DomainMapping;
 			sourceTree = "<group>";
 		};
-		DA2589892AA6045E00431D40 /* StateStore */ = {
-			isa = PBXGroup;
-			children = (
-				DA25898A2AA6045E00431D40 /* StateStore.h */,
-				DA2589AE2AA605C800431D40 /* StateStore.swift */,
-				DA2589B92AA605EF00431D40 /* Protocols */,
-				DA2589C52AA72DC600431D40 /* States */,
-				DA7A0A132A9910DB0046AAC4 /* Utilities */,
-			);
-			path = StateStore;
-			sourceTree = "<group>";
-		};
-		DA2589B92AA605EF00431D40 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				DA2589CA2AA7313900431D40 /* ReducerType.swift */,
-				DA2589E52AA7541300431D40 /* StateType.swift */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
-		DA2589C52AA72DC600431D40 /* States */ = {
-			isa = PBXGroup;
-			children = (
-				DA2589B22AA605C800431D40 /* WordState.swift */,
-				DA2589B02AA605C800431D40 /* AppState.swift */,
-			);
-			path = States;
-			sourceTree = "<group>";
-		};
-		DA2589CE2AA7356E00431D40 /* StateStoreAssemblies */ = {
-			isa = PBXGroup;
-			children = (
-				DAEE5D332AA4399A00909097 /* StoreAssembly.swift */,
-				DA2589D52AA7378100431D40 /* ReducerAssembly.swift */,
-			);
-			path = StateStoreAssemblies;
-			sourceTree = "<group>";
-		};
 		DA2589CF2AA7361500431D40 /* UsecaseAssemblies */ = {
 			isa = PBXGroup;
 			children = (
@@ -472,8 +494,9 @@
 		DA2589DF2AA7440800431D40 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				DA09BEF62AA899970000CF8F /* State */,
+				DA09BEE22AA883B10000CF8F /* Utility */,
 				DA340BFC2AA5E4EE00C1C529 /* Domain */,
-				DA2589892AA6045E00431D40 /* StateStore */,
 				DA340C322AA5F7B500C1C529 /* RealmPlatform */,
 				DA7A09AE2A950FBB0046AAC4 /* WordChecker */,
 			);
@@ -510,6 +533,7 @@
 		DA340C142AA5E59500C1C529 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				DA09BEBC2AA85C0C0000CF8F /* States */,
 				DA340C182AA5E60F00C1C529 /* Repositories */,
 				DA340C172AA5E60C00C1C529 /* UseCases */,
 			);
@@ -583,7 +607,8 @@
 				DA340BFB2AA5E4EE00C1C529 /* Domain.framework */,
 				DA340C1F2AA5F56A00C1C529 /* DomainUnitTests.xctest */,
 				DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */,
-				DA2589882AA6045E00431D40 /* StateStore.framework */,
+				DA09BEE12AA883B10000CF8F /* Utility.framework */,
+				DA09BEF52AA899970000CF8F /* State.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -687,14 +712,6 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
-		DA7A0A132A9910DB0046AAC4 /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				DA7A0A062A979BC90046AAC4 /* CircularLinkedList.swift */,
-			);
-			path = Utilities;
-			sourceTree = "<group>";
-		};
 		DA7A0A1A2A9B727C0046AAC4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -743,9 +760,9 @@
 		DAEE5D392AA4420900909097 /* Assemblies */ = {
 			isa = PBXGroup;
 			children = (
+				DA09BF082AA89C810000CF8F /* StateAssemblies */,
 				DA2589D22AA7367400431D40 /* RealmPlatformAssemblies */,
 				DA2589CF2AA7361500431D40 /* UsecaseAssemblies */,
-				DA2589CE2AA7356E00431D40 /* StateStoreAssemblies */,
 				DA7A0A2D2A9B8F0E0046AAC4 /* UIViewControllerAssembly.swift */,
 			);
 			path = Assemblies;
@@ -762,11 +779,19 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		DA2589832AA6045E00431D40 /* Headers */ = {
+		DA09BEDC2AA883B10000CF8F /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA25898B2AA6045E00431D40 /* StateStore.h in Headers */,
+				DA09BEE42AA883B10000CF8F /* Utility.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA09BEF02AA899970000CF8F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA09BEF82AA899970000CF8F /* State.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -789,27 +814,43 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		DA2589872AA6045E00431D40 /* StateStore */ = {
+		DA09BEE02AA883B10000CF8F /* Utility */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DA25898C2AA6045E00431D40 /* Build configuration list for PBXNativeTarget "StateStore" */;
+			buildConfigurationList = DA09BEE52AA883B10000CF8F /* Build configuration list for PBXNativeTarget "Utility" */;
 			buildPhases = (
-				DA2589832AA6045E00431D40 /* Headers */,
-				DA2589842AA6045E00431D40 /* Sources */,
-				DA2589852AA6045E00431D40 /* Frameworks */,
-				DA2589862AA6045E00431D40 /* Resources */,
-				DA2589972AA6049F00431D40 /* Embed Frameworks */,
+				DA09BEDC2AA883B10000CF8F /* Headers */,
+				DA09BEDD2AA883B10000CF8F /* Sources */,
+				DA09BEDE2AA883B10000CF8F /* Frameworks */,
+				DA09BEDF2AA883B10000CF8F /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				DA2589922AA6049200431D40 /* PBXTargetDependency */,
 			);
-			name = StateStore;
-			packageProductDependencies = (
-				DA25898F2AA6047300431D40 /* ReSwift */,
+			name = Utility;
+			productName = Utility;
+			productReference = DA09BEE12AA883B10000CF8F /* Utility.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		DA09BEF42AA899970000CF8F /* State */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA09BEF92AA899970000CF8F /* Build configuration list for PBXNativeTarget "State" */;
+			buildPhases = (
+				DA09BEF02AA899970000CF8F /* Headers */,
+				DA09BEF12AA899970000CF8F /* Sources */,
+				DA09BEF22AA899970000CF8F /* Frameworks */,
+				DA09BEF32AA899970000CF8F /* Resources */,
+				DA09BF022AA899B00000CF8F /* Embed Frameworks */,
 			);
-			productName = StateStore;
-			productReference = DA2589882AA6045E00431D40 /* StateStore.framework */;
+			buildRules = (
+			);
+			dependencies = (
+				DA09BEFD2AA899AA0000CF8F /* PBXTargetDependency */,
+				DA09BF072AA899E10000CF8F /* PBXTargetDependency */,
+			);
+			name = State;
+			productName = State;
+			productReference = DA09BEF52AA899970000CF8F /* State.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		DA340BFA2AA5E4EE00C1C529 /* Domain */ = {
@@ -820,10 +861,12 @@
 				DA340BF72AA5E4EE00C1C529 /* Sources */,
 				DA340BF82AA5E4EE00C1C529 /* Frameworks */,
 				DA340BF92AA5E4EE00C1C529 /* Resources */,
+				DA09BEED2AA883D40000CF8F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				DA09BEEC2AA883D40000CF8F /* PBXTargetDependency */,
 			);
 			name = Domain;
 			productName = Domain;
@@ -887,12 +930,11 @@
 			dependencies = (
 				DA340C3D2AA5F7D200C1C529 /* PBXTargetDependency */,
 				DA340C082AA5E50D00C1C529 /* PBXTargetDependency */,
-				DA2589C32AA7240600431D40 /* PBXTargetDependency */,
+				DA09BF102AA8A7D60000CF8F /* PBXTargetDependency */,
 			);
 			name = WordCheckerDev;
 			packageProductDependencies = (
 				DA6148022AA0774900CDA84C /* Swinject */,
-				DAEE5D282AA3A7D100909097 /* ReSwift */,
 			);
 			productName = WordChecker;
 			productReference = DA6148252AA0774900CDA84C /* WordCheckerDev.app */;
@@ -914,12 +956,11 @@
 			dependencies = (
 				DA340C002AA5E4EE00C1C529 /* PBXTargetDependency */,
 				DA340C362AA5F7B500C1C529 /* PBXTargetDependency */,
-				DA2589BF2AA7240200431D40 /* PBXTargetDependency */,
+				DA09BF142AA8A7DA0000CF8F /* PBXTargetDependency */,
 			);
 			name = WordChecker;
 			packageProductDependencies = (
 				DA7A0A262A9B85B00046AAC4 /* Swinject */,
-				DA8EC9E92AA35CF200BDEEC2 /* ReSwift */,
 			);
 			productName = WordChecker;
 			productReference = DA7A09AC2A950FBB0046AAC4 /* WordChecker.app */;
@@ -977,7 +1018,10 @@
 				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					DA2589872AA6045E00431D40 = {
+					DA09BEE02AA883B10000CF8F = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+					DA09BEF42AA899970000CF8F = {
 						CreatedOnToolsVersion = 14.3.1;
 					};
 					DA340BFA2AA5E4EE00C1C529 = {
@@ -1016,7 +1060,6 @@
 			packageReferences = (
 				DA7A09F12A9756780046AAC4 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				DA7A0A252A9B85B00046AAC4 /* XCRemoteSwiftPackageReference "Swinject" */,
-				DA8EC9E82AA35CF200BDEEC2 /* XCRemoteSwiftPackageReference "ReSwift" */,
 			);
 			productRefGroup = DA7A09AD2A950FBB0046AAC4 /* Products */;
 			projectDirPath = "";
@@ -1029,13 +1072,21 @@
 				DA340BFA2AA5E4EE00C1C529 /* Domain */,
 				DA340C1E2AA5F56A00C1C529 /* DomainUnitTests */,
 				DA340C302AA5F7B500C1C529 /* RealmPlatform */,
-				DA2589872AA6045E00431D40 /* StateStore */,
+				DA09BEE02AA883B10000CF8F /* Utility */,
+				DA09BEF42AA899970000CF8F /* State */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		DA2589862AA6045E00431D40 /* Resources */ = {
+		DA09BEDF2AA883B10000CF8F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA09BEF32AA899970000CF8F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1178,16 +1229,19 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		DA2589842AA6045E00431D40 /* Sources */ = {
+		DA09BEDD2AA883B10000CF8F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA2589E82AA7543A00431D40 /* StateType.swift in Sources */,
-				DA2589CB2AA7313900431D40 /* ReducerType.swift in Sources */,
-				DA2589B62AA605C800431D40 /* AppState.swift in Sources */,
-				DA2589C42AA727A600431D40 /* CircularLinkedList.swift in Sources */,
-				DA2589B52AA605C800431D40 /* StateStore.swift in Sources */,
-				DA2589B72AA605C800431D40 /* WordState.swift in Sources */,
+				DA09BEE82AA883BD0000CF8F /* CircularLinkedList.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA09BEF12AA899970000CF8F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA09BF032AA899CA0000CF8F /* UnmemorizedWordListState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1195,6 +1249,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA09BEBF2AA85C2F0000CF8F /* UnmemorizedWordListStateProtocol.swift in Sources */,
 				DA340C112AA5E57A00C1C529 /* Word.swift in Sources */,
 				DA340C162AA5E5A400C1C529 /* WordUseCaseProtocol.swift in Sources */,
 				DA340C132AA5E58E00C1C529 /* WordUseCase.swift in Sources */,
@@ -1226,6 +1281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA09BEB62AA84A410000CF8F /* WordListViewModel.swift in Sources */,
+				DA09BF0C2AA89CF90000CF8F /* UnmemorizedWordListStateAssembly.swift in Sources */,
 				DA2589722AA6014500431D40 /* RealmPlatformAssembly.swift in Sources */,
 				DAC4B2E02AA5A2A40091749E /* WordDetailViewController.swift in Sources */,
 				DA6148062AA0774900CDA84C /* WordChecking+BottomButton.swift in Sources */,
@@ -1243,9 +1299,7 @@
 				DA6148142AA0774900CDA84C /* AccessibilityIdentifier.swift in Sources */,
 				DA09BEBB2AA84E6F0000CF8F /* WordDetailViewModel.swift in Sources */,
 				DA6148152AA0774900CDA84C /* UIFont+preferredFont.swift in Sources */,
-				DAEE5D382AA440EC00909097 /* StoreAssembly.swift in Sources */,
 				DA6148172AA0774900CDA84C /* WCString.swift in Sources */,
-				DA2589E42AA74F4600431D40 /* ReducerAssembly.swift in Sources */,
 				DA6148182AA0774900CDA84C /* SceneDelegate.swift in Sources */,
 				DA6148332AA07DA200CDA84C /* RealmPlatformAssembly_Dev.swift in Sources */,
 			);
@@ -1263,6 +1317,7 @@
 				DA7A0A0C2A985F720046AAC4 /* WordListViewController.swift in Sources */,
 				DA7A0A2A2A9B85CF0046AAC4 /* DIContainer.swift in Sources */,
 				DA2589D12AA7362700431D40 /* UseCaseAssembly.swift in Sources */,
+				DA09BF0B2AA89CF80000CF8F /* UnmemorizedWordListStateAssembly.swift in Sources */,
 				DA7A09B42A950FBB0046AAC4 /* WordCheckingViewController.swift in Sources */,
 				DA09BEB72AA84A420000CF8F /* WordListViewModel.swift in Sources */,
 				DA7A0A002A97853F0046AAC4 /* Collection+isNotEmpty.swift in Sources */,
@@ -1270,13 +1325,11 @@
 				DA7A0A2E2A9B8F0E0046AAC4 /* UIViewControllerAssembly.swift in Sources */,
 				DA7A0A382A9C48440046AAC4 /* AccessibilityIdentifier.swift in Sources */,
 				DA7A09EF2A95FEAF0046AAC4 /* UIFont+preferredFont.swift in Sources */,
-				DA2589D62AA7378100431D40 /* ReducerAssembly.swift in Sources */,
 				DAC4B2DF2AA5A2A40091749E /* WordDetailViewController.swift in Sources */,
 				DA09BEBA2AA84E6F0000CF8F /* WordDetailViewModel.swift in Sources */,
 				DA7A09EC2A95F8E80046AAC4 /* WCString.swift in Sources */,
 				DA2589712AA6013B00431D40 /* RealmPlatformAssembly.swift in Sources */,
 				DA7A09B22A950FBB0046AAC4 /* SceneDelegate.swift in Sources */,
-				DAEE5D342AA4399A00909097 /* StoreAssembly.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1306,25 +1359,35 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		DA09BEEC2AA883D40000CF8F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA09BEE02AA883B10000CF8F /* Utility */;
+			targetProxy = DA09BEEB2AA883D40000CF8F /* PBXContainerItemProxy */;
+		};
+		DA09BEFD2AA899AA0000CF8F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA340BFA2AA5E4EE00C1C529 /* Domain */;
+			targetProxy = DA09BEFC2AA899AA0000CF8F /* PBXContainerItemProxy */;
+		};
+		DA09BF072AA899E10000CF8F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA09BEE02AA883B10000CF8F /* Utility */;
+			targetProxy = DA09BF062AA899E10000CF8F /* PBXContainerItemProxy */;
+		};
+		DA09BF102AA8A7D60000CF8F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA09BEF42AA899970000CF8F /* State */;
+			targetProxy = DA09BF0F2AA8A7D60000CF8F /* PBXContainerItemProxy */;
+		};
+		DA09BF142AA8A7DA0000CF8F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA09BEF42AA899970000CF8F /* State */;
+			targetProxy = DA09BF132AA8A7DA0000CF8F /* PBXContainerItemProxy */;
+		};
 		DA25896F2AA5FBA900431D40 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DA340BFA2AA5E4EE00C1C529 /* Domain */;
 			targetProxy = DA25896E2AA5FBA900431D40 /* PBXContainerItemProxy */;
-		};
-		DA2589922AA6049200431D40 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DA340BFA2AA5E4EE00C1C529 /* Domain */;
-			targetProxy = DA2589912AA6049200431D40 /* PBXContainerItemProxy */;
-		};
-		DA2589BF2AA7240200431D40 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DA2589872AA6045E00431D40 /* StateStore */;
-			targetProxy = DA2589BE2AA7240200431D40 /* PBXContainerItemProxy */;
-		};
-		DA2589C32AA7240600431D40 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DA2589872AA6045E00431D40 /* StateStore */;
-			targetProxy = DA2589C22AA7240600431D40 /* PBXContainerItemProxy */;
 		};
 		DA340C002AA5E4EE00C1C529 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1384,7 +1447,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		DA25898D2AA6045E00431D40 /* Debug */ = {
+		DA09BEE62AA883B10000CF8F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -1407,7 +1470,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.StateStore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.Utility;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1418,7 +1481,7 @@
 			};
 			name = Debug;
 		};
-		DA25898E2AA6045E00431D40 /* Release */ = {
+		DA09BEE72AA883B10000CF8F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -1441,7 +1504,75 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.StateStore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.Utility;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		DA09BEFA2AA899970000CF8F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 2AVC8X7323;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.State;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		DA09BEFB2AA899970000CF8F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 2AVC8X7323;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.State;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1972,11 +2103,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DA25898C2AA6045E00431D40 /* Build configuration list for PBXNativeTarget "StateStore" */ = {
+		DA09BEE52AA883B10000CF8F /* Build configuration list for PBXNativeTarget "Utility" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DA25898D2AA6045E00431D40 /* Debug */,
-				DA25898E2AA6045E00431D40 /* Release */,
+				DA09BEE62AA883B10000CF8F /* Debug */,
+				DA09BEE72AA883B10000CF8F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA09BEF92AA899970000CF8F /* Build configuration list for PBXNativeTarget "State" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA09BEFA2AA899970000CF8F /* Debug */,
+				DA09BEFB2AA899970000CF8F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2080,22 +2220,9 @@
 				minimumVersion = 2.8.0;
 			};
 		};
-		DA8EC9E82AA35CF200BDEEC2 /* XCRemoteSwiftPackageReference "ReSwift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ReSwift/ReSwift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		DA25898F2AA6047300431D40 /* ReSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DA8EC9E82AA35CF200BDEEC2 /* XCRemoteSwiftPackageReference "ReSwift" */;
-			productName = ReSwift;
-		};
 		DA2589DB2AA7410C00431D40 /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DA7A09F12A9756780046AAC4 /* XCRemoteSwiftPackageReference "realm-swift" */;
@@ -2125,16 +2252,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DA7A0A252A9B85B00046AAC4 /* XCRemoteSwiftPackageReference "Swinject" */;
 			productName = Swinject;
-		};
-		DA8EC9E92AA35CF200BDEEC2 /* ReSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DA8EC9E82AA35CF200BDEEC2 /* XCRemoteSwiftPackageReference "ReSwift" */;
-			productName = ReSwift;
-		};
-		DAEE5D282AA3A7D100909097 /* ReSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DA8EC9E82AA35CF200BDEEC2 /* XCRemoteSwiftPackageReference "ReSwift" */;
-			productName = ReSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

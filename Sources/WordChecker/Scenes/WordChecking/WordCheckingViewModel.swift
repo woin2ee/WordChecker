@@ -8,8 +8,6 @@
 import Combine
 import Domain
 import Foundation
-import ReSwift
-import StateStore
 
 /// WordCheckingView 로부터 발생하고 Model 에 영향을 끼치는 모든 Event.
 protocol WordCheckingViewModelInput {
@@ -29,51 +27,70 @@ protocol WordCheckingViewModelInput {
 /// WordCheckingView 를 표시하기 위해 필요한 최소한의 Model.
 protocol WordCheckingViewModelOutput {
 
-    var currentWordSubject: CurrentValueSubject<String?, Never> { get }
+    var currentWord: AnyPublisher<String?, Never> { get }
 
 }
 
 protocol WordCheckingViewModelProtocol: WordCheckingViewModelInput, WordCheckingViewModelOutput {}
 
-final class WordCheckingViewModel: WordCheckingViewModelProtocol, StoreSubscriber {
+final class WordCheckingViewModel: WordCheckingViewModelProtocol {
 
-    let store: StateStore
+    let wordUseCase: WordUseCaseProtocol
 
-    let currentWordSubject: CurrentValueSubject<String?, Never> = .init("")
+    let state: UnmemorizedWordListStateProtocol
 
-    init(store: StateStore) {
-        self.store = store
-        self.store.subscribe(self) {
-            $0.select(\.wordState)
+    private var cancelBag: Set<AnyCancellable> = .init()
+
+    let currentWordSubject: CurrentValueSubject<Word?, Never> = .init(nil)
+
+    init(wordUseCase: WordUseCaseProtocol, state: UnmemorizedWordListStateProtocol) {
+        self.wordUseCase = wordUseCase
+        self.state = state
+        state.currentWord.sink {
+            self.currentWordSubject.send($0)
         }
-    }
-
-    func newState(state: WordState) {
-        currentWordSubject.send(state.currentWord?.word)
+        .store(in: &cancelBag)
+        wordUseCase.randomizeUnmemorizedWordList()
     }
 
 }
 
+// MARK: - Output
+
+extension WordCheckingViewModel {
+
+    var currentWord: AnyPublisher<String?, Never> {
+        currentWordSubject
+            .map(\.?.word)
+            .eraseToAnyPublisher()
+    }
+
+}
+
+// MARK: - Input
+
 extension WordCheckingViewModel {
 
     func addWord(_ word: String) {
-        store.dispatch(WordState.Actions.addWord(word))
+        let newWord: Word = .init(word: word)
+        wordUseCase.addNewWord(newWord)
     }
 
     func updateToNextWord() {
-        store.dispatch(WordState.Actions.updateToNextWord)
+        wordUseCase.updateToNextWord()
     }
 
     func updateToPreviousWord() {
-        store.dispatch(WordState.Actions.updateToPreviousWord)
+        wordUseCase.updateToPreviousWord()
     }
 
     func shuffleWordList() {
-        store.dispatch(WordState.Actions.shuffleWordList)
+        wordUseCase.randomizeUnmemorizedWordList()
     }
 
     func deleteCurrentWord() {
-        store.dispatch(WordState.Actions.deleteCurrentWord)
+        guard let currentWord = currentWordSubject.value else { return }
+        wordUseCase.deleteWord(currentWord)
     }
 
 }
