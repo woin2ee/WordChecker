@@ -19,8 +19,14 @@ public final class WordRepository: WordRepositoryProtocol {
     }
 
     public func save(_ word: Domain.Word) {
-        try? realm.write {
-            realm.add(word.toObjectModel())
+        if let updateTarget = find(by: word.uuid) {
+            try? realm.write {
+                updateTarget.word = word.word
+            }
+        } else {
+            try? realm.write {
+                realm.add(word.toObjectModel())
+            }
         }
     }
 
@@ -31,15 +37,6 @@ public final class WordRepository: WordRepositoryProtocol {
 
     public func get(by uuid: UUID) -> Domain.Word? {
         return find(by: uuid)?.toDomain() ?? nil
-    }
-
-    public func update(_ word: Domain.Word) {
-        guard let updateTarget = find(by: word.uuid) else {
-            return
-        }
-        try? realm.write {
-            updateTarget.word = word.word
-        }
     }
 
     public func delete(_ word: Domain.Word) {

@@ -45,7 +45,7 @@ final class WordSearchResultsController: UITableViewController {
 
     private func updateSearchedList(with text: String) {
         let keyword = text.lowercased()
-        searchedList = viewModel.wordListSubject.value.filter { $0.word.lowercased().contains(keyword) }
+        searchedList = viewModel.wordList.filter { $0.word.lowercased().contains(keyword) }
     }
 
 }
@@ -70,7 +70,7 @@ extension WordSearchResultsController {
         let deleteAction: UIContextualAction = .init(style: .destructive, title: WCString.delete) { [weak self] _, _, completionHandler in
             guard let self = self else { return }
             let targetItem = self.searchedList[indexPath.row]
-            guard let index = self.viewModel.wordListSubject.value.firstIndex(of: targetItem) else { return }
+            guard let index = self.viewModel.wordList.firstIndex(of: targetItem) else { return }
             self.viewModel.deleteWord(index: index)
             self.updateSearchedList(with: currentSearchBarText)
             completionHandler(true)
@@ -81,7 +81,7 @@ extension WordSearchResultsController {
             let completeAction: UIAlertAction = .init(title: WCString.edit, style: .default) { [weak self] _ in
                 guard let self = self, let newWord = alertController.textFields?.first?.text else { return }
                 let editedWord = self.searchedList[indexPath.row]
-                guard let index = self.viewModel.wordListSubject.value.firstIndex(of: editedWord) else { return }
+                guard let index = self.viewModel.wordList.firstIndex(of: editedWord) else { return }
                 self.viewModel.editWord(index: index, newWord: newWord)
                 self.updateSearchedList(with: currentSearchBarText)
             }
@@ -90,8 +90,8 @@ extension WordSearchResultsController {
             alertController.addTextField { [weak self] textField in
                 guard let self = self else { return }
                 let targetItem = self.searchedList[indexPath.row]
-                guard let index = self.viewModel.wordListSubject.value.firstIndex(of: targetItem) else { return }
-                textField.text = self.viewModel.wordListSubject.value[index].word
+                guard let index = self.viewModel.wordList.firstIndex(of: targetItem) else { return }
+                textField.text = self.viewModel.wordList[index].word
                 let action: UIAction = .init { _ in
                     let text = textField.text ?? ""
                     if text.isEmpty {

@@ -68,7 +68,7 @@ final class WordListViewController: UIViewController {
     }
 
     func bindViewModel() {
-        viewModel.wordListSubject
+        viewModel.wordListPublisher
             .receive(on: DispatchQueue.main)
             .sink { _ in
                 self.wordListTableView.reloadData()
@@ -83,13 +83,13 @@ final class WordListViewController: UIViewController {
 extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.wordListSubject.value.count
+        return viewModel.wordList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath)
         var config: UIListContentConfiguration = .cell()
-        config.text = viewModel.wordListSubject.value[indexPath.row].word
+        config.text = viewModel.wordList[indexPath.row].word
         cell.contentConfiguration = config
         return cell
     }
@@ -111,7 +111,7 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
             alertController.addAction(cancelAction)
             alertController.addAction(completeAction)
             alertController.addTextField { [weak self] textField in
-                textField.text = self?.viewModel.wordListSubject.value[indexPath.row].word
+                textField.text = self?.viewModel.wordList[indexPath.row].word
                 let action: UIAction = .init { _ in
                     let text = textField.text ?? ""
                     if text.isEmpty {

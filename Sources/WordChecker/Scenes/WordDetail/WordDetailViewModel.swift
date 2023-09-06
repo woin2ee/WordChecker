@@ -8,8 +8,6 @@
 import Combine
 import Domain
 import Foundation
-import ReSwift
-import StateStore
 
 protocol WordDetailViewModelInput {
 
@@ -23,20 +21,17 @@ protocol WordDetailViewModelOutput {
 
 protocol WordDetailViewModelProtocol: WordDetailViewModelInput, WordDetailViewModelOutput {}
 
-final class WordDetailViewModel: WordDetailViewModelProtocol, StoreSubscriber {
+final class WordDetailViewModel: WordDetailViewModelProtocol {
 
-    let store: StateStore
+    let wordUseCase: WordUseCaseProtocol
 
-    init(store: StateStore) {
-        self.store = store
-        self.store.subscribe(self) {
-            $0.select(\.wordState)
-        }
+    init(wordUseCase: WordUseCaseProtocol) {
+        self.wordUseCase = wordUseCase
     }
 
-    func newState(state: WordState) {
+}
 
-    }
+extension WordDetailViewModel {
 
 }
 

@@ -7,30 +7,31 @@
 
 import Foundation
 
-struct CircularLinkedList<Element: Equatable> {
+public struct CircularLinkedList<Element: Equatable> {
 
-    private var elements: [Element] = []
+    public private(set) var elements: [Element] = []
 
-    private var currentIndex: Int = 0
+    public private(set) var currentIndex: Int = 0
 
-    var count: Int {
+    public var count: Int {
         elements.count
     }
 
-    var current: Element? {
+    public var current: Element? {
         guard count > 1 else {
             return elements.first
         }
         return elements[currentIndex]
     }
 
-    init() {}
+    public init() {}
 
-    init(_ sequence: some Sequence<Element>) {
+    public init(_ sequence: some Sequence<Element>) {
         self.elements = .init(sequence)
     }
 
-    mutating func next() -> Element? {
+    @discardableResult
+    public mutating func next() -> Element? {
         guard count > 1 else {
             return elements.first
         }
@@ -41,7 +42,8 @@ struct CircularLinkedList<Element: Equatable> {
         return current
     }
 
-    mutating func previous() -> Element? {
+    @discardableResult
+    public mutating func previous() -> Element? {
         guard count > 1 else {
             return elements.first
         }
@@ -52,17 +54,17 @@ struct CircularLinkedList<Element: Equatable> {
         return current
     }
 
-    mutating func append(_ newElement: Element) {
+    public mutating func append(_ newElement: Element) {
         elements.append(newElement)
     }
 
     /// 연결되어있는 요소들을 섞고 현재 가리키고 있는 요소를 재설정합니다.
-    mutating func shuffle() {
+    public mutating func shuffle() {
         elements.shuffle()
         currentIndex = 0
     }
 
-    mutating func deleteCurrent() {
+    public mutating func deleteCurrent() {
         guard count > 0 else { return }
         elements.remove(at: currentIndex)
         if currentIndex >= count {
@@ -70,7 +72,7 @@ struct CircularLinkedList<Element: Equatable> {
         }
     }
 
-    mutating func delete(_ object: Element) {
+    public mutating func delete(_ object: Element) {
         guard let targetIndex = elements.firstIndex(where: { $0 == object }) else {
             return
         }
@@ -80,9 +82,21 @@ struct CircularLinkedList<Element: Equatable> {
         }
     }
 
-    func first(where predicate: (Element) throws -> Bool) -> Element? {
+    public func first(where predicate: (Element) throws -> Bool) -> Element? {
         guard count > 0 else { return nil }
         return try? elements.first(where: predicate)
+    }
+
+    public func firstIndex(where predicate: (Element) throws -> Bool) -> Int? {
+        guard count > 0 else { return nil }
+        return try? elements.firstIndex(where: predicate)
+    }
+
+    public mutating func replace(_ target: Element, to element: Element) {
+        guard count > 0, let targetIndex = elements.firstIndex(where: { $0 == target }) else {
+            return
+        }
+        elements[targetIndex] = element
     }
 
 }

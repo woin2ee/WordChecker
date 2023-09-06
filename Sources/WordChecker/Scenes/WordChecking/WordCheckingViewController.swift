@@ -56,7 +56,7 @@ final class WordCheckingViewController: UIViewController {
         let button: BottomButton = .init(title: WCString.translate)
         let action: UIAction = .init { [weak self] _ in
             guard
-                let currentWord = self?.viewModel.currentWordSubject.value,
+                let currentWord = self?.wordLabel.text,
                 let encodedURL = "https://papago.naver.com/?sk=en&tk=ko&hn=0&st=\(currentWord)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
                 let url = URL(string: encodedURL)
             else {
@@ -182,7 +182,7 @@ final class WordCheckingViewController: UIViewController {
     }
 
     func bindViewModel() {
-        viewModel.currentWordSubject
+        viewModel.currentWord
             .receive(on: DispatchQueue.main)
             .sink {
                 if let currentWord = $0 {

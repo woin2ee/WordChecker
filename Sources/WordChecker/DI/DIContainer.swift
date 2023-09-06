@@ -18,9 +18,8 @@ final class DIContainer {
         self.assembler = .init([
             RealmPlatformAssembly(),
             UIViewControllerAssembly(),
-            StoreAssembly(),
             UseCaseAssembly(),
-            ReducerAssembly()
+            UnmemorizedWordListStateAssembly()
         ])
     }
 
