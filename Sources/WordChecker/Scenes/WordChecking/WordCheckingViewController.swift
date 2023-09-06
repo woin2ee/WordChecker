@@ -5,18 +5,15 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
-import ReSwift
-import StateStore
+import Combine
 import UIKit
 import WebKit
 
 final class WordCheckingViewController: UIViewController {
 
-    let store: StateStore
+    let viewModel: WordCheckingViewModelProtocol
 
-    var currentWord: String? {
-        store.state.wordState.currentWord?.word
-    }
+    var cancelBag: Set<AnyCancellable> = .init()
 
     let wordLabel: UILabel = {
         let label: UILabel = .init()
@@ -30,7 +27,7 @@ final class WordCheckingViewController: UIViewController {
     lazy var previousButton: BottomButton = {
         let button: BottomButton = .init(title: WCString.previous)
         let action: UIAction = .init { [weak self] _ in
-            self?.store.dispatch(WordStateAction.updateToPreviousWord)
+            self?.viewModel.updateToPreviousWord()
         }
         button.addAction(action, for: .touchUpInside)
         return button
@@ -39,7 +36,7 @@ final class WordCheckingViewController: UIViewController {
     lazy var nextButton: BottomButton = {
         let button: BottomButton = .init(title: WCString.next)
         button.addAction(.init { [weak self] _ in
-            self?.store.dispatch(WordStateAction.updateToNextWord)
+            self?.viewModel.updateToNextWord()
         }, for: .touchUpInside)
         return button
     }()
@@ -59,7 +56,7 @@ final class WordCheckingViewController: UIViewController {
         let button: BottomButton = .init(title: WCString.translate)
         let action: UIAction = .init { [weak self] _ in
             guard
-                let currentWord = self?.currentWord,
+                let currentWord = self?.viewModel.currentWordSubject.value,
                 let encodedURL = "https://papago.naver.com/?sk=en&tk=ko&hn=0&st=\(currentWord)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
                 let url = URL(string: encodedURL)
             else {
@@ -84,12 +81,9 @@ final class WordCheckingViewController: UIViewController {
 
     // MARK: - Initializers
 
-    init(store: StateStore) {
-        self.store = store
+    init(viewModel: WordCheckingViewModelProtocol) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        self.store.subscribe(self) {
-            $0.select(\.wordState)
-        }
     }
 
     required init?(coder: NSCoder) {
@@ -101,6 +95,7 @@ final class WordCheckingViewController: UIViewController {
         self.view.backgroundColor = .systemBackground
         setupSubviews()
         setupNavigationBar()
+        bindViewModel()
     }
 
     private func setupSubviews() {
@@ -154,7 +149,7 @@ final class WordCheckingViewController: UIViewController {
                     guard let word = alertController.textFields?.first?.text else {
                         return
                     }
-                    self?.store.dispatch(WordStateAction.addWord(word: word))
+                    self?.viewModel.addWord(word)
                 }
                 alertController.addAction(cancelAction)
                 alertController.addAction(addAction)
@@ -172,32 +167,31 @@ final class WordCheckingViewController: UIViewController {
                 self?.present(alertController, animated: true)
             }),
             UIAction(title: WCString.shuffleOrder, image: .init(systemName: "shuffle"), handler: { [weak self] _ in
-                self?.store.dispatch(WordStateAction.shuffleWordList)
+                self?.viewModel.shuffleWordList()
             }),
             UIAction(
                 title: WCString.deleteWord,
                 image: .init(systemName: "trash", withConfiguration: UIImage.SymbolConfiguration.init(hierarchicalColor: .systemRed)),
                 attributes: .destructive,
                 handler: { [weak self] _ in
-                    self?.store.dispatch(WordStateAction.deleteCurrentWord)
+                    self?.viewModel.deleteCurrentWord()
                 }
             )
         ])
         moreButton.menu = menu
     }
 
-}
-
-// MARK: - StoreSubscriber
-
-extension WordCheckingViewController: StoreSubscriber {
-
-    func newState(state: WordState) {
-        if let currentWord = state.currentWord?.word {
-            wordLabel.text = currentWord
-        } else {
-            wordLabel.text = WCString.noWords
-        }
+    func bindViewModel() {
+        viewModel.currentWordSubject
+            .receive(on: DispatchQueue.main)
+            .sink {
+                if let currentWord = $0 {
+                    self.wordLabel.text = currentWord
+                } else {
+                    self.wordLabel.text = WCString.noWords
+                }
+            }
+            .store(in: &cancelBag)
     }
 
 }

@@ -6,17 +6,11 @@
 //
 
 import Domain
-import ReSwift
-import StateStore
 import UIKit
 
 final class WordSearchResultsController: UITableViewController {
 
-    let store: StateStore
-
-    var wordList: [Word] {
-        store.state.wordState.wordList
-    }
+    let viewModel: WordListViewModelProtocol
 
     let cellReuseIdentifier = "WORD_SEARCH_RESULT_CELL"
 
@@ -34,12 +28,9 @@ final class WordSearchResultsController: UITableViewController {
         }
     }
 
-    init(store: StateStore) {
-        self.store = store
+    init(viewModel: WordListViewModelProtocol) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        self.store.subscribe(self) {
-            $0.select(\.wordState)
-        }
     }
 
     required init?(coder: NSCoder) {
@@ -54,7 +45,7 @@ final class WordSearchResultsController: UITableViewController {
 
     private func updateSearchedList(with text: String) {
         let keyword = text.lowercased()
-        searchedList = wordList.filter { $0.word.lowercased().contains(keyword) }
+        searchedList = viewModel.wordListSubject.value.filter { $0.word.lowercased().contains(keyword) }
     }
 
 }
@@ -79,8 +70,8 @@ extension WordSearchResultsController {
         let deleteAction: UIContextualAction = .init(style: .destructive, title: WCString.delete) { [weak self] _, _, completionHandler in
             guard let self = self else { return }
             let targetItem = self.searchedList[indexPath.row]
-            guard let index = self.wordList.firstIndex(of: targetItem) else { return }
-            self.store.dispatch(WordStateAction.deleteWord(index: index))
+            guard let index = self.viewModel.wordListSubject.value.firstIndex(of: targetItem) else { return }
+            self.viewModel.deleteWord(index: index)
             self.updateSearchedList(with: currentSearchBarText)
             completionHandler(true)
         }
@@ -90,8 +81,8 @@ extension WordSearchResultsController {
             let completeAction: UIAlertAction = .init(title: WCString.edit, style: .default) { [weak self] _ in
                 guard let self = self, let newWord = alertController.textFields?.first?.text else { return }
                 let editedWord = self.searchedList[indexPath.row]
-                guard let index = self.wordList.firstIndex(of: editedWord) else { return }
-                self.store.dispatch(WordStateAction.editWord(index: index, newWord: newWord))
+                guard let index = self.viewModel.wordListSubject.value.firstIndex(of: editedWord) else { return }
+                self.viewModel.editWord(index: index, newWord: newWord)
                 self.updateSearchedList(with: currentSearchBarText)
             }
             alertController.addAction(cancelAction)
@@ -99,8 +90,8 @@ extension WordSearchResultsController {
             alertController.addTextField { [weak self] textField in
                 guard let self = self else { return }
                 let targetItem = self.searchedList[indexPath.row]
-                guard let index = self.wordList.firstIndex(of: targetItem) else { return }
-                textField.text = self.wordList[index].word
+                guard let index = self.viewModel.wordListSubject.value.firstIndex(of: targetItem) else { return }
+                textField.text = self.viewModel.wordListSubject.value[index].word
                 let action: UIAction = .init { _ in
                     let text = textField.text ?? ""
                     if text.isEmpty {
@@ -126,16 +117,6 @@ extension WordSearchResultsController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
         currentSearchBarText = text
-    }
-
-}
-
-// MARK: - StoreSubscriber
-
-extension WordSearchResultsController: StoreSubscriber {
-
-    func newState(state: WordState) {
-        updateSearchedList(with: currentSearchBarText)
     }
 
 }

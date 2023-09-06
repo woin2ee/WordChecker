@@ -5,12 +5,14 @@
 //  Created by Jaewon Yun on 2023/09/04.
 //
 
-import Domain
-import ReSwift
-import StateStore
+import Combine
 import UIKit
 
-final class WordDetailViewController: BaseViewController<WordState> {
+final class WordDetailViewController: UIViewController {
+
+    let viewModel: WordDetailViewModelProtocol
+
+    var cancelBag: Set<AnyCancellable> = .init()
 
     let wordTextField: UITextField = {
         let textField: UITextField = .init()
@@ -35,10 +37,13 @@ final class WordDetailViewController: BaseViewController<WordState> {
         return memorizedSwitch
     }()
 
-    override func subscribeStore() {
-        store.subscribe(self) {
-            $0.select(\.wordState)
-        }
+    init(viewModel: WordDetailViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("\(#file):\(#line):\(#function)")
     }
 
     override func viewDidLoad() {
@@ -46,6 +51,7 @@ final class WordDetailViewController: BaseViewController<WordState> {
         self.view.backgroundColor = .systemBackground
         setupSubviews()
         setupNavigationBar()
+        bindViewModel()
     }
 
     private func setupSubviews() {
@@ -67,11 +73,15 @@ final class WordDetailViewController: BaseViewController<WordState> {
 
     private func setupNavigationBar() {
         let doneAction: UIAction = .init { [weak self] _ in
-//            self?.viewModel.doneEditing()
+            self?.viewModel.doneEditing()
         }
         let doneBarButton: UIBarButtonItem = .init(title: WCString.done, primaryAction: doneAction)
         self.navigationItem.rightBarButtonItem = doneBarButton
         self.navigationItem.title = WCString.details
+    }
+
+    func bindViewModel() {
+
     }
 
 }

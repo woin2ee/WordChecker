@@ -14,7 +14,7 @@ public enum WordStateAction: Action {
 
     case editWord(index: IndexPath.Index, newWord: String)
 
-    case addWord(word: String)
+    case addWord(String)
 
     case updateToNextWord
 
