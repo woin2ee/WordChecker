@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA09BEAE2AA818BF0000CF8F /* WordCheckingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEAD2AA818BF0000CF8F /* WordCheckingViewModel.swift */; };
+		DA09BEAF2AA818BF0000CF8F /* WordCheckingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEAD2AA818BF0000CF8F /* WordCheckingViewModel.swift */; };
+		DA09BEB12AA8200C0000CF8F /* UnmemorizedWordListState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEB02AA8200C0000CF8F /* UnmemorizedWordListState.swift */; };
+		DA09BEB62AA84A410000CF8F /* WordListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEB42AA849200000CF8F /* WordListViewModel.swift */; };
+		DA09BEB72AA84A420000CF8F /* WordListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEB42AA849200000CF8F /* WordListViewModel.swift */; };
+		DA09BEBA2AA84E6F0000CF8F /* WordDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEB82AA84E1A0000CF8F /* WordDetailViewModel.swift */; };
+		DA09BEBB2AA84E6F0000CF8F /* WordDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEB82AA84E1A0000CF8F /* WordDetailViewModel.swift */; };
 		DA25895B2AA5F7F500431D40 /* RealmPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; };
 		DA25895C2AA5F7F500431D40 /* RealmPlatform.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA2589632AA5F8D600431D40 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589622AA5F8D000431D40 /* Word.swift */; };
@@ -34,8 +41,6 @@
 		DA2589D62AA7378100431D40 /* ReducerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589D52AA7378100431D40 /* ReducerAssembly.swift */; };
 		DA2589DC2AA7410C00431D40 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = DA2589DB2AA7410C00431D40 /* Realm */; };
 		DA2589DE2AA7410C00431D40 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA2589DD2AA7410C00431D40 /* RealmSwift */; };
-		DA2589E12AA74ACA00431D40 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589E02AA74ACA00431D40 /* BaseViewController.swift */; };
-		DA2589E22AA74ACA00431D40 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589E02AA74ACA00431D40 /* BaseViewController.swift */; };
 		DA2589E32AA74EC800431D40 /* UseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589D02AA7362700431D40 /* UseCaseAssembly.swift */; };
 		DA2589E42AA74F4600431D40 /* ReducerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589D52AA7378100431D40 /* ReducerAssembly.swift */; };
 		DA2589E82AA7543A00431D40 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589E52AA7541300431D40 /* State.swift */; };
@@ -232,6 +237,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DA09BEAD2AA818BF0000CF8F /* WordCheckingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCheckingViewModel.swift; sourceTree = "<group>"; };
+		DA09BEB02AA8200C0000CF8F /* UnmemorizedWordListState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnmemorizedWordListState.swift; sourceTree = "<group>"; };
+		DA09BEB42AA849200000CF8F /* WordListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewModel.swift; sourceTree = "<group>"; };
+		DA09BEB82AA84E1A0000CF8F /* WordDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailViewModel.swift; sourceTree = "<group>"; };
 		DA2589622AA5F8D000431D40 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		DA2589692AA5F91B00431D40 /* WordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordRepository.swift; sourceTree = "<group>"; };
 		DA25896C2AA5FA2A00431D40 /* Word+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Word+Mapping.swift"; sourceTree = "<group>"; };
@@ -247,7 +256,6 @@
 		DA2589CC2AA7317500431D40 /* AppStateReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateReducer.swift; sourceTree = "<group>"; };
 		DA2589D02AA7362700431D40 /* UseCaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseAssembly.swift; sourceTree = "<group>"; };
 		DA2589D52AA7378100431D40 /* ReducerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReducerAssembly.swift; sourceTree = "<group>"; };
-		DA2589E02AA74ACA00431D40 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		DA2589E52AA7541300431D40 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		DA340BFB2AA5E4EE00C1C529 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA340BFD2AA5E4EE00C1C529 /* Domain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Domain.h; sourceTree = "<group>"; };
@@ -440,6 +448,7 @@
 			children = (
 				DA2589B22AA605C800431D40 /* WordState.swift */,
 				DA2589B02AA605C800431D40 /* AppState.swift */,
+				DA09BEB02AA8200C0000CF8F /* UnmemorizedWordListState.swift */,
 			);
 			path = States;
 			sourceTree = "<group>";
@@ -681,6 +690,7 @@
 			children = (
 				DA7A09B32A950FBB0046AAC4 /* WordCheckingViewController.swift */,
 				DA7A0A082A9859580046AAC4 /* WordChecking+BottomButton.swift */,
+				DA09BEAD2AA818BF0000CF8F /* WordCheckingViewModel.swift */,
 			);
 			path = WordChecking;
 			sourceTree = "<group>";
@@ -689,6 +699,7 @@
 			isa = PBXGroup;
 			children = (
 				DA7A0A0B2A985F720046AAC4 /* WordListViewController.swift */,
+				DA09BEB42AA849200000CF8F /* WordListViewModel.swift */,
 				DA7A0A162A9A540A0046AAC4 /* WordSearchResultsController.swift */,
 			);
 			path = WordList;
@@ -733,7 +744,6 @@
 			isa = PBXGroup;
 			children = (
 				DA7A0A372A9C48440046AAC4 /* AccessibilityIdentifier.swift */,
-				DA2589E02AA74ACA00431D40 /* BaseViewController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -753,6 +763,7 @@
 			isa = PBXGroup;
 			children = (
 				DAC4B2DE2AA5A2A40091749E /* WordDetailViewController.swift */,
+				DA09BEB82AA84E1A0000CF8F /* WordDetailViewModel.swift */,
 			);
 			path = WordDetail;
 			sourceTree = "<group>";
@@ -1208,6 +1219,7 @@
 				DA2589B52AA605C800431D40 /* StateStore.swift in Sources */,
 				DA2589B72AA605C800431D40 /* WordState.swift in Sources */,
 				DA2589C92AA72E0300431D40 /* WordStateReducer.swift in Sources */,
+				DA09BEB12AA8200C0000CF8F /* UnmemorizedWordListState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1245,11 +1257,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA09BEB62AA84A410000CF8F /* WordListViewModel.swift in Sources */,
 				DA2589722AA6014500431D40 /* RealmPlatformAssembly.swift in Sources */,
 				DAC4B2E02AA5A2A40091749E /* WordDetailViewController.swift in Sources */,
 				DA6148062AA0774900CDA84C /* WordChecking+BottomButton.swift in Sources */,
 				DAEE5D372AA4407000909097 /* Resolver+resolve.swift in Sources */,
-				DA2589E22AA74ACA00431D40 /* BaseViewController.swift in Sources */,
 				DA2589E32AA74EC800431D40 /* UseCaseAssembly.swift in Sources */,
 				DA6148072AA0774900CDA84C /* LaunchArguments.swift in Sources */,
 				DA6148092AA0774900CDA84C /* WordSearchResultsController.swift in Sources */,
@@ -1259,7 +1271,9 @@
 				DA61480D2AA0774900CDA84C /* Collection+isNotEmpty.swift in Sources */,
 				DA6148112AA0774900CDA84C /* AppDelegate.swift in Sources */,
 				DA6148132AA0774900CDA84C /* UIViewControllerAssembly.swift in Sources */,
+				DA09BEAF2AA818BF0000CF8F /* WordCheckingViewModel.swift in Sources */,
 				DA6148142AA0774900CDA84C /* AccessibilityIdentifier.swift in Sources */,
+				DA09BEBB2AA84E6F0000CF8F /* WordDetailViewModel.swift in Sources */,
 				DA6148152AA0774900CDA84C /* UIFont+preferredFont.swift in Sources */,
 				DAEE5D382AA440EC00909097 /* StoreAssembly.swift in Sources */,
 				DA6148172AA0774900CDA84C /* WCString.swift in Sources */,
@@ -1273,15 +1287,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA09BEAE2AA818BF0000CF8F /* WordCheckingViewModel.swift in Sources */,
 				DA7A0A092A9859580046AAC4 /* WordChecking+BottomButton.swift in Sources */,
 				DAEE5D362AA4404E00909097 /* Resolver+resolve.swift in Sources */,
 				DA6148302AA07D0800CDA84C /* RealmPlatformAssembly_Product.swift in Sources */,
 				DA7A0A172A9A540A0046AAC4 /* WordSearchResultsController.swift in Sources */,
 				DA7A0A0C2A985F720046AAC4 /* WordListViewController.swift in Sources */,
-				DA2589E12AA74ACA00431D40 /* BaseViewController.swift in Sources */,
 				DA7A0A2A2A9B85CF0046AAC4 /* DIContainer.swift in Sources */,
 				DA2589D12AA7362700431D40 /* UseCaseAssembly.swift in Sources */,
 				DA7A09B42A950FBB0046AAC4 /* WordCheckingViewController.swift in Sources */,
+				DA09BEB72AA84A420000CF8F /* WordListViewModel.swift in Sources */,
 				DA7A0A002A97853F0046AAC4 /* Collection+isNotEmpty.swift in Sources */,
 				DA7A09B02A950FBB0046AAC4 /* AppDelegate.swift in Sources */,
 				DA7A0A2E2A9B8F0E0046AAC4 /* UIViewControllerAssembly.swift in Sources */,
@@ -1289,6 +1304,7 @@
 				DA7A09EF2A95FEAF0046AAC4 /* UIFont+preferredFont.swift in Sources */,
 				DA2589D62AA7378100431D40 /* ReducerAssembly.swift in Sources */,
 				DAC4B2DF2AA5A2A40091749E /* WordDetailViewController.swift in Sources */,
+				DA09BEBA2AA84E6F0000CF8F /* WordDetailViewModel.swift in Sources */,
 				DA7A09EC2A95F8E80046AAC4 /* WCString.swift in Sources */,
 				DA2589712AA6013B00431D40 /* RealmPlatformAssembly.swift in Sources */,
 				DA7A09B22A950FBB0046AAC4 /* SceneDelegate.swift in Sources */,

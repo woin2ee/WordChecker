@@ -5,16 +5,14 @@
 //  Created by Jaewon Yun on 2023/08/25.
 //
 
-import Domain
-import ReSwift
-import StateStore
+import Combine
 import UIKit
 
-final class WordListViewController: BaseViewController<WordState> {
+final class WordListViewController: UIViewController {
 
-    var wordList: [Word] {
-        store.state.wordState.wordList
-    }
+    let viewModel: WordListViewModelProtocol
+
+    var cancelBag: Set<AnyCancellable> = .init()
 
     var cellReuseIdentifier: String = "WORD_LIST_CELL"
 
@@ -27,11 +25,21 @@ final class WordListViewController: BaseViewController<WordState> {
         return tableView
     }()
 
+    init(viewModel: WordListViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("\(#file):\(#line):\(#function)")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         setupSubviews()
         setupNavigationBar()
+        bindViewModel()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -51,7 +59,7 @@ final class WordListViewController: BaseViewController<WordState> {
 
     private func setupNavigationBar() {
         self.navigationItem.title = WCString.wordList
-        let searchResultsController: WordSearchResultsController = .init(store: store)
+        let searchResultsController: WordSearchResultsController = .init(viewModel: viewModel)
         let searchController: UISearchController = .init(searchResultsController: searchResultsController)
         searchController.searchResultsUpdater = searchResultsController
         searchController.delegate = self
@@ -59,16 +67,13 @@ final class WordListViewController: BaseViewController<WordState> {
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
 
-    override func subscribeStore() {
-        store.subscribe(self) {
-            $0.select(\.wordState)
-        }
-    }
-
-    override func newState(state: WordState) {
-        DispatchQueue.main.async {
-            self.wordListTableView.reloadData()
-        }
+    func bindViewModel() {
+        viewModel.wordListSubject
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                self.wordListTableView.reloadData()
+            }
+            .store(in: &cancelBag)
     }
 
 }
@@ -78,20 +83,20 @@ final class WordListViewController: BaseViewController<WordState> {
 extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return wordList.count
+        return viewModel.wordListSubject.value.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath)
         var config: UIListContentConfiguration = .cell()
-        config.text = wordList[indexPath.row].word
+        config.text = viewModel.wordListSubject.value[indexPath.row].word
         cell.contentConfiguration = config
         return cell
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction: UIContextualAction = .init(style: .destructive, title: WCString.delete) { [weak self] _, _, completionHandler in
-            self?.store.dispatch(WordStateAction.deleteWord(index: indexPath.row))
+            self?.viewModel.deleteWord(index: indexPath.row)
             completionHandler(true)
         }
         let editAction: UIContextualAction = .init(style: .normal, title: WCString.edit) { [weak self] action, _, completionHandler in
@@ -101,12 +106,12 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
                 guard let newWord = alertController.textFields?.first?.text else {
                     return
                 }
-                self?.store.dispatch(WordStateAction.editWord(index: indexPath.row, newWord: newWord))
+                self?.viewModel.editWord(index: indexPath.row, newWord: newWord)
             }
             alertController.addAction(cancelAction)
             alertController.addAction(completeAction)
             alertController.addTextField { [weak self] textField in
-                textField.text = self?.wordList[indexPath.row].word
+                textField.text = self?.viewModel.wordListSubject.value[indexPath.row].word
                 let action: UIAction = .init { _ in
                     let text = textField.text ?? ""
                     if text.isEmpty {

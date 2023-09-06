@@ -14,17 +14,20 @@ final class UIViewControllerAssembly: Assembly {
     func assemble(container: Container) {
         container.register(WordCheckingViewController.self) { resolver in
             let store: StateStore = resolver.resolve()
-            let viewController: WordCheckingViewController = .init(store: store)
+            let viewModel: WordCheckingViewModelProtocol = WordCheckingViewModel.init(store: store)
+            let viewController: WordCheckingViewController = .init(viewModel: viewModel)
             return viewController
         }
         container.register(WordListViewController.self) { resolver in
             let store: StateStore = resolver.resolve()
-            let viewController: WordListViewController = .init(store: store)
+            let viewModel: WordListViewModelProtocol = WordListViewModel.init(store: store)
+            let viewController: WordListViewController = .init(viewModel: viewModel)
             return viewController
         }
         container.register(WordDetailViewController.self) { resolver in
             let store: StateStore = resolver.resolve()
-            let viewController: WordDetailViewController = .init(store: store)
+            let viewModel: WordDetailViewModelProtocol = WordDetailViewModel.init(store: store)
+            let viewController: WordDetailViewController = .init(viewModel: viewModel)
             return viewController
         }
     }
