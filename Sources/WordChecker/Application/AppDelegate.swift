@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         let store: StateStore = DIContainer.shared.resolve()
-        store.dispatch(WordStateAction.initState)
+        store.dispatch(WordState.Actions.initState)
 
         return true
     }

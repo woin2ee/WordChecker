@@ -57,23 +57,23 @@ final class WordCheckingViewModel: WordCheckingViewModelProtocol, StoreSubscribe
 extension WordCheckingViewModel {
 
     func addWord(_ word: String) {
-        store.dispatch(WordStateAction.addWord(word))
+        store.dispatch(WordState.Actions.addWord(word))
     }
 
     func updateToNextWord() {
-        store.dispatch(WordStateAction.updateToNextWord)
+        store.dispatch(WordState.Actions.updateToNextWord)
     }
 
     func updateToPreviousWord() {
-        store.dispatch(WordStateAction.updateToPreviousWord)
+        store.dispatch(WordState.Actions.updateToPreviousWord)
     }
 
     func shuffleWordList() {
-        store.dispatch(WordStateAction.shuffleWordList)
+        store.dispatch(WordState.Actions.shuffleWordList)
     }
 
     func deleteCurrentWord() {
-        store.dispatch(WordStateAction.deleteCurrentWord)
+        store.dispatch(WordState.Actions.deleteCurrentWord)
     }
 
 }

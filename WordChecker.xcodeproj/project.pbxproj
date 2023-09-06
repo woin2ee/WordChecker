@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		DA09BEAE2AA818BF0000CF8F /* WordCheckingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEAD2AA818BF0000CF8F /* WordCheckingViewModel.swift */; };
 		DA09BEAF2AA818BF0000CF8F /* WordCheckingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEAD2AA818BF0000CF8F /* WordCheckingViewModel.swift */; };
-		DA09BEB12AA8200C0000CF8F /* UnmemorizedWordListState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEB02AA8200C0000CF8F /* UnmemorizedWordListState.swift */; };
 		DA09BEB62AA84A410000CF8F /* WordListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEB42AA849200000CF8F /* WordListViewModel.swift */; };
 		DA09BEB72AA84A420000CF8F /* WordListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEB42AA849200000CF8F /* WordListViewModel.swift */; };
 		DA09BEBA2AA84E6F0000CF8F /* WordDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEB82AA84E1A0000CF8F /* WordDetailViewModel.swift */; };
@@ -25,7 +24,6 @@
 		DA2589902AA6047300431D40 /* ReSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA25898F2AA6047300431D40 /* ReSwift */; };
 		DA2589932AA6049F00431D40 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; };
 		DA2589942AA6049F00431D40 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DA2589B42AA605C800431D40 /* WordStateAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589B32AA605C800431D40 /* WordStateAction.swift */; };
 		DA2589B52AA605C800431D40 /* StateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589AE2AA605C800431D40 /* StateStore.swift */; };
 		DA2589B62AA605C800431D40 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589B02AA605C800431D40 /* AppState.swift */; };
 		DA2589B72AA605C800431D40 /* WordState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589B22AA605C800431D40 /* WordState.swift */; };
@@ -34,16 +32,14 @@
 		DA2589C02AA7240600431D40 /* StateStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2589882AA6045E00431D40 /* StateStore.framework */; };
 		DA2589C12AA7240600431D40 /* StateStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA2589882AA6045E00431D40 /* StateStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA2589C42AA727A600431D40 /* CircularLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A062A979BC90046AAC4 /* CircularLinkedList.swift */; };
-		DA2589C92AA72E0300431D40 /* WordStateReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589C82AA72E0300431D40 /* WordStateReducer.swift */; };
 		DA2589CB2AA7313900431D40 /* ReducerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589CA2AA7313900431D40 /* ReducerType.swift */; };
-		DA2589CD2AA7317500431D40 /* AppStateReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589CC2AA7317500431D40 /* AppStateReducer.swift */; };
 		DA2589D12AA7362700431D40 /* UseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589D02AA7362700431D40 /* UseCaseAssembly.swift */; };
 		DA2589D62AA7378100431D40 /* ReducerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589D52AA7378100431D40 /* ReducerAssembly.swift */; };
 		DA2589DC2AA7410C00431D40 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = DA2589DB2AA7410C00431D40 /* Realm */; };
 		DA2589DE2AA7410C00431D40 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA2589DD2AA7410C00431D40 /* RealmSwift */; };
 		DA2589E32AA74EC800431D40 /* UseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589D02AA7362700431D40 /* UseCaseAssembly.swift */; };
 		DA2589E42AA74F4600431D40 /* ReducerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589D52AA7378100431D40 /* ReducerAssembly.swift */; };
-		DA2589E82AA7543A00431D40 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589E52AA7541300431D40 /* State.swift */; };
+		DA2589E82AA7543A00431D40 /* StateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589E52AA7541300431D40 /* StateType.swift */; };
 		DA340BFE2AA5E4EE00C1C529 /* Domain.h in Headers */ = {isa = PBXBuildFile; fileRef = DA340BFD2AA5E4EE00C1C529 /* Domain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA340C012AA5E4EE00C1C529 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; };
 		DA340C032AA5E4EE00C1C529 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -238,7 +234,6 @@
 
 /* Begin PBXFileReference section */
 		DA09BEAD2AA818BF0000CF8F /* WordCheckingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCheckingViewModel.swift; sourceTree = "<group>"; };
-		DA09BEB02AA8200C0000CF8F /* UnmemorizedWordListState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnmemorizedWordListState.swift; sourceTree = "<group>"; };
 		DA09BEB42AA849200000CF8F /* WordListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewModel.swift; sourceTree = "<group>"; };
 		DA09BEB82AA84E1A0000CF8F /* WordDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailViewModel.swift; sourceTree = "<group>"; };
 		DA2589622AA5F8D000431D40 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
@@ -250,13 +245,10 @@
 		DA2589AE2AA605C800431D40 /* StateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateStore.swift; sourceTree = "<group>"; };
 		DA2589B02AA605C800431D40 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		DA2589B22AA605C800431D40 /* WordState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordState.swift; sourceTree = "<group>"; };
-		DA2589B32AA605C800431D40 /* WordStateAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordStateAction.swift; sourceTree = "<group>"; };
-		DA2589C82AA72E0300431D40 /* WordStateReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordStateReducer.swift; sourceTree = "<group>"; };
 		DA2589CA2AA7313900431D40 /* ReducerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReducerType.swift; sourceTree = "<group>"; };
-		DA2589CC2AA7317500431D40 /* AppStateReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateReducer.swift; sourceTree = "<group>"; };
 		DA2589D02AA7362700431D40 /* UseCaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseAssembly.swift; sourceTree = "<group>"; };
 		DA2589D52AA7378100431D40 /* ReducerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReducerAssembly.swift; sourceTree = "<group>"; };
-		DA2589E52AA7541300431D40 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		DA2589E52AA7541300431D40 /* StateType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateType.swift; sourceTree = "<group>"; };
 		DA340BFB2AA5E4EE00C1C529 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA340BFD2AA5E4EE00C1C529 /* Domain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Domain.h; sourceTree = "<group>"; };
 		DA340C102AA5E57A00C1C529 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
@@ -425,9 +417,7 @@
 			children = (
 				DA25898A2AA6045E00431D40 /* StateStore.h */,
 				DA2589AE2AA605C800431D40 /* StateStore.swift */,
-				DA2589C62AA72DD600431D40 /* Actions */,
 				DA2589B92AA605EF00431D40 /* Protocols */,
-				DA2589C72AA72DED00431D40 /* Reducers */,
 				DA2589C52AA72DC600431D40 /* States */,
 				DA7A0A132A9910DB0046AAC4 /* Utilities */,
 			);
@@ -438,7 +428,7 @@
 			isa = PBXGroup;
 			children = (
 				DA2589CA2AA7313900431D40 /* ReducerType.swift */,
-				DA2589E52AA7541300431D40 /* State.swift */,
+				DA2589E52AA7541300431D40 /* StateType.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -448,26 +438,8 @@
 			children = (
 				DA2589B22AA605C800431D40 /* WordState.swift */,
 				DA2589B02AA605C800431D40 /* AppState.swift */,
-				DA09BEB02AA8200C0000CF8F /* UnmemorizedWordListState.swift */,
 			);
 			path = States;
-			sourceTree = "<group>";
-		};
-		DA2589C62AA72DD600431D40 /* Actions */ = {
-			isa = PBXGroup;
-			children = (
-				DA2589B32AA605C800431D40 /* WordStateAction.swift */,
-			);
-			path = Actions;
-			sourceTree = "<group>";
-		};
-		DA2589C72AA72DED00431D40 /* Reducers */ = {
-			isa = PBXGroup;
-			children = (
-				DA2589C82AA72E0300431D40 /* WordStateReducer.swift */,
-				DA2589CC2AA7317500431D40 /* AppStateReducer.swift */,
-			);
-			path = Reducers;
 			sourceTree = "<group>";
 		};
 		DA2589CE2AA7356E00431D40 /* StateStoreAssemblies */ = {
@@ -1210,16 +1182,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA2589E82AA7543A00431D40 /* State.swift in Sources */,
+				DA2589E82AA7543A00431D40 /* StateType.swift in Sources */,
 				DA2589CB2AA7313900431D40 /* ReducerType.swift in Sources */,
 				DA2589B62AA605C800431D40 /* AppState.swift in Sources */,
 				DA2589C42AA727A600431D40 /* CircularLinkedList.swift in Sources */,
-				DA2589CD2AA7317500431D40 /* AppStateReducer.swift in Sources */,
-				DA2589B42AA605C800431D40 /* WordStateAction.swift in Sources */,
 				DA2589B52AA605C800431D40 /* StateStore.swift in Sources */,
 				DA2589B72AA605C800431D40 /* WordState.swift in Sources */,
-				DA2589C92AA72E0300431D40 /* WordStateReducer.swift in Sources */,
-				DA09BEB12AA8200C0000CF8F /* UnmemorizedWordListState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
