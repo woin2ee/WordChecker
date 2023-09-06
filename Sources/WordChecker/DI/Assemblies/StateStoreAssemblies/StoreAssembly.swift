@@ -12,7 +12,7 @@ final class StoreAssembly: Assembly {
 
     func assemble(container: Container) {
         container.register(StateStore.self) { resolver in
-            let reducer: AppStateReducer = resolver.resolve()
+            let reducer: AppState.Reducer = resolver.resolve()
             return .init(reducer: reducer.createNewState, state: nil)
         }
         .inObjectScope(.container)

@@ -13,14 +13,14 @@ import Swinject
 final class ReducerAssembly: Assembly {
 
     func assemble(container: Container) {
-        container.register(AppStateReducer.self) { resolver in
-            let wordStateReducer: WordStateReducer = resolver.resolve()
-            return AppStateReducer.init(wordStateReducer: wordStateReducer)
+        container.register(AppState.Reducer.self) { resolver in
+            let wordStateReducer: WordState.Reducer = resolver.resolve()
+            return AppState.Reducer.init(wordStateReducer: wordStateReducer)
         }
         .inObjectScope(.container)
-        container.register(WordStateReducer.self) { resolver in
+        container.register(WordState.Reducer.self) { resolver in
             let wordUseCase: WordUseCaseProtocol = resolver.resolve()
-            return WordStateReducer.init(wordUseCase: wordUseCase)
+            return WordState.Reducer.init(wordUseCase: wordUseCase)
         }
         .inObjectScope(.container)
     }

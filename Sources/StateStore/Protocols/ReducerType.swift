@@ -5,12 +5,11 @@
 //  Created by Jaewon Yun on 2023/09/05.
 //
 
-import Foundation
 import ReSwift
 
-protocol ReducerType {
+public protocol ReducerType {
 
-    associatedtype State
+    associatedtype State: StateType
 
     func createNewState(action: Action, state: State?) -> State
 

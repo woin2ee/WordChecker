@@ -49,11 +49,11 @@ final class WordListViewModel: WordListViewModelProtocol, StoreSubscriber {
 extension WordListViewModel {
 
     func deleteWord(index: IndexPath.Index) {
-        store.dispatch(WordStateAction.deleteWord(index: index))
+        store.dispatch(WordState.Actions.deleteWord(index: index))
     }
 
     func editWord(index: IndexPath.Index, newWord: String) {
-        store.dispatch(WordStateAction.editWord(index: index, newWord: newWord))
+        store.dispatch(WordState.Actions.editWord(index: index, newWord: newWord))
     }
 
 }
