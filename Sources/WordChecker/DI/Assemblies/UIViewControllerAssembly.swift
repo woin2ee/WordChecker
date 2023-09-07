@@ -26,9 +26,13 @@ final class UIViewControllerAssembly: Assembly {
             let viewController: WordListViewController = .init(viewModel: viewModel)
             return viewController
         }
-        container.register(WordDetailViewController.self) { resolver in
+        container.register(WordDetailViewController.self) { resolver, uuid, delegate in
             let wordUseCase: WordUseCaseProtocol = resolver.resolve()
-            let viewModel: WordDetailViewModelProtocol = WordDetailViewModel.init(wordUseCase: wordUseCase)
+            let viewModel: WordDetailViewModelProtocol = WordDetailViewModel.init(
+                wordUseCase: wordUseCase,
+                uuid: uuid,
+                delegate: delegate
+            )
             let viewController: WordDetailViewController = .init(viewModel: viewModel)
             return viewController
         }

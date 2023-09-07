@@ -6,7 +6,10 @@
 //
 
 import Combine
+import Domain
+import SnapKit
 import UIKit
+import Utility
 
 final class WordDetailViewController: UIViewController {
 
@@ -18,23 +21,35 @@ final class WordDetailViewController: UIViewController {
         let textField: UITextField = .init()
         textField.placeholder = WCString.word
         textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.accessibilityIdentifier = AccessibilityIdentifier.WordDetail.wordTextField
         return textField
     }()
 
     let memorizedLabel: UILabel = {
         let label: UILabel = .init()
-        label.text = "단어 암기 완료"
+        label.text = "단어 암기 상태"
         label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .body)
         return label
     }()
 
-    let memorizedSwitch: UISwitch = {
-        let memorizedSwitch: UISwitch = .init()
-        memorizedSwitch.isOn = true
-        memorizedSwitch.translatesAutoresizingMaskIntoConstraints = false
-        return memorizedSwitch
+    lazy var memorizationStatePopupButton: UIButton = {
+        var config: UIButton.Configuration = .bordered()
+        config.baseBackgroundColor = .systemGray5
+        config.baseForegroundColor = .label
+        let button: UIButton = .init(configuration: config)
+        button.menu = .init(children: [
+            UIAction.init(title: WCString.memorizing) { [weak self] _ in
+                self?.memorizationStatePopupButton.setTitle(WCString.memorizing, for: .normal)
+            },
+            UIAction.init(title: WCString.memorized) { [weak self] _ in
+                self?.memorizationStatePopupButton.setTitle(WCString.memorized, for: .normal)
+            }
+        ])
+        button.showsMenuAsPrimaryAction = true
+        button.changesSelectionAsPrimaryAction = true
+        button.accessibilityIdentifier = AccessibilityIdentifier.WordDetail.memorizationStateButton
+        return button
     }()
 
     init(viewModel: WordDetailViewModelProtocol) {
@@ -57,23 +72,30 @@ final class WordDetailViewController: UIViewController {
     private func setupSubviews() {
         self.view.addSubview(wordTextField)
         self.view.addSubview(memorizedLabel)
-        self.view.addSubview(memorizedSwitch)
+        self.view.addSubview(memorizationStatePopupButton)
 
-        NSLayoutConstraint.activate([
-            wordTextField.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0.0),
-            wordTextField.leadingAnchor.constraint(equalToSystemSpacingAfter: self.view.safeAreaLayoutGuide.leadingAnchor, multiplier: 1.0),
-            wordTextField.trailingAnchor.constraint(equalToSystemSpacingAfter: self.view.safeAreaLayoutGuide.trailingAnchor, multiplier: 1.0)
-        ])
+        wordTextField.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(10)
+            make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(20)
+        }
 
-        NSLayoutConstraint.activate([
-            memorizedSwitch.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            memorizedSwitch.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
-        ])
+        memorizationStatePopupButton.snp.makeConstraints { make in
+            make.top.equalTo(wordTextField.snp.bottom).offset(20)
+            make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(20)
+        }
     }
 
     private func setupNavigationBar() {
         let doneAction: UIAction = .init { [weak self] _ in
-            self?.viewModel.doneEditing()
+            guard let self = self else { return }
+            let memorizedMenu: UIAction = castOrFatalError(self.memorizationStatePopupButton.menu?.children[1])
+            let isMemorized = (memorizedMenu.state == .on)
+            let word: Word = .init(
+                word: self.wordTextField.text ?? "",
+                isMemorized: isMemorized
+            )
+            self.viewModel.doneEditing(word)
+            self.dismiss(animated: true)
         }
         let doneBarButton: UIBarButtonItem = .init(title: WCString.done, primaryAction: doneAction)
         self.navigationItem.rightBarButtonItem = doneBarButton
@@ -81,7 +103,19 @@ final class WordDetailViewController: UIViewController {
     }
 
     func bindViewModel() {
-
+        viewModel.word
+            .sink { [weak self] word in
+                guard let self = self else { return }
+                self.wordTextField.text = word.word
+                if word.isMemorized {
+                    (self.memorizationStatePopupButton.menu?.children[1] as? UIAction)?.state = .on
+                    self.memorizationStatePopupButton.setTitle(WCString.memorized, for: .normal)
+                } else {
+                    (self.memorizationStatePopupButton.menu?.children[0] as? UIAction)?.state = .on
+                    self.memorizationStatePopupButton.setTitle(WCString.memorizing, for: .normal)
+                }
+            }
+            .store(in: &cancelBag)
     }
 
 }

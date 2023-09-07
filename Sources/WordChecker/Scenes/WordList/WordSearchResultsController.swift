@@ -5,12 +5,15 @@
 //  Created by Jaewon Yun on 2023/08/27.
 //
 
+import Combine
 import Domain
 import UIKit
 
 final class WordSearchResultsController: UITableViewController {
 
     let viewModel: WordListViewModelProtocol
+
+    var cancelBag: Set<AnyCancellable> = .init()
 
     let cellReuseIdentifier = "WORD_SEARCH_RESULT_CELL"
 
@@ -41,11 +44,22 @@ final class WordSearchResultsController: UITableViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .clear
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
+        bindViewModel()
     }
 
     private func updateSearchedList(with text: String) {
         let keyword = text.lowercased()
         searchedList = viewModel.wordList.filter { $0.word.lowercased().contains(keyword) }
+    }
+
+    func bindViewModel() {
+        viewModel.wordListPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                self.updateSearchedList(with: self.currentSearchBarText)
+            }
+            .store(in: &cancelBag)
     }
 
 }
@@ -106,6 +120,14 @@ extension WordSearchResultsController {
             completionHandler(true)
         }
         return .init(actions: [deleteAction, editAction])
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let uuid: UUID = searchedList[indexPath.row].uuid
+        let viewController: WordDetailViewController = DIContainer.shared.resolve(arguments: uuid, viewModel as? WordDetailViewModelDelegate)
+        let navigationController: UINavigationController = .init(rootViewController: viewController)
+        self.present(navigationController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
 }

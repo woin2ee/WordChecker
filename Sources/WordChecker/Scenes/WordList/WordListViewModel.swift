@@ -15,6 +15,8 @@ protocol WordListViewModelInput {
 
     func editWord(index: IndexPath.Index, newWord: String)
 
+    func refreshWordList()
+
 }
 
 protocol WordListViewModelOutput {
@@ -35,8 +37,7 @@ final class WordListViewModel: WordListViewModelProtocol {
 
     init(wordUseCase: WordUseCaseProtocol) {
         self.wordUseCase = wordUseCase
-        let initList = wordUseCase.getWordList()
-        wordListSubject.send(initList)
+        refreshWordList()
     }
 
 }
@@ -76,6 +77,21 @@ extension WordListViewModel {
         wordUseCase.updateWord(with: updateTargetUUID, to: updateTarget)
         let newList = wordUseCase.getWordList()
         wordListSubject.send(newList)
+    }
+
+    func refreshWordList() {
+        let wordList = wordUseCase.getWordList()
+        wordListSubject.send(wordList)
+    }
+
+}
+
+// MARK: - WordDetailViewModelDelegate
+
+extension WordListViewModel: WordDetailViewModelDelegate {
+
+    func wordDetailViewModelDidUpdateWord(with uuid: UUID) {
+        refreshWordList()
     }
 
 }

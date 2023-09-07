@@ -41,13 +41,13 @@ final class WordCheckingViewModel: WordCheckingViewModelProtocol {
 
     private var cancelBag: Set<AnyCancellable> = .init()
 
-    let currentWordSubject: CurrentValueSubject<Word?, Never> = .init(nil)
+    let currentWordSubject: CurrentValueSubject<Domain.Word?, Never> = .init(nil)
 
     init(wordUseCase: WordUseCaseProtocol, state: UnmemorizedWordListStateProtocol) {
         self.wordUseCase = wordUseCase
         self.state = state
-        state.currentWord.sink {
-            self.currentWordSubject.send($0)
+        state.currentWord.sink { [weak self] word in
+            self?.currentWordSubject.send(word)
         }
         .store(in: &cancelBag)
         wordUseCase.randomizeUnmemorizedWordList()
@@ -72,7 +72,7 @@ extension WordCheckingViewModel {
 extension WordCheckingViewModel {
 
     func addWord(_ word: String) {
-        let newWord: Word = .init(word: word)
+        let newWord: Domain.Word = .init(word: word)
         wordUseCase.addNewWord(newWord)
     }
 

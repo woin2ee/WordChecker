@@ -16,6 +16,8 @@ public protocol WordUseCaseProtocol {
 
     func getWordList() -> [Word]
 
+    func getWord(with uuid: UUID) -> Word?
+
     func updateWord(with uuid: UUID, to newWord: Word)
 
     func randomizeUnmemorizedWordList()
