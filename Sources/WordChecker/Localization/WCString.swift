@@ -32,5 +32,7 @@ struct WCString {
     static let word = NSLocalizedString("word", bundle: bundle, comment: "")
     static let done = NSLocalizedString("done", bundle: bundle, comment: "")
     static let details = NSLocalizedString("details", bundle: bundle, comment: "")
+    static let memorizing = NSLocalizedString("memorizing", bundle: bundle, comment: "")
+    static let memorized = NSLocalizedString("memorized", bundle: bundle, comment: "")
 
 }

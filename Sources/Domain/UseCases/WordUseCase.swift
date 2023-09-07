@@ -29,7 +29,11 @@ public final class WordUseCase: WordUseCaseProtocol {
     }
 
     public func getWordList() -> [Word] {
-        wordRepository.getAll()
+        return wordRepository.getAll()
+    }
+
+    public func getWord(with uuid: UUID) -> Word? {
+        return wordRepository.get(by: uuid)
     }
 
     public func updateWord(with uuid: UUID, to newWord: Word) {
@@ -38,7 +42,14 @@ public final class WordUseCase: WordUseCaseProtocol {
             word: newWord.word,
             isMemorized: newWord.isMemorized
         )
-        unmemorizedWordListState.updateWord(with: uuid, to: updateTarget)
+        if unmemorizedWordListState.contains(where: { $0.uuid == updateTarget.uuid }) {
+            if updateTarget.isMemorized {
+                unmemorizedWordListState.deleteWord(updateTarget)
+            }
+            unmemorizedWordListState.updateWord(with: uuid, to: updateTarget)
+        } else if !updateTarget.isMemorized {
+            unmemorizedWordListState.addWord(updateTarget)
+        }
         wordRepository.save(updateTarget)
     }
 

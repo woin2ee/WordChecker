@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct CircularLinkedList<Element: Equatable> {
+public struct CircularLinkedList<Element> {
 
     public private(set) var elements: [Element] = []
 
@@ -72,11 +72,12 @@ public struct CircularLinkedList<Element: Equatable> {
         }
     }
 
-    public mutating func delete(_ object: Element) {
-        guard let targetIndex = elements.firstIndex(where: { $0 == object }) else {
+    public mutating func delete(at index: Int) {
+        guard index < elements.count else {
+            assertionFailure("Out of index.")
             return
         }
-        elements.remove(at: targetIndex)
+        elements.remove(at: index)
         if currentIndex >= count {
             currentIndex = 0
         }
@@ -92,11 +93,12 @@ public struct CircularLinkedList<Element: Equatable> {
         return try? elements.firstIndex(where: predicate)
     }
 
-    public mutating func replace(_ target: Element, to element: Element) {
-        guard count > 0, let targetIndex = elements.firstIndex(where: { $0 == target }) else {
+    public mutating func replace(at index: Int, to element: Element) {
+        guard index < elements.count else {
+            assertionFailure("Out of index.")
             return
         }
-        elements[targetIndex] = element
+        elements[index] = element
     }
 
 }

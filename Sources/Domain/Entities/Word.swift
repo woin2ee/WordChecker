@@ -26,3 +26,11 @@ public final class Word: Equatable {
     }
 
 }
+
+extension Word {
+
+    public static var empty: Word {
+        return .init(uuid: .init(), word: "", isMemorized: false)
+    }
+
+}

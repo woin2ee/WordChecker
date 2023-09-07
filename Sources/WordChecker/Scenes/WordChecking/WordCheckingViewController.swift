@@ -184,11 +184,11 @@ final class WordCheckingViewController: UIViewController {
     func bindViewModel() {
         viewModel.currentWord
             .receive(on: DispatchQueue.main)
-            .sink {
-                if let currentWord = $0 {
-                    self.wordLabel.text = currentWord
+            .sink { [weak self] word in
+                if let currentWord = word {
+                    self?.wordLabel.text = currentWord
                 } else {
-                    self.wordLabel.text = WCString.noWords
+                    self?.wordLabel.text = WCString.noWords
                 }
             }
             .store(in: &cancelBag)

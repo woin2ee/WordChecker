@@ -31,4 +31,12 @@ final class DIContainer {
         return assembler.resolver.resolve(T.self, name: name)!
     }
 
+    func resolve<T, Arg1>(argument: Arg1) -> T {
+        return assembler.resolver.resolve(T.self, argument: argument)!
+    }
+
+    func resolve<T, Arg1, Arg2>(arguments: Arg1, _ arg2: Arg2) -> T {
+        return assembler.resolver.resolve(T.self, arguments: arguments, arg2)!
+    }
+
 }

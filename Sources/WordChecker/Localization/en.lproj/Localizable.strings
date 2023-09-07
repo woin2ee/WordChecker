@@ -23,3 +23,5 @@ deleteWord = "Delete word";
 word = "Word";
 done = "Done";
 details = "Details";
+memorizing = "Memorizing";
+memorized = "Memorized";

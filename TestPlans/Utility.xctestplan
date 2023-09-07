@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "19E7DB7D-10BA-4431-9064-714FFE448D98",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "DA09BF8C2AA985120000CF8F",
+        "name" : "UtilityUnitTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -23,4 +23,6 @@ public protocol UnmemorizedWordListStateProtocol {
 
     func randomizeList(with unmemorizedList: [Word])
 
+    func contains(where predicate: (Word) -> Bool) -> Bool
+
 }

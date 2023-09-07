@@ -19,4 +19,12 @@ enum AccessibilityIdentifier {
 
     }
 
+    enum WordDetail {
+
+        static let wordTextField = "WORDDETAIL_WORD_TEXTFIELD"
+
+        static let memorizationStateButton = "WORDDETAIL_MEMORIZATION_STATE_BUTTON"
+
+    }
+
 }

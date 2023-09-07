@@ -70,8 +70,8 @@ final class WordListViewController: UIViewController {
     func bindViewModel() {
         viewModel.wordListPublisher
             .receive(on: DispatchQueue.main)
-            .sink { _ in
-                self.wordListTableView.reloadData()
+            .sink { [weak self] _ in
+                self?.wordListTableView.reloadData()
             }
             .store(in: &cancelBag)
     }
@@ -129,7 +129,8 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let viewController: WordDetailViewController = DIContainer.shared.resolve()
+        let uuid: UUID = viewModel.wordList[indexPath.row].uuid
+        let viewController: WordDetailViewController = DIContainer.shared.resolve(arguments: uuid, viewModel as? WordDetailViewModelDelegate)
         let navigationController: UINavigationController = .init(rootViewController: viewController)
         self.present(navigationController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
