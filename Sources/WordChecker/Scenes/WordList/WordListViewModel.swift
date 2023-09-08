@@ -1,6 +1,6 @@
 //
 //  WordListViewModel.swift
-//  StateStore
+//  WordChecker
 //
 //  Created by Jaewon Yun on 2023/09/06.
 //

@@ -1,6 +1,6 @@
 //
 //  UnmemorizedWordListState.swift
-//  StateStore
+//  State
 //
 //  Created by Jaewon Yun on 2023/09/06.
 //
