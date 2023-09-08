@@ -17,6 +17,8 @@ enum AccessibilityIdentifier {
 
         static let moreButton = "WORDCHECKING_MORE_BUTTON"
 
+        static let wordLabel = "WORDCHECKING_WORD_LABEL"
+
     }
 
     enum WordDetail {

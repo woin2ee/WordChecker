@@ -5,6 +5,7 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
+import SFSafeSymbols
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -16,9 +17,33 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = .init(windowScene: windowScene)
         window?.makeKeyAndVisible()
 
-        let wordCheckingViewController: WordCheckingViewController = DIContainer.shared.resolve()
-        let rootNavigationController: UINavigationController = .init(rootViewController: wordCheckingViewController)
-        window?.rootViewController = rootNavigationController
+        let symbolWeightConfig: UIImage.SymbolConfiguration = .init(weight: .bold)
+
+        let wordCheckingVC: WordCheckingViewController = DIContainer.shared.resolve()
+        let wordCheckingNC: UINavigationController = .init(rootViewController: wordCheckingVC)
+        wordCheckingNC.tabBarItem = .init(
+            title: WCString.memorization,
+            image: .init(systemSymbol: .checkmarkDiamond),
+            selectedImage: .init(systemSymbol: .checkmarkDiamond, withConfiguration: symbolWeightConfig)
+        )
+
+        let wordListVC: WordListViewController = DIContainer.shared.resolve()
+        let wordListNC: UINavigationController = .init(rootViewController: wordListVC)
+        wordListNC.tabBarItem = .init(
+            title: WCString.list,
+            image: .init(systemSymbol: .listBullet),
+            selectedImage: .init(systemSymbol: .listBullet, withConfiguration: symbolWeightConfig)
+        )
+
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+
+        let tabBarController: UITabBarController = .init()
+        tabBarController.viewControllers = [wordCheckingNC, wordListNC]
+        tabBarController.tabBar.standardAppearance = appearance
+        tabBarController.tabBar.scrollEdgeAppearance = appearance
+
+        window?.rootViewController = tabBarController
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
