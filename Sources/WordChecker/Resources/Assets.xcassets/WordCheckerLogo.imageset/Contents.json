@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "wordchecker_logo@1x.png",
+      "filename" : "WordCheckerLogo@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "wordchecker_logo@2x.png",
+      "filename" : "WordCheckerLogo@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "wordchecker_logo@3x.png",
+      "filename" : "WordCheckerLogo@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
