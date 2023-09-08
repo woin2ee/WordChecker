@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  WordChecker
+
+  Created by Jaewon Yun on 2023/09/08.
+  
+*/
+
+CFBundleName = "Memorizer_DEV";
+CFBundleDisplayName = "Memorizer_DEV";
