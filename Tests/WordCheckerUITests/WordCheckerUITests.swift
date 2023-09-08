@@ -14,7 +14,7 @@ final class WordCheckerUITests: XCTestCase {
         continueAfterFailure = false
     }
 
-    func testWordUseCase() {
+    func testWordCheckUseCase() {
         // App Launch
         let app = XCUIApplication()
         app.setLaunchArguments([.useInMemoryDatabase])
@@ -30,7 +30,7 @@ final class WordCheckerUITests: XCTestCase {
         app.staticTexts["TestWord"].assertExistence()
 
         // Show list
-        app.buttons[AccessibilityIdentifier.WordChecking.listButton].tap()
+        app.tabBars.buttons[WCString.list].tap()
         app.staticTexts["TestWord"].assertExistence()
 
         // Edit word
@@ -40,17 +40,42 @@ final class WordCheckerUITests: XCTestCase {
         editAlert.textFields.firstMatch.clearAndEnterText(text: "EditedWord")
         editAlert.buttons[WCString.edit].tap()
         app.staticTexts["EditedWord"].assertExistence()
+        app.tabBars.buttons[WCString.memorization].tap()
+        app.staticTexts["EditedWord"].assertExistence()
+        app.tabBars.buttons[WCString.list].tap()
+
+        // Delete
+        app.staticTexts["EditedWord"].swipeLeft()
+        app.buttons[WCString.delete].tap()
+        XCTAssertEqual(app.tableRows.count, 0)
+
+        // Final Assertion
+        app.tabBars.buttons[WCString.memorization].tap()
+        app.staticTexts[WCString.noWords].assertExistence()
+
+        let image = app.screenshot().image
+    }
+
+    func testWordListUseCase() {
+        // App Launch
+        let app = XCUIApplication()
+        app.setLaunchArguments([.sampledDatabase])
+        app.launch()
+
+        let currentWord: String = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
+
+        app.tabBars.buttons[WCString.list].tap()
 
         // Search word
         app.searchFields.firstMatch.tap()
-        app.searchFields.firstMatch.typeText("dit")
-        app.staticTexts["EditedWord"].assertExistence()
+        app.searchFields.firstMatch.typeText(currentWord)
+        app.staticTexts[currentWord].assertExistence()
 
-        // Edit detail
-        app.tables.cells.element(boundBy: 0).tap()
+        // Edit details
+        app.tables.element(boundBy: 1).cells.element(boundBy: 0).tap()
         let detailTextField = app.textFields[AccessibilityIdentifier.WordDetail.wordTextField]
         let detailMemorizationStateButton = app.buttons[AccessibilityIdentifier.WordDetail.memorizationStateButton]
-        XCTAssertEqual(detailTextField.value as? String, "EditedWord")
+        XCTAssertEqual(detailTextField.value as? String, currentWord)
         XCTAssertEqual(detailMemorizationStateButton.label, WCString.memorizing)
         detailTextField.tap()
         detailTextField.typeText("1")
@@ -58,22 +83,12 @@ final class WordCheckerUITests: XCTestCase {
         app.buttons[WCString.memorized].tap()
         XCTAssertEqual(detailMemorizationStateButton.label, WCString.memorized)
         app.navigationBars.buttons[WCString.done].tap()
-        app.tables.element(boundBy: 1).cells.staticTexts["EditedWord1"].assertExistence()
+        app.tables.element(boundBy: 1).cells.staticTexts["\(currentWord)1"].assertExistence()
 
         // Check memorization state
-        app.navigationBars.backButton.tap()
-        app.navigationBars.backButton.tap()
-        app.staticTexts[WCString.noWords].assertExistence()
-
-        // Delete
-        app.buttons[AccessibilityIdentifier.WordChecking.listButton].tap()
-        app.staticTexts["EditedWord1"].swipeLeft()
-        app.buttons[WCString.delete].tap()
-        XCTAssertEqual(app.tableRows.count, 0)
-
-        // Final Assertion
-        app.navigationBars.backButton.tap()
-        app.staticTexts[WCString.noWords].assertExistence()
+        app.tabBars.buttons[WCString.memorization].tap()
+        let newWord: String = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
+        XCTAssertNotEqual(currentWord, newWord)
 
         let image = app.screenshot().image
     }

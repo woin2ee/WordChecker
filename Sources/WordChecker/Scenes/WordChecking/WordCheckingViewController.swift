@@ -6,6 +6,8 @@
 //
 
 import Combine
+import SFSafeSymbols
+import SnapKit
 import UIKit
 import WebKit
 
@@ -17,10 +19,10 @@ final class WordCheckingViewController: UIViewController {
 
     let wordLabel: UILabel = {
         let label: UILabel = .init()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .title3)
         label.numberOfLines = 0
+        label.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.wordLabel
         return label
     }()
 
@@ -38,17 +40,6 @@ final class WordCheckingViewController: UIViewController {
         button.addAction(.init { [weak self] _ in
             self?.viewModel.updateToNextWord()
         }, for: .touchUpInside)
-        return button
-    }()
-
-    lazy var listButton: BottomButton = {
-        let button: BottomButton = .init(title: WCString.list)
-        let action: UIAction = .init { [weak self] _ in
-            let wordListViewController: WordListViewController = DIContainer.shared.resolve()
-            self?.navigationController?.pushViewController(wordListViewController, animated: true)
-        }
-        button.addAction(action, for: .touchUpInside)
-        button.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.listButton
         return button
     }()
 
@@ -74,9 +65,10 @@ final class WordCheckingViewController: UIViewController {
     }()
 
     let moreButton: UIBarButtonItem = {
-        let button: UIBarButtonItem = .init(image: .init(systemName: "ellipsis.circle"))
-        button.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.moreButton
-        return button
+        let buttonSymbolImage: UIImage = .init(systemSymbol: .ellipsisCircle)
+        let barButton: UIBarButtonItem = .init(image: buttonSymbolImage)
+        barButton.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.moreButton
+        return barButton
     }()
 
     // MARK: - Initializers
@@ -100,43 +92,30 @@ final class WordCheckingViewController: UIViewController {
 
     private func setupSubviews() {
         self.view.addSubview(wordLabel)
-        self.view.addSubview(listButton)
         self.view.addSubview(previousButton)
         self.view.addSubview(nextButton)
         self.view.addSubview(translateButton)
 
-        NSLayoutConstraint.activate([
-            wordLabel.leadingAnchor.constraint(greaterThanOrEqualToSystemSpacingAfter: self.view.safeAreaLayoutGuide.leadingAnchor, multiplier: 3.0),
-            wordLabel.trailingAnchor.constraint(lessThanOrEqualToSystemSpacingAfter: self.view.safeAreaLayoutGuide.trailingAnchor, multiplier: 3.0),
-            wordLabel.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
-            wordLabel.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerYAnchor)
-        ])
-
-        let buttonCollectionSpacingToSafeArea: CGFloat = 20.0
-        // list button
-        NSLayoutConstraint.activate([
-            previousButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: buttonCollectionSpacingToSafeArea),
-            self.view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: previousButton.bottomAnchor, multiplier: 1.0)
-        ])
-        // next button
-        NSLayoutConstraint.activate([
-            nextButton.leadingAnchor.constraint(equalToSystemSpacingAfter: previousButton.trailingAnchor, multiplier: 1.0),
-            nextButton.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -buttonCollectionSpacingToSafeArea),
-            nextButton.widthAnchor.constraint(equalTo: previousButton.widthAnchor),
-            self.view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: nextButton.bottomAnchor, multiplier: 1.0)
-        ])
-        // list button
-        NSLayoutConstraint.activate([
-            listButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: buttonCollectionSpacingToSafeArea),
-            previousButton.topAnchor.constraint(equalToSystemSpacingBelow: listButton.bottomAnchor, multiplier: 1.0),
-            listButton.widthAnchor.constraint(equalTo: nextButton.widthAnchor)
-        ])
-        // translate button
-        NSLayoutConstraint.activate([
-            translateButton.widthAnchor.constraint(equalTo: nextButton.widthAnchor),
-            self.view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: translateButton.trailingAnchor, constant: buttonCollectionSpacingToSafeArea),
-            nextButton.topAnchor.constraint(equalToSystemSpacingBelow: translateButton.bottomAnchor, multiplier: 1.0)
-        ])
+        wordLabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalTo(self.view)
+            make.leading.greaterThanOrEqualTo(self.view.safeAreaLayoutGuide).inset(30)
+            make.trailing.lessThanOrEqualTo(self.view.safeAreaLayoutGuide).inset(30)
+        }
+        previousButton.snp.makeConstraints { make in
+            make.leading.equalTo(self.view.safeAreaLayoutGuide).inset(20)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(8)
+        }
+        nextButton.snp.makeConstraints { make in
+            make.leading.equalTo(previousButton.snp.trailing).offset(8)
+            make.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(20)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(8)
+            make.width.equalTo(previousButton)
+        }
+        translateButton.snp.makeConstraints { make in
+            make.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(20)
+            make.bottom.equalTo(nextButton.snp.top).offset(-8)
+            make.width.equalTo(previousButton)
+        }
     }
 
     private func setupNavigationBar() {

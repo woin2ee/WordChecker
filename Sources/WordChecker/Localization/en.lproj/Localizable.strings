@@ -25,3 +25,5 @@ done = "Done";
 details = "Details";
 memorizing = "Memorizing";
 memorized = "Memorized";
+check = "Check";
+memorization = "Memorization";

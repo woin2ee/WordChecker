@@ -80,6 +80,12 @@
 		DA6148332AA07DA200CDA84C /* RealmPlatformAssembly_Dev.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6148312AA07D1800CDA84C /* RealmPlatformAssembly_Dev.swift */; };
 		DA7853572AA9A539001445D8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA7853562AA9A539001445D8 /* SnapKit */; };
 		DA7853592AA9A549001445D8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA7853582AA9A549001445D8 /* SnapKit */; };
+		DA78535A2AAA1FAC001445D8 /* Utility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; };
+		DA78535B2AAA1FAC001445D8 /* Utility.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DA7853602AAA2530001445D8 /* SFSafeSymbols in Frameworks */ = {isa = PBXBuildFile; productRef = DA78535F2AAA2530001445D8 /* SFSafeSymbols */; };
+		DA7853612AAA2564001445D8 /* Utility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; };
+		DA7853622AAA2564001445D8 /* Utility.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DA7853662AAA256A001445D8 /* SFSafeSymbols in Frameworks */ = {isa = PBXBuildFile; productRef = DA7853652AAA256A001445D8 /* SFSafeSymbols */; };
 		DA7A09B02A950FBB0046AAC4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09AF2A950FBB0046AAC4 /* AppDelegate.swift */; };
 		DA7A09B22A950FBB0046AAC4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09B12A950FBB0046AAC4 /* SceneDelegate.swift */; };
 		DA7A09B42A950FBB0046AAC4 /* WordCheckingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09B32A950FBB0046AAC4 /* WordCheckingViewController.swift */; };
@@ -213,6 +219,20 @@
 			remoteGlobalIDString = DA6147FE2AA0774900CDA84C;
 			remoteInfo = WordCheckerDev;
 		};
+		DA78535C2AAA1FAC001445D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA7A09A42A950FBB0046AAC4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA09BEE02AA883B10000CF8F;
+			remoteInfo = Utility;
+		};
+		DA7853632AAA2564001445D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA7A09A42A950FBB0046AAC4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA09BEE02AA883B10000CF8F;
+			remoteInfo = Utility;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -246,6 +266,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DA09BF122AA8A7DA0000CF8F /* State.framework in Embed Frameworks */,
+				DA78535B2AAA1FAC001445D8 /* Utility.framework in Embed Frameworks */,
 				DA340C032AA5E4EE00C1C529 /* Domain.framework in Embed Frameworks */,
 				DA340C382AA5F7B500C1C529 /* RealmPlatform.framework in Embed Frameworks */,
 			);
@@ -259,6 +280,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DA09BF0E2AA8A7D60000CF8F /* State.framework in Embed Frameworks */,
+				DA7853622AAA2564001445D8 /* Utility.framework in Embed Frameworks */,
 				DA340C0A2AA5E52300C1C529 /* Domain.framework in Embed Frameworks */,
 				DA25895C2AA5F7F500431D40 /* RealmPlatform.framework in Embed Frameworks */,
 			);
@@ -396,6 +418,8 @@
 				DA09BF0D2AA8A7D60000CF8F /* State.framework in Frameworks */,
 				DA340C092AA5E52300C1C529 /* Domain.framework in Frameworks */,
 				DA25895B2AA5F7F500431D40 /* RealmPlatform.framework in Frameworks */,
+				DA7853662AAA256A001445D8 /* SFSafeSymbols in Frameworks */,
+				DA7853612AAA2564001445D8 /* Utility.framework in Frameworks */,
 				DA61481C2AA0774900CDA84C /* Swinject in Frameworks */,
 				DA7853592AA9A549001445D8 /* SnapKit in Frameworks */,
 			);
@@ -408,6 +432,8 @@
 				DA09BF112AA8A7DA0000CF8F /* State.framework in Frameworks */,
 				DA340C012AA5E4EE00C1C529 /* Domain.framework in Frameworks */,
 				DA340C372AA5F7B500C1C529 /* RealmPlatform.framework in Frameworks */,
+				DA7853602AAA2530001445D8 /* SFSafeSymbols in Frameworks */,
+				DA78535A2AAA1FAC001445D8 /* Utility.framework in Frameworks */,
 				DA7A0A272A9B85B00046AAC4 /* Swinject in Frameworks */,
 				DA7853572AA9A539001445D8 /* SnapKit in Frameworks */,
 			);
@@ -1007,11 +1033,13 @@
 				DA340C3D2AA5F7D200C1C529 /* PBXTargetDependency */,
 				DA340C082AA5E50D00C1C529 /* PBXTargetDependency */,
 				DA09BF102AA8A7D60000CF8F /* PBXTargetDependency */,
+				DA7853642AAA2564001445D8 /* PBXTargetDependency */,
 			);
 			name = WordCheckerDev;
 			packageProductDependencies = (
 				DA6148022AA0774900CDA84C /* Swinject */,
 				DA7853582AA9A549001445D8 /* SnapKit */,
+				DA7853652AAA256A001445D8 /* SFSafeSymbols */,
 			);
 			productName = WordChecker;
 			productReference = DA6148252AA0774900CDA84C /* WordCheckerDev.app */;
@@ -1034,11 +1062,13 @@
 				DA340C002AA5E4EE00C1C529 /* PBXTargetDependency */,
 				DA340C362AA5F7B500C1C529 /* PBXTargetDependency */,
 				DA09BF142AA8A7DA0000CF8F /* PBXTargetDependency */,
+				DA78535D2AAA1FAC001445D8 /* PBXTargetDependency */,
 			);
 			name = WordChecker;
 			packageProductDependencies = (
 				DA7A0A262A9B85B00046AAC4 /* Swinject */,
 				DA7853562AA9A539001445D8 /* SnapKit */,
+				DA78535F2AAA2530001445D8 /* SFSafeSymbols */,
 			);
 			productName = WordChecker;
 			productReference = DA7A09AC2A950FBB0046AAC4 /* WordChecker.app */;
@@ -1142,6 +1172,7 @@
 				DA7A09F12A9756780046AAC4 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				DA7A0A252A9B85B00046AAC4 /* XCRemoteSwiftPackageReference "Swinject" */,
 				DA7853552AA9A539001445D8 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				DA78535E2AAA2530001445D8 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */,
 			);
 			productRefGroup = DA7A09AD2A950FBB0046AAC4 /* Products */;
 			projectDirPath = "";
@@ -1527,6 +1558,16 @@
 			isa = PBXTargetDependency;
 			target = DA6147FE2AA0774900CDA84C /* WordCheckerDev */;
 			targetProxy = DA6148292AA0791000CDA84C /* PBXContainerItemProxy */;
+		};
+		DA78535D2AAA1FAC001445D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA09BEE02AA883B10000CF8F /* Utility */;
+			targetProxy = DA78535C2AAA1FAC001445D8 /* PBXContainerItemProxy */;
+		};
+		DA7853642AAA2564001445D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA09BEE02AA883B10000CF8F /* Utility */;
+			targetProxy = DA7853632AAA2564001445D8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2359,6 +2400,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		DA78535E2AAA2530001445D8 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SFSafeSymbols/SFSafeSymbols.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		DA7A09F12A9756780046AAC4 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -2402,6 +2451,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DA7853552AA9A539001445D8 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		DA78535F2AAA2530001445D8 /* SFSafeSymbols */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA78535E2AAA2530001445D8 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */;
+			productName = SFSafeSymbols;
+		};
+		DA7853652AAA256A001445D8 /* SFSafeSymbols */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA78535E2AAA2530001445D8 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */;
+			productName = SFSafeSymbols;
 		};
 		DA7A0A1B2A9B727C0046AAC4 /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
