@@ -7,7 +7,6 @@
 
 import Domain
 import Foundation
-import StateStore
 import Swinject
 
 final class UIViewControllerAssembly: Assembly {
