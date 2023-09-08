@@ -110,6 +110,8 @@
 		DA924F4B2AAB0DA900B323F9 /* RealmPlatform.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA924F4C2AAB0DAD00B323F9 /* Utility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; };
 		DA924F4D2AAB0DAD00B323F9 /* Utility.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DA924F562AAB1F1200B323F9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA924F582AAB1F1200B323F9 /* InfoPlist.strings */; };
+		DA924F612AAB808F00B323F9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA924F5E2AAB808C00B323F9 /* InfoPlist.strings */; };
 		DAC4B2DF2AA5A2A40091749E /* WordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC4B2DE2AA5A2A40091749E /* WordDetailViewController.swift */; };
 		DAC4B2E02AA5A2A40091749E /* WordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC4B2DE2AA5A2A40091749E /* WordDetailViewController.swift */; };
 		DAEE5D242AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D232AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift */; };
@@ -330,6 +332,10 @@
 		DA7A0A372A9C48440046AAC4 /* AccessibilityIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifier.swift; sourceTree = "<group>"; };
 		DA7A0A3C2A9C71570046AAC4 /* XCUIElement+assertExistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+assertExistence.swift"; sourceTree = "<group>"; };
 		DA7A0A462A9F21FA0046AAC4 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		DA924F572AAB1F1200B323F9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DA924F592AAB1F1500B323F9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DA924F5F2AAB808C00B323F9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DA924F602AAB808C00B323F9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DAC4B2DE2AA5A2A40091749E /* WordDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailViewController.swift; sourceTree = "<group>"; };
 		DAEE5D232AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+clearAndEnterText.swift"; sourceTree = "<group>"; };
 		DAEE5D252AA38C3A00909097 /* XCUIElement+backButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+backButton.swift"; sourceTree = "<group>"; };
@@ -524,8 +530,6 @@
 		DA2589D22AA7367400431D40 /* RealmPlatformAssemblies */ = {
 			isa = PBXGroup;
 			children = (
-				DA6148312AA07D1800CDA84C /* RealmPlatformAssembly_Dev.swift */,
-				DA61482F2AA07D0800CDA84C /* RealmPlatformAssembly_Product.swift */,
 				DA2589702AA6013B00431D40 /* RealmPlatformAssembly.swift */,
 			);
 			path = RealmPlatformAssemblies;
@@ -534,11 +538,13 @@
 		DA2589DF2AA7440800431D40 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				DA09BEF62AA899970000CF8F /* State */,
-				DA09BEE22AA883B10000CF8F /* Utility */,
 				DA340BFC2AA5E4EE00C1C529 /* Domain */,
 				DA340C322AA5F7B500C1C529 /* RealmPlatform */,
-				DA7A09AE2A950FBB0046AAC4 /* WordChecker */,
+				DA09BEF62AA899970000CF8F /* State */,
+				DA09BEE22AA883B10000CF8F /* Utility */,
+				DA924F5C2AAB7FE300B323F9 /* WordChecker */,
+				DA924F5D2AAB805B00B323F9 /* WordCheckerDev */,
+				DA7A09AE2A950FBB0046AAC4 /* WordCheckerShared */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -684,7 +690,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DA7A09AE2A950FBB0046AAC4 /* WordChecker */ = {
+		DA7A09AE2A950FBB0046AAC4 /* WordCheckerShared */ = {
 			isa = PBXGroup;
 			children = (
 				DA7A09BD2A950FBC0046AAC4 /* Info.plist */,
@@ -695,7 +701,7 @@
 				DA7A09F02A96012B0046AAC4 /* Resources */,
 				DA78534F2AA9937B001445D8 /* Scenes */,
 			);
-			path = WordChecker;
+			path = WordCheckerShared;
 			sourceTree = "<group>";
 		};
 		DA7A09C52A950FBC0046AAC4 /* WordCheckerTests */ = {
@@ -767,7 +773,6 @@
 			children = (
 				DA7A09AF2A950FBB0046AAC4 /* AppDelegate.swift */,
 				DA7A09B12A950FBB0046AAC4 /* SceneDelegate.swift */,
-				DA7A0A1F2A9B75930046AAC4 /* LaunchArguments.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -806,6 +811,57 @@
 				DAEE5D252AA38C3A00909097 /* XCUIElement+backButton.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		DA924F5C2AAB7FE300B323F9 /* WordChecker */ = {
+			isa = PBXGroup;
+			children = (
+				DA924F652AAB80B900B323F9 /* Localization */,
+				DA924F632AAB80B000B323F9 /* DI */,
+			);
+			path = WordChecker;
+			sourceTree = "<group>";
+		};
+		DA924F5D2AAB805B00B323F9 /* WordCheckerDev */ = {
+			isa = PBXGroup;
+			children = (
+				DA7A0A1F2A9B75930046AAC4 /* LaunchArguments.swift */,
+				DA924F642AAB80B400B323F9 /* Localization */,
+				DA924F622AAB80AD00B323F9 /* DI */,
+			);
+			path = WordCheckerDev;
+			sourceTree = "<group>";
+		};
+		DA924F622AAB80AD00B323F9 /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				DA6148312AA07D1800CDA84C /* RealmPlatformAssembly_Dev.swift */,
+			);
+			path = DI;
+			sourceTree = "<group>";
+		};
+		DA924F632AAB80B000B323F9 /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				DA61482F2AA07D0800CDA84C /* RealmPlatformAssembly_Product.swift */,
+			);
+			path = DI;
+			sourceTree = "<group>";
+		};
+		DA924F642AAB80B400B323F9 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				DA924F582AAB1F1200B323F9 /* InfoPlist.strings */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		DA924F652AAB80B900B323F9 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				DA924F5E2AAB808C00B323F9 /* InfoPlist.strings */,
+			);
+			path = Localization;
 			sourceTree = "<group>";
 		};
 		DAC4B2DD2AA5A28C0091749E /* WordDetail */ = {
@@ -1214,6 +1270,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA61481E2AA0774900CDA84C /* LaunchScreen.storyboard in Resources */,
+				DA924F562AAB1F1200B323F9 /* InfoPlist.strings in Resources */,
 				DA61481F2AA0774900CDA84C /* Localizable.strings in Resources */,
 				DA6148202AA0774900CDA84C /* Assets.xcassets in Resources */,
 			);
@@ -1224,6 +1281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA7A09BC2A950FBC0046AAC4 /* LaunchScreen.storyboard in Resources */,
+				DA924F612AAB808F00B323F9 /* InfoPlist.strings in Resources */,
 				DA7A09E62A95F5EE0046AAC4 /* Localizable.strings in Resources */,
 				DA7A09B92A950FBC0046AAC4 /* Assets.xcassets in Resources */,
 			);
@@ -1561,6 +1619,24 @@
 				DA7A09EA2A95F6110046AAC4 /* en */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		DA924F582AAB1F1200B323F9 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA924F572AAB1F1200B323F9 /* en */,
+				DA924F592AAB1F1500B323F9 /* ko */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DA924F5E2AAB808C00B323F9 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA924F5F2AAB808C00B323F9 /* en */,
+				DA924F602AAB808C00B323F9 /* ko */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1919,7 +1995,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2AVC8X7323;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Sources/WordChecker/Info.plist;
+				INFOPLIST_FILE = Sources/WordCheckerShared/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WordChecker_DEV;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1954,7 +2030,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2AVC8X7323;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Sources/WordChecker/Info.plist;
+				INFOPLIST_FILE = Sources/WordCheckerShared/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WordChecker_DEV;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -2101,10 +2177,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 2AVC8X7323;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Sources/WordChecker/Info.plist;
+				INFOPLIST_FILE = Sources/WordCheckerShared/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WordChecker;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -2135,10 +2211,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 2AVC8X7323;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Sources/WordChecker/Info.plist;
+				INFOPLIST_FILE = Sources/WordCheckerShared/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WordChecker;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
