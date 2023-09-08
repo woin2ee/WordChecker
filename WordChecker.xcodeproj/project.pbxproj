@@ -17,19 +17,14 @@
 		DA09BEE42AA883B10000CF8F /* Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = DA09BEE32AA883B10000CF8F /* Utility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA09BEE82AA883BD0000CF8F /* CircularLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEC02AA8648A0000CF8F /* CircularLinkedList.swift */; };
 		DA09BEE92AA883D40000CF8F /* Utility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; };
-		DA09BEEA2AA883D40000CF8F /* Utility.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA09BEF82AA899970000CF8F /* State.h in Headers */ = {isa = PBXBuildFile; fileRef = DA09BEF72AA899970000CF8F /* State.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA09BEFE2AA899AF0000CF8F /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; };
-		DA09BEFF2AA899AF0000CF8F /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA09BF032AA899CA0000CF8F /* UnmemorizedWordListState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BEEE2AA885FD0000CF8F /* UnmemorizedWordListState.swift */; };
 		DA09BF042AA899E10000CF8F /* Utility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; };
-		DA09BF052AA899E10000CF8F /* Utility.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA09BF0B2AA89CF80000CF8F /* UnmemorizedWordListStateAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BF092AA89C920000CF8F /* UnmemorizedWordListStateAssembly.swift */; };
 		DA09BF0C2AA89CF90000CF8F /* UnmemorizedWordListStateAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BF092AA89C920000CF8F /* UnmemorizedWordListStateAssembly.swift */; };
 		DA09BF0D2AA8A7D60000CF8F /* State.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEF52AA899970000CF8F /* State.framework */; };
 		DA09BF0E2AA8A7D60000CF8F /* State.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEF52AA899970000CF8F /* State.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DA09BF112AA8A7DA0000CF8F /* State.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEF52AA899970000CF8F /* State.framework */; };
-		DA09BF122AA8A7DA0000CF8F /* State.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEF52AA899970000CF8F /* State.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA09BF882AA984290000CF8F /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BF872AA984290000CF8F /* Utility.swift */; };
 		DA09BF902AA985120000CF8F /* UtilityUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BF8F2AA985120000CF8F /* UtilityUnitTests.swift */; };
 		DA09BF912AA985120000CF8F /* Utility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; };
@@ -45,8 +40,6 @@
 		DA2589DE2AA7410C00431D40 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA2589DD2AA7410C00431D40 /* RealmSwift */; };
 		DA2589E32AA74EC800431D40 /* UseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589D02AA7362700431D40 /* UseCaseAssembly.swift */; };
 		DA340BFE2AA5E4EE00C1C529 /* Domain.h in Headers */ = {isa = PBXBuildFile; fileRef = DA340BFD2AA5E4EE00C1C529 /* Domain.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA340C012AA5E4EE00C1C529 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; };
-		DA340C032AA5E4EE00C1C529 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA340C092AA5E52300C1C529 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; };
 		DA340C0A2AA5E52300C1C529 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA340C112AA5E57A00C1C529 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA340C102AA5E57A00C1C529 /* Word.swift */; };
@@ -57,8 +50,6 @@
 		DA340C232AA5F56A00C1C529 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; };
 		DA340C2B2AA5F65100C1C529 /* WordRepositoryStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA340C2A2AA5F65100C1C529 /* WordRepositoryStub.swift */; };
 		DA340C342AA5F7B500C1C529 /* RealmPlatform.h in Headers */ = {isa = PBXBuildFile; fileRef = DA340C332AA5F7B500C1C529 /* RealmPlatform.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA340C372AA5F7B500C1C529 /* RealmPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; };
-		DA340C382AA5F7B500C1C529 /* RealmPlatform.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA6148062AA0774900CDA84C /* WordChecking+BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A082A9859580046AAC4 /* WordChecking+BottomButton.swift */; };
 		DA6148072AA0774900CDA84C /* LaunchArguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A1F2A9B75930046AAC4 /* LaunchArguments.swift */; };
 		DA6148092AA0774900CDA84C /* WordSearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A162A9A540A0046AAC4 /* WordSearchResultsController.swift */; };
@@ -80,8 +71,6 @@
 		DA6148332AA07DA200CDA84C /* RealmPlatformAssembly_Dev.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6148312AA07D1800CDA84C /* RealmPlatformAssembly_Dev.swift */; };
 		DA7853572AA9A539001445D8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA7853562AA9A539001445D8 /* SnapKit */; };
 		DA7853592AA9A549001445D8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA7853582AA9A549001445D8 /* SnapKit */; };
-		DA78535A2AAA1FAC001445D8 /* Utility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; };
-		DA78535B2AAA1FAC001445D8 /* Utility.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA7853602AAA2530001445D8 /* SFSafeSymbols in Frameworks */ = {isa = PBXBuildFile; productRef = DA78535F2AAA2530001445D8 /* SFSafeSymbols */; };
 		DA7853612AAA2564001445D8 /* Utility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; };
 		DA7853622AAA2564001445D8 /* Utility.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -112,6 +101,15 @@
 		DA7A0A392A9C4F2D0046AAC4 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A372A9C48440046AAC4 /* AccessibilityIdentifier.swift */; };
 		DA7A0A3B2A9C64550046AAC4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA7A09E82A95F5EE0046AAC4 /* Localizable.strings */; };
 		DA7A0A3D2A9C71570046AAC4 /* XCUIElement+assertExistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A3C2A9C71570046AAC4 /* XCUIElement+assertExistence.swift */; };
+		DA924F402AAB0D0400B323F9 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; };
+		DA924F452AAB0D6600B323F9 /* State.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEF52AA899970000CF8F /* State.framework */; };
+		DA924F462AAB0D6600B323F9 /* State.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEF52AA899970000CF8F /* State.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DA924F482AAB0DA800B323F9 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; };
+		DA924F492AAB0DA800B323F9 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DA924F4A2AAB0DA900B323F9 /* RealmPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; };
+		DA924F4B2AAB0DA900B323F9 /* RealmPlatform.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DA924F4C2AAB0DAD00B323F9 /* Utility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; };
+		DA924F4D2AAB0DAD00B323F9 /* Utility.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DAC4B2DF2AA5A2A40091749E /* WordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC4B2DE2AA5A2A40091749E /* WordDetailViewController.swift */; };
 		DAC4B2E02AA5A2A40091749E /* WordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC4B2DE2AA5A2A40091749E /* WordDetailViewController.swift */; };
 		DAEE5D242AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D232AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift */; };
@@ -162,13 +160,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = DA09BEE02AA883B10000CF8F;
 			remoteInfo = Utility;
-		};
-		DA25896E2AA5FBA900431D40 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA7A09A42A950FBB0046AAC4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DA340BFA2AA5E4EE00C1C529;
-			remoteInfo = Domain;
 		};
 		DA340BFF2AA5E4EE00C1C529 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -233,46 +224,16 @@
 			remoteGlobalIDString = DA09BEE02AA883B10000CF8F;
 			remoteInfo = Utility;
 		};
+		DA924F422AAB0D0400B323F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA7A09A42A950FBB0046AAC4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA340BFA2AA5E4EE00C1C529;
+			remoteInfo = Domain;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		DA09BEED2AA883D40000CF8F /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				DA09BEEA2AA883D40000CF8F /* Utility.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DA09BF022AA899B00000CF8F /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				DA09BEFF2AA899AF0000CF8F /* Domain.framework in Embed Frameworks */,
-				DA09BF052AA899E10000CF8F /* Utility.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DA340C022AA5E4EE00C1C529 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				DA09BF122AA8A7DA0000CF8F /* State.framework in Embed Frameworks */,
-				DA78535B2AAA1FAC001445D8 /* Utility.framework in Embed Frameworks */,
-				DA340C032AA5E4EE00C1C529 /* Domain.framework in Embed Frameworks */,
-				DA340C382AA5F7B500C1C529 /* RealmPlatform.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		DA340C0D2AA5E52300C1C529 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -283,6 +244,20 @@
 				DA7853622AAA2564001445D8 /* Utility.framework in Embed Frameworks */,
 				DA340C0A2AA5E52300C1C529 /* Domain.framework in Embed Frameworks */,
 				DA25895C2AA5F7F500431D40 /* RealmPlatform.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA924F472AAB0D6600B323F9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DA924F4B2AAB0DA900B323F9 /* RealmPlatform.framework in Embed Frameworks */,
+				DA924F4D2AAB0DAD00B323F9 /* Utility.framework in Embed Frameworks */,
+				DA924F492AAB0DA800B323F9 /* Domain.framework in Embed Frameworks */,
+				DA924F462AAB0D6600B323F9 /* State.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -406,6 +381,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA924F402AAB0D0400B323F9 /* Domain.framework in Frameworks */,
 				DA2589DE2AA7410C00431D40 /* RealmSwift in Frameworks */,
 				DA2589DC2AA7410C00431D40 /* Realm in Frameworks */,
 			);
@@ -429,13 +405,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA09BF112AA8A7DA0000CF8F /* State.framework in Frameworks */,
-				DA340C012AA5E4EE00C1C529 /* Domain.framework in Frameworks */,
-				DA340C372AA5F7B500C1C529 /* RealmPlatform.framework in Frameworks */,
+				DA924F4C2AAB0DAD00B323F9 /* Utility.framework in Frameworks */,
+				DA924F452AAB0D6600B323F9 /* State.framework in Frameworks */,
 				DA7853602AAA2530001445D8 /* SFSafeSymbols in Frameworks */,
-				DA78535A2AAA1FAC001445D8 /* Utility.framework in Frameworks */,
 				DA7A0A272A9B85B00046AAC4 /* Swinject in Frameworks */,
+				DA924F4A2AAB0DA900B323F9 /* RealmPlatform.framework in Frameworks */,
 				DA7853572AA9A539001445D8 /* SnapKit in Frameworks */,
+				DA924F482AAB0DA800B323F9 /* Domain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -924,7 +900,6 @@
 				DA09BEF12AA899970000CF8F /* Sources */,
 				DA09BEF22AA899970000CF8F /* Frameworks */,
 				DA09BEF32AA899970000CF8F /* Resources */,
-				DA09BF022AA899B00000CF8F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -963,7 +938,6 @@
 				DA340BF72AA5E4EE00C1C529 /* Sources */,
 				DA340BF82AA5E4EE00C1C529 /* Frameworks */,
 				DA340BF92AA5E4EE00C1C529 /* Resources */,
-				DA09BEED2AA883D40000CF8F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1005,7 +979,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				DA25896F2AA5FBA900431D40 /* PBXTargetDependency */,
+				DA924F432AAB0D0400B323F9 /* PBXTargetDependency */,
 			);
 			name = RealmPlatform;
 			packageProductDependencies = (
@@ -1054,7 +1028,7 @@
 				DA7A09AA2A950FBB0046AAC4 /* Resources */,
 				DA7A0A452A9F06290046AAC4 /* ShellScript */,
 				DA4623E82AA1BCDE007D00DE /* ShellScript */,
-				DA340C022AA5E4EE00C1C529 /* Embed Frameworks */,
+				DA924F472AAB0D6600B323F9 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1519,11 +1493,6 @@
 			target = DA09BEE02AA883B10000CF8F /* Utility */;
 			targetProxy = DA09BF922AA985120000CF8F /* PBXContainerItemProxy */;
 		};
-		DA25896F2AA5FBA900431D40 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DA340BFA2AA5E4EE00C1C529 /* Domain */;
-			targetProxy = DA25896E2AA5FBA900431D40 /* PBXContainerItemProxy */;
-		};
 		DA340C002AA5E4EE00C1C529 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DA340BFA2AA5E4EE00C1C529 /* Domain */;
@@ -1568,6 +1537,11 @@
 			isa = PBXTargetDependency;
 			target = DA09BEE02AA883B10000CF8F /* Utility */;
 			targetProxy = DA7853632AAA2564001445D8 /* PBXContainerItemProxy */;
+		};
+		DA924F432AAB0D0400B323F9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA340BFA2AA5E4EE00C1C529 /* Domain */;
+			targetProxy = DA924F422AAB0D0400B323F9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1615,7 +1589,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.Utility;
+				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.WordChecker.Utility;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1649,7 +1623,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.Utility;
+				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.WordChecker.Utility;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1683,7 +1657,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.State;
+				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.WordChecker.State;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1717,7 +1691,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.State;
+				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.WordChecker.State;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1786,7 +1760,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.Domain;
+				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.WordChecker.Domain;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1822,7 +1796,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.Domain;
+				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.WordChecker.Domain;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1890,7 +1864,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.RealmPlatform;
+				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.WordChecker.RealmPlatform;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1924,7 +1898,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.RealmPlatform;
+				PRODUCT_BUNDLE_IDENTIFIER = com.woin2ee.WordChecker.RealmPlatform;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -2124,7 +2098,6 @@
 		DA7A09D72A950FBC0046AAC4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -2159,7 +2132,6 @@
 		DA7A09D82A950FBC0046AAC4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
