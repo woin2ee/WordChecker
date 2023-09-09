@@ -1,13 +1,6 @@
 disabled_rules:
     - line_length
-
-identifier_name:
-    min_length:
-        warning: 3
-        error: 3
-    max_length:
-        warning: 60
-        error: 60
+    - identifier_name
 
 trailing_whitespace:
     severity: error
