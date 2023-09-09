@@ -35,6 +35,12 @@ final class UIViewControllerAssembly: Assembly {
             let viewController: WordDetailViewController = .init(viewModel: viewModel)
             return viewController
         }
+        container.register(WordAdditionViewController.self) { resolver in
+            let wordUseCase: WordUseCaseProtocol = resolver.resolve()
+            let viewModel: WordAdditionViewModel = .init(wordUseCase: wordUseCase)
+            let viewController: WordAdditionViewController = .init(viewModel: viewModel)
+            return viewController
+        }
     }
 
 }

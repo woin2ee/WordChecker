@@ -76,7 +76,9 @@ final class WordListViewController: UIViewController {
 
         self.navigationItem.rightBarButtonItem = addWordButton
         addWordButton.primaryAction = .init(handler: { [weak self] _ in
-            print("tap!")
+            let wordAdditionVC: WordAdditionViewController = DIContainer.shared.resolve()
+            let wordAdditionNC: UINavigationController = .init(rootViewController: wordAdditionVC)
+            self?.present(wordAdditionNC, animated: true)
         })
     }
 
