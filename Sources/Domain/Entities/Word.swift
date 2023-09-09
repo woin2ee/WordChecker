@@ -22,7 +22,7 @@ public final class Word: Equatable {
     }
 
     public static func == (lhs: Word, rhs: Word) -> Bool {
-        return lhs.uuid == rhs.uuid && lhs.word == rhs.word && lhs.isMemorized == rhs.isMemorized
+        return lhs.uuid == rhs.uuid
     }
 
 }
