@@ -11,7 +11,7 @@ import Foundation
 final class WordRepositoryFake: WordRepositoryProtocol {
 
     var words: [Word] = []
-    
+
     func get(by uuid: UUID) -> Domain.Word? {
         return words.first(where: { $0.uuid == uuid })
     }
