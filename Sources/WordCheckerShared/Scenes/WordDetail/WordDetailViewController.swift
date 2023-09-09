@@ -98,7 +98,16 @@ final class WordDetailViewController: UIViewController {
             self.dismiss(animated: true)
         }
         let doneBarButton: UIBarButtonItem = .init(title: WCString.done, primaryAction: doneAction)
+        doneBarButton.style = .done
+
+        let cancelAction: UIAction = .init { [weak self] _ in
+            self?.dismiss(animated: true)
+        }
+        let cancelButton: UIBarButtonItem = .init(systemItem: .cancel, primaryAction: cancelAction)
+
         self.navigationItem.rightBarButtonItem = doneBarButton
+        self.navigationItem.leftBarButtonItem = cancelButton
+
         self.navigationItem.title = WCString.details
     }
 
