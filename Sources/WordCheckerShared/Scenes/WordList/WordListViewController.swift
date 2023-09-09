@@ -25,6 +25,13 @@ final class WordListViewController: UIViewController {
         return tableView
     }()
 
+    let addWordButton: UIBarButtonItem = {
+        let button: UIBarButtonItem = .init(systemItem: .add)
+        button.accessibilityIdentifier = AccessibilityIdentifier.WordList.addWordButton
+        button.style = .done
+        return button
+    }()
+
     init(viewModel: WordListViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -64,10 +71,22 @@ final class WordListViewController: UIViewController {
 
     private func setupNavigationBar() {
         self.navigationItem.title = WCString.wordList
+
+        setupSearchBar()
+
+        self.navigationItem.rightBarButtonItem = addWordButton
+        addWordButton.primaryAction = .init(handler: { [weak self] _ in
+            print("tap!")
+        })
+    }
+
+    func setupSearchBar() {
         let searchResultsController: WordSearchResultsController = .init(viewModel: viewModel)
         let searchController: UISearchController = .init(searchResultsController: searchResultsController)
+
         searchController.searchResultsUpdater = searchResultsController
         searchController.delegate = self
+
         self.navigationItem.searchController = searchController
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
