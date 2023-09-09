@@ -48,7 +48,7 @@
 		DA340C1A2AA5E62F00C1C529 /* WordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA340C192AA5E62F00C1C529 /* WordRepository.swift */; };
 		DA340C222AA5F56A00C1C529 /* WordUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA340C212AA5F56A00C1C529 /* WordUseCaseTests.swift */; };
 		DA340C232AA5F56A00C1C529 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */; };
-		DA340C2B2AA5F65100C1C529 /* WordRepositoryStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA340C2A2AA5F65100C1C529 /* WordRepositoryStub.swift */; };
+		DA340C2B2AA5F65100C1C529 /* WordRepositoryFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA340C2A2AA5F65100C1C529 /* WordRepositoryFake.swift */; };
 		DA340C342AA5F7B500C1C529 /* RealmPlatform.h in Headers */ = {isa = PBXBuildFile; fileRef = DA340C332AA5F7B500C1C529 /* RealmPlatform.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA6148062AA0774900CDA84C /* WordChecking+BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A082A9859580046AAC4 /* WordChecking+BottomButton.swift */; };
 		DA6148072AA0774900CDA84C /* LaunchArguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0A1F2A9B75930046AAC4 /* LaunchArguments.swift */; };
@@ -118,6 +118,8 @@
 		DA924F6C2AAC3C3D00B323F9 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA924F6A2AAC3C3D00B323F9 /* BaseViewController.swift */; };
 		DA924F6E2AAC3F8C00B323F9 /* WordAdditionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA924F6D2AAC3F8C00B323F9 /* WordAdditionViewModel.swift */; };
 		DA924F6F2AAC3F8C00B323F9 /* WordAdditionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA924F6D2AAC3F8C00B323F9 /* WordAdditionViewModel.swift */; };
+		DA924F742AAC489E00B323F9 /* State.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEF52AA899970000CF8F /* State.framework */; };
+		DA924F762AAC4DCF00B323F9 /* UnmemorizedWordListStateSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA924F752AAC4DCF00B323F9 /* UnmemorizedWordListStateSpy.swift */; };
 		DAC4B2DF2AA5A2A40091749E /* WordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC4B2DE2AA5A2A40091749E /* WordDetailViewController.swift */; };
 		DAC4B2E02AA5A2A40091749E /* WordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC4B2DE2AA5A2A40091749E /* WordDetailViewController.swift */; };
 		DAEE5D242AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D232AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift */; };
@@ -239,6 +241,13 @@
 			remoteGlobalIDString = DA340BFA2AA5E4EE00C1C529;
 			remoteInfo = Domain;
 		};
+		DA924F722AAC489500B323F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA7A09A42A950FBB0046AAC4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA09BEF42AA899970000CF8F;
+			remoteInfo = State;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -300,7 +309,7 @@
 		DA340C192AA5E62F00C1C529 /* WordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordRepository.swift; sourceTree = "<group>"; };
 		DA340C1F2AA5F56A00C1C529 /* DomainUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DomainUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA340C212AA5F56A00C1C529 /* WordUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordUseCaseTests.swift; sourceTree = "<group>"; };
-		DA340C2A2AA5F65100C1C529 /* WordRepositoryStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordRepositoryStub.swift; sourceTree = "<group>"; };
+		DA340C2A2AA5F65100C1C529 /* WordRepositoryFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordRepositoryFake.swift; sourceTree = "<group>"; };
 		DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RealmPlatform.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA340C332AA5F7B500C1C529 /* RealmPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RealmPlatform.h; sourceTree = "<group>"; };
 		DA4623EA2AA1C257007D00DE /* .swiftlint_precommit.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint_precommit.yml; sourceTree = "<group>"; };
@@ -345,6 +354,7 @@
 		DA924F672AAC3C1700B323F9 /* WordAdditionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordAdditionViewController.swift; sourceTree = "<group>"; };
 		DA924F6A2AAC3C3D00B323F9 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		DA924F6D2AAC3F8C00B323F9 /* WordAdditionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordAdditionViewModel.swift; sourceTree = "<group>"; };
+		DA924F752AAC4DCF00B323F9 /* UnmemorizedWordListStateSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnmemorizedWordListStateSpy.swift; sourceTree = "<group>"; };
 		DAC4B2DE2AA5A2A40091749E /* WordDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailViewController.swift; sourceTree = "<group>"; };
 		DAEE5D232AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+clearAndEnterText.swift"; sourceTree = "<group>"; };
 		DAEE5D252AA38C3A00909097 /* XCUIElement+backButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+backButton.swift"; sourceTree = "<group>"; };
@@ -388,6 +398,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA924F742AAC489E00B323F9 /* State.framework in Frameworks */,
 				DA340C232AA5F56A00C1C529 /* Domain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -623,7 +634,8 @@
 		DA340C292AA5F64700C1C529 /* TestDoubles */ = {
 			isa = PBXGroup;
 			children = (
-				DA340C2A2AA5F65100C1C529 /* WordRepositoryStub.swift */,
+				DA340C2A2AA5F65100C1C529 /* WordRepositoryFake.swift */,
+				DA924F752AAC4DCF00B323F9 /* UnmemorizedWordListStateSpy.swift */,
 			);
 			path = TestDoubles;
 			sourceTree = "<group>";
@@ -1036,6 +1048,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DA924F732AAC489500B323F9 /* PBXTargetDependency */,
 				DA340C252AA5F56A00C1C529 /* PBXTargetDependency */,
 			);
 			name = DomainUnitTests;
@@ -1444,7 +1457,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA340C222AA5F56A00C1C529 /* WordUseCaseTests.swift in Sources */,
-				DA340C2B2AA5F65100C1C529 /* WordRepositoryStub.swift in Sources */,
+				DA340C2B2AA5F65100C1C529 /* WordRepositoryFake.swift in Sources */,
+				DA924F762AAC4DCF00B323F9 /* UnmemorizedWordListStateSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1626,6 +1640,11 @@
 			isa = PBXTargetDependency;
 			target = DA340BFA2AA5E4EE00C1C529 /* Domain */;
 			targetProxy = DA924F422AAB0D0400B323F9 /* PBXContainerItemProxy */;
+		};
+		DA924F732AAC489500B323F9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA09BEF42AA899970000CF8F /* State */;
+			targetProxy = DA924F722AAC489500B323F9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
