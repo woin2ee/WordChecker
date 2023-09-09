@@ -34,15 +34,19 @@ public struct UnmemorizedWordListState: UnmemorizedWordListStateProtocol {
     }
 
     public func deleteWord(_ word: Domain.Word) {
-        guard let targetIndex = unmemorizedWordList.value.firstIndex(where: { $0.uuid == word.uuid }) else {
+        guard let targetIndex = unmemorizedWordList.value.firstIndex(where: { $0 == word }) else {
             return
         }
-        unmemorizedWordList.value.delete(at: targetIndex)
+
+        unmemorizedWordList.value.remove(at: targetIndex)
     }
 
-    public func updateWord(with uuid: UUID, to newWord: Word) {
-        guard let updateTargetIndex = unmemorizedWordList.value.firstIndex(where: { $0.uuid == uuid }) else { return }
-        unmemorizedWordList.value.replace(at: updateTargetIndex, to: newWord)
+    public func replaceWord(where uuid: UUID, with newWord: Domain.Word) {
+        guard let targetIndex = unmemorizedWordList.value.firstIndex(where: { $0.uuid == uuid }) else {
+            return
+        }
+
+        unmemorizedWordList.value[targetIndex] = newWord
     }
 
     public func randomizeList(with unmemorizedList: [Domain.Word]) {
@@ -56,7 +60,7 @@ public struct UnmemorizedWordListState: UnmemorizedWordListStateProtocol {
     }
 
     public func contains(where predicate: (Domain.Word) -> Bool) -> Bool {
-        return unmemorizedWordList.value.elements.contains(where: predicate)
+        return unmemorizedWordList.value.contains(where: predicate)
     }
 
 }

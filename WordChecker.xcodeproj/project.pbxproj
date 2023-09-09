@@ -28,6 +28,7 @@
 		DA09BF882AA984290000CF8F /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BF872AA984290000CF8F /* Utility.swift */; };
 		DA09BF902AA985120000CF8F /* UtilityUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BF8F2AA985120000CF8F /* UtilityUnitTests.swift */; };
 		DA09BF912AA985120000CF8F /* Utility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; };
+		DA1694042AACDAD10050F6C9 /* CircularLinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1694022AACDACA0050F6C9 /* CircularLinkedListTests.swift */; };
 		DA25895B2AA5F7F500431D40 /* RealmPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; };
 		DA25895C2AA5F7F500431D40 /* RealmPlatform.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA2589632AA5F8D600431D40 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589622AA5F8D000431D40 /* Word.swift */; };
@@ -296,6 +297,7 @@
 		DA09BF872AA984290000CF8F /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		DA09BF8D2AA985120000CF8F /* UtilityUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UtilityUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA09BF8F2AA985120000CF8F /* UtilityUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityUnitTests.swift; sourceTree = "<group>"; };
+		DA1694022AACDACA0050F6C9 /* CircularLinkedListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularLinkedListTests.swift; sourceTree = "<group>"; };
 		DA2589622AA5F8D000431D40 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		DA2589692AA5F91B00431D40 /* WordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordRepository.swift; sourceTree = "<group>"; };
 		DA25896C2AA5FA2A00431D40 /* Word+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Word+Mapping.swift"; sourceTree = "<group>"; };
@@ -499,6 +501,7 @@
 			isa = PBXGroup;
 			children = (
 				DA09BF8F2AA985120000CF8F /* UtilityUnitTests.swift */,
+				DA1694022AACDACA0050F6C9 /* CircularLinkedListTests.swift */,
 			);
 			path = UtilityUnitTests;
 			sourceTree = "<group>";
@@ -1437,6 +1440,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA09BF902AA985120000CF8F /* UtilityUnitTests.swift in Sources */,
+				DA1694042AACDAD10050F6C9 /* CircularLinkedListTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

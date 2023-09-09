@@ -19,7 +19,7 @@ public protocol UnmemorizedWordListStateProtocol {
 
     func deleteWord(_ word: Word)
 
-    func updateWord(with uuid: UUID, to newWord: Word)
+    func replaceWord(where uuid: UUID, with newWord: Word)
 
     func randomizeList(with unmemorizedList: [Word])
 

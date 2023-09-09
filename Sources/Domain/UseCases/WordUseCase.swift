@@ -46,7 +46,7 @@ public final class WordUseCase: WordUseCaseProtocol {
             if updateTarget.isMemorized {
                 unmemorizedWordListState.deleteWord(updateTarget)
             }
-            unmemorizedWordListState.updateWord(with: uuid, to: updateTarget)
+            unmemorizedWordListState.replaceWord(where: uuid, with: updateTarget)
         } else if !updateTarget.isMemorized {
             unmemorizedWordListState.addWord(updateTarget)
         }
