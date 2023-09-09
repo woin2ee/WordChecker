@@ -29,4 +29,10 @@ enum AccessibilityIdentifier {
 
     }
 
+    enum WordList {
+
+        static let addWordButton = "WORDLIST_ADD_WORD_BUTTON"
+
+    }
+
 }
