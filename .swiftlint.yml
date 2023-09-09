@@ -1,13 +1,6 @@
 disabled_rules:
     - line_length
-
-identifier_name:
-    min_length:
-        warning: 3
-        error: 0
-    max_length:
-        warning: 60
-        error: 80
+    - identifier_name
 
 force_try:
     severity: warning
