@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/woin2ee/RxUtility.git",
       "state" : {
-        "revision" : "7951b6970646e076c012d9a54ed3bbc23fbdd6ae",
-        "version" : "1.0.0"
+        "revision" : "9692d5949b6333e453bafa345c4449d3c932178f",
+        "version" : "1.0.2"
       }
     },
     {
