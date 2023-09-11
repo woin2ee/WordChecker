@@ -38,4 +38,8 @@ final class WordRepositoryFake: WordRepositoryProtocol {
         return words.filter { !$0.isMemorized }
     }
 
+    func getMemorizedList() -> [Domain.Word] {
+        return words.filter { $0.isMemorized }
+    }
+
 }

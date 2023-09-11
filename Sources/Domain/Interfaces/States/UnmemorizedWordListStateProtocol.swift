@@ -17,7 +17,7 @@ public protocol UnmemorizedWordListStateProtocol {
 
     func addWord(_ word: Word)
 
-    func deleteWord(with uuid: UUID)
+    func deleteWord(by uuid: UUID)
 
     func replaceWord(where uuid: UUID, with newWord: Word)
 
