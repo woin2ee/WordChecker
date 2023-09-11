@@ -55,6 +55,12 @@ public final class WordRepository: WordRepositoryProtocol {
             .map { $0.toDomain() }
     }
 
+    public func getMemorizedList() -> [Domain.Word] {
+        return findAll()
+            .filter { $0.isMemorized == true }
+            .map { $0.toDomain() }
+    }
+
     func find(by uuid: UUID) -> Word? {
         guard let object = realm.object(ofType: Word.self, forPrimaryKey: uuid) else {
             return nil

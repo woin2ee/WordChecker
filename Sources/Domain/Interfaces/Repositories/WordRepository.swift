@@ -19,4 +19,6 @@ public protocol WordRepositoryProtocol {
 
     func getUnmemorizedList() -> [Word]
 
+    func getMemorizedList() -> [Word]
+
 }
