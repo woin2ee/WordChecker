@@ -180,7 +180,7 @@ final class WordCheckingViewController: BaseViewController {
             self?.present(alertController, animated: true)
         })
 
-        moreButton.menu = .init(children: [
+        let menuGroup: UIMenu = .init(options: .displayInline, children: [
             UIAction(
                 title: WCString.memorized,
                 image: .init(systemSymbol: .checkmarkDiamondFill),
@@ -190,14 +190,17 @@ final class WordCheckingViewController: BaseViewController {
                 title: WCString.shuffleOrder,
                 image: .init(systemSymbol: .shuffle),
                 handler: { [weak self] _ in self?.viewModel.shuffleWordList() }
-            ),
-            UIAction(
-                title: WCString.deleteWord,
-                image: .init(systemSymbol: .trash),
-                attributes: .destructive,
-                handler: { [weak self] _ in self?.viewModel.deleteCurrentWord() }
             )
         ])
+
+        let deleteMenu: UIAction = .init(
+            title: WCString.deleteWord,
+            image: .init(systemSymbol: .trash),
+            attributes: .destructive,
+            handler: { [weak self] _ in self?.viewModel.deleteCurrentWord() }
+        )
+
+        moreButton.menu = .init(children: [menuGroup, deleteMenu])
     }
 
     func bindViewModel() {
