@@ -54,6 +54,12 @@
 		DA1AAAEE2AAEE7DC0019298B /* UIPresentationController+didAttemptToDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAEC2AAEE7DC0019298B /* UIPresentationController+didAttemptToDismiss.swift */; };
 		DA1AAAF02AAEEDCF0019298B /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAAEF2AAEEDCF0019298B /* RxCocoa */; };
 		DA1AAAF22AAEEDEA0019298B /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAAF12AAEEDEA0019298B /* RxCocoa */; };
+		DA1AAAF42AAF3B1B0019298B /* UIButton+setBackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAF32AAF3B1B0019298B /* UIButton+setBackgroundColor.swift */; };
+		DA1AAAF52AAF3B1B0019298B /* UIButton+setBackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAF32AAF3B1B0019298B /* UIButton+setBackgroundColor.swift */; };
+		DA1AAAF72AAF3DE30019298B /* WordChecking+ChangeWordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAF62AAF3DE30019298B /* WordChecking+ChangeWordButton.swift */; };
+		DA1AAAF82AAF3DE30019298B /* WordChecking+ChangeWordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAF62AAF3DE30019298B /* WordChecking+ChangeWordButton.swift */; };
+		DA1AAAFA2AAF3EDC0019298B /* WordChecking+ChangeSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAF92AAF3EDC0019298B /* WordChecking+ChangeSymbol.swift */; };
+		DA1AAAFB2AAF3EDC0019298B /* WordChecking+ChangeSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAF92AAF3EDC0019298B /* WordChecking+ChangeSymbol.swift */; };
 		DA25895B2AA5F7F500431D40 /* RealmPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; };
 		DA25895C2AA5F7F500431D40 /* RealmPlatform.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA2589632AA5F8D600431D40 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589622AA5F8D000431D40 /* Word.swift */; };
@@ -330,6 +336,9 @@
 		DA1AAADE2AAEDFD10019298B /* UtilityError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityError.swift; sourceTree = "<group>"; };
 		DA1AAAE92AAEE6E30019298B /* UIPresentationControllerDelegateProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPresentationControllerDelegateProxy.swift; sourceTree = "<group>"; };
 		DA1AAAEC2AAEE7DC0019298B /* UIPresentationController+didAttemptToDismiss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPresentationController+didAttemptToDismiss.swift"; sourceTree = "<group>"; };
+		DA1AAAF32AAF3B1B0019298B /* UIButton+setBackgroundColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+setBackgroundColor.swift"; sourceTree = "<group>"; };
+		DA1AAAF62AAF3DE30019298B /* WordChecking+ChangeWordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordChecking+ChangeWordButton.swift"; sourceTree = "<group>"; };
+		DA1AAAF92AAF3EDC0019298B /* WordChecking+ChangeSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordChecking+ChangeSymbol.swift"; sourceTree = "<group>"; };
 		DA2589622AA5F8D000431D40 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		DA2589692AA5F91B00431D40 /* WordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordRepository.swift; sourceTree = "<group>"; };
 		DA25896C2AA5FA2A00431D40 /* Word+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Word+Mapping.swift"; sourceTree = "<group>"; };
@@ -557,6 +566,8 @@
 			isa = PBXGroup;
 			children = (
 				DA7A0A082A9859580046AAC4 /* WordChecking+BottomButton.swift */,
+				DA1AAAF62AAF3DE30019298B /* WordChecking+ChangeWordButton.swift */,
+				DA1AAAF92AAF3EDC0019298B /* WordChecking+ChangeSymbol.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -835,6 +846,7 @@
 			children = (
 				DA7A09FF2A97853F0046AAC4 /* Collection+isNotEmpty.swift */,
 				DA7A09EE2A95FEAF0046AAC4 /* UIFont+preferredFont.swift */,
+				DA1AAAF32AAF3B1B0019298B /* UIButton+setBackgroundColor.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1581,6 +1593,8 @@
 				DA1AAAEB2AAEE6E30019298B /* UIPresentationControllerDelegateProxy.swift in Sources */,
 				DA2589E32AA74EC800431D40 /* UseCaseAssembly.swift in Sources */,
 				DA6148072AA0774900CDA84C /* LaunchArguments.swift in Sources */,
+				DA1AAAF52AAF3B1B0019298B /* UIButton+setBackgroundColor.swift in Sources */,
+				DA1AAAF82AAF3DE30019298B /* WordChecking+ChangeWordButton.swift in Sources */,
 				DA6148092AA0774900CDA84C /* WordSearchResultsController.swift in Sources */,
 				DA61480A2AA0774900CDA84C /* WordListViewController.swift in Sources */,
 				DA61480B2AA0774900CDA84C /* DIContainer.swift in Sources */,
@@ -1594,6 +1608,7 @@
 				DA09BEBB2AA84E6F0000CF8F /* WordDetailViewModel.swift in Sources */,
 				DA6148152AA0774900CDA84C /* UIFont+preferredFont.swift in Sources */,
 				DA924F692AAC3C1800B323F9 /* WordAdditionViewController.swift in Sources */,
+				DA1AAAFB2AAF3EDC0019298B /* WordChecking+ChangeSymbol.swift in Sources */,
 				DA6148172AA0774900CDA84C /* WCString.swift in Sources */,
 				DA1AAAEE2AAEE7DC0019298B /* UIPresentationController+didAttemptToDismiss.swift in Sources */,
 				DA6148182AA0774900CDA84C /* SceneDelegate.swift in Sources */,
@@ -1608,13 +1623,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA09BEAE2AA818BF0000CF8F /* WordCheckingViewModel.swift in Sources */,
+				DA1AAAFA2AAF3EDC0019298B /* WordChecking+ChangeSymbol.swift in Sources */,
 				DA7A0A092A9859580046AAC4 /* WordChecking+BottomButton.swift in Sources */,
 				DA924F682AAC3C1700B323F9 /* WordAdditionViewController.swift in Sources */,
 				DA924F6B2AAC3C3D00B323F9 /* BaseViewController.swift in Sources */,
 				DAEE5D362AA4404E00909097 /* Resolver+resolve.swift in Sources */,
+				DA1AAAF42AAF3B1B0019298B /* UIButton+setBackgroundColor.swift in Sources */,
 				DA1AAAEA2AAEE6E30019298B /* UIPresentationControllerDelegateProxy.swift in Sources */,
 				DA6148302AA07D0800CDA84C /* RealmPlatformAssembly_Product.swift in Sources */,
 				DA7A0A172A9A540A0046AAC4 /* WordSearchResultsController.swift in Sources */,
+				DA1AAAF72AAF3DE30019298B /* WordChecking+ChangeWordButton.swift in Sources */,
 				DA7A0A0C2A985F720046AAC4 /* WordListViewController.swift in Sources */,
 				DA7A0A2A2A9B85CF0046AAC4 /* DIContainer.swift in Sources */,
 				DA2589D12AA7362700431D40 /* UseCaseAssembly.swift in Sources */,
