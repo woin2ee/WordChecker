@@ -33,8 +33,8 @@ public struct UnmemorizedWordListState: UnmemorizedWordListStateProtocol {
         unmemorizedWordList.value.append(word)
     }
 
-    public func deleteWord(_ word: Domain.Word) {
-        guard let targetIndex = unmemorizedWordList.value.firstIndex(where: { $0 == word }) else {
+    public func deleteWord(with uuid: UUID) {
+        guard let targetIndex = unmemorizedWordList.value.firstIndex(where: { $0.uuid == uuid }) else {
             return
         }
 

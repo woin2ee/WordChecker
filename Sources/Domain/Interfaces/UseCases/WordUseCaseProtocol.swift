@@ -26,4 +26,6 @@ public protocol WordUseCaseProtocol {
 
     func updateToPreviousWord()
 
+    func markCurrentWordAsMemorized(uuid: UUID)
+
 }

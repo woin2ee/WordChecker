@@ -17,6 +17,8 @@ final class WordCheckingViewController: UIViewController {
 
     var cancelBag: Set<AnyCancellable> = .init()
 
+    // MARK: - UI Objects Declaration
+
     let wordLabel: UILabel = {
         let label: UILabel = .init()
         label.adjustsFontForContentSizeCategory = true
@@ -64,6 +66,8 @@ final class WordCheckingViewController: UIViewController {
         button.addAction(action, for: .touchUpInside)
         return button
     }()
+
+    let addWordButton: UIBarButtonItem = .init()
 
     let moreButton: UIBarButtonItem = {
         let buttonSymbolImage: UIImage = .init(systemSymbol: .ellipsisCircle)
@@ -120,45 +124,51 @@ final class WordCheckingViewController: UIViewController {
     }
 
     private func setupNavigationBar() {
-        self.navigationItem.rightBarButtonItem = moreButton
-        let menu: UIMenu = .init(children: [
-            UIAction(title: WCString.addWord, image: .init(systemName: "plus.app"), handler: { [weak self] _ in
-                let alertController = UIAlertController(title: WCString.addWord, message: "", preferredStyle: .alert)
-                let cancelAction: UIAlertAction = .init(title: WCString.cancel, style: .cancel)
-                let addAction: UIAlertAction = .init(title: WCString.add, style: .default) { [weak self] _ in
-                    guard let word = alertController.textFields?.first?.text else {
-                        return
-                    }
-                    self?.viewModel.addWord(word)
+        self.navigationItem.rightBarButtonItems = [moreButton, addWordButton]
+
+        addWordButton.primaryAction = .init(image: .init(systemSymbol: .plusApp), handler: { [weak self] _ in
+            let alertController = UIAlertController(title: WCString.addWord, message: "", preferredStyle: .alert)
+            let cancelAction: UIAlertAction = .init(title: WCString.cancel, style: .cancel)
+            let addAction: UIAlertAction = .init(title: WCString.add, style: .default) { [weak self] _ in
+                guard let word = alertController.textFields?.first?.text else {
+                    return
                 }
-                alertController.addAction(cancelAction)
-                alertController.addAction(addAction)
-                alertController.addTextField { textField in
-                    let action: UIAction = .init { _ in
-                        let text = textField.text ?? ""
-                        if text.isEmpty {
-                            addAction.isEnabled = false
-                        } else {
-                            addAction.isEnabled = true
-                        }
+                self?.viewModel.addWord(word)
+            }
+            alertController.addAction(cancelAction)
+            alertController.addAction(addAction)
+            alertController.addTextField { textField in
+                let action: UIAction = .init { _ in
+                    let text = textField.text ?? ""
+                    if text.isEmpty {
+                        addAction.isEnabled = false
+                    } else {
+                        addAction.isEnabled = true
                     }
-                    textField.addAction(action, for: .allEditingEvents)
                 }
-                self?.present(alertController, animated: true)
-            }),
-            UIAction(title: WCString.shuffleOrder, image: .init(systemName: "shuffle"), handler: { [weak self] _ in
-                self?.viewModel.shuffleWordList()
-            }),
+                textField.addAction(action, for: .allEditingEvents)
+            }
+            self?.present(alertController, animated: true)
+        })
+
+        moreButton.menu = .init(children: [
+            UIAction(
+                title: WCString.memorized,
+                image: .init(systemSymbol: .checkmarkDiamondFill),
+                handler: { [weak self] _ in self?.viewModel.markCurrentWordAsMemorized() }
+            ),
+            UIAction(
+                title: WCString.shuffleOrder,
+                image: .init(systemSymbol: .shuffle),
+                handler: { [weak self] _ in self?.viewModel.shuffleWordList() }
+            ),
             UIAction(
                 title: WCString.deleteWord,
-                image: .init(systemName: "trash", withConfiguration: UIImage.SymbolConfiguration.init(hierarchicalColor: .systemRed)),
+                image: .init(systemSymbol: .trash),
                 attributes: .destructive,
-                handler: { [weak self] _ in
-                    self?.viewModel.deleteCurrentWord()
-                }
+                handler: { [weak self] _ in self?.viewModel.deleteCurrentWord() }
             )
         ])
-        moreButton.menu = menu
     }
 
     func bindViewModel() {
