@@ -29,22 +29,25 @@ final class WordCheckingViewController: BaseViewController {
         return label
     }()
 
-    lazy var previousButton: BottomButton = {
-        let button: BottomButton = .init(title: WCString.previous)
+    lazy var previousButton: ChangeWordButton = .init().then {
         let action: UIAction = .init { [weak self] _ in
             self?.viewModel.updateToPreviousWord()
         }
-        button.addAction(action, for: .touchUpInside)
-        return button
-    }()
 
-    lazy var nextButton: BottomButton = {
-        let button: BottomButton = .init(title: WCString.next)
-        button.addAction(.init { [weak self] _ in
+        $0.addAction(action, for: .touchUpInside)
+    }
+
+    let previousButtonSymbol: ChangeWordSymbol = .init(direction: .left)
+
+    lazy var nextButton: ChangeWordButton = .init().then {
+        let action: UIAction = .init { [weak self] _ in
             self?.viewModel.updateToNextWord()
-        }, for: .touchUpInside)
-        return button
-    }()
+        }
+
+        $0.addAction(action, for: .touchUpInside)
+    }
+
+    let nextButtonSymbol: ChangeWordSymbol = .init(direction: .right)
 
     lazy var translateButton: BottomButton = {
         let button: BottomButton = .init(title: WCString.translate)
@@ -99,34 +102,52 @@ final class WordCheckingViewController: BaseViewController {
     }
 
     private func setupSubviews() {
-        self.view.addSubview(wordLabel)
         self.view.addSubview(previousButton)
+        self.view.addSubview(previousButtonSymbol)
         self.view.addSubview(nextButton)
+        self.view.addSubview(nextButtonSymbol)
         self.view.addSubview(translateButton)
+        self.view.addSubview(wordLabel)
 
         wordLabel.snp.makeConstraints { make in
-            make.centerX.centerY.equalTo(self.view)
+            make.centerX.centerY.equalTo(self.view.safeAreaLayoutGuide)
             make.leading.greaterThanOrEqualTo(self.view.safeAreaLayoutGuide).inset(30)
             make.trailing.lessThanOrEqualTo(self.view.safeAreaLayoutGuide).inset(30)
         }
+
         previousButton.snp.makeConstraints { make in
-            make.leading.equalTo(self.view.safeAreaLayoutGuide).inset(20)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(8)
+            make.top.leading.bottom.equalTo(self.view.safeAreaLayoutGuide)
+            make.trailing.equalTo(self.view.snp.centerX)
         }
+
+        previousButtonSymbol.snp.makeConstraints { make in
+            make.centerY.equalTo(self.view.safeAreaLayoutGuide)
+            make.leading.equalTo(self.view.safeAreaLayoutGuide).inset(14)
+        }
+
         nextButton.snp.makeConstraints { make in
-            make.leading.equalTo(previousButton.snp.trailing).offset(8)
-            make.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(20)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(8)
-            make.width.equalTo(previousButton)
+            make.top.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
+            make.leading.equalTo(self.view.snp.centerX)
         }
+
+        nextButtonSymbol.snp.makeConstraints { make in
+            make.centerY.equalTo(self.view.safeAreaLayoutGuide)
+            make.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(14)
+        }
+
         translateButton.snp.makeConstraints { make in
             make.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(20)
-            make.bottom.equalTo(nextButton.snp.top).offset(-8)
-            make.width.equalTo(previousButton)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(12)
         }
     }
 
     private func setupNavigationBar() {
+        let appearance: UINavigationBarAppearance = .init()
+        appearance.configureWithOpaqueBackground()
+
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+
         self.navigationItem.rightBarButtonItems = [moreButton, addWordButton]
 
         addWordButton.primaryAction = .init(image: .init(systemSymbol: .plusApp), handler: { [weak self] _ in
