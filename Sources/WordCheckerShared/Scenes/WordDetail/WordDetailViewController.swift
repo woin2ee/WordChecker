@@ -8,6 +8,7 @@
 import Combine
 import Domain
 import SnapKit
+import Then
 import UIKit
 import Utility
 
@@ -17,40 +18,46 @@ final class WordDetailViewController: BaseViewController {
 
     var cancelBag: Set<AnyCancellable> = .init()
 
-    let wordTextField: UITextField = {
-        let textField: UITextField = .init()
-        textField.placeholder = WCString.word
-        textField.borderStyle = .roundedRect
-        textField.accessibilityIdentifier = AccessibilityIdentifier.WordDetail.wordTextField
-        return textField
-    }()
+    // MARK: - UI Objects Declaration
 
-    let memorizedLabel: UILabel = {
-        let label: UILabel = .init()
-        label.text = "단어 암기 상태"
-        label.adjustsFontForContentSizeCategory = true
-        label.font = .preferredFont(forTextStyle: .body)
-        return label
-    }()
+    let wordTextField: UITextField = .init().then {
+        $0.placeholder = WCString.word
+        $0.borderStyle = .roundedRect
+        $0.accessibilityIdentifier = AccessibilityIdentifier.WordDetail.wordTextField
+    }
+
+//    let memorizedLabel: UILabel = .init().then {
+//        $0.text = "단어 암기 상태"
+//        $0.adjustsFontForContentSizeCategory = true
+//        $0.font = .preferredFont(forTextStyle: .body)
+//    }
 
     lazy var memorizationStatePopupButton: UIButton = {
         var config: UIButton.Configuration = .bordered()
         config.baseBackgroundColor = .systemGray5
         config.baseForegroundColor = .label
+
         let button: UIButton = .init(configuration: config)
+
         button.menu = .init(children: [
             UIAction.init(title: WCString.memorizing) { [weak self] _ in
                 self?.memorizationStatePopupButton.setTitle(WCString.memorizing, for: .normal)
+                self?.viewModel.markAsChanged()
             },
             UIAction.init(title: WCString.memorized) { [weak self] _ in
                 self?.memorizationStatePopupButton.setTitle(WCString.memorized, for: .normal)
+                self?.viewModel.markAsChanged()
             }
         ])
+
         button.showsMenuAsPrimaryAction = true
         button.changesSelectionAsPrimaryAction = true
         button.accessibilityIdentifier = AccessibilityIdentifier.WordDetail.memorizationStateButton
+
         return button
     }()
+
+    // MARK: Initializers
 
     init(viewModel: WordDetailViewModelProtocol) {
         self.viewModel = viewModel
@@ -64,14 +71,17 @@ final class WordDetailViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationController?.presentationController?.delegate = self
+
         setupSubviews()
         setupNavigationBar()
         bindViewModel()
+        addTextFieldObserver()
     }
 
     private func setupSubviews() {
         self.view.addSubview(wordTextField)
-        self.view.addSubview(memorizedLabel)
+//        self.view.addSubview(memorizedLabel)
         self.view.addSubview(memorizationStatePopupButton)
 
         wordTextField.snp.makeConstraints { make in
@@ -97,12 +107,19 @@ final class WordDetailViewController: BaseViewController {
             self.viewModel.doneEditing(word)
             self.dismiss(animated: true)
         }
+
         let doneBarButton: UIBarButtonItem = .init(title: WCString.done, primaryAction: doneAction)
         doneBarButton.style = .done
 
         let cancelAction: UIAction = .init { [weak self] _ in
-            self?.dismiss(animated: true)
+            guard let self = self else { return }
+            if self.viewModel.hasChangesSubject.value {
+                self.presentDismissActionSheet()
+            } else {
+                self.dismiss(animated: true)
+            }
         }
+
         let cancelButton: UIBarButtonItem = .init(systemItem: .cancel, primaryAction: cancelAction)
 
         self.navigationItem.rightBarButtonItem = doneBarButton
@@ -125,6 +142,33 @@ final class WordDetailViewController: BaseViewController {
                 }
             }
             .store(in: &cancelBag)
+
+        viewModel.hasChangesSubject
+            .assign(to: \.isModalInPresentation, on: self)
+            .store(in: &cancelBag)
+    }
+
+    func addTextFieldObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.markAsChanges),
+            name: UITextField.textDidChangeNotification,
+            object: wordTextField
+        )
+    }
+
+    @objc func markAsChanges() {
+        viewModel.markAsChanged()
+    }
+
+}
+
+// MARK: - UIAdaptivePresentationControllerDelegate
+
+extension WordDetailViewController: UIAdaptivePresentationControllerDelegate {
+
+    func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
+        self.presentDismissActionSheet()
     }
 
 }
