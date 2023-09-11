@@ -27,6 +27,22 @@
         "identifier" : "DA7A09CB2A950FBC0046AAC4",
         "name" : "WordCheckerUITests"
       }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "DA340C1E2AA5F56A00C1C529",
+        "name" : "DomainUnitTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "DA09BF8C2AA985120000CF8F",
+        "name" : "UtilityUnitTests"
+      }
     }
   ],
   "version" : 1
