@@ -24,7 +24,7 @@ public final class WordUseCase: WordUseCaseProtocol {
     }
 
     public func deleteWord(_ word: Word) {
-        unmemorizedWordListState.deleteWord(with: word.uuid)
+        unmemorizedWordListState.deleteWord(by: word.uuid)
         wordRepository.delete(word)
     }
 
@@ -48,7 +48,7 @@ public final class WordUseCase: WordUseCaseProtocol {
         )
         if unmemorizedWordListState.contains(where: { $0.uuid == updateTarget.uuid }) {
             if updateTarget.isMemorized {
-                unmemorizedWordListState.deleteWord(with: uuid)
+                unmemorizedWordListState.deleteWord(by: uuid)
             }
             unmemorizedWordListState.replaceWord(where: uuid, with: updateTarget)
         } else if !updateTarget.isMemorized {
@@ -77,7 +77,7 @@ public final class WordUseCase: WordUseCaseProtocol {
 
         currentWord.isMemorized = true
 
-        unmemorizedWordListState.deleteWord(with: uuid)
+        unmemorizedWordListState.deleteWord(by: uuid)
         wordRepository.save(currentWord)
     }
 

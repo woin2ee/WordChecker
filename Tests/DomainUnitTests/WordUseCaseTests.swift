@@ -132,7 +132,7 @@ final class WordUseCaseTests: XCTestCase {
         updateTarget.word = "UpdatedWord"
 
         // Act
-        sut.updateWord(with: updateTarget.uuid, to: updateTarget)
+        sut.updateWord(by: updateTarget.uuid, to: updateTarget)
 
         // Assert
         XCTAssertEqual(wordRepository.words.first(where: { $0.uuid == updateTarget.uuid })?.word, "UpdatedWord")
@@ -147,7 +147,7 @@ final class WordUseCaseTests: XCTestCase {
         updateTarget.isMemorized = true
 
         // Act
-        sut.updateWord(with: updateTarget.uuid, to: updateTarget)
+        sut.updateWord(by: updateTarget.uuid, to: updateTarget)
 
         // Assert
         XCTAssertEqual(wordRepository.words.first(where: { $0.uuid == updateTarget.uuid }), updateTarget)
@@ -162,7 +162,7 @@ final class WordUseCaseTests: XCTestCase {
         updateTarget.isMemorized = false
 
         // Act
-        sut.updateWord(with: updateTarget.uuid, to: updateTarget)
+        sut.updateWord(by: updateTarget.uuid, to: updateTarget)
 
         // Assert
         XCTAssertEqual(wordRepository.words.first(where: { $0.uuid == updateTarget.uuid }), updateTarget)

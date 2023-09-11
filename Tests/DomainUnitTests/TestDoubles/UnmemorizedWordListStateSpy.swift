@@ -33,15 +33,15 @@ final class UnmemorizedWordListStateSpy: UnmemorizedWordListStateProtocol {
         storedWords.append(word)
     }
 
-    func deleteWord(_ word: Domain.Word) {
-        _state.deleteWord(word)
-        if let index = storedWords.firstIndex(where: { $0.uuid == word.uuid }) {
+    func deleteWord(by uuid: UUID) {
+        _state.deleteWord(by: uuid)
+        if let index = storedWords.firstIndex(where: { $0.uuid == uuid }) {
             storedWords.remove(at: index)
         }
     }
 
-    func updateWord(with uuid: UUID, to newWord: Domain.Word) {
-        _state.updateWord(with: uuid, to: newWord)
+    func replaceWord(where uuid: UUID, with newWord: Domain.Word) {
+        _state.replaceWord(where: uuid, with: newWord)
         if let index = storedWords.firstIndex(where: { $0.uuid == uuid }) {
             storedWords[index] = newWord
         }
