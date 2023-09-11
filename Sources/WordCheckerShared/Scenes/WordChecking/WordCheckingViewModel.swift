@@ -22,6 +22,8 @@ protocol WordCheckingViewModelInput {
 
     func deleteCurrentWord()
 
+    func markCurrentWordAsMemorized()
+
 }
 
 /// WordCheckingView 를 표시하기 위해 필요한 최소한의 Model.
@@ -91,6 +93,14 @@ extension WordCheckingViewModel {
     func deleteCurrentWord() {
         guard let currentWord = currentWordSubject.value else { return }
         wordUseCase.deleteWord(currentWord)
+    }
+
+    func markCurrentWordAsMemorized() {
+        guard let currentWord = currentWordSubject.value else {
+            return
+        }
+
+        wordUseCase.markCurrentWordAsMemorized(uuid: currentWord.uuid)
     }
 
 }

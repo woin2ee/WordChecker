@@ -29,6 +29,7 @@
 		DA09BF902AA985120000CF8F /* UtilityUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09BF8F2AA985120000CF8F /* UtilityUnitTests.swift */; };
 		DA09BF912AA985120000CF8F /* Utility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; };
 		DA1694042AACDAD10050F6C9 /* CircularLinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1694022AACDACA0050F6C9 /* CircularLinkedListTests.swift */; };
+		DA1AAAC12AAEAC6F0019298B /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAAC02AAEAC6F0019298B /* Then */; };
 		DA25895B2AA5F7F500431D40 /* RealmPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; };
 		DA25895C2AA5F7F500431D40 /* RealmPlatform.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA2589632AA5F8D600431D40 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589622AA5F8D000431D40 /* Word.swift */; };
@@ -436,6 +437,7 @@
 				DA924F4C2AAB0DAD00B323F9 /* Utility.framework in Frameworks */,
 				DA924F452AAB0D6600B323F9 /* State.framework in Frameworks */,
 				DA7853602AAA2530001445D8 /* SFSafeSymbols in Frameworks */,
+				DA1AAAC12AAEAC6F0019298B /* Then in Frameworks */,
 				DA7A0A272A9B85B00046AAC4 /* Swinject in Frameworks */,
 				DA924F4A2AAB0DA900B323F9 /* RealmPlatform.framework in Frameworks */,
 				DA7853572AA9A539001445D8 /* SnapKit in Frameworks */,
@@ -1135,6 +1137,7 @@
 				DA7A0A262A9B85B00046AAC4 /* Swinject */,
 				DA7853562AA9A539001445D8 /* SnapKit */,
 				DA78535F2AAA2530001445D8 /* SFSafeSymbols */,
+				DA1AAAC02AAEAC6F0019298B /* Then */,
 			);
 			productName = WordChecker;
 			productReference = DA7A09AC2A950FBB0046AAC4 /* WordChecker.app */;
@@ -1239,6 +1242,7 @@
 				DA7A0A252A9B85B00046AAC4 /* XCRemoteSwiftPackageReference "Swinject" */,
 				DA7853552AA9A539001445D8 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				DA78535E2AAA2530001445D8 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */,
+				DA1AAABF2AAEAC6F0019298B /* XCRemoteSwiftPackageReference "Then" */,
 			);
 			productRefGroup = DA7A09AD2A950FBB0046AAC4 /* Products */;
 			projectDirPath = "";
@@ -2481,6 +2485,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		DA1AAABF2AAEAC6F0019298B /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		DA6148032AA0774900CDA84C /* XCRemoteSwiftPackageReference "Swinject" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Swinject/Swinject.git";
@@ -2524,6 +2536,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		DA1AAAC02AAEAC6F0019298B /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA1AAABF2AAEAC6F0019298B /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
 		DA2589DB2AA7410C00431D40 /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DA7A09F12A9756780046AAC4 /* XCRemoteSwiftPackageReference "realm-swift" */;
