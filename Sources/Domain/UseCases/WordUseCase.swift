@@ -32,11 +32,11 @@ public final class WordUseCase: WordUseCaseProtocol {
         return wordRepository.getAll()
     }
 
-    public func getWord(with uuid: UUID) -> Word? {
+    public func getWord(by uuid: UUID) -> Word? {
         return wordRepository.get(by: uuid)
     }
 
-    public func updateWord(with uuid: UUID, to newWord: Word) {
+    public func updateWord(by uuid: UUID, to newWord: Word) {
         let updateTarget: Word = .init(
             uuid: uuid,
             word: newWord.word,
