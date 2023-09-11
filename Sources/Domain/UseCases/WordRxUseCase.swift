@@ -47,9 +47,9 @@ public final class WordRxUseCase: WordRxUseCaseProtocol {
         }
     }
 
-    public func getWord(with uuid: UUID) -> RxSwift.Single<Word> {
+    public func getWord(by uuid: UUID) -> RxSwift.Single<Word> {
         return .create { single in
-            let maybeWord = self.wordUseCase.getWord(with: uuid)
+            let maybeWord = self.wordUseCase.getWord(by: uuid)
 
             do {
                 let word = try unwrapOrThrow(maybeWord)
@@ -62,9 +62,9 @@ public final class WordRxUseCase: WordRxUseCaseProtocol {
         }
     }
 
-    public func updateWord(with uuid: UUID, to newWord: Word) -> RxSwift.Single<Void> {
+    public func updateWord(by uuid: UUID, to newWord: Word) -> RxSwift.Single<Void> {
         return .create { single in
-            self.wordUseCase.updateWord(with: uuid, to: newWord)
+            self.wordUseCase.updateWord(by: uuid, to: newWord)
 
             single(.success(()))
 

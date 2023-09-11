@@ -16,9 +16,9 @@ public protocol WordRxUseCaseProtocol {
 
     func getWordList() -> Single<[Word]>
 
-    func getWord(with uuid: UUID) -> Single<Word>
+    func getWord(by uuid: UUID) -> Single<Word>
 
-    func updateWord(with uuid: UUID, to newWord: Word) -> Single<Void>
+    func updateWord(by uuid: UUID, to newWord: Word) -> Single<Void>
 
     func randomizeUnmemorizedWordList() -> Single<Void>
 

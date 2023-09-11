@@ -74,7 +74,7 @@ extension WordListViewModel {
             word: newWord,
             isMemorized: false
         )
-        wordUseCase.updateWord(with: updateTargetUUID, to: updateTarget)
+        wordUseCase.updateWord(by: updateTargetUUID, to: updateTarget)
         let newList = wordUseCase.getWordList()
         wordListSubject.send(newList)
     }
