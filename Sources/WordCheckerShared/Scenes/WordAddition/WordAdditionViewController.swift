@@ -48,6 +48,12 @@ final class WordAdditionViewController: BaseViewController {
         bindViewModel()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        wordTextField.becomeFirstResponder()
+    }
+
     func setupSubviews() {
         self.view.addSubview(wordTextField)
 
