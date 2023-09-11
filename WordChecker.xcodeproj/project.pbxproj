@@ -508,6 +508,14 @@
 			path = UtilityUnitTests;
 			sourceTree = "<group>";
 		};
+		DA1AAAC22AAEC5B70019298B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DA7A0A082A9859580046AAC4 /* WordChecking+BottomButton.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		DA25895F2AA5F83E00431D40 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -677,8 +685,8 @@
 		DA78534F2AA9937B001445D8 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				DA924F662AAC3BBC00B323F9 /* WordAddition */,
 				DA7A0A332A9B94DE0046AAC4 /* Common */,
+				DA924F662AAC3BBC00B323F9 /* WordAddition */,
 				DA7A0A032A9786320046AAC4 /* WordChecking */,
 				DAC4B2DD2AA5A28C0091749E /* WordDetail */,
 				DA7A0A0A2A985F640046AAC4 /* WordList */,
@@ -779,8 +787,8 @@
 			isa = PBXGroup;
 			children = (
 				DA7A09B32A950FBB0046AAC4 /* WordCheckingViewController.swift */,
-				DA7A0A082A9859580046AAC4 /* WordChecking+BottomButton.swift */,
 				DA09BEAD2AA818BF0000CF8F /* WordCheckingViewModel.swift */,
+				DA1AAAC22AAEC5B70019298B /* Views */,
 			);
 			path = WordChecking;
 			sourceTree = "<group>";
@@ -814,9 +822,9 @@
 		DA7A0A282A9B85C50046AAC4 /* DI */ = {
 			isa = PBXGroup;
 			children = (
-				DAEE5D3A2AA4421400909097 /* Utilities */,
-				DAEE5D392AA4420900909097 /* Assemblies */,
 				DA7A0A292A9B85CF0046AAC4 /* DIContainer.swift */,
+				DAEE5D392AA4420900909097 /* Assemblies */,
+				DAEE5D3A2AA4421400909097 /* Utilities */,
 			);
 			path = DI;
 			sourceTree = "<group>";
@@ -913,10 +921,10 @@
 		DAEE5D392AA4420900909097 /* Assemblies */ = {
 			isa = PBXGroup;
 			children = (
-				DA09BF082AA89C810000CF8F /* StateAssemblies */,
-				DA2589D22AA7367400431D40 /* RealmPlatformAssemblies */,
-				DA2589CF2AA7361500431D40 /* UsecaseAssemblies */,
 				DA7A0A2D2A9B8F0E0046AAC4 /* UIViewControllerAssembly.swift */,
+				DA2589D22AA7367400431D40 /* RealmPlatformAssemblies */,
+				DA09BF082AA89C810000CF8F /* StateAssemblies */,
+				DA2589CF2AA7361500431D40 /* UsecaseAssemblies */,
 			);
 			path = Assemblies;
 			sourceTree = "<group>";
