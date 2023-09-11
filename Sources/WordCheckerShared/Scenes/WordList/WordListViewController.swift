@@ -8,7 +8,7 @@
 import Combine
 import UIKit
 
-final class WordListViewController: UIViewController {
+final class WordListViewController: BaseViewController {
 
     let viewModel: WordListViewModelProtocol
 
@@ -43,7 +43,7 @@ final class WordListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
+
         setupSubviews()
         setupNavigationBar()
         bindViewModel()

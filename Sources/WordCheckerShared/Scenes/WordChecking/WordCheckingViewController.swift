@@ -11,7 +11,7 @@ import SnapKit
 import UIKit
 import WebKit
 
-final class WordCheckingViewController: UIViewController {
+final class WordCheckingViewController: BaseViewController {
 
     let viewModel: WordCheckingViewModelProtocol
 
@@ -89,7 +89,7 @@ final class WordCheckingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
+
         setupSubviews()
         setupNavigationBar()
         bindViewModel()
