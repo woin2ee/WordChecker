@@ -5,40 +5,29 @@
 //  Created by Jaewon Yun on 2023/09/09.
 //
 
-import Domain
+import RxSwift
+import RxCocoa
+import RxUtility
 import SnapKit
+import Then
 import UIKit
 
 final class WordAdditionViewController: BaseViewController {
 
+    let disposeBag: DisposeBag = .init()
+
     let viewModel: WordAdditionViewModel
 
-    let wordTextField: UITextField = {
-        let textField: UITextField = .init()
-        textField.placeholder = WCString.word
-        textField.borderStyle = .roundedRect
-        return textField
-    }()
+    let wordTextField: UITextField = .init().then {
+        $0.placeholder = WCString.word
+        $0.borderStyle = .roundedRect
+    }
 
-    lazy var cancelBarButton: UIBarButtonItem = {
-        let button: UIBarButtonItem = .init(systemItem: .cancel)
-        button.primaryAction = .init(handler: { [weak self] _ in
-            self?.presentDismissActionSheet()
-        })
-        return button
-    }()
+    lazy var cancelBarButton: UIBarButtonItem = .init(systemItem: .cancel)
 
-    lazy var doneBarButton: UIBarButtonItem = {
-        let button: UIBarButtonItem = .init(systemItem: .done)
-        button.style = .done
-        button.primaryAction = .init(handler: { [weak self] _ in
-            let currentWord = self?.wordTextField.text ?? ""
-            let word: Word = .init(word: currentWord)
-            self?.viewModel.finishAddingWord(word)
-            self?.dismiss(animated: true)
-        })
-        return button
-    }()
+    lazy var doneBarButton: UIBarButtonItem = .init(systemItem: .done).then {
+        $0.style = .done
+    }
 
     init(viewModel: WordAdditionViewModel) {
         self.viewModel = viewModel
@@ -53,17 +42,10 @@ final class WordAdditionViewController: BaseViewController {
         super.viewDidLoad()
 
         self.isModalInPresentation = true
-        self.navigationController?.presentationController?.delegate = self
 
-        addTextFieldObserver()
         setupNavigationBar()
         setupSubviews()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        updateDoneButtonEnableState()
+        bindViewModel()
     }
 
     func setupSubviews() {
@@ -75,19 +57,6 @@ final class WordAdditionViewController: BaseViewController {
         }
     }
 
-    func addTextFieldObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(updateDoneButtonEnableState),
-            name: UITextField.textDidChangeNotification,
-            object: wordTextField
-        )
-    }
-
-    @objc func updateDoneButtonEnableState() {
-        doneBarButton.isEnabled = !(wordTextField.text ?? "").isEmpty
-    }
-
     func setupNavigationBar() {
         self.navigationItem.title = WCString.newWord
 
@@ -95,14 +64,38 @@ final class WordAdditionViewController: BaseViewController {
         self.navigationItem.rightBarButtonItem = doneBarButton
     }
 
-}
+    func bindViewModel() {
+        guard let presentationController = self.navigationController?.presentationController else {
+            assertionFailure("The presentation controller is not set.")
+            return
+        }
+        let input: WordAdditionViewModel.Input = .init(
+            wordText: wordTextField.rx.text.orEmpty.asDriver(),
+            saveAttempt: doneBarButton.rx.tap.asSignal(),
+            dismissAttempt: Signal.merge(
+                cancelBarButton.rx.tap.asSignal(),
+                presentationController.rx.didAttemptToDismiss.asSignalOnErrorJustComplete()
+            )
+        )
+        let output = viewModel.transform(input: input)
 
-// MARK: - UIAdaptivePresentationControllerDelegate
-
-extension WordAdditionViewController: UIAdaptivePresentationControllerDelegate {
-
-    func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
-        self.presentDismissActionSheet()
+        [
+            output.saveComplete
+                .emit(with: self, onNext: { owner, _ in
+                    owner.dismiss(animated: true)
+                }),
+            output.wordTextIsNotEmpty
+                .drive(doneBarButton.rx.isEnabled),
+            output.reconfirmDismiss
+                .emit(with: self, onNext: { owner, _ in
+                    owner.presentDismissActionSheet()
+                }),
+            output.dismissComplete
+                .emit(with: self, onNext: { owner, _ in
+                    owner.dismiss(animated: true)
+                })
+        ]
+            .forEach { $0.disposed(by: disposeBag) }
     }
 
 }

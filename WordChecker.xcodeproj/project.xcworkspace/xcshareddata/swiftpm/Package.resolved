@@ -19,6 +19,24 @@
       }
     },
     {
+      "identity" : "rxswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ReactiveX/RxSwift.git",
+      "state" : {
+        "revision" : "9dcaa4b333db437b0fbfaf453fad29069044a8b4",
+        "version" : "6.6.0"
+      }
+    },
+    {
+      "identity" : "rxutility",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/woin2ee/RxUtility.git",
+      "state" : {
+        "revision" : "7951b6970646e076c012d9a54ed3bbc23fbdd6ae",
+        "version" : "1.0.0"
+      }
+    },
+    {
       "identity" : "sfsafesymbols",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SFSafeSymbols/SFSafeSymbols.git",

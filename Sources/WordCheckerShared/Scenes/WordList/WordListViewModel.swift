@@ -100,7 +100,7 @@ extension WordListViewModel: WordDetailViewModelDelegate {
 
 extension WordListViewModel: WordAdditionViewModelDelegate {
 
-    func wordAdditionViewModelDidFinishAddWord(uuid: UUID) {
+    func wordAdditionViewModelDidFinishAddWord() {
         refreshWordList()
     }
 
