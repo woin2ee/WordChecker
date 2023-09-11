@@ -19,11 +19,15 @@ protocol WordDetailViewModelInput {
 
     func doneEditing(_ word: Word)
 
+    func markAsChanged()
+
 }
 
 protocol WordDetailViewModelOutput {
 
     var word: AnyPublisher<Word, Never> { get }
+
+    var hasChangesSubject: CurrentValueSubject<Bool, Never> { get }
 
 }
 
@@ -34,6 +38,8 @@ final class WordDetailViewModel: WordDetailViewModelProtocol {
     let wordUseCase: WordUseCaseProtocol
 
     let wordSubject: CurrentValueSubject<Domain.Word, Never> = .init(.empty)
+
+    let hasChangesSubject: CurrentValueSubject<Bool, Never> = .init(false)
 
     private(set) weak var delegate: WordDetailViewModelDelegate?
 
@@ -62,6 +68,10 @@ extension WordDetailViewModel {
         let updateTarget: Domain.Word = .init(uuid: updateTargetUUID, word: word.word, isMemorized: word.isMemorized)
         wordUseCase.updateWord(by: updateTargetUUID, to: updateTarget)
         delegate?.wordDetailViewModelDidUpdateWord(with: updateTargetUUID)
+    }
+
+    func markAsChanged() {
+        hasChangesSubject.send(true)
     }
 
 }
