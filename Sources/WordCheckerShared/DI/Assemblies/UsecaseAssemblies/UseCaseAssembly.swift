@@ -18,6 +18,12 @@ final class UseCaseAssembly: Assembly {
             return WordUseCase.init(wordRepository: repository, unmemorizedWordListState: state)
         }
         .inObjectScope(.container)
+
+        container.register(WordRxUseCaseProtocol.self) { resolver in
+            let wordUseCase: WordUseCaseProtocol = resolver.resolve()
+            return WordRxUseCase.init(wordUseCase: wordUseCase)
+        }
+        .inObjectScope(.container)
     }
 
 }

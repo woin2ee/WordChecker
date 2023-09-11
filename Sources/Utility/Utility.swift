@@ -15,3 +15,10 @@ public func castOrFatalError<T>(_ value: Any!) -> T {
 
     return result
 }
+
+public func unwrapOrThrow<T>(_ optionalValue: T?) throws -> T {
+    guard let unwrappedValue = optionalValue else {
+        throw UtilityError.nilValue(objectType: T.self)
+    }
+    return unwrappedValue
+}

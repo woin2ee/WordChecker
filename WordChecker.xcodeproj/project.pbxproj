@@ -32,6 +32,26 @@
 		DA1AAAC12AAEAC6F0019298B /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAAC02AAEAC6F0019298B /* Then */; };
 		DA1AAAC42AAECD0A0019298B /* UIViewController+presentDismissActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAC32AAECD0A0019298B /* UIViewController+presentDismissActionSheet.swift */; };
 		DA1AAAC52AAECE580019298B /* UIViewController+presentDismissActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAC32AAECD0A0019298B /* UIViewController+presentDismissActionSheet.swift */; };
+		DA1AAAC82AAED3EC0019298B /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAAC72AAED3EC0019298B /* RxCocoa */; };
+		DA1AAACA2AAED3EC0019298B /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAAC92AAED3EC0019298B /* RxRelay */; };
+		DA1AAACC2AAED3EC0019298B /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAACB2AAED3EC0019298B /* RxSwift */; };
+		DA1AAACE2AAED3EC0019298B /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAACD2AAED3EC0019298B /* RxTest */; };
+		DA1AAAD02AAED4020019298B /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAACF2AAED4020019298B /* RxCocoa */; };
+		DA1AAAD22AAED4020019298B /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAAD12AAED4020019298B /* RxRelay */; };
+		DA1AAAD42AAED4030019298B /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAAD32AAED4030019298B /* RxSwift */; };
+		DA1AAAD62AAED40C0019298B /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAAD52AAED40C0019298B /* Then */; };
+		DA1AAAD82AAED5050019298B /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAD72AAED5050019298B /* ViewModelType.swift */; };
+		DA1AAAD92AAED5300019298B /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAD72AAED5050019298B /* ViewModelType.swift */; };
+		DA1AAADB2AAEDD690019298B /* WordRxUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAADA2AAEDD690019298B /* WordRxUseCaseProtocol.swift */; };
+		DA1AAADD2AAEDE440019298B /* WordRxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAADC2AAEDE440019298B /* WordRxUseCase.swift */; };
+		DA1AAAE02AAEDFF20019298B /* UtilityError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAADE2AAEDFD10019298B /* UtilityError.swift */; };
+		DA1AAAE32AAEE17C0019298B /* RxUtility in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAAE22AAEE17C0019298B /* RxUtility */; };
+		DA1AAAE52AAEE18D0019298B /* RxUtility in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAAE42AAEE18D0019298B /* RxUtility */; };
+		DA1AAAE72AAEE4160019298B /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAAE62AAEE4160019298B /* RxSwift */; };
+		DA1AAAEA2AAEE6E30019298B /* UIPresentationControllerDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAE92AAEE6E30019298B /* UIPresentationControllerDelegateProxy.swift */; };
+		DA1AAAEB2AAEE6E30019298B /* UIPresentationControllerDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAE92AAEE6E30019298B /* UIPresentationControllerDelegateProxy.swift */; };
+		DA1AAAED2AAEE7DC0019298B /* UIPresentationController+didAttemptToDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAEC2AAEE7DC0019298B /* UIPresentationController+didAttemptToDismiss.swift */; };
+		DA1AAAEE2AAEE7DC0019298B /* UIPresentationController+didAttemptToDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAEC2AAEE7DC0019298B /* UIPresentationController+didAttemptToDismiss.swift */; };
 		DA25895B2AA5F7F500431D40 /* RealmPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; };
 		DA25895C2AA5F7F500431D40 /* RealmPlatform.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA2589632AA5F8D600431D40 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589622AA5F8D000431D40 /* Word.swift */; };
@@ -302,6 +322,12 @@
 		DA09BF8F2AA985120000CF8F /* UtilityUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityUnitTests.swift; sourceTree = "<group>"; };
 		DA1694022AACDACA0050F6C9 /* CircularLinkedListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularLinkedListTests.swift; sourceTree = "<group>"; };
 		DA1AAAC32AAECD0A0019298B /* UIViewController+presentDismissActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+presentDismissActionSheet.swift"; sourceTree = "<group>"; };
+		DA1AAAD72AAED5050019298B /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
+		DA1AAADA2AAEDD690019298B /* WordRxUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordRxUseCaseProtocol.swift; sourceTree = "<group>"; };
+		DA1AAADC2AAEDE440019298B /* WordRxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordRxUseCase.swift; sourceTree = "<group>"; };
+		DA1AAADE2AAEDFD10019298B /* UtilityError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityError.swift; sourceTree = "<group>"; };
+		DA1AAAE92AAEE6E30019298B /* UIPresentationControllerDelegateProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPresentationControllerDelegateProxy.swift; sourceTree = "<group>"; };
+		DA1AAAEC2AAEE7DC0019298B /* UIPresentationController+didAttemptToDismiss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPresentationController+didAttemptToDismiss.swift"; sourceTree = "<group>"; };
 		DA2589622AA5F8D000431D40 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		DA2589692AA5F91B00431D40 /* WordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordRepository.swift; sourceTree = "<group>"; };
 		DA25896C2AA5FA2A00431D40 /* Word+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Word+Mapping.swift"; sourceTree = "<group>"; };
@@ -396,6 +422,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA1AAAE72AAEE4160019298B /* RxSwift in Frameworks */,
 				DA09BEE92AA883D40000CF8F /* Utility.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -423,12 +450,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA1AAAD22AAED4020019298B /* RxRelay in Frameworks */,
 				DA09BF0D2AA8A7D60000CF8F /* State.framework in Frameworks */,
+				DA1AAAD62AAED40C0019298B /* Then in Frameworks */,
+				DA1AAAD42AAED4030019298B /* RxSwift in Frameworks */,
 				DA340C092AA5E52300C1C529 /* Domain.framework in Frameworks */,
 				DA25895B2AA5F7F500431D40 /* RealmPlatform.framework in Frameworks */,
 				DA7853662AAA256A001445D8 /* SFSafeSymbols in Frameworks */,
+				DA1AAAE52AAEE18D0019298B /* RxUtility in Frameworks */,
 				DA7853612AAA2564001445D8 /* Utility.framework in Frameworks */,
 				DA61481C2AA0774900CDA84C /* Swinject in Frameworks */,
+				DA1AAAD02AAED4020019298B /* RxCocoa in Frameworks */,
 				DA7853592AA9A549001445D8 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -437,14 +469,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA1AAACA2AAED3EC0019298B /* RxRelay in Frameworks */,
+				DA1AAAC82AAED3EC0019298B /* RxCocoa in Frameworks */,
 				DA924F4C2AAB0DAD00B323F9 /* Utility.framework in Frameworks */,
 				DA924F452AAB0D6600B323F9 /* State.framework in Frameworks */,
 				DA7853602AAA2530001445D8 /* SFSafeSymbols in Frameworks */,
 				DA1AAAC12AAEAC6F0019298B /* Then in Frameworks */,
 				DA7A0A272A9B85B00046AAC4 /* Swinject in Frameworks */,
+				DA1AAAE32AAEE17C0019298B /* RxUtility in Frameworks */,
 				DA924F4A2AAB0DA900B323F9 /* RealmPlatform.framework in Frameworks */,
 				DA7853572AA9A539001445D8 /* SnapKit in Frameworks */,
 				DA924F482AAB0DA800B323F9 /* Domain.framework in Frameworks */,
+				DA1AAACC2AAED3EC0019298B /* RxSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +488,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA1AAACE2AAED3EC0019298B /* RxTest in Frameworks */,
 				DA7A0A1C2A9B727C0046AAC4 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -481,6 +518,7 @@
 				DA09BEE32AA883B10000CF8F /* Utility.h */,
 				DA09BEC02AA8648A0000CF8F /* CircularLinkedList.swift */,
 				DA09BF872AA984290000CF8F /* Utility.swift */,
+				DA1AAADE2AAEDFD10019298B /* UtilityError.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -517,6 +555,15 @@
 				DA7A0A082A9859580046AAC4 /* WordChecking+BottomButton.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		DA1AAAE82AAEE6BD0019298B /* RxExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				DA1AAAE92AAEE6E30019298B /* UIPresentationControllerDelegateProxy.swift */,
+				DA1AAAEC2AAEE7DC0019298B /* UIPresentationController+didAttemptToDismiss.swift */,
+			);
+			path = RxExtensions;
 			sourceTree = "<group>";
 		};
 		DA25895F2AA5F83E00431D40 /* Tests */ = {
@@ -600,6 +647,7 @@
 			isa = PBXGroup;
 			children = (
 				DA340C122AA5E58E00C1C529 /* WordUseCase.swift */,
+				DA1AAADC2AAEDE440019298B /* WordRxUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -626,6 +674,7 @@
 			isa = PBXGroup;
 			children = (
 				DA340C152AA5E5A400C1C529 /* WordUseCaseProtocol.swift */,
+				DA1AAADA2AAEDD690019298B /* WordRxUseCaseProtocol.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -835,9 +884,11 @@
 		DA7A0A332A9B94DE0046AAC4 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				DA1AAAE82AAEE6BD0019298B /* RxExtensions */,
 				DA7A0A372A9C48440046AAC4 /* AccessibilityIdentifier.swift */,
 				DA924F6A2AAC3C3D00B323F9 /* BaseViewController.swift */,
 				DA1AAAC32AAECD0A0019298B /* UIViewController+presentDismissActionSheet.swift */,
+				DA1AAAD72AAED5050019298B /* ViewModelType.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1050,6 +1101,9 @@
 				DA09BEEC2AA883D40000CF8F /* PBXTargetDependency */,
 			);
 			name = Domain;
+			packageProductDependencies = (
+				DA1AAAE62AAEE4160019298B /* RxSwift */,
+			);
 			productName = Domain;
 			productReference = DA340BFB2AA5E4EE00C1C529 /* Domain.framework */;
 			productType = "com.apple.product-type.framework";
@@ -1120,6 +1174,11 @@
 				DA6148022AA0774900CDA84C /* Swinject */,
 				DA7853582AA9A549001445D8 /* SnapKit */,
 				DA7853652AAA256A001445D8 /* SFSafeSymbols */,
+				DA1AAACF2AAED4020019298B /* RxCocoa */,
+				DA1AAAD12AAED4020019298B /* RxRelay */,
+				DA1AAAD32AAED4030019298B /* RxSwift */,
+				DA1AAAD52AAED40C0019298B /* Then */,
+				DA1AAAE42AAEE18D0019298B /* RxUtility */,
 			);
 			productName = WordChecker;
 			productReference = DA6148252AA0774900CDA84C /* WordCheckerDev.app */;
@@ -1150,6 +1209,10 @@
 				DA7853562AA9A539001445D8 /* SnapKit */,
 				DA78535F2AAA2530001445D8 /* SFSafeSymbols */,
 				DA1AAAC02AAEAC6F0019298B /* Then */,
+				DA1AAAC72AAED3EC0019298B /* RxCocoa */,
+				DA1AAAC92AAED3EC0019298B /* RxRelay */,
+				DA1AAACB2AAED3EC0019298B /* RxSwift */,
+				DA1AAAE22AAEE17C0019298B /* RxUtility */,
 			);
 			productName = WordChecker;
 			productReference = DA7A09AC2A950FBB0046AAC4 /* WordChecker.app */;
@@ -1171,6 +1234,7 @@
 			name = WordCheckerTests;
 			packageProductDependencies = (
 				DA7A0A1B2A9B727C0046AAC4 /* Realm */,
+				DA1AAACD2AAED3EC0019298B /* RxTest */,
 			);
 			productName = WordCheckerTests;
 			productReference = DA7A09C22A950FBC0046AAC4 /* WordCheckerTests.xctest */;
@@ -1255,6 +1319,8 @@
 				DA7853552AA9A539001445D8 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				DA78535E2AAA2530001445D8 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */,
 				DA1AAABF2AAEAC6F0019298B /* XCRemoteSwiftPackageReference "Then" */,
+				DA1AAAC62AAED3EC0019298B /* XCRemoteSwiftPackageReference "RxSwift" */,
+				DA1AAAE12AAEE17C0019298B /* XCRemoteSwiftPackageReference "RxUtility" */,
 			);
 			productRefGroup = DA7A09AD2A950FBB0046AAC4 /* Products */;
 			projectDirPath = "";
@@ -1440,6 +1506,7 @@
 			files = (
 				DA09BEE82AA883BD0000CF8F /* CircularLinkedList.swift in Sources */,
 				DA09BF882AA984290000CF8F /* Utility.swift in Sources */,
+				DA1AAAE02AAEDFF20019298B /* UtilityError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1467,8 +1534,10 @@
 				DA09BEBF2AA85C2F0000CF8F /* UnmemorizedWordListStateProtocol.swift in Sources */,
 				DA340C112AA5E57A00C1C529 /* Word.swift in Sources */,
 				DA340C162AA5E5A400C1C529 /* WordUseCaseProtocol.swift in Sources */,
+				DA1AAADB2AAEDD690019298B /* WordRxUseCaseProtocol.swift in Sources */,
 				DA340C132AA5E58E00C1C529 /* WordUseCase.swift in Sources */,
 				DA340C1A2AA5E62F00C1C529 /* WordRepository.swift in Sources */,
+				DA1AAADD2AAEDE440019298B /* WordRxUseCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1503,6 +1572,7 @@
 				DA6148062AA0774900CDA84C /* WordChecking+BottomButton.swift in Sources */,
 				DA924F6C2AAC3C3D00B323F9 /* BaseViewController.swift in Sources */,
 				DAEE5D372AA4407000909097 /* Resolver+resolve.swift in Sources */,
+				DA1AAAEB2AAEE6E30019298B /* UIPresentationControllerDelegateProxy.swift in Sources */,
 				DA2589E32AA74EC800431D40 /* UseCaseAssembly.swift in Sources */,
 				DA6148072AA0774900CDA84C /* LaunchArguments.swift in Sources */,
 				DA6148092AA0774900CDA84C /* WordSearchResultsController.swift in Sources */,
@@ -1519,9 +1589,11 @@
 				DA6148152AA0774900CDA84C /* UIFont+preferredFont.swift in Sources */,
 				DA924F692AAC3C1800B323F9 /* WordAdditionViewController.swift in Sources */,
 				DA6148172AA0774900CDA84C /* WCString.swift in Sources */,
+				DA1AAAEE2AAEE7DC0019298B /* UIPresentationController+didAttemptToDismiss.swift in Sources */,
 				DA6148182AA0774900CDA84C /* SceneDelegate.swift in Sources */,
 				DA924F6F2AAC3F8C00B323F9 /* WordAdditionViewModel.swift in Sources */,
 				DA6148332AA07DA200CDA84C /* RealmPlatformAssembly_Dev.swift in Sources */,
+				DA1AAAD92AAED5300019298B /* ViewModelType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1534,6 +1606,7 @@
 				DA924F682AAC3C1700B323F9 /* WordAdditionViewController.swift in Sources */,
 				DA924F6B2AAC3C3D00B323F9 /* BaseViewController.swift in Sources */,
 				DAEE5D362AA4404E00909097 /* Resolver+resolve.swift in Sources */,
+				DA1AAAEA2AAEE6E30019298B /* UIPresentationControllerDelegateProxy.swift in Sources */,
 				DA6148302AA07D0800CDA84C /* RealmPlatformAssembly_Product.swift in Sources */,
 				DA7A0A172A9A540A0046AAC4 /* WordSearchResultsController.swift in Sources */,
 				DA7A0A0C2A985F720046AAC4 /* WordListViewController.swift in Sources */,
@@ -1541,6 +1614,7 @@
 				DA2589D12AA7362700431D40 /* UseCaseAssembly.swift in Sources */,
 				DA924F6E2AAC3F8C00B323F9 /* WordAdditionViewModel.swift in Sources */,
 				DA09BF0B2AA89CF80000CF8F /* UnmemorizedWordListStateAssembly.swift in Sources */,
+				DA1AAAD82AAED5050019298B /* ViewModelType.swift in Sources */,
 				DA7A09B42A950FBB0046AAC4 /* WordCheckingViewController.swift in Sources */,
 				DA09BEB72AA84A420000CF8F /* WordListViewModel.swift in Sources */,
 				DA7A0A002A97853F0046AAC4 /* Collection+isNotEmpty.swift in Sources */,
@@ -1552,6 +1626,7 @@
 				DA09BEBA2AA84E6F0000CF8F /* WordDetailViewModel.swift in Sources */,
 				DA7A09EC2A95F8E80046AAC4 /* WCString.swift in Sources */,
 				DA2589712AA6013B00431D40 /* RealmPlatformAssembly.swift in Sources */,
+				DA1AAAED2AAEE7DC0019298B /* UIPresentationController+didAttemptToDismiss.swift in Sources */,
 				DA7A09B22A950FBB0046AAC4 /* SceneDelegate.swift in Sources */,
 				DA1AAAC42AAECD0A0019298B /* UIViewController+presentDismissActionSheet.swift in Sources */,
 			);
@@ -2507,6 +2582,22 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		DA1AAAC62AAED3EC0019298B /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+		DA1AAAE12AAEE17C0019298B /* XCRemoteSwiftPackageReference "RxUtility" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/woin2ee/RxUtility.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		DA6148032AA0774900CDA84C /* XCRemoteSwiftPackageReference "Swinject" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Swinject/Swinject.git";
@@ -2554,6 +2645,61 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DA1AAABF2AAEAC6F0019298B /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		DA1AAAC72AAED3EC0019298B /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA1AAAC62AAED3EC0019298B /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		DA1AAAC92AAED3EC0019298B /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA1AAAC62AAED3EC0019298B /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		DA1AAACB2AAED3EC0019298B /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA1AAAC62AAED3EC0019298B /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		DA1AAACD2AAED3EC0019298B /* RxTest */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA1AAAC62AAED3EC0019298B /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxTest;
+		};
+		DA1AAACF2AAED4020019298B /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA1AAAC62AAED3EC0019298B /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		DA1AAAD12AAED4020019298B /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA1AAAC62AAED3EC0019298B /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		DA1AAAD32AAED4030019298B /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA1AAAC62AAED3EC0019298B /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		DA1AAAD52AAED40C0019298B /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA1AAABF2AAEAC6F0019298B /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
+		DA1AAAE22AAEE17C0019298B /* RxUtility */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA1AAAE12AAEE17C0019298B /* XCRemoteSwiftPackageReference "RxUtility" */;
+			productName = RxUtility;
+		};
+		DA1AAAE42AAEE18D0019298B /* RxUtility */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA1AAAE12AAEE17C0019298B /* XCRemoteSwiftPackageReference "RxUtility" */;
+			productName = RxUtility;
+		};
+		DA1AAAE62AAEE4160019298B /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA1AAAC62AAED3EC0019298B /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
 		};
 		DA2589DB2AA7410C00431D40 /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
