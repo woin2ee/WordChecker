@@ -29,3 +29,4 @@ check = "확인";
 memorization = "암기";
 newWord = "새로운 단어";
 discardChanges = "변경 사항 폐기";
+all = "전체";

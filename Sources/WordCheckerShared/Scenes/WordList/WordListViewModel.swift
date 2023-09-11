@@ -17,6 +17,8 @@ protocol WordListViewModelInput {
 
     func refreshWordList()
 
+    func filterByMemorized()
+
 }
 
 protocol WordListViewModelOutput {
@@ -32,6 +34,8 @@ protocol WordListViewModelProtocol: WordListViewModelInput, WordListViewModelOut
 final class WordListViewModel: WordListViewModelProtocol {
 
     let wordListSubject: CurrentValueSubject<[Domain.Word], Never> = .init([])
+
+    private(set) var currentListType: WordListType = .all
 
     let wordUseCase: WordUseCaseProtocol
 
@@ -82,6 +86,13 @@ extension WordListViewModel {
     func refreshWordList() {
         let wordList = wordUseCase.getWordList()
         wordListSubject.send(wordList)
+        currentListType = .all
+    }
+
+    func filterByMemorized() {
+        let memorizedList = wordUseCase.getMemorizedWordList()
+        wordListSubject.send(memorizedList)
+        currentListType = .memorized
     }
 
 }
@@ -91,7 +102,12 @@ extension WordListViewModel {
 extension WordListViewModel: WordDetailViewModelDelegate {
 
     func wordDetailViewModelDidUpdateWord(with uuid: UUID) {
-        refreshWordList()
+        switch currentListType {
+        case .all:
+            refreshWordList()
+        case .memorized:
+            filterByMemorized()
+        }
     }
 
 }
@@ -101,7 +117,24 @@ extension WordListViewModel: WordDetailViewModelDelegate {
 extension WordListViewModel: WordAdditionViewModelDelegate {
 
     func wordAdditionViewModelDidFinishAddWord() {
-        refreshWordList()
+        switch currentListType {
+        case .all:
+            refreshWordList()
+        case .memorized:
+            filterByMemorized()
+        }
+    }
+
+}
+
+extension WordListViewModel {
+
+    enum WordListType {
+
+        case all
+
+        case memorized
+
     }
 
 }

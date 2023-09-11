@@ -6,6 +6,8 @@
 //
 
 import Combine
+import SFSafeSymbols
+import Then
 import UIKit
 
 final class WordListViewController: BaseViewController {
@@ -32,6 +34,21 @@ final class WordListViewController: BaseViewController {
         return button
     }()
 
+    lazy var segmentedControl: UISegmentedControl = .init().then {
+        let showAllListAction: UIAction = .init(title: WCString.all) { [weak self] _ in
+            self?.viewModel.refreshWordList()
+        }
+
+        let showMemorizedListAction: UIAction = .init(title: WCString.memorized) { [weak self] _ in
+            self?.viewModel.filterByMemorized()
+        }
+
+        $0.insertSegment(action: showAllListAction, at: 0, animated: false)
+        $0.insertSegment(action: showMemorizedListAction, at: 1, animated: false)
+
+        $0.selectedSegmentIndex = 0
+    }
+
     init(viewModel: WordListViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -40,6 +57,8 @@ final class WordListViewController: BaseViewController {
     required init?(coder: NSCoder) {
         fatalError("\(#file):\(#line):\(#function)")
     }
+
+    // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +89,7 @@ final class WordListViewController: BaseViewController {
     }
 
     private func setupNavigationBar() {
-        self.navigationItem.title = WCString.wordList
+        self.navigationItem.titleView = segmentedControl
 
         setupSearchBar()
 

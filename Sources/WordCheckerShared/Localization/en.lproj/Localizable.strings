@@ -29,3 +29,4 @@ check = "Check";
 memorization = "Memorization";
 newWord = "New word";
 discardChanges = "Discard Changes";
+all = "All";
