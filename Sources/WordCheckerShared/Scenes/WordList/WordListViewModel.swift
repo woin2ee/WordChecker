@@ -95,3 +95,13 @@ extension WordListViewModel: WordDetailViewModelDelegate {
     }
 
 }
+
+// MARK: - WordAdditionViewModelDelegate
+
+extension WordListViewModel: WordAdditionViewModelDelegate {
+
+    func wordAdditionViewModelDidFinishAddWord(uuid: UUID) {
+        refreshWordList()
+    }
+
+}
