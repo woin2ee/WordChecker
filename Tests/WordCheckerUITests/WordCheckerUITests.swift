@@ -22,8 +22,7 @@ final class WordCheckerUITests: XCTestCase {
 
         // Save word
         app.staticTexts[WCString.noWords].assertExistence()
-        app.navigationBars.buttons[AccessibilityIdentifier.WordChecking.moreButton].tap()
-        app.collectionViews.buttons[WCString.addWord].tap()
+        app.navigationBars.buttons[AccessibilityIdentifier.WordChecking.addWordButton].tap()
         let addAlert = app.alerts[WCString.addWord]
         addAlert.textFields.firstMatch.typeText("TestWord")
         addAlert.buttons[WCString.add].tap()
