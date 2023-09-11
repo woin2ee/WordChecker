@@ -22,10 +22,7 @@ final class WordCheckerUITests: XCTestCase {
 
         // Save word
         app.staticTexts[WCString.noWords].assertExistence()
-        app.navigationBars.buttons[AccessibilityIdentifier.WordChecking.addWordButton].tap()
-        let addAlert = app.alerts[WCString.addWord]
-        addAlert.textFields.firstMatch.typeText("TestWord")
-        addAlert.buttons[WCString.add].tap()
+        runAddWord(text: "TestWord", app: app)
         app.staticTexts["TestWord"].assertExistence()
 
         // Show list
@@ -41,18 +38,48 @@ final class WordCheckerUITests: XCTestCase {
         app.staticTexts["EditedWord"].assertExistence()
         app.tabBars.buttons[WCString.memorization].tap()
         app.staticTexts["EditedWord"].assertExistence()
-        app.tabBars.buttons[WCString.list].tap()
+
+        // Append word
+        runAddWord(text: "Append1", app: app)
+        runAddWord(text: "Append2", app: app)
+
+        // Check next word
+        app.buttons[AccessibilityIdentifier.WordChecking.nextButton].tap()
+        app.staticTexts["Append1"].assertExistence()
+        app.buttons[AccessibilityIdentifier.WordChecking.nextButton].tap()
+        app.staticTexts["Append2"].assertExistence()
+
+        // Check previous word
+        app.buttons[AccessibilityIdentifier.WordChecking.previousButton].tap()
+        app.staticTexts["Append1"].assertExistence()
+        app.buttons[AccessibilityIdentifier.WordChecking.previousButton].tap()
+        app.staticTexts["EditedWord"].assertExistence()
 
         // Delete
+        var currentWord: String = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
+        app.tabBars.buttons[WCString.list].tap()
         app.staticTexts["EditedWord"].swipeLeft()
         app.buttons[WCString.delete].tap()
-        XCTAssertEqual(app.tableRows.count, 0)
-
-        // Final Assertion
+        XCTAssertEqual(app.tables.cells.count, 2)
         app.tabBars.buttons[WCString.memorization].tap()
-        app.staticTexts[WCString.noWords].assertExistence()
+        var newCurrentWord = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
+        XCTAssertNotEqual(currentWord, newCurrentWord)
+
+        // Shuffle
+        currentWord = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
+        app.navigationBars.buttons[AccessibilityIdentifier.WordChecking.moreButton].tap()
+        app.collectionViews.buttons[WCString.shuffleOrder].tap()
+        newCurrentWord = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
+        XCTAssertNotEqual(currentWord, newCurrentWord)
 
         let image = app.screenshot().image
+    }
+
+    func runAddWord(text: String, app: XCUIApplication) {
+        app.navigationBars.buttons[AccessibilityIdentifier.WordChecking.addWordButton].tap()
+        let addAlert = app.alerts[WCString.addWord]
+        addAlert.textFields.firstMatch.typeText(text)
+        addAlert.buttons[WCString.add].tap()
     }
 
     func testWordListUseCase() {

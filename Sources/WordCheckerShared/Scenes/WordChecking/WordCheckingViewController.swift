@@ -35,6 +35,8 @@ final class WordCheckingViewController: BaseViewController {
         }
 
         $0.addAction(action, for: .touchUpInside)
+
+        $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.previousButton
     }
 
     let previousButtonSymbol: ChangeWordSymbol = .init(direction: .left)
@@ -45,6 +47,8 @@ final class WordCheckingViewController: BaseViewController {
         }
 
         $0.addAction(action, for: .touchUpInside)
+
+        $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.nextButton
     }
 
     let nextButtonSymbol: ChangeWordSymbol = .init(direction: .right)
