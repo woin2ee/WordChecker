@@ -11,7 +11,7 @@ import SnapKit
 import UIKit
 import Utility
 
-final class WordDetailViewController: UIViewController {
+final class WordDetailViewController: BaseViewController {
 
     let viewModel: WordDetailViewModelProtocol
 
@@ -63,7 +63,7 @@ final class WordDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
+
         setupSubviews()
         setupNavigationBar()
         bindViewModel()
