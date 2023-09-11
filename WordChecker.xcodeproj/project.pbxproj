@@ -30,6 +30,8 @@
 		DA09BF912AA985120000CF8F /* Utility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA09BEE12AA883B10000CF8F /* Utility.framework */; };
 		DA1694042AACDAD10050F6C9 /* CircularLinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1694022AACDACA0050F6C9 /* CircularLinkedListTests.swift */; };
 		DA1AAAC12AAEAC6F0019298B /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAAC02AAEAC6F0019298B /* Then */; };
+		DA1AAAC42AAECD0A0019298B /* UIViewController+presentDismissActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAC32AAECD0A0019298B /* UIViewController+presentDismissActionSheet.swift */; };
+		DA1AAAC52AAECE580019298B /* UIViewController+presentDismissActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAC32AAECD0A0019298B /* UIViewController+presentDismissActionSheet.swift */; };
 		DA25895B2AA5F7F500431D40 /* RealmPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; };
 		DA25895C2AA5F7F500431D40 /* RealmPlatform.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA2589632AA5F8D600431D40 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589622AA5F8D000431D40 /* Word.swift */; };
@@ -299,6 +301,7 @@
 		DA09BF8D2AA985120000CF8F /* UtilityUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UtilityUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA09BF8F2AA985120000CF8F /* UtilityUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityUnitTests.swift; sourceTree = "<group>"; };
 		DA1694022AACDACA0050F6C9 /* CircularLinkedListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularLinkedListTests.swift; sourceTree = "<group>"; };
+		DA1AAAC32AAECD0A0019298B /* UIViewController+presentDismissActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+presentDismissActionSheet.swift"; sourceTree = "<group>"; };
 		DA2589622AA5F8D000431D40 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		DA2589692AA5F91B00431D40 /* WordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordRepository.swift; sourceTree = "<group>"; };
 		DA25896C2AA5FA2A00431D40 /* Word+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Word+Mapping.swift"; sourceTree = "<group>"; };
@@ -834,6 +837,7 @@
 			children = (
 				DA7A0A372A9C48440046AAC4 /* AccessibilityIdentifier.swift */,
 				DA924F6A2AAC3C3D00B323F9 /* BaseViewController.swift */,
+				DA1AAAC32AAECD0A0019298B /* UIViewController+presentDismissActionSheet.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1505,6 +1509,7 @@
 				DA61480A2AA0774900CDA84C /* WordListViewController.swift in Sources */,
 				DA61480B2AA0774900CDA84C /* DIContainer.swift in Sources */,
 				DA61480C2AA0774900CDA84C /* WordCheckingViewController.swift in Sources */,
+				DA1AAAC52AAECE580019298B /* UIViewController+presentDismissActionSheet.swift in Sources */,
 				DA61480D2AA0774900CDA84C /* Collection+isNotEmpty.swift in Sources */,
 				DA6148112AA0774900CDA84C /* AppDelegate.swift in Sources */,
 				DA6148132AA0774900CDA84C /* UIViewControllerAssembly.swift in Sources */,
@@ -1548,6 +1553,7 @@
 				DA7A09EC2A95F8E80046AAC4 /* WCString.swift in Sources */,
 				DA2589712AA6013B00431D40 /* RealmPlatformAssembly.swift in Sources */,
 				DA7A09B22A950FBB0046AAC4 /* SceneDelegate.swift in Sources */,
+				DA1AAAC42AAECD0A0019298B /* UIViewController+presentDismissActionSheet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
