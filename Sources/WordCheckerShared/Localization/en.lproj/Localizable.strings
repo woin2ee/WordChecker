@@ -28,3 +28,4 @@ memorized = "Memorized";
 check = "Check";
 memorization = "Memorization";
 newWord = "New word";
+discardChanges = "Discard Changes";

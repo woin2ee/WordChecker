@@ -23,10 +23,9 @@ final class WordAdditionViewController: BaseViewController {
     lazy var cancelBarButton: UIBarButtonItem = {
         let button: UIBarButtonItem = .init(systemItem: .cancel)
         button.primaryAction = .init(handler: { [weak self] _ in
-            self?.dismiss(animated: true)
+            self?.presentDismissActionSheet()
         })
         return button
-
     }()
 
     lazy var doneBarButton: UIBarButtonItem = {
@@ -52,6 +51,9 @@ final class WordAdditionViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.isModalInPresentation = true
+        self.navigationController?.presentationController?.delegate = self
 
         addTextFieldObserver()
         setupNavigationBar()
@@ -91,6 +93,16 @@ final class WordAdditionViewController: BaseViewController {
 
         self.navigationItem.leftBarButtonItem = cancelBarButton
         self.navigationItem.rightBarButtonItem = doneBarButton
+    }
+
+}
+
+// MARK: - UIAdaptivePresentationControllerDelegate
+
+extension WordAdditionViewController: UIAdaptivePresentationControllerDelegate {
+
+    func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
+        self.presentDismissActionSheet()
     }
 
 }
