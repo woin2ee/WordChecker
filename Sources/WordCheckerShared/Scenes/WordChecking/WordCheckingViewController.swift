@@ -8,6 +8,7 @@
 import Combine
 import SFSafeSymbols
 import SnapKit
+import Then
 import UIKit
 import WebKit
 
@@ -67,7 +68,9 @@ final class WordCheckingViewController: BaseViewController {
         return button
     }()
 
-    let addWordButton: UIBarButtonItem = .init()
+    let addWordButton: UIBarButtonItem = .init().then {
+        $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.addWordButton
+    }
 
     let moreButton: UIBarButtonItem = {
         let buttonSymbolImage: UIImage = .init(systemSymbol: .ellipsisCircle)

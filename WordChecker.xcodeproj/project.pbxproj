@@ -52,6 +52,8 @@
 		DA1AAAEB2AAEE6E30019298B /* UIPresentationControllerDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAE92AAEE6E30019298B /* UIPresentationControllerDelegateProxy.swift */; };
 		DA1AAAED2AAEE7DC0019298B /* UIPresentationController+didAttemptToDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAEC2AAEE7DC0019298B /* UIPresentationController+didAttemptToDismiss.swift */; };
 		DA1AAAEE2AAEE7DC0019298B /* UIPresentationController+didAttemptToDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AAAEC2AAEE7DC0019298B /* UIPresentationController+didAttemptToDismiss.swift */; };
+		DA1AAAF02AAEEDCF0019298B /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAAEF2AAEEDCF0019298B /* RxCocoa */; };
+		DA1AAAF22AAEEDEA0019298B /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = DA1AAAF12AAEEDEA0019298B /* RxCocoa */; };
 		DA25895B2AA5F7F500431D40 /* RealmPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; };
 		DA25895C2AA5F7F500431D40 /* RealmPlatform.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA340C312AA5F7B500C1C529 /* RealmPlatform.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA2589632AA5F8D600431D40 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2589622AA5F8D000431D40 /* Word.swift */; };
@@ -488,6 +490,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA1AAAF22AAEEDEA0019298B /* RxCocoa in Frameworks */,
 				DA1AAACE2AAED3EC0019298B /* RxTest in Frameworks */,
 				DA7A0A1C2A9B727C0046AAC4 /* Realm in Frameworks */,
 			);
@@ -497,6 +500,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA1AAAF02AAEEDCF0019298B /* RxCocoa in Frameworks */,
 				DA7A0A222A9B77140046AAC4 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1235,6 +1239,7 @@
 			packageProductDependencies = (
 				DA7A0A1B2A9B727C0046AAC4 /* Realm */,
 				DA1AAACD2AAED3EC0019298B /* RxTest */,
+				DA1AAAF12AAEEDEA0019298B /* RxCocoa */,
 			);
 			productName = WordCheckerTests;
 			productReference = DA7A09C22A950FBC0046AAC4 /* WordCheckerTests.xctest */;
@@ -1256,6 +1261,7 @@
 			name = WordCheckerUITests;
 			packageProductDependencies = (
 				DA7A0A212A9B77140046AAC4 /* Realm */,
+				DA1AAAEF2AAEEDCF0019298B /* RxCocoa */,
 			);
 			productName = WordCheckerUITests;
 			productReference = DA7A09CC2A950FBC0046AAC4 /* WordCheckerUITests.xctest */;
@@ -2700,6 +2706,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DA1AAAC62AAED3EC0019298B /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
+		};
+		DA1AAAEF2AAEEDCF0019298B /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA1AAAC62AAED3EC0019298B /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		DA1AAAF12AAEEDEA0019298B /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA1AAAC62AAED3EC0019298B /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
 		};
 		DA2589DB2AA7410C00431D40 /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
