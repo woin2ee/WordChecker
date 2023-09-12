@@ -126,7 +126,7 @@ final class WordUseCaseTests: XCTestCase {
 
     func test_updateUnmemorizedWordLiteral() {
         // Arrange
-        guard var updateTarget: Word = unmemorizedWordList.last else {
+        guard let updateTarget: Word = unmemorizedWordList.last else {
             return XCTFail("'unmemorizedWordList' property is empty.")
         }
         updateTarget.word = "UpdatedWord"
@@ -141,7 +141,7 @@ final class WordUseCaseTests: XCTestCase {
 
     func test_updateUnmemorizedWordToMemorized() {
         // Arrange
-        guard var updateTarget: Word = unmemorizedWordList.last else {
+        guard let updateTarget: Word = unmemorizedWordList.last else {
             return XCTFail("'unmemorizedWordList' property is empty.")
         }
         updateTarget.isMemorized = true
@@ -156,7 +156,7 @@ final class WordUseCaseTests: XCTestCase {
 
     func test_updateMemorizedWordToUnMemorized() {
         // Arrange
-        guard var updateTarget: Word = memorizedWordList.last else {
+        guard let updateTarget: Word = memorizedWordList.last else {
             return XCTFail("'memorizedWordList' property is empty.")
         }
         updateTarget.isMemorized = false
