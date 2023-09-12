@@ -19,6 +19,8 @@ protocol WordListViewModelInput {
 
     func filterByMemorized()
 
+    func filterByUnmemorized()
+
 }
 
 protocol WordListViewModelOutput {
@@ -95,6 +97,12 @@ extension WordListViewModel {
         currentListType = .memorized
     }
 
+    func filterByUnmemorized() {
+        let unmemorizedList = wordUseCase.getUnmemorizedWordList()
+        wordListSubject.send(unmemorizedList)
+        currentListType = .unmemorized
+    }
+
 }
 
 // MARK: - WordDetailViewModelDelegate
@@ -107,6 +115,8 @@ extension WordListViewModel: WordDetailViewModelDelegate {
             refreshWordList()
         case .memorized:
             filterByMemorized()
+        case .unmemorized:
+            filterByUnmemorized()
         }
     }
 
@@ -122,6 +132,8 @@ extension WordListViewModel: WordAdditionViewModelDelegate {
             refreshWordList()
         case .memorized:
             filterByMemorized()
+        case .unmemorized:
+            filterByUnmemorized()
         }
     }
 
@@ -134,6 +146,8 @@ extension WordListViewModel {
         case all
 
         case memorized
+
+        case unmemorized
 
     }
 
