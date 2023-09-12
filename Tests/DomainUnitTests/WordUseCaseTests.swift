@@ -90,7 +90,7 @@ final class WordUseCaseTests: XCTestCase {
         }
 
         // Act
-        sut.deleteWord(deleteTarget)
+        sut.deleteWord(by: deleteTarget.uuid)
 
         // Assert
         XCTAssertFalse(wordRepository.words.contains(where: { $0.uuid == deleteTarget.uuid }))
@@ -104,7 +104,7 @@ final class WordUseCaseTests: XCTestCase {
         }
 
         // Act
-        sut.deleteWord(deleteTarget)
+        sut.deleteWord(by: deleteTarget.uuid)
 
         // Assert
         XCTAssertFalse(wordRepository.words.contains(where: { $0.uuid == deleteTarget.uuid }))
@@ -174,7 +174,7 @@ final class WordUseCaseTests: XCTestCase {
         let testWord = unmemorizedWordList[0]
 
         (1..<5).forEach { index in
-            sut.deleteWord(unmemorizedWordList[index])
+            sut.deleteWord(by: unmemorizedWordList[index].uuid)
         }
 
         // Act

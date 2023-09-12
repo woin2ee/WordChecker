@@ -27,9 +27,9 @@ public final class WordRxUseCase: WordRxUseCaseProtocol {
         }
     }
 
-    public func deleteWord(_ word: Word) -> RxSwift.Single<Void> {
+    public func deleteWord(by uuid: UUID) -> RxSwift.Single<Void> {
         return .create { single in
-            self.wordUseCase.deleteWord(word)
+            self.wordUseCase.deleteWord(by: uuid)
 
             single(.success(()))
 

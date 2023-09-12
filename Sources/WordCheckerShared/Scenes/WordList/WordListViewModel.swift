@@ -68,7 +68,7 @@ extension WordListViewModel {
 
     func deleteWord(index: IndexPath.Index) {
         let deleteTarget: Word = wordListSubject.value[index]
-        wordUseCase.deleteWord(deleteTarget)
+        wordUseCase.deleteWord(by: deleteTarget.uuid)
         let newList = wordUseCase.getWordList()
         wordListSubject.send(newList)
     }

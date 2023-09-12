@@ -92,7 +92,7 @@ extension WordCheckingViewModel {
 
     func deleteCurrentWord() {
         guard let currentWord = currentWordSubject.value else { return }
-        wordUseCase.deleteWord(currentWord)
+        wordUseCase.deleteWord(by: currentWord.uuid)
     }
 
     func markCurrentWordAsMemorized() {

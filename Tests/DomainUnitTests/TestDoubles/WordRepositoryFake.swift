@@ -28,8 +28,8 @@ final class WordRepositoryFake: WordRepositoryProtocol {
         return words
     }
 
-    func delete(_ word: Domain.Word) {
-        if let index = words.firstIndex(where: { $0.uuid == word.uuid }) {
+    func delete(by uuid: UUID) {
+        if let index = words.firstIndex(where: { $0.uuid == uuid }) {
             words.remove(at: index)
         }
     }
