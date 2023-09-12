@@ -410,7 +410,7 @@
 		DA924F6A2AAC3C3D00B323F9 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		DA924F6D2AAC3F8C00B323F9 /* WordAdditionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordAdditionViewModel.swift; sourceTree = "<group>"; };
 		DA924F752AAC4DCF00B323F9 /* UnmemorizedWordListStateSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnmemorizedWordListStateSpy.swift; sourceTree = "<group>"; };
-		DABBC73E2AAF740D00C21A6B /* Domain.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = file; path = Domain.xctestplan; sourceTree = SOURCE_ROOT; };
+		DABBC73E2AAF740D00C21A6B /* Domain.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Domain.xctestplan; sourceTree = SOURCE_ROOT; };
 		DAC4B2DE2AA5A2A40091749E /* WordDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailViewController.swift; sourceTree = "<group>"; };
 		DAEE5D232AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+clearAndEnterText.swift"; sourceTree = "<group>"; };
 		DAEE5D252AA38C3A00909097 /* XCUIElement+backButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+backButton.swift"; sourceTree = "<group>"; };
@@ -2354,7 +2354,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 2AVC8X7323;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Sources/WordCheckerShared/Info.plist;
@@ -2388,7 +2388,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 2AVC8X7323;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Sources/WordCheckerShared/Info.plist;

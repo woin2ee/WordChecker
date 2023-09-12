@@ -36,6 +36,10 @@ public final class WordUseCase: WordUseCaseProtocol {
         return wordRepository.getMemorizedList()
     }
 
+    public func getUnmemorizedWordList() -> [Word] {
+        return wordRepository.getUnmemorizedList()
+    }
+
     public func getWord(by uuid: UUID) -> Word? {
         return wordRepository.get(by: uuid)
     }
