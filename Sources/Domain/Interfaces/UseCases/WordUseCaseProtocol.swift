@@ -12,7 +12,7 @@ public protocol WordUseCaseProtocol {
 
     func addNewWord(_ word: Word)
 
-    func deleteWord(_ word: Word)
+    func deleteWord(by uuid: UUID)
 
     func getWordList() -> [Word]
 

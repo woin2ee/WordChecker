@@ -12,7 +12,7 @@ public protocol WordRxUseCaseProtocol {
 
     func addNewWord(_ word: Word) -> Single<Void>
 
-    func deleteWord(_ word: Word) -> Single<Void>
+    func deleteWord(by uuid: UUID) -> Single<Void>
 
     func getWordList() -> Single<[Word]>
 

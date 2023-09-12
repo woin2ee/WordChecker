@@ -23,9 +23,9 @@ public final class WordUseCase: WordUseCaseProtocol {
         wordRepository.save(word)
     }
 
-    public func deleteWord(_ word: Word) {
-        unmemorizedWordListState.deleteWord(by: word.uuid)
-        wordRepository.delete(word)
+    public func deleteWord(by uuid: UUID) {
+        unmemorizedWordListState.deleteWord(by: uuid)
+        wordRepository.delete(by: uuid)
     }
 
     public func getWordList() -> [Word] {

@@ -40,8 +40,8 @@ public final class WordRepository: WordRepositoryProtocol {
         return find(by: uuid)?.toDomain() ?? nil
     }
 
-    public func delete(_ word: Domain.Word) {
-        guard let object = find(by: word.uuid) else {
+    public func delete(by uuid: UUID) {
+        guard let object = find(by: uuid) else {
             return
         }
         try? realm.write {
