@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class Word: Equatable {
+public final class Word: Equatable, Hashable {
 
     public let uuid: UUID
 
@@ -23,6 +23,10 @@ public final class Word: Equatable {
 
     public static func == (lhs: Word, rhs: Word) -> Bool {
         return lhs.uuid == rhs.uuid
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(uuid)
     }
 
 }

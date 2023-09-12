@@ -15,11 +15,7 @@ protocol WordListViewModelInput {
 
     func editWord(index: IndexPath.Index, newWord: String)
 
-    func refreshWordList()
-
-    func filterByMemorized()
-
-    func filterByUnmemorized()
+    func refreshWordList(by type: WordListViewModel.WordListType)
 
 }
 
@@ -43,7 +39,7 @@ final class WordListViewModel: WordListViewModelProtocol {
 
     init(wordUseCase: WordUseCaseProtocol) {
         self.wordUseCase = wordUseCase
-        refreshWordList()
+        refreshWordList(by: .all)
     }
 
 }
@@ -69,38 +65,33 @@ extension WordListViewModel {
     func deleteWord(index: IndexPath.Index) {
         let deleteTarget: Word = wordListSubject.value[index]
         wordUseCase.deleteWord(by: deleteTarget.uuid)
-        let newList = wordUseCase.getWordList()
-        wordListSubject.send(newList)
+
+        refreshWordList(by: currentListType)
     }
 
     func editWord(index: IndexPath.Index, newWord: String) {
-        let updateTargetUUID = wordListSubject.value[index].uuid
-        let updateTarget: Word = .init(
-            uuid: updateTargetUUID,
-            word: newWord,
-            isMemorized: false
-        )
-        wordUseCase.updateWord(by: updateTargetUUID, to: updateTarget)
-        let newList = wordUseCase.getWordList()
-        wordListSubject.send(newList)
+        let updateTarget = wordListSubject.value[index]
+        updateTarget.word = newWord
+
+        wordUseCase.updateWord(by: updateTarget.uuid, to: updateTarget)
+
+        refreshWordList(by: currentListType)
     }
 
-    func refreshWordList() {
-        let wordList = wordUseCase.getWordList()
+    func refreshWordList(by type: WordListType) {
+        let wordList: [Word]
+
+        switch type {
+        case .all:
+            wordList = wordUseCase.getWordList()
+        case .memorized:
+            wordList = wordUseCase.getMemorizedWordList()
+        case .unmemorized:
+            wordList = wordUseCase.getUnmemorizedWordList()
+        }
+
         wordListSubject.send(wordList)
-        currentListType = .all
-    }
-
-    func filterByMemorized() {
-        let memorizedList = wordUseCase.getMemorizedWordList()
-        wordListSubject.send(memorizedList)
-        currentListType = .memorized
-    }
-
-    func filterByUnmemorized() {
-        let unmemorizedList = wordUseCase.getUnmemorizedWordList()
-        wordListSubject.send(unmemorizedList)
-        currentListType = .unmemorized
+        currentListType = type
     }
 
 }
@@ -110,14 +101,7 @@ extension WordListViewModel {
 extension WordListViewModel: WordDetailViewModelDelegate {
 
     func wordDetailViewModelDidUpdateWord(with uuid: UUID) {
-        switch currentListType {
-        case .all:
-            refreshWordList()
-        case .memorized:
-            filterByMemorized()
-        case .unmemorized:
-            filterByUnmemorized()
-        }
+        refreshWordList(by: currentListType)
     }
 
 }
@@ -127,14 +111,7 @@ extension WordListViewModel: WordDetailViewModelDelegate {
 extension WordListViewModel: WordAdditionViewModelDelegate {
 
     func wordAdditionViewModelDidFinishAddWord() {
-        switch currentListType {
-        case .all:
-            refreshWordList()
-        case .memorized:
-            filterByMemorized()
-        case .unmemorized:
-            filterByUnmemorized()
-        }
+        refreshWordList(by: currentListType)
     }
 
 }
