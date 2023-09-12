@@ -14,7 +14,7 @@ final class UnmemorizedWordListStateSpy: UnmemorizedWordListStateProtocol {
 
     var _state: UnmemorizedWordListState = .init()
 
-    var storedWords: [Word] = []
+    var _storedWords: [Word] = []
 
     var currentWord: AnyPublisher<Domain.Word?, Never> {
         fatalError("Not implemented.")
@@ -30,34 +30,34 @@ final class UnmemorizedWordListStateSpy: UnmemorizedWordListStateProtocol {
 
     func addWord(_ word: Domain.Word) {
         _state.addWord(word)
-        storedWords.append(word)
+        _storedWords.append(word)
     }
 
     func deleteWord(by uuid: UUID) {
         _state.deleteWord(by: uuid)
-        if let index = storedWords.firstIndex(where: { $0.uuid == uuid }) {
-            storedWords.remove(at: index)
+        if let index = _storedWords.firstIndex(where: { $0.uuid == uuid }) {
+            _storedWords.remove(at: index)
         }
     }
 
     func replaceWord(where uuid: UUID, with newWord: Domain.Word) {
         _state.replaceWord(where: uuid, with: newWord)
-        if let index = storedWords.firstIndex(where: { $0.uuid == uuid }) {
-            storedWords[index] = newWord
+        if let index = _storedWords.firstIndex(where: { $0.uuid == uuid }) {
+            _storedWords[index] = newWord
         }
     }
 
     func randomizeList(with unmemorizedList: [Domain.Word]) {
         _state.randomizeList(with: unmemorizedList)
         guard
-            storedWords.count > 1,
-            let oldFirstElement = storedWords.first
+            _storedWords.count > 1,
+            let oldFirstElement = _storedWords.first
         else {
             return
         }
         repeat {
-            storedWords.shuffle()
-        } while storedWords.first ?? .init(word: "") == oldFirstElement
+            _storedWords.shuffle()
+        } while _storedWords.first ?? .init(word: "") == oldFirstElement
     }
 
     func contains(where predicate: (Domain.Word) -> Bool) -> Bool {

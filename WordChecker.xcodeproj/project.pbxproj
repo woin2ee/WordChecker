@@ -103,7 +103,6 @@
 		DA7A09B42A950FBB0046AAC4 /* WordCheckingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09B32A950FBB0046AAC4 /* WordCheckingViewController.swift */; };
 		DA7A09B92A950FBC0046AAC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA7A09B82A950FBC0046AAC4 /* Assets.xcassets */; };
 		DA7A09BC2A950FBC0046AAC4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7A09BA2A950FBC0046AAC4 /* LaunchScreen.storyboard */; };
-		DA7A09C72A950FBC0046AAC4 /* WordCheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09C62A950FBC0046AAC4 /* WordCheckerTests.swift */; };
 		DA7A09D12A950FBC0046AAC4 /* WordCheckerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09D02A950FBC0046AAC4 /* WordCheckerUITests.swift */; };
 		DA7A09E62A95F5EE0046AAC4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA7A09E82A95F5EE0046AAC4 /* Localizable.strings */; };
 		DA7A09EC2A95F8E80046AAC4 /* WCString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09EB2A95F8E80046AAC4 /* WCString.swift */; };
@@ -154,6 +153,9 @@
 		DABBC73D2AAF65D300C21A6B /* RxUtility-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = DABBC7382AAF65A800C21A6B /* RxUtility-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		DAC4B2DF2AA5A2A40091749E /* WordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC4B2DE2AA5A2A40091749E /* WordDetailViewController.swift */; };
 		DAC4B2E02AA5A2A40091749E /* WordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC4B2DE2AA5A2A40091749E /* WordDetailViewController.swift */; };
+		DAE1E3122AB02D0000755B63 /* WordListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE1E3112AB02D0000755B63 /* WordListViewModelTests.swift */; };
+		DAE1E3152AB02D9600755B63 /* WordUseCaseFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE1E3142AB02D9600755B63 /* WordUseCaseFake.swift */; };
+		DAE1E3172AB032C200755B63 /* UnmemorizedWordListStateSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA924F752AAC4DCF00B323F9 /* UnmemorizedWordListStateSpy.swift */; };
 		DAEE5D242AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D232AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift */; };
 		DAEE5D262AA38C3A00909097 /* XCUIElement+backButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D252AA38C3A00909097 /* XCUIElement+backButton.swift */; };
 		DAEE5D362AA4404E00909097 /* Resolver+resolve.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE5D352AA4404E00909097 /* Resolver+resolve.swift */; };
@@ -384,7 +386,6 @@
 		DA7A09BB2A950FBC0046AAC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA7A09BD2A950FBC0046AAC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA7A09C22A950FBC0046AAC4 /* WordCheckerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordCheckerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA7A09C62A950FBC0046AAC4 /* WordCheckerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCheckerTests.swift; sourceTree = "<group>"; };
 		DA7A09CC2A950FBC0046AAC4 /* WordCheckerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordCheckerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA7A09D02A950FBC0046AAC4 /* WordCheckerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCheckerUITests.swift; sourceTree = "<group>"; };
 		DA7A09E72A95F5EE0046AAC4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -412,6 +413,9 @@
 		DA924F752AAC4DCF00B323F9 /* UnmemorizedWordListStateSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnmemorizedWordListStateSpy.swift; sourceTree = "<group>"; };
 		DABBC73E2AAF740D00C21A6B /* Domain.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Domain.xctestplan; sourceTree = SOURCE_ROOT; };
 		DAC4B2DE2AA5A2A40091749E /* WordDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailViewController.swift; sourceTree = "<group>"; };
+		DAE1E3102AB02D0000755B63 /* WordCheckerTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WordCheckerTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		DAE1E3112AB02D0000755B63 /* WordListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewModelTests.swift; sourceTree = "<group>"; };
+		DAE1E3142AB02D9600755B63 /* WordUseCaseFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordUseCaseFake.swift; sourceTree = "<group>"; };
 		DAEE5D232AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+clearAndEnterText.swift"; sourceTree = "<group>"; };
 		DAEE5D252AA38C3A00909097 /* XCUIElement+backButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+backButton.swift"; sourceTree = "<group>"; };
 		DAEE5D352AA4404E00909097 /* Resolver+resolve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Resolver+resolve.swift"; sourceTree = "<group>"; };
@@ -595,6 +599,7 @@
 		DA25895F2AA5F83E00431D40 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				DAE1E3162AB032B200755B63 /* CommonTestDoubles */,
 				DA09BF8E2AA985120000CF8F /* UtilityUnitTests */,
 				DA7A09C52A950FBC0046AAC4 /* WordCheckerTests */,
 				DA7A09CF2A950FBC0046AAC4 /* WordCheckerUITests */,
@@ -726,7 +731,6 @@
 			isa = PBXGroup;
 			children = (
 				DA340C2A2AA5F65100C1C529 /* WordRepositoryFake.swift */,
-				DA924F752AAC4DCF00B323F9 /* UnmemorizedWordListStateSpy.swift */,
 			);
 			path = TestDoubles;
 			sourceTree = "<group>";
@@ -821,7 +825,9 @@
 		DA7A09C52A950FBC0046AAC4 /* WordCheckerTests */ = {
 			isa = PBXGroup;
 			children = (
-				DA7A09C62A950FBC0046AAC4 /* WordCheckerTests.swift */,
+				DAE1E3132AB02D8400755B63 /* TestDoubles */,
+				DAE1E3112AB02D0000755B63 /* WordListViewModelTests.swift */,
+				DAE1E3102AB02D0000755B63 /* WordCheckerTests-Bridging-Header.h */,
 			);
 			path = WordCheckerTests;
 			sourceTree = "<group>";
@@ -999,6 +1005,22 @@
 				DA09BEB82AA84E1A0000CF8F /* WordDetailViewModel.swift */,
 			);
 			path = WordDetail;
+			sourceTree = "<group>";
+		};
+		DAE1E3132AB02D8400755B63 /* TestDoubles */ = {
+			isa = PBXGroup;
+			children = (
+				DAE1E3142AB02D9600755B63 /* WordUseCaseFake.swift */,
+			);
+			path = TestDoubles;
+			sourceTree = "<group>";
+		};
+		DAE1E3162AB032B200755B63 /* CommonTestDoubles */ = {
+			isa = PBXGroup;
+			children = (
+				DA924F752AAC4DCF00B323F9 /* UnmemorizedWordListStateSpy.swift */,
+			);
+			path = CommonTestDoubles;
 			sourceTree = "<group>";
 		};
 		DAEE5D392AA4420900909097 /* Assemblies */ = {
@@ -1324,6 +1346,7 @@
 					};
 					DA7A09C12A950FBC0046AAC4 = {
 						CreatedOnToolsVersion = 14.3.1;
+						LastSwiftMigration = 1430;
 						TestTargetID = DA7A09AB2A950FBB0046AAC4;
 					};
 					DA7A09CB2A950FBC0046AAC4 = {
@@ -1671,7 +1694,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA7A09C72A950FBC0046AAC4 /* WordCheckerTests.swift in Sources */,
+				DAE1E3172AB032C200755B63 /* UnmemorizedWordListStateSpy.swift in Sources */,
+				DAE1E3122AB02D0000755B63 /* WordListViewModelTests.swift in Sources */,
+				DAE1E3152AB02D9600755B63 /* WordUseCaseFake.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2421,6 +2446,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2AVC8X7323;
@@ -2433,6 +2459,8 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/WordCheckerTests/WordCheckerTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WordCheckerDev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WordCheckerDev";
@@ -2444,6 +2472,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2AVC8X7323;
@@ -2456,6 +2485,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/WordCheckerTests/WordCheckerTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WordCheckerDev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WordCheckerDev";

@@ -36,15 +36,15 @@ final class WordListViewController: BaseViewController {
 
     lazy var segmentedControl: UISegmentedControl = .init().then {
         let showAllListAction: UIAction = .init(title: WCString.all) { [weak self] _ in
-            self?.viewModel.refreshWordList()
+            self?.viewModel.refreshWordList(by: .all)
         }
 
         let showMemorizedListAction: UIAction = .init(title: WCString.memorized) { [weak self] _ in
-            self?.viewModel.filterByMemorized()
+            self?.viewModel.refreshWordList(by: .memorized)
         }
 
         let showUnmemorizedListAction: UIAction = .init(title: WCString.memorizing) { [weak self] _ in
-            self?.viewModel.filterByUnmemorized()
+            self?.viewModel.refreshWordList(by: .unmemorized)
         }
 
         $0.insertSegment(action: showAllListAction, at: 0, animated: false)
@@ -73,10 +73,10 @@ final class WordListViewController: BaseViewController {
         bindViewModel()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.refreshWordList()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        viewModel.refreshWordList(by: .all)
+//    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
