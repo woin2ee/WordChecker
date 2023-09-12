@@ -411,7 +411,7 @@
 		DA924F6A2AAC3C3D00B323F9 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		DA924F6D2AAC3F8C00B323F9 /* WordAdditionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordAdditionViewModel.swift; sourceTree = "<group>"; };
 		DA924F752AAC4DCF00B323F9 /* UnmemorizedWordListStateSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnmemorizedWordListStateSpy.swift; sourceTree = "<group>"; };
-		DABBC73E2AAF740D00C21A6B /* Domain.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Domain.xctestplan; sourceTree = SOURCE_ROOT; };
+		DABBC73E2AAF740D00C21A6B /* Domain.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Domain.xctestplan; sourceTree = "<group>"; };
 		DAC4B2DE2AA5A2A40091749E /* WordDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailViewController.swift; sourceTree = "<group>"; };
 		DAE1E3102AB02D0000755B63 /* WordCheckerTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WordCheckerTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		DAE1E3112AB02D0000755B63 /* WordListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewModelTests.swift; sourceTree = "<group>"; };
