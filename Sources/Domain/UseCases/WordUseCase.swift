@@ -19,6 +19,10 @@ public final class WordUseCase: WordUseCaseProtocol {
     }
 
     public func addNewWord(_ word: Word) {
+        if word.isMemorized == true {
+            assertionFailure("Added a already memorized word.")
+        }
+
         unmemorizedWordListState.addWord(word)
         wordRepository.save(word)
     }
