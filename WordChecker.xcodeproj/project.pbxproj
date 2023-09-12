@@ -416,6 +416,7 @@
 		DAE1E3102AB02D0000755B63 /* WordCheckerTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WordCheckerTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		DAE1E3112AB02D0000755B63 /* WordListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewModelTests.swift; sourceTree = "<group>"; };
 		DAE1E3142AB02D9600755B63 /* WordUseCaseFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordUseCaseFake.swift; sourceTree = "<group>"; };
+		DAE1E3192AB04CC400755B63 /* WordCheckerIntergrationTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = WordCheckerIntergrationTests.xctestplan; sourceTree = "<group>"; };
 		DAEE5D232AA37B5B00909097 /* XCUIElement+clearAndEnterText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+clearAndEnterText.swift"; sourceTree = "<group>"; };
 		DAEE5D252AA38C3A00909097 /* XCUIElement+backButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+backButton.swift"; sourceTree = "<group>"; };
 		DAEE5D352AA4404E00909097 /* Resolver+resolve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Resolver+resolve.swift"; sourceTree = "<group>"; };
@@ -748,9 +749,10 @@
 		DA603D9E2AA9880C0012751A /* TestPlans */ = {
 			isa = PBXGroup;
 			children = (
+				DABBC73E2AAF740D00C21A6B /* Domain.xctestplan */,
 				DA603D9D2AA987B80012751A /* Utility.xctestplan */,
 				DA6D9BDF2AA086F900F827EE /* WordChecker.xctestplan */,
-				DABBC73E2AAF740D00C21A6B /* Domain.xctestplan */,
+				DAE1E3192AB04CC400755B63 /* WordCheckerIntergrationTests.xctestplan */,
 			);
 			path = TestPlans;
 			sourceTree = "<group>";

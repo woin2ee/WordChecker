@@ -1,7 +1,7 @@
 {
   "configurations" : [
     {
-      "id" : "476B913C-6392-458D-BA50-1A523DA2070D",
+      "id" : "B071DD0E-FEBF-4848-9935-69B00075A2D2",
       "name" : "Configuration 1",
       "options" : {
 
@@ -12,6 +12,22 @@
 
   },
   "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "DA340C1E2AA5F56A00C1C529",
+        "name" : "DomainUnitTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "DA09BF8C2AA985120000CF8F",
+        "name" : "UtilityUnitTests"
+      }
+    },
     {
       "parallelizable" : true,
       "target" : {
