@@ -1519,14 +1519,14 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"$(SRCROOT)/build/build_phases/WordChecker_swiftlint.xcfilelist",
+				"$(SRCROOT)/build/build_phases/Sources/WordCheckerDev_swiftlint.xcfilelist",
 			);
 			inputPaths = (
 			);
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(SRCROOT)/build/build_phases/WordChecker_swiftlint_static_output",
+				"$(SRCROOT)/build/build_phases/Sources/WordCheckerDev_swiftlint_static_output",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1538,14 +1538,14 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"$(SRCROOT)/build/build_phases/WordChecker_swiftlint.xcfilelist",
+				"$(SRCROOT)/build/build_phases/Sources/WordChecker_swiftlint.xcfilelist",
 			);
 			inputPaths = (
 			);
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(SRCROOT)/build/build_phases/WordChecker_swiftlint_static_output",
+				"$(SRCROOT)/build/build_phases/Sources/WordChecker_swiftlint_static_output",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
