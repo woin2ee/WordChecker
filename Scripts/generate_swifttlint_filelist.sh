@@ -44,8 +44,7 @@ echo "Generating new source file list"
 
 # List of folders in which we generate filelist for Swiftlint (e.g. only .swift)
 swiftlint_dirs=(
-    'Sources/WordChecker'
-    'Sources/WordCheckerDev'
+    'Sources'
 )
 
 for dir in "${swiftlint_dirs[@]}"

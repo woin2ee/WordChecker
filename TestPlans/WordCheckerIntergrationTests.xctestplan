@@ -16,7 +16,7 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "DA340C1E2AA5F56A00C1C529",
+        "identifier" : "49913AE79745D97139F53879",
         "name" : "DomainUnitTests"
       }
     },
@@ -24,7 +24,7 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "DA09BF8C2AA985120000CF8F",
+        "identifier" : "B4760D68D950DD960933E277",
         "name" : "UtilityUnitTests"
       }
     },
@@ -32,16 +32,16 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "DA7A09C12A950FBC0046AAC4",
-        "name" : "WordCheckerTests"
+        "identifier" : "A768E0CF445E4B1F88AAA2B4",
+        "name" : "WordCheckerUITests"
       }
     },
     {
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "DA7A09CB2A950FBC0046AAC4",
-        "name" : "WordCheckerUITests"
+        "identifier" : "5B5E8B6CF37D272DBB96F977",
+        "name" : "iOSCoreUnitTests"
       }
     }
   ],
