@@ -4,3 +4,8 @@ disabled_rules:
 
 trailing_whitespace:
     severity: error
+
+included:
+    - Sources/
+
+excluded:
