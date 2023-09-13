@@ -16,7 +16,7 @@ protocol WordListViewModelInput {
     func editWord(index: IndexPath.Index, newWord: String)
 
     func refreshWordList(by type: WordListViewModel.WordListType)
-    
+
     func refreshWordListByCurrentType()
 
 }
@@ -95,7 +95,7 @@ extension WordListViewModel {
         wordListSubject.send(wordList)
         currentListType = type
     }
-    
+
     func refreshWordListByCurrentType() {
         refreshWordList(by: currentListType)
     }
@@ -109,7 +109,7 @@ extension WordListViewModel: WordDetailViewModelDelegate, WordAdditionViewModelD
     func wordDetailViewModelDidUpdateWord(with uuid: UUID) {
         refreshWordList(by: currentListType)
     }
-    
+
     func wordAdditionViewModelDidFinishAddWord() {
         refreshWordList(by: currentListType)
     }
@@ -117,7 +117,7 @@ extension WordListViewModel: WordDetailViewModelDelegate, WordAdditionViewModelD
     func wordCheckingViewModelDidMarkCurrentWordAsMemorized() {
         refreshWordList(by: currentListType)
     }
-    
+
 }
 
 // MARK: - WordListType

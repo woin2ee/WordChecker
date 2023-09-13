@@ -10,9 +10,9 @@ import Domain
 import Foundation
 
 protocol WordCheckingViewModelDelegate: AnyObject {
-    
+
     func wordCheckingViewModelDidMarkCurrentWordAsMemorized()
-    
+
 }
 
 /// WordCheckingView 로부터 발생하고 Model 에 영향을 끼치는 모든 Event.
@@ -46,13 +46,13 @@ final class WordCheckingViewModel: WordCheckingViewModelProtocol {
     let wordUseCase: WordUseCaseProtocol
 
     let state: UnmemorizedWordListStateProtocol
-    
+
     weak var delegate: WordCheckingViewModelDelegate?
 
     private var cancelBag: Set<AnyCancellable> = .init()
 
     let currentWordSubject: CurrentValueSubject<Domain.Word?, Never> = .init(nil)
-    
+
     init(wordUseCase: WordUseCaseProtocol, state: UnmemorizedWordListStateProtocol, delegate: WordCheckingViewModelDelegate?) {
         self.wordUseCase = wordUseCase
         self.state = state
@@ -110,7 +110,7 @@ extension WordCheckingViewModel {
         }
 
         wordUseCase.markCurrentWordAsMemorized(uuid: currentWord.uuid)
-        
+
         delegate?.wordCheckingViewModelDidMarkCurrentWordAsMemorized()
     }
 

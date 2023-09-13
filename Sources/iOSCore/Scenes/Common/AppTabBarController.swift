@@ -12,7 +12,7 @@ public final class AppTabBarController: UITabBarController {
 
     public init() {
         super.init(nibName: nil, bundle: nil)
-        
+
         let symbolWeightConfig: UIImage.SymbolConfiguration = .init(weight: .bold)
 
         let wordListVC: WordListViewController = DIContainer.shared.resolve()
@@ -22,7 +22,7 @@ public final class AppTabBarController: UITabBarController {
             image: .init(systemSymbol: .listBullet),
             selectedImage: .init(systemSymbol: .listBullet, withConfiguration: symbolWeightConfig)
         )
-        
+
         let wordCheckingVC: WordCheckingViewController = DIContainer.shared.resolve(argument: wordListVC.viewModel as? WordCheckingViewModelDelegate)
         let wordCheckingNC: UINavigationController = .init(rootViewController: wordCheckingVC)
         wordCheckingNC.tabBarItem = .init(
@@ -38,9 +38,9 @@ public final class AppTabBarController: UITabBarController {
         self.tabBar.standardAppearance = appearance
         self.tabBar.scrollEdgeAppearance = appearance
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
 }

@@ -16,7 +16,7 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
     public var _unmemorizedWordList: UnmemorizedWordListStateSpy = .init()
 
     public init() {}
-    
+
     public func addNewWord(_ word: Domain.Word) {
         _wordList.append(word)
         _unmemorizedWordList.addWord(word)

@@ -75,7 +75,7 @@ public final class WordListViewController: BaseViewController {
 
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         viewModel.refreshWordListByCurrentType()
     }
 

@@ -18,7 +18,7 @@ public final class UnmemorizedWordListStateSpy: UnmemorizedWordListStateProtocol
     public var _storedWords: [Word] = []
 
     public init() {}
-    
+
     public var currentWord: AnyPublisher<Domain.Word?, Never> {
         fatalError("Not implemented.")
     }
