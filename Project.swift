@@ -115,20 +115,6 @@ func targets() -> [Target] {
                 "Resources/Common/**",
                 "Resources/InfoPlist/Product/**",
             ],
-            scripts: [
-                .pre(
-                    path: "Scripts/generate_swifttlint_filelist.sh",
-                    name: "Generate swiftlint file list",
-                    basedOnDependencyAnalysis: false
-                ),
-                .post(
-                    path: "Scripts/run_swiftlint.sh",
-                    name: "Run swiftlint",
-                    inputFileListPaths: ["build/build_phases/Sources_swiftlint.xcfilelist"],
-                    outputFileListPaths: ["build/build_phases/Sources_swiftlint_static_output"],
-                    basedOnDependencyAnalysis: true
-                )
-            ],
             dependencies: [.target(name: "iOSCore")],
             settings: .settings()
         )
@@ -142,20 +128,6 @@ func targets() -> [Target] {
             resources: [
                 "Resources/Common/**",
                 "Resources/InfoPlist/Dev/**",
-            ],
-            scripts: [
-                .pre(
-                    path: "Scripts/generate_swifttlint_filelist.sh",
-                    name: "Generate swiftlint file list",
-                    basedOnDependencyAnalysis: false
-                ),
-                .post(
-                    path: "Scripts/run_swiftlint.sh",
-                    name: "Run swiftlint",
-                    inputFileListPaths: ["build/build_phases/Sources_swiftlint.xcfilelist"],
-                    outputFileListPaths: ["build/build_phases/Sources_swiftlint_static_output"],
-                    basedOnDependencyAnalysis: true
-                )
             ],
             dependencies: [
                 .target(name: "iOSCore"),
@@ -244,7 +216,6 @@ let project: Project = .init(
     ],
     additionalFiles: [
         ".swiftlint.yml",
-        ".swiftlint_precommit.yml",
         "TestPlans/",
         "Scripts/",
         ".gitignore",
