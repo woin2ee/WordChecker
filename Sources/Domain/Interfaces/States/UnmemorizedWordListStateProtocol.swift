@@ -5,6 +5,7 @@
 //  Created by Jaewon Yun on 2023/09/06.
 //
 
+import Foundation
 import Combine
 
 public protocol UnmemorizedWordListStateProtocol {

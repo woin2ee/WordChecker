@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  WordChecker
+
+  Created by Jaewon Yun on 2023/09/13.
+  Copyright © 2023 woin2ee. All rights reserved.
+*/
+
+CFBundleName = "외우미";
+CFBundleDisplayName = "외우미";

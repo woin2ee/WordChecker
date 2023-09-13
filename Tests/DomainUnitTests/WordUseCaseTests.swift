@@ -6,6 +6,7 @@
 //
 
 import Domain
+import TestDoubles
 import XCTest
 
 final class WordUseCaseTests: XCTestCase {

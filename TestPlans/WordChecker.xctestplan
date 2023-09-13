@@ -16,16 +16,16 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "DA7A09C12A950FBC0046AAC4",
-        "name" : "WordCheckerTests"
+        "identifier" : "A768E0CF445E4B1F88AAA2B4",
+        "name" : "WordCheckerUITests"
       }
     },
     {
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "DA7A09CB2A950FBC0046AAC4",
-        "name" : "WordCheckerUITests"
+        "identifier" : "5B5E8B6CF37D272DBB96F977",
+        "name" : "iOSCoreUnitTests"
       }
     }
   ],
