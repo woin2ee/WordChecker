@@ -12,10 +12,10 @@ import Swinject
 final class UIViewControllerAssembly: Assembly {
 
     func assemble(container: Container) {
-        container.register(WordCheckingViewController.self) { resolver in
+        container.register(WordCheckingViewController.self) { resolver, delegate in
             let wordUseCase: WordUseCaseProtocol = resolver.resolve()
             let state: UnmemorizedWordListStateProtocol = resolver.resolve()
-            let viewModel: WordCheckingViewModelProtocol = WordCheckingViewModel.init(wordUseCase: wordUseCase, state: state)
+            let viewModel: WordCheckingViewModelProtocol = WordCheckingViewModel.init(wordUseCase: wordUseCase, state: state, delegate: delegate)
             let viewController: WordCheckingViewController = .init(viewModel: viewModel)
             return viewController
         }
