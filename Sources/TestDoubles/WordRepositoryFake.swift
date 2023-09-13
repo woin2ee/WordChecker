@@ -13,7 +13,7 @@ public final class WordRepositoryFake: WordRepositoryProtocol {
     public var words: [Word] = []
 
     public init() {}
-    
+
     public func get(by uuid: UUID) -> Domain.Word? {
         return words.first(where: { $0.uuid == uuid })
     }

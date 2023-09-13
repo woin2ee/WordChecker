@@ -23,7 +23,7 @@ public func makeDefaultRealmConfiguration() -> Realm.Configuration {
             }
         }
     )
-    
+
     return config
 }
 

@@ -13,7 +13,7 @@ import RealmSwift
 import Swinject
 
 final class RealmPlatformAssembly: Assembly {
-    
+
     public func assemble(container: Container) {
         container.register(WordRepositoryProtocol.self) { _ in
             var config: Realm.Configuration = makeDefaultRealmConfiguration()
@@ -33,5 +33,5 @@ final class RealmPlatformAssembly: Assembly {
         }
         .inObjectScope(.container)
     }
-    
+
 }

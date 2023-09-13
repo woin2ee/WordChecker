@@ -15,7 +15,7 @@ import RealmSwift
 import Swinject
 
 final class RealmPlatformAssembly: Assembly {
-    
+
     public func assemble(container: Container) {
         container.register(WordRepositoryProtocol.self) { _ in
             let arguments = ProcessInfo.processInfo.arguments
@@ -30,7 +30,7 @@ final class RealmPlatformAssembly: Assembly {
         }
         .inObjectScope(.container)
     }
-    
+
     private func makeInMemoryWordRepository() -> WordRepository {
         let config: Realm.Configuration = .init(inMemoryIdentifier: "WordCheckerDev")
         guard let realm: Realm = try? .init(configuration: config) else {
@@ -72,7 +72,7 @@ final class RealmPlatformAssembly: Assembly {
         #endif
         return WordRepository.init(realm: realm)
     }
-    
+
 }
 
 private let sampleWords: [String] = [
