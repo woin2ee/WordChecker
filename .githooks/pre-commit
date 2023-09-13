@@ -14,8 +14,8 @@ if which swiftlint > /dev/null; then
 		if [[ -n ${LINT_TARGETS} ]]; then
 				printf "\nSwiftLint Start.\n"
 
-#				RESULT=$(swiftlint ${LINT_TARGETS} --config .swiftlint_precommit.yml)
-				RESULT=$(swiftlint ${LINT_TARGETS} --quiet --config .swiftlint_precommit.yml)
+#				RESULT=$(swiftlint ${LINT_TARGETS})
+				RESULT=$(swiftlint ${LINT_TARGETS} --quiet)
 
 				if [ "$?" == "0" ]; then
 						printf "\nHave no error. Commit success.\n"

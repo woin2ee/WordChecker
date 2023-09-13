@@ -1,12 +1,12 @@
 disabled_rules:
     - line_length
     - identifier_name
-    - trailing_whitespace
 
-force_try:
-    severity: warning
+trailing_whitespace:
+    severity: error
 
 included:
     - Sources/
 
 excluded:
+    - Project.swift
