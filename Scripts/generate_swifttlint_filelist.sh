@@ -24,26 +24,28 @@ then
 fi
 
 # Check if there is any .swift file added / deleted / renamed in the current git changes
-NEW_FILES=`git diff HEAD --name-only --diff-filter=ADR -- '***.swift'`
+#NEW_FILES=`git diff HEAD --name-only --diff-filter=ADR -- '***.swift'`
+
+# Check if there is any .swift file has changed in the current git changes
+CHANGE_FILES=`git diff HEAD --stat '***.swift'`
 
 # Load the git diff result from the last compilation
 PREV_GIT_RESULT=$(<"$RESULT_FILE")
 
 # If there were no new .swift files added since the last compilation, we don't need to regenerate the input files
-if [[ "$PREV_GIT_RESULT" == "$NEW_FILES" ]]; then
+if [[ "$PREV_GIT_RESULT" == "$CHANGE_FILES" ]]; then
 	echo "No changes since last git diff, do nothing"
 	exit 0
 fi
 
 # Store the current git diff for the next run
-echo -n "$NEW_FILES" > "$RESULT_FILE"
+echo -n "$CHANGE_FILES" > "$RESULT_FILE"
 echo "Generating new source file list"
 
 # List of folders in which we generate filelist for Swiftlint (e.g. only .swift)
 swiftlint_dirs=(
-    'WordChecker'
-    'WordCheckerTests'
-    'WordCheckerUITests'
+    'Sources/WordChecker'
+    'Sources/WordCheckerDev'
 )
 
 for dir in "${swiftlint_dirs[@]}"
