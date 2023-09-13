@@ -16,6 +16,8 @@ protocol WordListViewModelInput {
     func editWord(index: IndexPath.Index, newWord: String)
 
     func refreshWordList(by type: WordListViewModel.WordListType)
+    
+    func refreshWordListByCurrentType()
 
 }
 
@@ -93,28 +95,32 @@ extension WordListViewModel {
         wordListSubject.send(wordList)
         currentListType = type
     }
+    
+    func refreshWordListByCurrentType() {
+        refreshWordList(by: currentListType)
+    }
 
 }
 
-// MARK: - WordDetailViewModelDelegate
+// MARK: - Delegates
 
-extension WordListViewModel: WordDetailViewModelDelegate {
+extension WordListViewModel: WordDetailViewModelDelegate, WordAdditionViewModelDelegate, WordCheckingViewModelDelegate {
 
     func wordDetailViewModelDidUpdateWord(with uuid: UUID) {
         refreshWordList(by: currentListType)
     }
-
-}
-
-// MARK: - WordAdditionViewModelDelegate
-
-extension WordListViewModel: WordAdditionViewModelDelegate {
-
+    
     func wordAdditionViewModelDidFinishAddWord() {
         refreshWordList(by: currentListType)
     }
 
+    func wordCheckingViewModelDidMarkCurrentWordAsMemorized() {
+        refreshWordList(by: currentListType)
+    }
+    
 }
+
+// MARK: - WordListType
 
 extension WordListViewModel {
 
