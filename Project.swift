@@ -41,6 +41,13 @@ func targets() -> [Target] {
             platform: .iOS,
             product: .framework,
             deploymentTarget: DEPLOYMENT_TARGET,
+            scripts: [
+                .pre(
+                    path: "Scripts/set_githooks_path.sh",
+                    name: "Set githooks path",
+                    basedOnDependencyAnalysis: false
+                )
+            ],
             hasUnitTests: true
         )
         + Target.target(
