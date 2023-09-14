@@ -7,6 +7,7 @@
 
 import iOSCore
 import LaunchArguments
+import Localization
 import XCTest
 
 final class WordCheckerUITests: XCTestCase {
