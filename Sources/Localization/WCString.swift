@@ -35,5 +35,6 @@ public struct WCString {
     public static let newWord = NSLocalizedString("newWord", bundle: Bundle.module, comment: "")
     public static let discardChanges = NSLocalizedString("discardChanges", bundle: Bundle.module, comment: "")
     public static let all = NSLocalizedString("all", bundle: Bundle.module, comment: "")
+    public static let there_are_no_words = NSLocalizedString("there_are_no_words", bundle: Bundle.module, comment: "")
 
 }

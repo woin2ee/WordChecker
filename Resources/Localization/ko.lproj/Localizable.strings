@@ -30,3 +30,4 @@ memorization = "암기";
 newWord = "새로운 단어";
 discardChanges = "변경 사항 폐기";
 all = "전체";
+there_are_no_words = "단어가 없습니다.";
