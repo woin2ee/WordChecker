@@ -67,6 +67,13 @@ func targets() -> [Target] {
             deploymentTarget: DEPLOYMENT_TARGET
         )
         + Target.target(
+            name: "Localization",
+            platform: .iOS,
+            product: .framework,
+            deploymentTarget: DEPLOYMENT_TARGET,
+            resources: ["Resources/Localization/**"]
+        )
+        + Target.target(
             name: "TestDoubles",
             platform: .iOS,
             product: .framework,
@@ -83,7 +90,6 @@ func targets() -> [Target] {
             product: .framework,
             deploymentTarget: DEPLOYMENT_TARGET,
             resources: [
-                "Resources/Localization/**",
                 "Resources/Common/**",
             ],
             dependencies: [
@@ -91,6 +97,7 @@ func targets() -> [Target] {
                 .target(name: "RealmPlatform"),
                 .target(name: "State"),
                 .target(name: "Utility"),
+                .target(name: "Localization"),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxCocoa),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
@@ -143,10 +150,11 @@ func targets() -> [Target] {
                 bundleId: "\(BASIC_BUNDLE_ID)UITests",
                 deploymentTarget: .iOS(targetVersion: "16.0", devices: .iphone),
                 sources: "Tests/\(PROJECT_NAME)UITests/**",
-                resources: "Resources/Localization/**",
                 dependencies: [
                     .target(name: "\(PROJECT_NAME)Dev"),
+                    .target(name: "iOSCore"),
                     .target(name: "LaunchArguments"),
+                    .target(name: "Localization"),
                     .package(product: "Realm")
                 ]
             )
@@ -211,6 +219,10 @@ let project: Project = .init(
         .init(
             name: "RealmPlatform",
             buildAction: .buildAction(targets: ["RealmPlatform"])
+        ),
+        .init(
+            name: "Localization",
+            buildAction: .buildAction(targets: ["Localization"])
         ),
         
     ],

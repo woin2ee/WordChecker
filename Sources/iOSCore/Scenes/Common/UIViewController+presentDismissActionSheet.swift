@@ -5,6 +5,7 @@
 //  Created by Jaewon Yun on 2023/09/11.
 //
 
+import Localization
 import UIKit
 
 extension UIViewController {

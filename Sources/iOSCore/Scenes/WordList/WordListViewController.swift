@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Localization
 import SFSafeSymbols
 import Then
 import UIKit
