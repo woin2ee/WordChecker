@@ -8,6 +8,7 @@
 import Combine
 import Localization
 import SFSafeSymbols
+import SnapKit
 import Then
 import UIKit
 
@@ -55,6 +56,14 @@ final class WordListViewController: BaseViewController {
         $0.selectedSegmentIndex = 0
     }
 
+    let noWordListLabel: UILabel = .init().then {
+        $0.adjustsFontForContentSizeCategory = true
+        $0.font = .preferredFont(forTextStyle: .title3, weight: .medium)
+        $0.text = "단어가 없습니다."
+        $0.textColor = .systemGray3
+        $0.isHidden = true
+    }
+
     init(viewModel: WordListViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -92,7 +101,14 @@ final class WordListViewController: BaseViewController {
 
     private func setupSubviews() {
         self.view.addSubview(wordListTableView)
+        self.view.addSubview(noWordListLabel)
+
         wordListTableView.frame = self.view.frame
+
+        noWordListLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(40)
+        }
     }
 
     private func setupNavigationBar() {
@@ -122,8 +138,10 @@ final class WordListViewController: BaseViewController {
     func bindViewModel() {
         viewModel.wordListPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
+            .sink { [weak self] wordList in
                 self?.wordListTableView.reloadData()
+
+                self?.noWordListLabel.isHidden = !wordList.isEmpty
             }
             .store(in: &cancelBag)
     }
