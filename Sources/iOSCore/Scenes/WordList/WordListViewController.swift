@@ -39,17 +39,17 @@ public final class WordListViewController: BaseViewController {
             self?.viewModel.refreshWordList(by: .all)
         }
 
-        let showMemorizedListAction: UIAction = .init(title: WCString.memorized) { [weak self] _ in
-            self?.viewModel.refreshWordList(by: .memorized)
-        }
-
         let showUnmemorizedListAction: UIAction = .init(title: WCString.memorizing) { [weak self] _ in
             self?.viewModel.refreshWordList(by: .unmemorized)
         }
 
+        let showMemorizedListAction: UIAction = .init(title: WCString.memorized) { [weak self] _ in
+            self?.viewModel.refreshWordList(by: .memorized)
+        }
+
         $0.insertSegment(action: showAllListAction, at: 0, animated: false)
-        $0.insertSegment(action: showMemorizedListAction, at: 1, animated: false)
-        $0.insertSegment(action: showUnmemorizedListAction, at: 2, animated: false)
+        $0.insertSegment(action: showUnmemorizedListAction, at: 1, animated: false)
+        $0.insertSegment(action: showMemorizedListAction, at: 2, animated: false)
 
         $0.selectedSegmentIndex = 0
     }
