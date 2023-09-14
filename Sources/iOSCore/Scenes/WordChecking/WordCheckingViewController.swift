@@ -105,6 +105,12 @@ public final class WordCheckingViewController: BaseViewController {
         setupSubviews()
         setupNavigationBar()
         bindViewModel()
+
+        self.setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
+    }
+
+    public override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
+        return [.left, .right]
     }
 
     private func setupSubviews() {
