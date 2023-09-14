@@ -12,19 +12,26 @@ import XCTest
 
 final class WordCheckerUITests: XCTestCase {
 
+    var app: XCUIApplication!
+
     override func setUpWithError() throws {
         continueAfterFailure = false
+
+        app = .init()
+    }
+
+    override func tearDownWithError() throws {
+        app = nil
     }
 
     func testWordCheckUseCase() {
         // App Launch
-        let app = XCUIApplication()
         app.setLaunchArguments([.useInMemoryDatabase])
         app.launch()
 
         // Save word
         app.staticTexts[WCString.noWords].assertExistence()
-        runAddWord(text: "TestWord", app: app)
+        runAddWord(text: "TestWord")
         app.staticTexts["TestWord"].assertExistence()
 
         // Show list
@@ -42,8 +49,8 @@ final class WordCheckerUITests: XCTestCase {
         app.staticTexts["EditedWord"].assertExistence()
 
         // Append word
-        runAddWord(text: "Append1", app: app)
-        runAddWord(text: "Append2", app: app)
+        runAddWord(text: "Append1")
+        runAddWord(text: "Append2")
 
         // Check next word
         app.buttons[AccessibilityIdentifier.WordChecking.nextButton].tap()
@@ -77,16 +84,8 @@ final class WordCheckerUITests: XCTestCase {
         let image = app.screenshot().image
     }
 
-    func runAddWord(text: String, app: XCUIApplication) {
-        app.navigationBars.buttons[AccessibilityIdentifier.WordChecking.addWordButton].tap()
-        let addAlert = app.alerts[WCString.addWord]
-        addAlert.textFields.firstMatch.typeText(text)
-        addAlert.buttons[WCString.add].tap()
-    }
-
     func testWordListUseCase() {
         // App Launch
-        let app = XCUIApplication()
         app.setLaunchArguments([.sampledDatabase])
         app.launch()
 
@@ -119,6 +118,36 @@ final class WordCheckerUITests: XCTestCase {
         XCTAssertNotEqual(currentWord, newWord)
 
         let image = app.screenshot().image
+    }
+
+    func testNoWordMessage() {
+        app.setLaunchArguments([.useInMemoryDatabase])
+        app.launch()
+
+        moveListTap()
+
+        app.staticTexts["단어가 없습니다."].assertExistence()
+    }
+
+}
+
+// MARK: - Helpers
+
+extension WordCheckerUITests {
+
+    func runAddWord(text: String) {
+        app.navigationBars.buttons[AccessibilityIdentifier.WordChecking.addWordButton].tap()
+        let addAlert = app.alerts[WCString.addWord]
+        addAlert.textFields.firstMatch.typeText(text)
+        addAlert.buttons[WCString.add].tap()
+    }
+
+    func moveListTap() {
+        app.tabBars.buttons[WCString.list].tap()
+    }
+
+    func moveCheckingTap() {
+        app.tabBars.buttons[WCString.memorization].tap()
     }
 
 }
