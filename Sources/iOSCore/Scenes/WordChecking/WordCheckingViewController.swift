@@ -163,7 +163,7 @@ public final class WordCheckingViewController: BaseViewController {
         self.navigationItem.rightBarButtonItems = [moreButton, addWordButton]
 
         addWordButton.primaryAction = .init(image: .init(systemSymbol: .plusApp), handler: { [weak self] _ in
-            let alertController = UIAlertController(title: WCString.addWord, message: "", preferredStyle: .alert)
+            let alertController = UIAlertController(title: WCString.addWord, message: nil, preferredStyle: .alert)
             let cancelAction: UIAlertAction = .init(title: WCString.cancel, style: .cancel)
             let addAction: UIAlertAction = .init(title: WCString.add, style: .default) { [weak self] _ in
                 guard let word = alertController.textFields?.first?.text else {
