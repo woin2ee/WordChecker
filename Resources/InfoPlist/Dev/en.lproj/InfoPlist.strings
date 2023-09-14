@@ -6,5 +6,5 @@
   Copyright © 2023 woin2ee. All rights reserved.
 */
 
-CFBundleName = "Memorizer";
-CFBundleDisplayName = "Memorizer";
+CFBundleName = "Memorizer_Dev";
+CFBundleDisplayName = "Memorizer_Dev";
