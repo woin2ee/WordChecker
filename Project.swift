@@ -187,6 +187,26 @@ let project: Project = .init(
             runAction: .runAction(executable: "\(PROJECT_NAME)Dev")
         ),
         .init(
+            name: "\(PROJECT_NAME)Dev_InMemoryDB",
+            testAction: .testPlans([.relativeToRoot("TestPlans/WordChecker.xctestplan")]),
+            runAction: .runAction(
+                executable: "\(PROJECT_NAME)Dev",
+                arguments: .init(launchArguments: [
+                    .init(name: "-useInMemoryDatabase", isEnabled: true)
+                ])
+            )
+        ),
+        .init(
+            name: "\(PROJECT_NAME)Dev_SampleDB",
+            testAction: .testPlans([.relativeToRoot("TestPlans/WordChecker.xctestplan")]),
+            runAction: .runAction(
+                executable: "\(PROJECT_NAME)Dev",
+                arguments: .init(launchArguments: [
+                    .init(name: "-sampledDatabase", isEnabled: true)
+                ])
+            )
+        ),
+        .init(
             name: "\(PROJECT_NAME)IntergrationTests",
             testAction: .testPlans([.relativeToRoot("TestPlans/WordCheckerIntergrationTests.xctestplan")])
         ),
