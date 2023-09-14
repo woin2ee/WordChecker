@@ -13,7 +13,7 @@ import Then
 import UIKit
 import WebKit
 
-public final class WordCheckingViewController: BaseViewController {
+final class WordCheckingViewController: BaseViewController {
 
     let viewModel: WordCheckingViewModelProtocol
 
@@ -99,7 +99,7 @@ public final class WordCheckingViewController: BaseViewController {
         fatalError("\(#file):\(#line):\(#function)")
     }
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         setupSubviews()
@@ -109,7 +109,7 @@ public final class WordCheckingViewController: BaseViewController {
         self.setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
     }
 
-    public override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
+    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
         return [.left, .right]
     }
 

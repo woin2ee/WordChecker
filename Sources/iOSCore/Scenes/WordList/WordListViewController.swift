@@ -11,7 +11,7 @@ import SFSafeSymbols
 import Then
 import UIKit
 
-public final class WordListViewController: BaseViewController {
+final class WordListViewController: BaseViewController {
 
     let viewModel: WordListViewModelProtocol
 
@@ -66,7 +66,7 @@ public final class WordListViewController: BaseViewController {
 
     // MARK: - Life cycle
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         setupSubviews()
@@ -74,18 +74,18 @@ public final class WordListViewController: BaseViewController {
         bindViewModel()
     }
 
-    public override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         viewModel.refreshWordListByCurrentType()
     }
 
-    public override func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationItem.hidesSearchBarWhenScrolling = true
     }
 
-    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         wordListTableView.frame = .init(origin: .zero, size: size)
     }
@@ -134,11 +134,11 @@ public final class WordListViewController: BaseViewController {
 
 extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
 
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.wordList.count
     }
 
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath)
         var config: UIListContentConfiguration = .cell()
         config.text = viewModel.wordList[indexPath.row].word
@@ -146,7 +146,7 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
 
-    public func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction: UIContextualAction = .init(style: .destructive, title: WCString.delete) { [weak self] _, _, completionHandler in
             self?.viewModel.deleteWord(index: indexPath.row)
             completionHandler(true)
@@ -180,7 +180,7 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
         return .init(actions: [deleteAction, editAction])
     }
 
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let uuid: UUID = viewModel.wordList[indexPath.row].uuid
         let viewController: WordDetailViewController = DIContainer.shared.resolve(arguments: uuid, viewModel as? WordDetailViewModelDelegate)
         let navigationController: UINavigationController = .init(rootViewController: viewController)
@@ -194,11 +194,11 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension WordListViewController: UISearchControllerDelegate {
 
-    public func willPresentSearchController(_ searchController: UISearchController) {
+    func willPresentSearchController(_ searchController: UISearchController) {
         searchController.view.backgroundColor = .systemBackground
     }
 
-    public func willDismissSearchController(_ searchController: UISearchController) {
+    func willDismissSearchController(_ searchController: UISearchController) {
         UIView.animate(withDuration: 0.4) {
             searchController.view.backgroundColor = .clear
         }
