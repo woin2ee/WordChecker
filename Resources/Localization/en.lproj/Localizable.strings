@@ -30,3 +30,4 @@ memorization = "Memorization";
 newWord = "New word";
 discardChanges = "Discard Changes";
 all = "All";
+there_are_no_words = "There are no words.";

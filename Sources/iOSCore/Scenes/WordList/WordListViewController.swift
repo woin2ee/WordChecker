@@ -59,7 +59,7 @@ final class WordListViewController: BaseViewController {
     let noWordListLabel: UILabel = .init().then {
         $0.adjustsFontForContentSizeCategory = true
         $0.font = .preferredFont(forTextStyle: .title3, weight: .medium)
-        $0.text = "단어가 없습니다."
+        $0.text = WCString.there_are_no_words
         $0.textColor = .systemGray3
         $0.isHidden = true
     }

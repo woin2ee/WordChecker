@@ -126,7 +126,7 @@ final class WordCheckerUITests: XCTestCase {
 
         moveListTap()
 
-        app.staticTexts["단어가 없습니다."].assertExistence()
+        app.staticTexts[WCString.there_are_no_words].assertExistence()
     }
 
 }
