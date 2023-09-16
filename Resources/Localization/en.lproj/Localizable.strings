@@ -8,7 +8,7 @@
 
 cancel = "Cancel";
 add = "Add";
-addWord = "Add Word";
+addWord = "Add word";
 next = "Next";
 previous = "Previous";
 noWords = "No words";
@@ -31,3 +31,4 @@ newWord = "New word";
 discardChanges = "Discard Changes";
 all = "All";
 there_are_no_words = "There are no words.";
+quick_add_word = "Quick add word";
