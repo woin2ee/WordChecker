@@ -14,6 +14,7 @@ public struct WCString {
     public static let cancel = NSLocalizedString("cancel", bundle: Bundle.module, comment: "")
     public static let add = NSLocalizedString("add", bundle: Bundle.module, comment: "")
     public static let addWord = NSLocalizedString("addWord", bundle: Bundle.module, comment: "")
+    public static let quick_add_word = NSLocalizedString("quick_add_word", bundle: Bundle.module, comment: "")
     public static let next = NSLocalizedString("next", bundle: Bundle.module, comment: "")
     public static let previous = NSLocalizedString("previous", bundle: Bundle.module, comment: "")
     public static let noWords = NSLocalizedString("noWords", bundle: Bundle.module, comment: "")
