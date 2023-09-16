@@ -25,6 +25,9 @@ let dependencies = Dependencies(
         // Then
         .remote(url: "https://github.com/devxoul/Then",
                 requirement: .upToNextMajor(from: "3.0.0")),
+        // Toast-Swift
+        .remote(url: "https://github.com/scalessec/Toast-Swift.git",
+                requirement: .upToNextMajor(from: "5.0.0")),
     ],
     platforms: [.iOS]
 )

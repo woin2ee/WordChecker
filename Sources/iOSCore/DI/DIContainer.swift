@@ -18,7 +18,7 @@ public final class DIContainer {
         self.assembler = .init([
             UIViewControllerAssembly(),
             UseCaseAssembly(),
-            UnmemorizedWordListStateAssembly()
+            UnmemorizedWordListStateAssembly(),
         ])
     }
 

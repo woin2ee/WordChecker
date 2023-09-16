@@ -21,7 +21,7 @@ final class WordUseCaseTests: XCTestCase {
         .init(word: "G", isMemorized: true),
         .init(word: "H", isMemorized: true),
         .init(word: "I", isMemorized: true),
-        .init(word: "J", isMemorized: true)
+        .init(word: "J", isMemorized: true),
     ]
 
     let unmemorizedWordList: [Word] = [
@@ -29,7 +29,7 @@ final class WordUseCaseTests: XCTestCase {
         .init(word: "B"),
         .init(word: "C"),
         .init(word: "D"),
-        .init(word: "E")
+        .init(word: "E"),
     ]
 
     override func setUpWithError() throws {
