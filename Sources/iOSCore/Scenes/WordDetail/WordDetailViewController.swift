@@ -48,7 +48,7 @@ final class WordDetailViewController: BaseViewController {
             UIAction.init(title: WCString.memorized) { [weak self] _ in
                 self?.memorizationStatePopupButton.setTitle(WCString.memorized, for: .normal)
                 self?.viewModel.markAsChanged()
-            }
+            },
         ])
 
         button.showsMenuAsPrimaryAction = true

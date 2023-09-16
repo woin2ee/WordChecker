@@ -18,7 +18,7 @@ final class WordListViewModelTests: XCTestCase {
         .init(word: "F", isMemorized: true),
         .init(word: "G", isMemorized: true),
         .init(word: "H", isMemorized: true),
-        .init(word: "I", isMemorized: true)
+        .init(word: "I", isMemorized: true),
     ]
 
     let testUnmemorizedWordList: [Word] = [
@@ -26,7 +26,7 @@ final class WordListViewModelTests: XCTestCase {
         .init(word: "B"),
         .init(word: "C"),
         .init(word: "D"),
-        .init(word: "E")
+        .init(word: "E"),
     ]
 
     var testAllWordList: [Word] {

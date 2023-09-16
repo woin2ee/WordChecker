@@ -7,6 +7,7 @@ let localHelper = LocalHelper(name: "MyPlugin")
 
 // MARK: - Targets
 
+// swiftlint:disable function_body_length
 func targets() -> [Target] {
     let targets =
     [
@@ -17,12 +18,12 @@ func targets() -> [Target] {
             deploymentTarget: DEPLOYMENT_TARGET,
             dependencies: [
                 .external(name: ExternalDependencyName.rxSwift),
-                .target(name: "Utility")
+                .target(name: "Utility"),
             ],
             hasUnitTests: true,
             additionalTestDependencies: [
                 .target(name: "State"),
-                .target(name: "TestDoubles")
+                .target(name: "TestDoubles"),
             ]
         )
         + Target.target(
@@ -33,7 +34,7 @@ func targets() -> [Target] {
             dependencies: [
                 .package(product: ExternalDependencyName.realm),
                 .package(product: ExternalDependencyName.realmSwift),
-                .target(name: "Domain")
+                .target(name: "Domain"),
             ]
         )
         + Target.target(
@@ -46,7 +47,7 @@ func targets() -> [Target] {
                     path: "Scripts/set_githooks_path.sh",
                     name: "Set githooks path",
                     basedOnDependencyAnalysis: false
-                )
+                ),
             ],
             hasUnitTests: true
         )
@@ -57,7 +58,7 @@ func targets() -> [Target] {
             deploymentTarget: DEPLOYMENT_TARGET,
             dependencies: [
                 .target(name: "Domain"),
-                .target(name: "Utility")
+                .target(name: "Utility"),
             ]
         )
         + Target.target(
@@ -81,7 +82,7 @@ func targets() -> [Target] {
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "State"),
-                .target(name: "Utility")
+                .target(name: "Utility"),
             ]
         )
         + Target.target(
@@ -90,7 +91,7 @@ func targets() -> [Target] {
             product: .framework,
             deploymentTarget: DEPLOYMENT_TARGET,
             resources: [
-                "Resources/Common/**",
+                "Resources/Common/**"
             ],
             dependencies: [
                 .target(name: "Domain"),
@@ -105,6 +106,7 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.snapKit),
                 .external(name: ExternalDependencyName.sfSafeSymbols),
                 .external(name: ExternalDependencyName.then),
+                .external(name: ExternalDependencyName.toast),
             ],
             hasUnitTests: true,
             additionalTestDependencies: [
@@ -138,7 +140,7 @@ func targets() -> [Target] {
             ],
             dependencies: [
                 .target(name: "iOSCore"),
-                .target(name: "LaunchArguments")
+                .target(name: "LaunchArguments"),
             ],
             settings: .settings()
         )
@@ -155,12 +157,12 @@ func targets() -> [Target] {
                     .target(name: "iOSCore"),
                     .target(name: "LaunchArguments"),
                     .target(name: "Localization"),
-                    .package(product: "Realm")
+                    .package(product: "Realm"),
                 ]
-            )
-        ]
+            ),
+        ],
     ]
-    
+
     return targets.flatMap { $0 }
 }
 
@@ -244,7 +246,7 @@ let project: Project = .init(
             name: "Localization",
             buildAction: .buildAction(targets: ["Localization"])
         ),
-        
+
     ],
     additionalFiles: [
         ".swiftlint.yml",

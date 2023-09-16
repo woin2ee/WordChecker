@@ -108,5 +108,5 @@ private let sampleWords: [String] = [
     "dandelion",
     "deer",
     "doctor",
-    "document"
+    "document",
 ]

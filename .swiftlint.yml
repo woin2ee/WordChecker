@@ -5,9 +5,17 @@ disabled_rules:
 trailing_whitespace:
     severity: error
 
+trailing_comma:
+    severity: error
+    mandatory_comma: true
+
 included:
     - Sources/
     - Tests/
+    - Project.swift
+    - Tuist/Dependencies.swift
+    - Tuist/Config.swift
+    - Tuist/ProjectDescriptionHelpers/ExternalDependencyName.swift
 
 excluded:
-    - Project.swift
+    

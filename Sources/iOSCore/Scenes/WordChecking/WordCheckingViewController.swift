@@ -10,6 +10,7 @@ import Localization
 import SFSafeSymbols
 import SnapKit
 import Then
+import Toast
 import UIKit
 import WebKit
 
@@ -164,26 +165,36 @@ final class WordCheckingViewController: BaseViewController {
 
         addWordButton.primaryAction = .init(image: .init(systemSymbol: .plusApp), handler: { [weak self] _ in
             let alertController = UIAlertController(title: WCString.quick_add_word, message: nil, preferredStyle: .alert)
+
             let cancelAction: UIAlertAction = .init(title: WCString.cancel, style: .cancel)
+            alertController.addAction(cancelAction)
+
             let addAction: UIAlertAction = .init(title: WCString.add, style: .default) { [weak self] _ in
                 guard let word = alertController.textFields?.first?.text else {
+                    assertionFailure("Failed to get word.")
                     return
                 }
+
                 self?.viewModel.addWord(word)
+
+                self?.view.makeToast(WCString.word_added(word: word), duration: 1.2, position: .top)
             }
-            alertController.addAction(cancelAction)
             alertController.addAction(addAction)
+
             alertController.addTextField { textField in
-                let action: UIAction = .init { _ in
-                    let text = textField.text ?? ""
-                    if text.isEmpty {
-                        addAction.isEnabled = false
-                    } else {
-                        addAction.isEnabled = true
-                    }
-                }
-                textField.addAction(action, for: .allEditingEvents)
+                textField.addAction(
+                    UIAction { _ in
+                        let text = textField.text ?? ""
+                        if text.isEmpty {
+                            addAction.isEnabled = false
+                        } else {
+                            addAction.isEnabled = true
+                        }
+                    },
+                    for: .allEditingEvents
+                )
             }
+
             self?.present(alertController, animated: true)
         })
 
@@ -197,7 +208,7 @@ final class WordCheckingViewController: BaseViewController {
                 title: WCString.shuffleOrder,
                 image: .init(systemSymbol: .shuffle),
                 handler: { [weak self] _ in self?.viewModel.shuffleWordList() }
-            )
+            ),
         ])
 
         let deleteMenu: UIAction = .init(

@@ -100,7 +100,7 @@ final class WordAdditionViewController: BaseViewController {
             output.dismissComplete
                 .emit(with: self, onNext: { owner, _ in
                     owner.dismiss(animated: true)
-                })
+                }),
         ]
             .forEach { $0.disposed(by: disposeBag) }
     }
