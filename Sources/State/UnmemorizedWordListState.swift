@@ -14,7 +14,7 @@ public struct UnmemorizedWordListState: UnmemorizedWordListStateProtocol {
 
     let unmemorizedWordList: CurrentValueSubject<CircularLinkedList<Domain.Word>, Never>
 
-    public var currentWord: AnyPublisher<Word?, Never>
+    public var currentWord: AnyPublisher<Domain.Word?, Never>
 
     public init() {
         self.unmemorizedWordList = .init(.init())
@@ -50,7 +50,7 @@ public struct UnmemorizedWordListState: UnmemorizedWordListStateProtocol {
     }
 
     public func randomizeList(with unmemorizedList: [Domain.Word]) {
-        var newList: CircularLinkedList<Word> = .init(unmemorizedList.shuffled())
+        var newList: CircularLinkedList<Domain.Word> = .init(unmemorizedList.shuffled())
         if let oldCurrentWord = unmemorizedWordList.value.current,
            let newCurrentWord = newList.current,
            newCurrentWord == oldCurrentWord {
