@@ -15,12 +15,12 @@ public final class UnmemorizedWordListStateSpy: UnmemorizedWordListStateProtocol
 
     public var _state: UnmemorizedWordListState = .init()
 
-    public var _storedWords: [Word] = []
+    public var _storedWords: [Domain.Word] = []
 
     public init() {}
 
     public var currentWord: AnyPublisher<Domain.Word?, Never> {
-        fatalError("Not implemented.")
+        _state.currentWord
     }
 
     public func updateToNextWord() {

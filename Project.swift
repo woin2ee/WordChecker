@@ -22,8 +22,8 @@ func targets() -> [Target] {
             ],
             hasUnitTests: true,
             additionalTestDependencies: [
-                .target(name: "State"),
-                .target(name: "TestDoubles"),
+                .target(name: "Testing"),
+                .external(name: ExternalDependencyName.rxBlocking),
             ]
         )
         + Target.target(
@@ -34,6 +34,27 @@ func targets() -> [Target] {
             dependencies: [
                 .package(product: ExternalDependencyName.realm),
                 .package(product: ExternalDependencyName.realmSwift),
+                .target(name: "Domain"),
+            ]
+        )
+        + Target.target(
+            name: "State",
+            platform: .iOS,
+            product: .framework,
+            deploymentTarget: DEPLOYMENT_TARGET,
+            dependencies: [
+                .target(name: "Domain"),
+                .target(name: "Utility"),
+            ]
+        )
+        + Target.target(
+            name: "UserDefaultsPlatform",
+            platform: .iOS,
+            product: .framework,
+            deploymentTarget: DEPLOYMENT_TARGET,
+            dependencies: [
+                .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.rxUtilityDynamic),
                 .target(name: "Domain"),
             ]
         )
@@ -52,16 +73,6 @@ func targets() -> [Target] {
             hasUnitTests: true
         )
         + Target.target(
-            name: "State",
-            platform: .iOS,
-            product: .framework,
-            deploymentTarget: DEPLOYMENT_TARGET,
-            dependencies: [
-                .target(name: "Domain"),
-                .target(name: "Utility"),
-            ]
-        )
-        + Target.target(
             name: "LaunchArguments",
             platform: .iOS,
             product: .framework,
@@ -75,7 +86,7 @@ func targets() -> [Target] {
             resources: ["Resources/Localization/**"]
         )
         + Target.target(
-            name: "TestDoubles",
+            name: "Testing",
             platform: .iOS,
             product: .framework,
             deploymentTarget: DEPLOYMENT_TARGET,
@@ -83,6 +94,8 @@ func targets() -> [Target] {
                 .target(name: "Domain"),
                 .target(name: "State"),
                 .target(name: "Utility"),
+                .target(name: "iOSCore"),
+                .external(name: ExternalDependencyName.rxSwift),
             ]
         )
         + Target.target(
@@ -96,7 +109,6 @@ func targets() -> [Target] {
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "RealmPlatform"),
-                .target(name: "State"),
                 .target(name: "Utility"),
                 .target(name: "Localization"),
                 .external(name: ExternalDependencyName.rxSwift),
@@ -110,7 +122,7 @@ func targets() -> [Target] {
             ],
             hasUnitTests: true,
             additionalTestDependencies: [
-                .target(name: "TestDoubles")
+                .target(name: "Testing")
             ]
         )
         + Target.target(
@@ -227,8 +239,12 @@ let project: Project = .init(
             buildAction: .buildAction(targets: ["State"])
         ),
         .init(
-            name: "TestDoubles",
-            buildAction: .buildAction(targets: ["TestDoubles"])
+            name: "UserDefaultsPlatform",
+            buildAction: .buildAction(targets: ["UserDefaultsPlatform"])
+        ),
+        .init(
+            name: "Testing",
+            buildAction: .buildAction(targets: ["Testing"])
         ),
         .init(
             name: "iOSCore",
