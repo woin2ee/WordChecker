@@ -177,7 +177,7 @@ final class WordCheckingViewController: BaseViewController {
 
                 self?.viewModel.addWord(word)
 
-                self?.view.makeToast(WCString.word_added(word: word), duration: 1.2, position: .top)
+                self?.view.makeToast(WCString.word_added_successfully(word: word), duration: 1.2, position: .top)
             }
             alertController.addAction(addAction)
 

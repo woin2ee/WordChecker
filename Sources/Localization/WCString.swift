@@ -37,8 +37,8 @@ public struct WCString {
     public static let discardChanges = NSLocalizedString("discardChanges", bundle: Bundle.module, comment: "")
     public static let all = NSLocalizedString("all", bundle: Bundle.module, comment: "")
     public static let there_are_no_words = NSLocalizedString("there_are_no_words", bundle: Bundle.module, comment: "")
-    public static func word_added(word: String) -> String {
-        let localizedString = NSLocalizedString("%@_added", bundle: Bundle.module, comment: "단어 추가 완료 후 표시되는 메세지")
+    public static func word_added_successfully(word: String) -> String {
+        let localizedString = NSLocalizedString("%@_added_successfully", bundle: Bundle.module, comment: "단어 추가 완료 후 표시되는 메세지")
         return .init(format: localizedString, arguments: [word])
     }
 

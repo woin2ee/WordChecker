@@ -32,4 +32,4 @@ discardChanges = "Discard Changes";
 all = "All";
 there_are_no_words = "There are no words.";
 quick_add_word = "Quick add word";
-"%@_added" = "[ %@ ] added";
+"%@_added_successfully" = "[ %@ ] added successfully";
