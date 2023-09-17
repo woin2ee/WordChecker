@@ -137,7 +137,7 @@ extension WordCheckerUITests {
 
     func runAddWord(text: String) {
         app.navigationBars.buttons[AccessibilityIdentifier.WordChecking.addWordButton].tap()
-        let addAlert = app.alerts[WCString.addWord]
+        let addAlert = app.alerts[WCString.quick_add_word]
         addAlert.textFields.firstMatch.typeText(text)
         addAlert.buttons[WCString.add].tap()
     }
