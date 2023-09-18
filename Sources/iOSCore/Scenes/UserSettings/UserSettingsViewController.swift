@@ -22,6 +22,8 @@ final class UserSettingsViewController: BaseViewController {
 
     let userSettingsUseCase: UserSettingsUseCaseProtocol
 
+    private(set) var currentTranslationLocale: (source: TranslationLocale, target: TranslationLocale)?
+
     lazy var settingsTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
         $0.backgroundColor = .systemGroupedBackground
         $0.dataSource = self
@@ -83,6 +85,8 @@ extension UserSettingsViewController: UITableViewDataSource {
         userSettingsUseCase.currentTranslationLocale
             .asDriverOnErrorJustComplete()
             .drive(with: self) { _, locale in
+                self.currentTranslationLocale = locale
+
                 if indexPath.row == 0 {
                     config.text = WCString.source_language
 
@@ -118,14 +122,17 @@ extension UserSettingsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let settingsDirection: LanguageSettingViewModel.SettingsDirection
+        let currentSettingLocale: TranslationLocale
 
         if indexPath.row == 0 {
             settingsDirection = .sourceLanguage
+            currentSettingLocale = currentTranslationLocale?.source ?? .english
         } else {
             settingsDirection = .targetLanguage
+            currentSettingLocale = currentTranslationLocale?.target ?? .english
         }
 
-        let languageSettingVC: LanguageSettingViewController = DIContainer.shared.resolve(argument: settingsDirection)
+        let languageSettingVC: LanguageSettingViewController = DIContainer.shared.resolve(arguments: settingsDirection, currentSettingLocale)
         self.navigationController?.pushViewController(languageSettingVC, animated: true)
 
         tableView.deselectRow(at: indexPath, animated: true)

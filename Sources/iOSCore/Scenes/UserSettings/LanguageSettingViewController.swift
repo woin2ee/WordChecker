@@ -61,6 +61,10 @@ final class LanguageSettingViewController: BaseViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: self.languageCellID, for: .init(row: row, section: 0))
                 cell.contentConfiguration = config
 
+                if locale == self.viewModel.currentSettingLocale {
+                    cell.accessoryType = .checkmark
+                }
+
                 return cell
             }
             .disposed(by: disposeBag)
