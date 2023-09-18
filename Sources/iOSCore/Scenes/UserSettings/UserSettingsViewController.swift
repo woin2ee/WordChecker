@@ -34,13 +34,12 @@ final class UserSettingsViewController: BaseViewController {
 
         setupSubviews()
         setupNavigationBar()
-
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        userSettingsUseCase.currentTranslationTargetLocale
+        userSettingsUseCase.currentTranslationLocale
             .asDriverOnErrorJustComplete()
             .drive(with: self) { owner, _ in
                 owner.settingsTableView.reloadData()
@@ -75,21 +74,33 @@ final class UserSettingsViewController: BaseViewController {
 extension UserSettingsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        2
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var config = UIListContentConfiguration.valueCell()
-        config.text = WCString.translation_language
 
-        userSettingsUseCase.currentTranslationTargetLocale
+        userSettingsUseCase.currentTranslationLocale
             .asDriverOnErrorJustComplete()
             .drive(with: self) { _, locale in
-                switch locale {
-                case .korea:
-                    config.secondaryText = WCString.korean
-                case .english:
-                    config.secondaryText = WCString.english
+                if indexPath.row == 0 {
+                    config.text = WCString.source_language
+
+                    switch locale.source {
+                    case .korea:
+                        config.secondaryText = WCString.korean
+                    case .english:
+                        config.secondaryText = WCString.english
+                    }
+                } else {
+                    config.text = WCString.translation_language
+
+                    switch locale.target {
+                    case .korea:
+                        config.secondaryText = WCString.korean
+                    case .english:
+                        config.secondaryText = WCString.english
+                    }
                 }
             }
             .disposed(by: disposeBag)
@@ -106,7 +117,15 @@ extension UserSettingsViewController: UITableViewDataSource {
 extension UserSettingsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let languageSettingVC: LanguageSettingViewController = DIContainer.shared.resolve()
+        let settingsDirection: LanguageSettingViewModel.SettingsDirection
+
+        if indexPath.row == 0 {
+            settingsDirection = .sourceLanguage
+        } else {
+            settingsDirection = .targetLanguage
+        }
+
+        let languageSettingVC: LanguageSettingViewController = DIContainer.shared.resolve(argument: settingsDirection)
         self.navigationController?.pushViewController(languageSettingVC, animated: true)
 
         tableView.deselectRow(at: indexPath, animated: true)

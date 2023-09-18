@@ -20,15 +20,21 @@ public final class UserSettingsRepository: UserSettingsRepositoryProtocol {
     }
 
     public func saveUserSettings(_ userSettings: Domain.UserSettings) -> RxSwift.Single<Void> {
-        return userDefaults.rx.setCodable(userSettings.translationTargetLocale, forKey: .translationTargetLocale)
-            .mapToVoid()
+        return Single.zip(
+            userDefaults.rx.setCodable(userSettings.translationSourceLocale, forKey: .translationSourceLocale),
+            userDefaults.rx.setCodable(userSettings.translationTargetLocale, forKey: .translationTargetLocale)
+        )
+        .mapToVoid()
     }
 
     public func getUserSettings() -> RxSwift.Single<Domain.UserSettings> {
-        return userDefaults.rx.object(TranslationLocale.self, forKey: .translationTargetLocale)
-            .map { locale -> Domain.UserSettings in
-                return .init(translationTargetLocale: locale)
-            }
+        return Single.zip(
+            userDefaults.rx.object(TranslationLocale.self, forKey: .translationSourceLocale),
+            userDefaults.rx.object(TranslationLocale.self, forKey: .translationTargetLocale)
+        )
+        .map { sourceLocale, targetLocale -> Domain.UserSettings in
+            return .init(translationSourceLocale: sourceLocale, translationTargetLocale: targetLocale)
+        }
     }
 
 }

@@ -26,6 +26,7 @@ public struct WCString {
     public static let editWord = NSLocalizedString("editWord", bundle: Bundle.module, comment: "")
     public static let shuffleOrder = NSLocalizedString("shuffleOrder", bundle: Bundle.module, comment: "")
     public static let translate = NSLocalizedString("translate", bundle: Bundle.module, comment: "")
+    public static let source_language = NSLocalizedString("source_language", bundle: Bundle.module, comment: "")
     public static let translation_language = NSLocalizedString("translation_language", bundle: Bundle.module, comment: "")
     public static let languages = NSLocalizedString("languages", bundle: Bundle.module, comment: "")
     public static let korean = NSLocalizedString("korean", bundle: Bundle.module, comment: "")

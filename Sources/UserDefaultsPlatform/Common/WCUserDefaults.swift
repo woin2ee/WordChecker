@@ -26,6 +26,8 @@ public final class WCUserDefaults {
 
     enum UserDefaultsKey: String {
 
+        case translationSourceLocale = "translationSourceLocale"
+
         case translationTargetLocale = "translationTargetLocale"
 
     }

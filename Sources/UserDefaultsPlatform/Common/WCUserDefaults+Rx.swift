@@ -57,7 +57,7 @@ extension Reactive where Base: WCUserDefaults {
     }
 
     func object<T: Decodable>(_ type: T.Type, forKey key: Base.UserDefaultsKey) -> Single<T> {
-        return object(forKey: key)
+        return self.object(forKey: key)
             .map { $0 as? Data }
             .unwrapOrThrow()
             .map { decodableObject in

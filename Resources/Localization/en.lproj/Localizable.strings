@@ -38,4 +38,4 @@ translation_language = "Translation language";
 korean = "Korean";
 english = "English";
 languages = "Languages";
-
+source_language = "Source language";

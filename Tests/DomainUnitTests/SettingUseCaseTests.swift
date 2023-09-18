@@ -37,28 +37,30 @@ final class SettingUseCaseTests: XCTestCase {
 
         // Act1
         do {
-            try sut.updateTranslationTargetLocale(to: .korea)
+            try sut.updateTranslationLocale(source: .english, target: .korea)
                 .toBlocking()
                 .single()
 
-            let currentTranslationLocale = try sut.currentTranslationTargetLocale
+            let currentTranslationLocale = try sut.currentTranslationLocale
                 .toBlocking()
                 .single()
 
-            XCTAssertEqual(currentTranslationLocale, .korea)
+            XCTAssertEqual(currentTranslationLocale.source, .english)
+            XCTAssertEqual(currentTranslationLocale.target, .korea)
         }
 
         // Act2
         do {
-            try sut.updateTranslationTargetLocale(to: .english)
+            try sut.updateTranslationLocale(source: .korea, target: .english)
                 .toBlocking()
                 .single()
 
-            let currentTranslationLocale = try sut.currentTranslationTargetLocale
+            let currentTranslationLocale = try sut.currentTranslationLocale
                 .toBlocking()
                 .single()
 
-            XCTAssertEqual(currentTranslationLocale, .english)
+            XCTAssertEqual(currentTranslationLocale.source, .korea)
+            XCTAssertEqual(currentTranslationLocale.target, .english)
         }
     }
 
@@ -69,12 +71,12 @@ final class SettingUseCaseTests: XCTestCase {
             .single()
 
         // When
-        let currentTranslationLocale = try sut.currentTranslationTargetLocale
+        let currentTranslationLocale = try sut.currentTranslationLocale
             .toBlocking()
             .single()
 
         // Then
-        XCTAssertEqual(currentTranslationLocale, .english)
+        XCTAssertEqual(currentTranslationLocale.target, .english)
     }
 
 }

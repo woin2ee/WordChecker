@@ -17,19 +17,22 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
         self.userSettingsRepository = userSettingsRepository
     }
 
-    public func updateTranslationTargetLocale(to newLocale: TranslationLocale) -> RxSwift.Single<Void> {
+    public func updateTranslationLocale(source sourceLocale: TranslationLocale, target targetLocale: TranslationLocale) -> RxSwift.Single<Void> {
         return userSettingsRepository.getUserSettings()
             .map { currentSettings in
                 var newSettings = currentSettings
-                newSettings.translationTargetLocale = newLocale
+                newSettings.translationSourceLocale = sourceLocale
+                newSettings.translationTargetLocale = targetLocale
                 return newSettings
             }
             .flatMap { self.userSettingsRepository.saveUserSettings($0) }
     }
 
-    public var currentTranslationTargetLocale: RxSwift.Single<TranslationLocale> {
+    public var currentTranslationLocale: RxSwift.Single<(source: TranslationLocale, target: TranslationLocale)> {
         return userSettingsRepository.getUserSettings()
-            .map(\.translationTargetLocale)
+            .map { userSettings -> (source: TranslationLocale, target: TranslationLocale) in
+                return (userSettings.translationSourceLocale, userSettings.translationTargetLocale)
+            }
     }
 
     public func initUserSettings() -> RxSwift.Single<UserSettings> {
@@ -42,7 +45,7 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
             translationTargetLocale = .english
         }
 
-        let userSettings: UserSettings = .init(translationTargetLocale: translationTargetLocale)
+        let userSettings: UserSettings = .init(translationSourceLocale: .english, translationTargetLocale: translationTargetLocale) // FIXME: 처음에 Source Locale 설정 가능하게 (현재 .english 고정)
 
         return userSettingsRepository.saveUserSettings(userSettings)
             .flatMap { self.userSettingsRepository.getUserSettings() }

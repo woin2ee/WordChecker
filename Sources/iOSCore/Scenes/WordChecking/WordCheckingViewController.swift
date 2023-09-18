@@ -58,6 +58,7 @@ final class WordCheckingViewController: BaseViewController {
     lazy var translateButton: BottomButton = {
         let button: BottomButton = .init(title: WCString.translate)
         let action: UIAction = .init { [weak self] _ in
+            let sourceLanguage: String
             let targetLanguage: String
 
             switch self?.viewModel.translationTargetLocale {
@@ -67,10 +68,17 @@ final class WordCheckingViewController: BaseViewController {
                 targetLanguage = "en"
             }
 
+            switch self?.viewModel.translationSourceLocale {
+            case .korea:
+                sourceLanguage = "ko"
+            default:
+                sourceLanguage = "en"
+            }
+
             guard
                 let currentWord = self?.wordLabel.text,
 //                let encodedURL = "https://translate.google.co.kr/?sl=auto&tl=ko&text=\(currentWord)&op=translate".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                let encodedURL = "https://papago.naver.com/?sk=auto&tk=\(targetLanguage)&hn=0&st=\(currentWord)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                let encodedURL = "https://papago.naver.com/?sk=\(sourceLanguage)&tk=\(targetLanguage)&hn=0&st=\(currentWord)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
                 let url = URL(string: encodedURL)
             else {
                 return
@@ -116,6 +124,12 @@ final class WordCheckingViewController: BaseViewController {
         bindViewModel()
 
         self.setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        viewModel.updateTranslationLocale()
     }
 
     override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {

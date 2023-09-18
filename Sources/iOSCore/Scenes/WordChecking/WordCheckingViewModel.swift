@@ -32,12 +32,16 @@ protocol WordCheckingViewModelInput {
 
     func markCurrentWordAsMemorized()
 
+    func updateTranslationLocale()
+
 }
 
 /// WordCheckingView 를 표시하기 위해 필요한 최소한의 Model.
 protocol WordCheckingViewModelOutput {
 
     var currentWord: AnyPublisher<String?, Never> { get }
+
+    var translationSourceLocale: TranslationLocale { get }
 
     var translationTargetLocale: TranslationLocale { get }
 
@@ -61,6 +65,8 @@ final class WordCheckingViewModel: WordCheckingViewModelProtocol {
 
     let currentWordSubject: CurrentValueSubject<Domain.Word?, Never> = .init(nil)
 
+    private(set) var translationSourceLocale: TranslationLocale = .english
+
     private(set) var translationTargetLocale: TranslationLocale = .korea
 
     init(wordUseCase: WordUseCaseProtocol, userSettingsUseCase: UserSettingsUseCaseProtocol, state: UnmemorizedWordListStateProtocol, delegate: WordCheckingViewModelDelegate?) {
@@ -76,13 +82,6 @@ final class WordCheckingViewModel: WordCheckingViewModelProtocol {
             .store(in: &cancelBag)
 
         wordUseCase.randomizeUnmemorizedWordList()
-
-        userSettingsUseCase.currentTranslationTargetLocale
-            .asDriverOnErrorJustComplete()
-            .drive(with: self) { owner, locale in
-                owner.translationTargetLocale = locale
-            }
-            .disposed(by: disposeBag)
     }
 
 }
@@ -133,6 +132,16 @@ extension WordCheckingViewModel {
         wordUseCase.markCurrentWordAsMemorized(uuid: currentWord.uuid)
 
         delegate?.wordCheckingViewModelDidMarkCurrentWordAsMemorized()
+    }
+
+    func updateTranslationLocale() {
+        userSettingsUseCase.currentTranslationLocale
+            .asDriverOnErrorJustComplete()
+            .drive(with: self) { owner, translationLocale in
+                owner.translationSourceLocale = translationLocale.source
+                owner.translationTargetLocale = translationLocale.target
+            }
+            .disposed(by: disposeBag)
     }
 
 }
