@@ -10,9 +10,9 @@ import Foundation
 
 public struct UserSettings {
 
-    public var translationTargetLocale: TranslationTargetLocale
+    public var translationTargetLocale: TranslationLocale
 
-    public init(translationTargetLocale: TranslationTargetLocale) {
+    public init(translationTargetLocale: TranslationLocale) {
         self.translationTargetLocale = translationTargetLocale
     }
 

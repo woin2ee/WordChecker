@@ -11,9 +11,9 @@ import RxSwift
 
 public protocol UserSettingsUseCaseProtocol {
 
-    func setTranslationLocale(to locale: TranslationTargetLocale) -> Single<Void>
+    func updateTranslationTargetLocale(to locale: TranslationLocale) -> Single<Void>
 
-    var currentTranslationLocale: Single<TranslationTargetLocale> { get }
+    var currentTranslationTargetLocale: Single<TranslationLocale> { get }
 
     func initUserSettings() -> Single<UserSettings>
 

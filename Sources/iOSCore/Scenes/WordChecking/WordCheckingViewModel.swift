@@ -39,7 +39,7 @@ protocol WordCheckingViewModelOutput {
 
     var currentWord: AnyPublisher<String?, Never> { get }
 
-    var translationTargetLocale: TranslationTargetLocale { get }
+    var translationTargetLocale: TranslationLocale { get }
 
 }
 
@@ -61,7 +61,7 @@ final class WordCheckingViewModel: WordCheckingViewModelProtocol {
 
     let currentWordSubject: CurrentValueSubject<Domain.Word?, Never> = .init(nil)
 
-    private(set) var translationTargetLocale: TranslationTargetLocale = .korea
+    private(set) var translationTargetLocale: TranslationLocale = .korea
 
     init(wordUseCase: WordUseCaseProtocol, userSettingsUseCase: UserSettingsUseCaseProtocol, state: UnmemorizedWordListStateProtocol, delegate: WordCheckingViewModelDelegate?) {
         self.wordUseCase = wordUseCase
@@ -77,7 +77,7 @@ final class WordCheckingViewModel: WordCheckingViewModelProtocol {
 
         wordUseCase.randomizeUnmemorizedWordList()
 
-        userSettingsUseCase.currentTranslationLocale
+        userSettingsUseCase.currentTranslationTargetLocale
             .asDriverOnErrorJustComplete()
             .drive(with: self) { owner, locale in
                 owner.translationTargetLocale = locale

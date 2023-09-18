@@ -25,7 +25,7 @@ public final class UserSettingsRepository: UserSettingsRepositoryProtocol {
     }
 
     public func getUserSettings() -> RxSwift.Single<Domain.UserSettings> {
-        return userDefaults.rx.object(TranslationTargetLocale.self, forKey: .translationTargetLocale)
+        return userDefaults.rx.object(TranslationLocale.self, forKey: .translationTargetLocale)
             .map { locale -> Domain.UserSettings in
                 return .init(translationTargetLocale: locale)
             }
