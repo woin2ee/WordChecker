@@ -62,13 +62,13 @@ final class LanguageSettingViewController: BaseViewController {
 extension LanguageSettingViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        TranslationTargetLocale.allCases.count
+        TranslationLocale.allCases.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var config = UIListContentConfiguration.cell()
 
-        switch TranslationTargetLocale.allCases[indexPath.row] {
+        switch TranslationLocale.allCases[indexPath.row] {
         case .korea:
             config.text = WCString.korean
         case .english:
@@ -86,9 +86,9 @@ extension LanguageSettingViewController: UITableViewDataSource {
 extension LanguageSettingViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedLocale = TranslationTargetLocale.allCases[indexPath.row]
+        let selectedLocale = TranslationLocale.allCases[indexPath.row]
 
-        userSettingsUseCase.setTranslationLocale(to: selectedLocale)
+        userSettingsUseCase.updateTranslationTargetLocale(to: selectedLocale)
             .subscribe(with: self, onSuccess: { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
             })

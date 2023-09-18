@@ -17,7 +17,7 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
         self.userSettingsRepository = userSettingsRepository
     }
 
-    public func setTranslationLocale(to newLocale: TranslationTargetLocale) -> RxSwift.Single<Void> {
+    public func updateTranslationTargetLocale(to newLocale: TranslationLocale) -> RxSwift.Single<Void> {
         return userSettingsRepository.getUserSettings()
             .map { currentSettings in
                 var newSettings = currentSettings
@@ -27,13 +27,13 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
             .flatMap { self.userSettingsRepository.saveUserSettings($0) }
     }
 
-    public var currentTranslationLocale: RxSwift.Single<TranslationTargetLocale> {
+    public var currentTranslationTargetLocale: RxSwift.Single<TranslationLocale> {
         return userSettingsRepository.getUserSettings()
             .map(\.translationTargetLocale)
     }
 
     public func initUserSettings() -> RxSwift.Single<UserSettings> {
-        var translationTargetLocale: TranslationTargetLocale
+        var translationTargetLocale: TranslationLocale
 
         switch Locale.current.language.region?.identifier {
         case "KR":

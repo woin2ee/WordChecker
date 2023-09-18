@@ -40,7 +40,7 @@ final class UserSettingsViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        userSettingsUseCase.currentTranslationLocale
+        userSettingsUseCase.currentTranslationTargetLocale
             .asDriverOnErrorJustComplete()
             .drive(with: self) { owner, _ in
                 owner.settingsTableView.reloadData()
@@ -82,7 +82,7 @@ extension UserSettingsViewController: UITableViewDataSource {
         var config = UIListContentConfiguration.valueCell()
         config.text = WCString.translation_language
 
-        userSettingsUseCase.currentTranslationLocale
+        userSettingsUseCase.currentTranslationTargetLocale
             .asDriverOnErrorJustComplete()
             .drive(with: self) { _, locale in
                 switch locale {
