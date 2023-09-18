@@ -15,4 +15,8 @@ public protocol UserSettingsUseCaseProtocol {
 
     var currentTranslationLocale: Single<TranslationTargetLocale> { get }
 
+    func initUserSettings() -> Single<UserSettings>
+
+    var currentUserSettings: Single<UserSettings> { get }
+
 }

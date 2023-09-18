@@ -58,12 +58,19 @@ final class WordCheckingViewController: BaseViewController {
     lazy var translateButton: BottomButton = {
         let button: BottomButton = .init(title: WCString.translate)
         let action: UIAction = .init { [weak self] _ in
-            // TODO: 현재 앱에 설정된 언어에 따라 번역 언어 변경 기능
-            let targetLanguage = "ko"
+            let targetLanguage: String
+
+            switch self?.viewModel.translationTargetLocale {
+            case .korea:
+                targetLanguage = "ko"
+            default:
+                targetLanguage = "en"
+            }
+
             guard
                 let currentWord = self?.wordLabel.text,
 //                let encodedURL = "https://translate.google.co.kr/?sl=auto&tl=ko&text=\(currentWord)&op=translate".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                let encodedURL = "https://papago.naver.com/?sk=en&tk=\(targetLanguage)&hn=0&st=\(currentWord)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                let encodedURL = "https://papago.naver.com/?sk=auto&tk=\(targetLanguage)&hn=0&st=\(currentWord)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
                 let url = URL(string: encodedURL)
             else {
                 return

@@ -26,6 +26,10 @@ public struct WCString {
     public static let editWord = NSLocalizedString("editWord", bundle: Bundle.module, comment: "")
     public static let shuffleOrder = NSLocalizedString("shuffleOrder", bundle: Bundle.module, comment: "")
     public static let translate = NSLocalizedString("translate", bundle: Bundle.module, comment: "")
+    public static let translation_language = NSLocalizedString("translation_language", bundle: Bundle.module, comment: "")
+    public static let languages = NSLocalizedString("languages", bundle: Bundle.module, comment: "")
+    public static let korean = NSLocalizedString("korean", bundle: Bundle.module, comment: "")
+    public static let english = NSLocalizedString("english", bundle: Bundle.module, comment: "")
     public static let word = NSLocalizedString("word", bundle: Bundle.module, comment: "")
     public static let done = NSLocalizedString("done", bundle: Bundle.module, comment: "")
     public static let details = NSLocalizedString("details", bundle: Bundle.module, comment: "")
@@ -36,6 +40,7 @@ public struct WCString {
     public static let newWord = NSLocalizedString("newWord", bundle: Bundle.module, comment: "")
     public static let discardChanges = NSLocalizedString("discardChanges", bundle: Bundle.module, comment: "")
     public static let all = NSLocalizedString("all", bundle: Bundle.module, comment: "")
+    public static let settings = NSLocalizedString("settings", bundle: Bundle.module, comment: "")
     public static let there_are_no_words = NSLocalizedString("there_are_no_words", bundle: Bundle.module, comment: "")
     public static func word_added_successfully(word: String) -> String {
         let localizedString = NSLocalizedString("%@_added_successfully", bundle: Bundle.module, comment: "단어 추가 완료 후 표시되는 메세지")

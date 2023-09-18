@@ -2,9 +2,16 @@
   "configurations" : [
     {
       "id" : "F9192BBD-AEA9-4342-B2E6-71DC48BE066F",
-      "name" : "Configuration 1",
+      "name" : "SouthKoreaRegion",
       "options" : {
-
+        "region" : "KR"
+      }
+    },
+    {
+      "id" : "8FED7EE7-0BC5-4BBB-AA0B-BB30399CAE21",
+      "name" : "OtherRegion",
+      "options" : {
+        "region" : "CA"
       }
     }
   ],
@@ -16,7 +23,7 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "DA340C1E2AA5F56A00C1C529",
+        "identifier" : "49913AE79745D97139F53879",
         "name" : "DomainUnitTests"
       }
     }

@@ -11,23 +11,21 @@ import Foundation
 import RxSwift
 import RxUtility
 
-final class UserSettingsRepository: UserSettingsRepositoryProtocol {
+public final class UserSettingsRepository: UserSettingsRepositoryProtocol {
 
     let userDefaults: WCUserDefaults
 
-    init(userDefaults: WCUserDefaults) {
+    public init(userDefaults: WCUserDefaults) {
         self.userDefaults = userDefaults
     }
 
-    func saveUserSettings(_ userSettings: Domain.UserSettings) -> RxSwift.Single<Void> {
-        return userDefaults.rx.setValue(userSettings.translationTargetLocale, forKey: .translationTargetLocale)
+    public func saveUserSettings(_ userSettings: Domain.UserSettings) -> RxSwift.Single<Void> {
+        return userDefaults.rx.setCodable(userSettings.translationTargetLocale, forKey: .translationTargetLocale)
             .mapToVoid()
     }
 
-    func getUserSettings() -> RxSwift.Single<Domain.UserSettings> {
-        return userDefaults.rx.object(forKey: .translationTargetLocale)
-            .map { $0 as? TranslationTargetLocale }
-            .unwrapOrThrow()
+    public func getUserSettings() -> RxSwift.Single<Domain.UserSettings> {
+        return userDefaults.rx.object(TranslationTargetLocale.self, forKey: .translationTargetLocale)
             .map { locale -> Domain.UserSettings in
                 return .init(translationTargetLocale: locale)
             }

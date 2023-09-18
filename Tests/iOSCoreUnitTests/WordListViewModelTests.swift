@@ -7,7 +7,7 @@
 
 @testable import iOSCore
 import Domain
-import TestDoubles
+import Testing
 import XCTest
 
 final class WordListViewModelTests: XCTestCase {

@@ -8,6 +8,8 @@
 import Combine
 import Domain
 import Foundation
+import UserDefaultsPlatform
+import RxSwift
 
 protocol WordCheckingViewModelDelegate: AnyObject {
 
@@ -37,6 +39,8 @@ protocol WordCheckingViewModelOutput {
 
     var currentWord: AnyPublisher<String?, Never> { get }
 
+    var translationTargetLocale: TranslationTargetLocale { get }
+
 }
 
 protocol WordCheckingViewModelProtocol: WordCheckingViewModelInput, WordCheckingViewModelOutput {}
@@ -45,23 +49,40 @@ final class WordCheckingViewModel: WordCheckingViewModelProtocol {
 
     let wordUseCase: WordUseCaseProtocol
 
+    let userSettingsUseCase: UserSettingsUseCaseProtocol
+
     let state: UnmemorizedWordListStateProtocol
 
     weak var delegate: WordCheckingViewModelDelegate?
 
     private var cancelBag: Set<AnyCancellable> = .init()
 
+    let disposeBag: DisposeBag = .init()
+
     let currentWordSubject: CurrentValueSubject<Domain.Word?, Never> = .init(nil)
 
-    init(wordUseCase: WordUseCaseProtocol, state: UnmemorizedWordListStateProtocol, delegate: WordCheckingViewModelDelegate?) {
+    private(set) var translationTargetLocale: TranslationTargetLocale = .korea
+
+    init(wordUseCase: WordUseCaseProtocol, userSettingsUseCase: UserSettingsUseCaseProtocol, state: UnmemorizedWordListStateProtocol, delegate: WordCheckingViewModelDelegate?) {
         self.wordUseCase = wordUseCase
+        self.userSettingsUseCase = userSettingsUseCase
         self.state = state
         self.delegate = delegate
-        state.currentWord.sink { [weak self] word in
-            self?.currentWordSubject.send(word)
-        }
-        .store(in: &cancelBag)
+
+        state.currentWord
+            .sink { [weak self] word in
+                self?.currentWordSubject.send(word)
+            }
+            .store(in: &cancelBag)
+
         wordUseCase.randomizeUnmemorizedWordList()
+
+        userSettingsUseCase.currentTranslationLocale
+            .asDriverOnErrorJustComplete()
+            .drive(with: self) { owner, locale in
+                owner.translationTargetLocale = locale
+            }
+            .disposed(by: disposeBag)
     }
 
 }
