@@ -17,19 +17,17 @@ final class LanguageSettingViewController: BaseViewController {
 
     let disposeBag: DisposeBag = .init()
 
-    let userSettingsUseCase: UserSettingsUseCaseProtocol
+    let viewModel: LanguageSettingViewModel
 
     let languageCellID = "LANGUAGE_SETTING_LANGUAGE_CELL"
 
     lazy var languageSettingTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
         $0.backgroundColor = .systemGroupedBackground
-        $0.dataSource = self
-        $0.delegate = self
         $0.register(UITableViewCell.self, forCellReuseIdentifier: languageCellID)
     }
 
-    init(userSettingsUseCase: UserSettingsUseCaseProtocol) {
-        self.userSettingsUseCase = userSettingsUseCase
+    init(viewModel: LanguageSettingViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -42,6 +40,36 @@ final class LanguageSettingViewController: BaseViewController {
 
         setupSubviews()
         setupNavigationBar()
+        bindViewModel()
+    }
+
+    func bindViewModel() {
+        let input = LanguageSettingViewModel.Input.init(selectCell: languageSettingTableView.rx.itemSelected.asSignal())
+        let output = viewModel.transform(input: input)
+
+        output.selectableLocales
+            .drive(languageSettingTableView.rx.items) { tableView, row, locale -> UITableViewCell in
+                var config = UIListContentConfiguration.cell()
+
+                switch locale {
+                case .korea:
+                    config.text = WCString.korean
+                case .english:
+                    config.text = WCString.english
+                }
+
+                let cell = tableView.dequeueReusableCell(withIdentifier: self.languageCellID, for: .init(row: row, section: 0))
+                cell.contentConfiguration = config
+
+                return cell
+            }
+            .disposed(by: disposeBag)
+
+        output.didSelectCell
+            .emit(with: self, onNext: { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
     }
 
     func setupSubviews() {
@@ -55,44 +83,6 @@ final class LanguageSettingViewController: BaseViewController {
     func setupNavigationBar() {
         self.navigationItem.title = WCString.languages
         self.navigationItem.largeTitleDisplayMode = .never
-    }
-
-}
-
-extension LanguageSettingViewController: UITableViewDataSource {
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        TranslationLocale.allCases.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var config = UIListContentConfiguration.cell()
-
-        switch TranslationLocale.allCases[indexPath.row] {
-        case .korea:
-            config.text = WCString.korean
-        case .english:
-            config.text = WCString.english
-        }
-
-        let cell = tableView.dequeueReusableCell(withIdentifier: languageCellID, for: indexPath)
-        cell.contentConfiguration = config
-
-        return cell
-    }
-
-}
-
-extension LanguageSettingViewController: UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedLocale = TranslationLocale.allCases[indexPath.row]
-
-        userSettingsUseCase.updateTranslationTargetLocale(to: selectedLocale)
-            .subscribe(with: self, onSuccess: { owner, _ in
-                owner.navigationController?.popViewController(animated: true)
-            })
-            .disposed(by: disposeBag)
     }
 
 }
