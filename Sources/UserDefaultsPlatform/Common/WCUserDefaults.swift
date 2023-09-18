@@ -8,11 +8,11 @@
 
 import Foundation
 
-final class WCUserDefaults {
+public final class WCUserDefaults {
 
     private let _userDefaults: UserDefaults
 
-    init(_userDefaults: UserDefaults) {
+    public init(_userDefaults: UserDefaults) {
         self._userDefaults = _userDefaults
     }
 

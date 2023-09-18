@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import RxUtility
 
 extension WCUserDefaults: ReactiveCompatible {}
 
@@ -32,6 +33,17 @@ extension Reactive where Base: WCUserDefaults {
         }
     }
 
+    func setCodable(_ value: Codable, forKey key: Base.UserDefaultsKey) -> Single<Void> {
+        do {
+            let encoded = try JSONEncoder().encode(value)
+
+            return setValue(encoded, forKey: key)
+                .mapToVoid()
+        } catch {
+            return .error(error)
+        }
+    }
+
     func object(forKey key: Base.UserDefaultsKey) -> Single<Any> {
         return .create { result in
             if let object = base.object(forKey: key) {
@@ -42,7 +54,15 @@ extension Reactive where Base: WCUserDefaults {
 
             return Disposables.create()
         }
+    }
 
+    func object<T: Decodable>(_ type: T.Type, forKey key: Base.UserDefaultsKey) -> Single<T> {
+        return object(forKey: key)
+            .map { $0 as? Data }
+            .unwrapOrThrow()
+            .map { decodableObject in
+                return try JSONDecoder().decode(type, from: decodableObject)
+            }
     }
 
     enum UserDefaultsError: Error {

@@ -32,4 +32,24 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
             .map(\.translationTargetLocale)
     }
 
+    public func initUserSettings() -> RxSwift.Single<UserSettings> {
+        var translationTargetLocale: TranslationTargetLocale
+
+        switch Locale.current.language.region?.identifier {
+        case "KR":
+            translationTargetLocale = .korea
+        default:
+            translationTargetLocale = .english
+        }
+
+        let userSettings: UserSettings = .init(translationTargetLocale: translationTargetLocale)
+
+        return userSettingsRepository.saveUserSettings(userSettings)
+            .flatMap { self.userSettingsRepository.getUserSettings() }
+    }
+
+    public var currentUserSettings: Single<UserSettings> {
+        return userSettingsRepository.getUserSettings()
+    }
+
 }

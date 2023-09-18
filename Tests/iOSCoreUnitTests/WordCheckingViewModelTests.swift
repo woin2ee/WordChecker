@@ -21,9 +21,11 @@ final class WordCheckingViewModelTests: XCTestCase {
         try super.setUpWithError()
 
         let wordUseCase: WordUseCaseFake = .init()
+        let userSettingsUseCase: UserSettingsUseCaseFake = .init()
 
         sut = WordCheckingViewModel.init(
             wordUseCase: wordUseCase,
+            userSettingsUseCase: userSettingsUseCase,
             state: wordUseCase._unmemorizedWordList,
             delegate: DelegateStub()
         )

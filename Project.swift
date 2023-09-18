@@ -112,6 +112,7 @@ func targets() -> [Target] {
                 .target(name: "State"),
                 .target(name: "Utility"),
                 .target(name: "Localization"),
+                .target(name: "UserDefaultsPlatform"),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxCocoa),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),

@@ -10,13 +10,17 @@ import Domain
 import Foundation
 import RxSwift
 
+enum UserSettingsRepositoryError: Error {
+
+    case notSavedUserSettings
+
+}
+
 public final class UserSettingsRepositoryFake: UserSettingsRepositoryProtocol {
 
-    public var _userSettings: UserSettings
+    public var _userSettings: UserSettings?
 
-    public init(initialLocale: TranslationTargetLocale = .english) {
-        self._userSettings = .init(translationTargetLocale: initialLocale)
-    }
+    public init() {}
 
     public func saveUserSettings(_ userSettings: Domain.UserSettings) -> RxSwift.Single<Void> {
         return .create { result in
@@ -28,7 +32,12 @@ public final class UserSettingsRepositoryFake: UserSettingsRepositoryProtocol {
 
     public func getUserSettings() -> RxSwift.Single<Domain.UserSettings> {
         return .create { result in
-            result(.success(self._userSettings))
+            if let userSettings = self._userSettings {
+                result(.success(userSettings))
+            } else {
+                result(.failure(UserSettingsRepositoryError.notSavedUserSettings))
+            }
+
             return Disposables.create()
         }
     }

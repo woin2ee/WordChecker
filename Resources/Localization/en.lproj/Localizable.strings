@@ -33,3 +33,9 @@ all = "All";
 there_are_no_words = "There are no words.";
 quick_add_word = "Quick add word";
 "%@_added_successfully" = "[ %@ ] added successfully";
+settings = "Settings";
+translation_language = "Translation language";
+korean = "Korean";
+english = "English";
+languages = "Languages";
+

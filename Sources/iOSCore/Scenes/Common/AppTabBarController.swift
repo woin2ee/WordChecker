@@ -7,6 +7,7 @@
 //
 
 import Localization
+import SFSafeSymbols
 import UIKit
 
 public final class AppTabBarController: UITabBarController {
@@ -32,10 +33,18 @@ public final class AppTabBarController: UITabBarController {
             selectedImage: .init(systemSymbol: .checkmarkDiamond, withConfiguration: symbolWeightConfig)
         )
 
+        let userSettingsVC: UserSettingsViewController = DIContainer.shared.resolve()
+        let userSettingsNC: UINavigationController = .init(rootViewController: userSettingsVC)
+        userSettingsNC.tabBarItem = .init(
+            title: WCString.settings,
+            image: .init(systemSymbol: .gearshape),
+            selectedImage: .init(systemSymbol: .gearshape, withConfiguration: symbolWeightConfig)
+        )
+
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
 
-        self.viewControllers = [wordCheckingNC, wordListNC]
+        self.viewControllers = [wordCheckingNC, wordListNC, userSettingsNC]
         self.tabBar.standardAppearance = appearance
         self.tabBar.scrollEdgeAppearance = appearance
     }
