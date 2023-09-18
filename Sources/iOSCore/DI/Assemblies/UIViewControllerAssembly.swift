@@ -52,9 +52,9 @@ final class UIViewControllerAssembly: Assembly {
             return viewController
         }
 
-        container.register(LanguageSettingViewController.self) { resolver, settingsDirection in
+        container.register(LanguageSettingViewController.self) { resolver, settingsDirection, currentSettingLocale in
             let userSettingsUseCase: UserSettingsUseCaseProtocol = resolver.resolve()
-            let viewModel: LanguageSettingViewModel = .init(userSettingsUseCase: userSettingsUseCase, settingsDirection: settingsDirection)
+            let viewModel: LanguageSettingViewModel = .init(userSettingsUseCase: userSettingsUseCase, settingsDirection: settingsDirection, currentSettingLocale: currentSettingLocale)
             let viewController: LanguageSettingViewController = .init(viewModel: viewModel)
             return viewController
         }

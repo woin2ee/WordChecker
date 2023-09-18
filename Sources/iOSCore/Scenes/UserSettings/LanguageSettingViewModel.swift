@@ -18,9 +18,16 @@ final class LanguageSettingViewModel: ViewModelType {
 
     let settingsDirection: SettingsDirection
 
-    init(userSettingsUseCase: UserSettingsUseCaseProtocol, settingsDirection: SettingsDirection) {
+    let currentSettingLocale: TranslationLocale
+
+    init(
+        userSettingsUseCase: UserSettingsUseCaseProtocol,
+        settingsDirection: SettingsDirection,
+        currentSettingLocale: TranslationLocale
+    ) {
         self.userSettingsUseCase = userSettingsUseCase
         self.settingsDirection = settingsDirection
+        self.currentSettingLocale = currentSettingLocale
     }
 
     func transform(input: Input) -> Output {
@@ -45,7 +52,10 @@ final class LanguageSettingViewModel: ViewModelType {
                     .asSignalOnErrorJustComplete()
             }
 
-        return .init(selectableLocales: selectableLocales, didSelectCell: didSelectCell)
+        return .init(
+            selectableLocales: selectableLocales,
+            didSelectCell: didSelectCell
+        )
     }
 
 }
