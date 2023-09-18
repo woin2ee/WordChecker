@@ -109,6 +109,7 @@ func targets() -> [Target] {
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "RealmPlatform"),
+                .target(name: "State"),
                 .target(name: "Utility"),
                 .target(name: "Localization"),
                 .external(name: ExternalDependencyName.rxSwift),
