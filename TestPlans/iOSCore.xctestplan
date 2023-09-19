@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "FE9B23BB-B204-4D14-B3EF-318266CD2B5F",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "5B5E8B6CF37D272DBB96F977",
+        "name" : "iOSCoreUnitTests"
+      }
+    }
+  ],
+  "version" : 1
+}
