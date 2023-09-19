@@ -17,5 +17,9 @@ let template = Template(
             path: "Tests/\(nameAttribute)/\(nameAttribute)Tests.swift",
             templatePath: .relativeToCurrentFile("../UnitTests.stencil")
         ),
+        .file(
+            path: "TestPlans/\(nameAttribute).xctestplan",
+            templatePath: .relativeToCurrentFile("../TestPlan.stencil")
+        ),
     ]
 )

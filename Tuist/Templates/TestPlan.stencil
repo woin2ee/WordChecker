@@ -1,0 +1,12 @@
+{
+  "configurations" : [
+
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+
+  ],
+  "version" : 1
+}
