@@ -9,32 +9,49 @@ import Foundation
 import ProjectDescription
 
 extension Target {
-    
-    // 주어진 name 으로 번들아이디, Sources 디렉토리, Tests 디렉토리를 세팅한 Target 을 반환합니다.
-    public static func target(
+
+    /// Parameters 에 따라 Target 을 만들고 Unit Tests Target 을 추가하거나 Scheme 을 추가하는 등의 작업을 수행합니다.
+    ///
+    /// 특정 Bundle ID 를 지정하지 않을 경우 모듈의 Bundle ID 는 Configurations.swift 파일에 정의된 `BASIC_BUNDLE_ID` 을 사용하여 `$(BASIC_BUNDLE_ID).$(name)` 으로 지정됩니다.
+    /// 테스트 타겟의 Bundle ID 는 `$(BASIC_BUNDLE_ID).$(name)UnitTests` 으로 지정됩니다.
+    ///
+    /// 모듈의 Sources 패스는 `Source/$(name)`이고 Tests 패스는 `Tests/$(name)UnitTests` 입니다.
+    public static func module(
         name: String,
         platform: ProjectDescription.Platform,
         product: ProjectDescription.Product,
         bundleId: String? = nil,
         deploymentTarget: ProjectDescription.DeploymentTarget,
-        infoPlist: ProjectDescription.InfoPlist? = .default,
         resources: ProjectDescription.ResourceFileElements? = nil,
-        copyFiles: [ProjectDescription.CopyFilesAction]? = nil,
-        headers: ProjectDescription.Headers? = nil,
         entitlements: ProjectDescription.Path? = nil,
         scripts: [ProjectDescription.TargetScript] = [],
         dependencies: [ProjectDescription.TargetDependency] = [],
         settings: ProjectDescription.Settings? = nil,
         coreDataModels: [ProjectDescription.CoreDataModel] = [],
-        environment: [String : String] = [:],
+        environment: [String: String] = [:],
         launchArguments: [ProjectDescription.LaunchArgument] = [],
         additionalFiles: [ProjectDescription.FileElement] = [],
-        buildRules: [ProjectDescription.BuildRule] = [],
         hasUnitTests: Bool = false,
-        additionalTestDependencies: [ProjectDescription.TargetDependency] = []
+        additionalTestDependencies: [ProjectDescription.TargetDependency] = [],
+        appendSchemeTo scheme: inout [Scheme]
     ) -> [Target] {
         let bundleId = bundleId ?? "\(BASIC_BUNDLE_ID).\(name)"
-        
+
+        if hasUnitTests {
+            let moduleScheme: Scheme = .init(
+                name: name,
+                buildAction: .buildAction(targets: ["\(name)"]),
+                testAction: .testPlans([.relativeToRoot("TestPlans/\(name).xctestplan")])
+            )
+            scheme.append(moduleScheme)
+        } else {
+            let moduleScheme: Scheme = .init(
+                name: name,
+                buildAction: .buildAction(targets: ["\(name)"])
+            )
+            scheme.append(moduleScheme)
+        }
+
         let frameworkTarget: Target = .init(
             name: name,
             platform: platform,
@@ -42,11 +59,11 @@ extension Target {
             productName: nil,
             bundleId: bundleId,
             deploymentTarget: deploymentTarget,
-            infoPlist: infoPlist,
+            infoPlist: .default,
             sources: "Sources/\(name)/**",
             resources: resources,
-            copyFiles: copyFiles,
-            headers: headers,
+            copyFiles: nil,
+            headers: nil,
             entitlements: entitlements,
             scripts: scripts,
             dependencies: dependencies,
@@ -55,9 +72,9 @@ extension Target {
             environment: environment,
             launchArguments: launchArguments,
             additionalFiles: additionalFiles,
-            buildRules: buildRules
+            buildRules: []
         )
-        
+
         if hasUnitTests {
             let unitTestsTarget: Target = .init(
                 name: "\(name)UnitTests",
@@ -66,11 +83,11 @@ extension Target {
                 productName: nil,
                 bundleId: "\(BASIC_BUNDLE_ID).\(name)UnitTests",
                 deploymentTarget: deploymentTarget,
-                infoPlist: infoPlist,
+                infoPlist: .default,
                 sources: "Tests/\(name)UnitTests/**",
                 resources: resources,
-                copyFiles: copyFiles,
-                headers: headers,
+                copyFiles: nil,
+                headers: nil,
                 entitlements: entitlements,
                 scripts: scripts,
                 dependencies: [.target(name: name)] + additionalTestDependencies,
@@ -79,13 +96,13 @@ extension Target {
                 environment: environment,
                 launchArguments: launchArguments,
                 additionalFiles: additionalFiles,
-                buildRules: buildRules
+                buildRules: []
             )
-            
+
             return [frameworkTarget, unitTestsTarget]
         } else {
             return [frameworkTarget]
         }
     }
-    
+
 }

@@ -12,10 +12,13 @@ trailing_comma:
 included:
     - Sources/
     - Tests/
+    
     - Project.swift
-    - Tuist/Dependencies.swift
-    - Tuist/Config.swift
-    - Tuist/ProjectDescriptionHelpers/ExternalDependencyName.swift
+    
+    # Equivalent to Tuist/**/*.swift
+    - Tuist/*.swift
+    - Tuist/ProjectDescriptionHelpers/*.swift
+    - Tuist/ProjectDescriptionHelpers/Extensions/*.swift
 
 excluded:
     - Tests/UserDefaultsPlatformUnitTests/UserSettingsRepositoryTests.swift.plist
