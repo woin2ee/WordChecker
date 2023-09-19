@@ -26,9 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        let sceneConfig: UISceneConfiguration = .init(name: "DefaultConfig", sessionRole: .windowApplication)
-        sceneConfig.delegateClass = iOSCore.SceneDelegate.self
-        return sceneConfig
+        return .init(name: "DefaultConfiguration", sessionRole: connectingSceneSession.role)
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
