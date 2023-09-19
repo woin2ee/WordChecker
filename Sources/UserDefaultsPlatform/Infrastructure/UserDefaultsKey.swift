@@ -8,10 +8,13 @@
 
 import Foundation
 
-enum UserDefaultsKey: String {
+enum UserDefaultsKey: String, CaseIterable {
 
-    case translationSourceLocale = "translationSourceLocale"
+    case translationSourceLocale
 
-    case translationTargetLocale = "translationTargetLocale"
+    case translationTargetLocale
+
+    /// 테스트용 Key 입니다.
+    case test
 
 }
