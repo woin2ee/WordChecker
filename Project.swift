@@ -57,7 +57,11 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
                 .target(name: "Domain"),
             ],
-            hasUnitTests: true
+            hasUnitTests: true,
+            additionalTestDependencies: [
+                .external(name: ExternalDependencyName.rxBlocking),
+            ]
+
         )
         + Target.target(
             name: "Utility",

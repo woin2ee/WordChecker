@@ -78,10 +78,4 @@ extension WCUserDefaultsTests {
 
     }
 
-    func clearWCUserDefaults(_ userDefaults: WCUserDefaults) {
-        UserDefaultsKey.allCases.forEach { key in
-            userDefaults.removeObject(forKey: key)
-        }
-    }
-
 }

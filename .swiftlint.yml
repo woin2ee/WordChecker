@@ -18,4 +18,5 @@ included:
     - Tuist/ProjectDescriptionHelpers/ExternalDependencyName.swift
 
 excluded:
-    
+    - Tests/UserDefaultsPlatformUnitTests/UserSettingsRepositoryTests.swift.plist
+    - Tests/UserDefaultsPlatformUnitTests/WCUserDefaultsTests.swift.plist
