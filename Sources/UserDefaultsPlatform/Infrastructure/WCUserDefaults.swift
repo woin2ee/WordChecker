@@ -50,4 +50,8 @@ public final class WCUserDefaults {
         }
     }
 
+    func removeObject(forKey key: UserDefaultsKey) {
+        _userDefaults.removeObject(forKey: key.rawValue)
+    }
+
 }

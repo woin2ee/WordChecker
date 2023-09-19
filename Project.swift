@@ -7,7 +7,7 @@ let localHelper = LocalHelper(name: "MyPlugin")
 
 // MARK: - Targets
 
-// swiftlint:disable function_body_length
+// swiftlint:disable:next function_body_length
 func targets() -> [Target] {
     let targets =
     [
@@ -56,7 +56,8 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
                 .target(name: "Domain"),
-            ]
+            ],
+            hasUnitTests: true
         )
         + Target.target(
             name: "Utility",
@@ -242,7 +243,8 @@ let project: Project = .init(
         ),
         .init(
             name: "UserDefaultsPlatform",
-            buildAction: .buildAction(targets: ["UserDefaultsPlatform"])
+            buildAction: .buildAction(targets: ["UserDefaultsPlatform"]),
+            testAction: .testPlans([.relativeToRoot("TestPlans/UserDefaultsPlatform.xctestplan")])
         ),
         .init(
             name: "Testing",
