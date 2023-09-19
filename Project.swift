@@ -7,11 +7,13 @@ let localHelper = LocalHelper(name: "MyPlugin")
 
 // MARK: - Targets
 
+var schemes: [Scheme] = []
+
 // swiftlint:disable:next function_body_length
 func targets() -> [Target] {
     let targets =
     [
-        Target.target(
+        Target.module(
             name: "Domain",
             platform: .iOS,
             product: .framework,
@@ -24,9 +26,10 @@ func targets() -> [Target] {
             additionalTestDependencies: [
                 .target(name: "Testing"),
                 .external(name: ExternalDependencyName.rxBlocking),
-            ]
+            ],
+            appendSchemeTo: &schemes
         )
-        + Target.target(
+        + Target.module(
             name: "RealmPlatform",
             platform: .iOS,
             product: .framework,
@@ -35,9 +38,10 @@ func targets() -> [Target] {
                 .package(product: ExternalDependencyName.realm),
                 .package(product: ExternalDependencyName.realmSwift),
                 .target(name: "Domain"),
-            ]
+            ],
+            appendSchemeTo: &schemes
         )
-        + Target.target(
+        + Target.module(
             name: "State",
             platform: .iOS,
             product: .framework,
@@ -45,9 +49,10 @@ func targets() -> [Target] {
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "Utility"),
-            ]
+            ],
+            appendSchemeTo: &schemes
         )
-        + Target.target(
+        + Target.module(
             name: "UserDefaultsPlatform",
             platform: .iOS,
             product: .framework,
@@ -60,10 +65,10 @@ func targets() -> [Target] {
             hasUnitTests: true,
             additionalTestDependencies: [
                 .external(name: ExternalDependencyName.rxBlocking),
-            ]
-
+            ],
+            appendSchemeTo: &schemes
         )
-        + Target.target(
+        + Target.module(
             name: "Utility",
             platform: .iOS,
             product: .framework,
@@ -75,22 +80,25 @@ func targets() -> [Target] {
                     basedOnDependencyAnalysis: false
                 ),
             ],
-            hasUnitTests: true
+            hasUnitTests: true,
+            appendSchemeTo: &schemes
         )
-        + Target.target(
+        + Target.module(
             name: "LaunchArguments",
             platform: .iOS,
             product: .framework,
-            deploymentTarget: DEPLOYMENT_TARGET
+            deploymentTarget: DEPLOYMENT_TARGET,
+            appendSchemeTo: &schemes
         )
-        + Target.target(
+        + Target.module(
             name: "Localization",
             platform: .iOS,
             product: .framework,
             deploymentTarget: DEPLOYMENT_TARGET,
-            resources: ["Resources/Localization/**"]
+            resources: ["Resources/Localization/**"],
+            appendSchemeTo: &schemes
         )
-        + Target.target(
+        + Target.module(
             name: "Testing",
             platform: .iOS,
             product: .framework,
@@ -101,9 +109,10 @@ func targets() -> [Target] {
                 .target(name: "Utility"),
                 .target(name: "iOSCore"),
                 .external(name: ExternalDependencyName.rxSwift),
-            ]
+            ],
+            appendSchemeTo: &schemes
         )
-        + Target.target(
+        + Target.module(
             name: "iOSCore",
             platform: .iOS,
             product: .framework,
@@ -130,46 +139,49 @@ func targets() -> [Target] {
             hasUnitTests: true,
             additionalTestDependencies: [
                 .target(name: "Testing")
-            ]
-        )
-        + Target.target(
-            name: PROJECT_NAME,
-            platform: .iOS,
-            product: .app,
-            bundleId: "\(BASIC_BUNDLE_ID)",
-            deploymentTarget: DEPLOYMENT_TARGET,
-            infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
-            resources: [
-                "Resources/Common/**",
-                "Resources/InfoPlist/Product/**",
             ],
-            dependencies: [.target(name: "iOSCore")],
-            settings: .settings()
-        )
-        + Target.target(
-            name: "\(PROJECT_NAME)Dev",
-            platform: .iOS,
-            product: .app,
-            bundleId: "\(BASIC_BUNDLE_ID)Dev",
-            deploymentTarget: DEPLOYMENT_TARGET,
-            infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
-            resources: [
-                "Resources/Common/**",
-                "Resources/InfoPlist/Dev/**",
-            ],
-            dependencies: [
-                .target(name: "iOSCore"),
-                .target(name: "LaunchArguments"),
-            ],
-            settings: .settings()
+            appendSchemeTo: &schemes
         )
         + [
+            Target.init(
+                name: PROJECT_NAME,
+                platform: .iOS,
+                product: .app,
+                bundleId: "\(BASIC_BUNDLE_ID)",
+                deploymentTarget: DEPLOYMENT_TARGET,
+                infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
+                sources: "Sources/\(PROJECT_NAME)/**",
+                resources: [
+                    "Resources/Common/**",
+                    "Resources/InfoPlist/Product/**",
+                ],
+                dependencies: [.target(name: "iOSCore")],
+                settings: .settings()
+            ),
+            Target.init(
+                name: "\(PROJECT_NAME)Dev",
+                platform: .iOS,
+                product: .app,
+                bundleId: "\(BASIC_BUNDLE_ID)Dev",
+                deploymentTarget: DEPLOYMENT_TARGET,
+                infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
+                sources: "Sources/\(PROJECT_NAME)Dev/**",
+                resources: [
+                    "Resources/Common/**",
+                    "Resources/InfoPlist/Dev/**",
+                ],
+                dependencies: [
+                    .target(name: "iOSCore"),
+                    .target(name: "LaunchArguments"),
+                ],
+                settings: .settings()
+            ),
             Target.init(
                 name: "\(PROJECT_NAME)UITests",
                 platform: .iOS,
                 product: .uiTests,
                 bundleId: "\(BASIC_BUNDLE_ID)UITests",
-                deploymentTarget: .iOS(targetVersion: "16.0", devices: .iphone),
+                deploymentTarget: DEPLOYMENT_TARGET,
                 sources: "Tests/\(PROJECT_NAME)UITests/**",
                 dependencies: [
                     .target(name: "\(PROJECT_NAME)Dev"),
@@ -196,7 +208,7 @@ let project: Project = .init(
     ],
     settings: .settings(),
     targets: targets(),
-    schemes: [
+    schemes: schemes + [
         .init(
             name: PROJECT_NAME,
             testAction: .testPlans([.relativeToRoot("TestPlans/WordChecker.xctestplan")]),
@@ -231,46 +243,6 @@ let project: Project = .init(
             name: "\(PROJECT_NAME)IntergrationTests",
             testAction: .testPlans([.relativeToRoot("TestPlans/WordCheckerIntergrationTests.xctestplan")])
         ),
-        .init(
-            name: "Domain",
-            buildAction: .buildAction(targets: ["Domain"]),
-            testAction: .testPlans([.relativeToRoot("TestPlans/Domain.xctestplan")])
-        ),
-        .init(
-            name: "Utility",
-            buildAction: .buildAction(targets: ["Utility"]),
-            testAction: .testPlans([.relativeToRoot("TestPlans/Utility.xctestplan")])
-        ),
-        .init(
-            name: "State",
-            buildAction: .buildAction(targets: ["State"])
-        ),
-        .init(
-            name: "UserDefaultsPlatform",
-            buildAction: .buildAction(targets: ["UserDefaultsPlatform"]),
-            testAction: .testPlans([.relativeToRoot("TestPlans/UserDefaultsPlatform.xctestplan")])
-        ),
-        .init(
-            name: "Testing",
-            buildAction: .buildAction(targets: ["Testing"])
-        ),
-        .init(
-            name: "iOSCore",
-            buildAction: .buildAction(targets: ["iOSCore"])
-        ),
-        .init(
-            name: "LaunchArguments",
-            buildAction: .buildAction(targets: ["LaunchArguments"])
-        ),
-        .init(
-            name: "RealmPlatform",
-            buildAction: .buildAction(targets: ["RealmPlatform"])
-        ),
-        .init(
-            name: "Localization",
-            buildAction: .buildAction(targets: ["Localization"])
-        ),
-
     ],
     additionalFiles: [
         ".swiftlint.yml",
