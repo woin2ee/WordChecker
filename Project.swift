@@ -42,7 +42,7 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "State",
+            name: "InMemoryPlatform",
             platform: .iOS,
             product: .framework,
             deploymentTarget: DEPLOYMENT_TARGET,
@@ -105,7 +105,7 @@ func targets() -> [Target] {
             deploymentTarget: DEPLOYMENT_TARGET,
             dependencies: [
                 .target(name: "Domain"),
-                .target(name: "State"),
+                .target(name: "InMemoryPlatform"),
                 .target(name: "Utility"),
                 .target(name: "iOSCore"),
                 .external(name: ExternalDependencyName.rxSwift),
@@ -123,7 +123,7 @@ func targets() -> [Target] {
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "RealmPlatform"),
-                .target(name: "State"),
+                .target(name: "InMemoryPlatform"),
                 .target(name: "Utility"),
                 .target(name: "Localization"),
                 .target(name: "UserDefaultsPlatform"),
