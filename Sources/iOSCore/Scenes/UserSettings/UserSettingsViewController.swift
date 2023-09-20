@@ -22,8 +22,6 @@ final class UserSettingsViewController: BaseViewController {
 
     let userSettingsUseCase: UserSettingsUseCaseProtocol
 
-    private(set) var currentTranslationLocale: (source: TranslationLocale, target: TranslationLocale)?
-
     lazy var settingsTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
         $0.backgroundColor = .systemGroupedBackground
         $0.dataSource = self
@@ -36,13 +34,9 @@ final class UserSettingsViewController: BaseViewController {
 
         setupSubviews()
         setupNavigationBar()
-    }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        userSettingsUseCase.currentTranslationLocale
-            .asDriverOnErrorJustComplete()
+        userSettingsUseCase.currentUserSettingsRelay
+            .asDriver()
             .drive(with: self) { owner, _ in
                 owner.settingsTableView.reloadData()
             }
@@ -82,32 +76,29 @@ extension UserSettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var config = UIListContentConfiguration.valueCell()
 
-        userSettingsUseCase.currentTranslationLocale
-            .asDriverOnErrorJustComplete()
-            .drive(with: self) { _, locale in
-                self.currentTranslationLocale = locale
+        guard let currentUserSettings = userSettingsUseCase.currentUserSettingsRelay.value else {
+            return .init()
+        }
 
-                if indexPath.row == 0 {
-                    config.text = WCString.source_language
+        if indexPath.row == 0 {
+            config.text = WCString.source_language
 
-                    switch locale.source {
-                    case .korea:
-                        config.secondaryText = WCString.korean
-                    case .english:
-                        config.secondaryText = WCString.english
-                    }
-                } else {
-                    config.text = WCString.translation_language
-
-                    switch locale.target {
-                    case .korea:
-                        config.secondaryText = WCString.korean
-                    case .english:
-                        config.secondaryText = WCString.english
-                    }
-                }
+            switch currentUserSettings.translationSourceLocale {
+            case .korea:
+                config.secondaryText = WCString.korean
+            case .english:
+                config.secondaryText = WCString.english
             }
-            .disposed(by: disposeBag)
+        } else {
+            config.text = WCString.translation_language
+
+            switch currentUserSettings.translationTargetLocale {
+            case .korea:
+                config.secondaryText = WCString.korean
+            case .english:
+                config.secondaryText = WCString.english
+            }
+        }
 
         let cell: UITableViewCell = .init(style: .default, reuseIdentifier: userSettingsCellID)
 
@@ -124,12 +115,16 @@ extension UserSettingsViewController: UITableViewDelegate {
         let settingsDirection: LanguageSettingViewModel.SettingsDirection
         let currentSettingLocale: TranslationLocale
 
+        guard let currentUserSettings = userSettingsUseCase.currentUserSettingsRelay.value else {
+            return
+        }
+
         if indexPath.row == 0 {
             settingsDirection = .sourceLanguage
-            currentSettingLocale = currentTranslationLocale?.source ?? .english
+            currentSettingLocale = currentUserSettings.translationSourceLocale
         } else {
             settingsDirection = .targetLanguage
-            currentSettingLocale = currentTranslationLocale?.target ?? .english
+            currentSettingLocale = currentUserSettings.translationTargetLocale
         }
 
         let languageSettingVC: LanguageSettingViewController = DIContainer.shared.resolve(arguments: settingsDirection, currentSettingLocale)

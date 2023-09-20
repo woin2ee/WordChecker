@@ -32,8 +32,6 @@ protocol WordCheckingViewModelInput {
 
     func markCurrentWordAsMemorized()
 
-    func updateTranslationLocale()
-
 }
 
 /// WordCheckingView 를 표시하기 위해 필요한 최소한의 Model.
@@ -52,21 +50,17 @@ protocol WordCheckingViewModelProtocol: WordCheckingViewModelInput, WordChecking
 final class WordCheckingViewModel: WordCheckingViewModelProtocol {
 
     let wordUseCase: WordUseCaseProtocol
-
     let userSettingsUseCase: UserSettingsUseCaseProtocol
-
     let state: UnmemorizedWordListStateProtocol
 
-    weak var delegate: WordCheckingViewModelDelegate?
+    private(set) weak var delegate: WordCheckingViewModelDelegate?
 
     private var cancelBag: Set<AnyCancellable> = .init()
-
-    let disposeBag: DisposeBag = .init()
+    private let disposeBag: DisposeBag = .init()
 
     let currentWordSubject: CurrentValueSubject<Domain.Word?, Never> = .init(nil)
 
     private(set) var translationSourceLocale: TranslationLocale = .english
-
     private(set) var translationTargetLocale: TranslationLocale = .korea
 
     init(wordUseCase: WordUseCaseProtocol, userSettingsUseCase: UserSettingsUseCaseProtocol, state: UnmemorizedWordListStateProtocol, delegate: WordCheckingViewModelDelegate?) {
@@ -75,13 +69,25 @@ final class WordCheckingViewModel: WordCheckingViewModelProtocol {
         self.state = state
         self.delegate = delegate
 
+        initOutput()
+    }
+
+    func initOutput() {
         state.currentWord
-            .sink { [weak self] word in
-                self?.currentWordSubject.send(word)
-            }
+            .assign(to: \.currentWordSubject.value, on: self)
             .store(in: &cancelBag)
 
         wordUseCase.randomizeUnmemorizedWordList()
+
+        userSettingsUseCase.currentUserSettingsRelay
+            .asDriver()
+            .drive(with: self, onNext: { _, userSettings in
+                guard let userSettings = userSettings else { return }
+
+                self.translationSourceLocale = userSettings.translationSourceLocale
+                self.translationTargetLocale = userSettings.translationTargetLocale
+            })
+            .disposed(by: disposeBag)
     }
 
 }
@@ -132,16 +138,6 @@ extension WordCheckingViewModel {
         wordUseCase.markCurrentWordAsMemorized(uuid: currentWord.uuid)
 
         delegate?.wordCheckingViewModelDidMarkCurrentWordAsMemorized()
-    }
-
-    func updateTranslationLocale() {
-        userSettingsUseCase.currentTranslationLocale
-            .asDriverOnErrorJustComplete()
-            .drive(with: self) { owner, translationLocale in
-                owner.translationSourceLocale = translationLocale.source
-                owner.translationTargetLocale = translationLocale.target
-            }
-            .disposed(by: disposeBag)
     }
 
 }

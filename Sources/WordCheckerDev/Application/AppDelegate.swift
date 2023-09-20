@@ -7,13 +7,11 @@
 
 import Domain
 import iOSCore
-import RxSwift
+import RxUtility
 import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    let disposeBag: DisposeBag = .init()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         DIContainer.shared.assembler.apply(assembly: RealmPlatformAssembly())
@@ -49,7 +47,7 @@ extension AppDelegate {
                     .mapToVoid()
             }
             .subscribe()
-            .disposed(by: disposeBag)
+            .dispose()
     }
 
 }
