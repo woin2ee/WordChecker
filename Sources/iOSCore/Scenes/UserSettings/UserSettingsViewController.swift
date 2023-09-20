@@ -20,13 +20,45 @@ final class UserSettingsViewController: BaseViewController {
 
     let userSettingsCellID = "USER_SETTINGS_CELL"
 
-    let userSettingsUseCase: UserSettingsUseCaseProtocol
+    let viewModel: UserSettingsViewModel
+
+    var settingsTableViewDataSource: UITableViewDiffableDataSource<UUID, UserSettingsValueListModel>!
 
     lazy var settingsTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
         $0.backgroundColor = .systemGroupedBackground
-        $0.dataSource = self
-        $0.delegate = self
         $0.register(UITableViewCell.self, forCellReuseIdentifier: userSettingsCellID)
+    }
+
+    init(viewModel: UserSettingsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+
+        self.settingsTableViewDataSource = .init(tableView: settingsTableView) { tableView, indexPath, item in
+            var config = UIListContentConfiguration.valueCell()
+
+            switch item.itemType {
+            case .sourceLanguageSetting:
+                config.text = WCString.source_language
+            case .targetLanguageSetting:
+                config.text = WCString.translation_language
+            }
+
+            switch item.value {
+            case .korea:
+                config.secondaryText = WCString.korean
+            case .english:
+                config.secondaryText = WCString.english
+            }
+
+            let cell = tableView.dequeueReusableCell(withIdentifier: self.userSettingsCellID, for: indexPath)
+            cell.contentConfiguration = config
+            cell.accessoryType = .disclosureIndicator
+            return cell
+        }
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func viewDidLoad() {
@@ -34,22 +66,49 @@ final class UserSettingsViewController: BaseViewController {
 
         setupSubviews()
         setupNavigationBar()
+        bindViewModel()
+        bindItemSelected()
+    }
 
-        userSettingsUseCase.currentUserSettingsRelay
-            .asDriver()
-            .drive(with: self) { owner, _ in
-                owner.settingsTableView.reloadData()
-            }
+    func bindItemSelected() {
+        settingsTableView.rx.itemSelected.asSignal()
+            .emit(with: self, onNext: { owner, indexPath in
+                let settingsDirection: LanguageSettingViewModel.SettingsDirection
+
+                guard let model = owner.settingsTableViewDataSource.itemIdentifier(for: indexPath) else {
+                    return
+                }
+
+                switch model.itemType {
+                case .sourceLanguageSetting:
+                    settingsDirection = .sourceLanguage
+                case .targetLanguageSetting:
+                    settingsDirection = .targetLanguage
+                }
+
+                let currentSettingLocale: TranslationLocale = model.value
+
+                let languageSettingVC: LanguageSettingViewController = DIContainer.shared.resolve(arguments: settingsDirection, currentSettingLocale)
+                owner.navigationController?.pushViewController(languageSettingVC, animated: true)
+
+                owner.settingsTableView.deselectRow(at: indexPath, animated: true)
+            })
             .disposed(by: disposeBag)
     }
 
-    init(userSettingsUseCase: UserSettingsUseCaseProtocol) {
-        self.userSettingsUseCase = userSettingsUseCase
-        super.init(nibName: nil, bundle: nil)
-    }
+    func bindViewModel() {
+        let input = UserSettingsViewModel.Input.init()
+        let output = viewModel.transform(input: input)
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        output.userSettingsDataSource
+            .drive(with: self) { owner, dataSource in
+                var snapshot: NSDiffableDataSourceSnapshot<UUID, UserSettingsValueListModel> = .init()
+                snapshot.appendSections([UUID()])
+                snapshot.appendItems(dataSource)
+
+                owner.settingsTableViewDataSource.applySnapshotUsingReloadData(snapshot)
+            }
+            .disposed(by: disposeBag)
     }
 
     func setupSubviews() {
@@ -63,74 +122,6 @@ final class UserSettingsViewController: BaseViewController {
     func setupNavigationBar() {
         self.navigationItem.title = WCString.settings
         self.navigationController?.navigationBar.prefersLargeTitles = true
-    }
-
-}
-
-extension UserSettingsViewController: UITableViewDataSource {
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        2
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var config = UIListContentConfiguration.valueCell()
-
-        guard let currentUserSettings = userSettingsUseCase.currentUserSettingsRelay.value else {
-            return .init()
-        }
-
-        if indexPath.row == 0 {
-            config.text = WCString.source_language
-
-            switch currentUserSettings.translationSourceLocale {
-            case .korea:
-                config.secondaryText = WCString.korean
-            case .english:
-                config.secondaryText = WCString.english
-            }
-        } else {
-            config.text = WCString.translation_language
-
-            switch currentUserSettings.translationTargetLocale {
-            case .korea:
-                config.secondaryText = WCString.korean
-            case .english:
-                config.secondaryText = WCString.english
-            }
-        }
-
-        let cell: UITableViewCell = .init(style: .default, reuseIdentifier: userSettingsCellID)
-
-        cell.contentConfiguration = config
-        cell.accessoryType = .disclosureIndicator
-        return cell
-    }
-
-}
-
-extension UserSettingsViewController: UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let settingsDirection: LanguageSettingViewModel.SettingsDirection
-        let currentSettingLocale: TranslationLocale
-
-        guard let currentUserSettings = userSettingsUseCase.currentUserSettingsRelay.value else {
-            return
-        }
-
-        if indexPath.row == 0 {
-            settingsDirection = .sourceLanguage
-            currentSettingLocale = currentUserSettings.translationSourceLocale
-        } else {
-            settingsDirection = .targetLanguage
-            currentSettingLocale = currentUserSettings.translationTargetLocale
-        }
-
-        let languageSettingVC: LanguageSettingViewController = DIContainer.shared.resolve(arguments: settingsDirection, currentSettingLocale)
-        self.navigationController?.pushViewController(languageSettingVC, animated: true)
-
-        tableView.deselectRow(at: indexPath, animated: true)
     }
 
 }

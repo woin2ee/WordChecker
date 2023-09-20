@@ -48,7 +48,8 @@ final class UIViewControllerAssembly: Assembly {
 
         container.register(UserSettingsViewController.self) { resolver in
             let userSettingsUseCase: UserSettingsUseCaseProtocol = resolver.resolve()
-            let viewController: UserSettingsViewController = .init(userSettingsUseCase: userSettingsUseCase)
+            let viewModel: UserSettingsViewModel = .init(userSettingsUseCase: userSettingsUseCase)
+            let viewController: UserSettingsViewController = .init(viewModel: viewModel)
             return viewController
         }
 
