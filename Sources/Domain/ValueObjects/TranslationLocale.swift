@@ -6,7 +6,7 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-public enum TranslationLocale: CaseIterable, Codable {
+public enum TranslationLocale: CaseIterable, Codable, Sendable {
 
     case korea
 
