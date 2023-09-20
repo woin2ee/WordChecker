@@ -8,8 +8,11 @@
 
 import Foundation
 import RxSwift
+import RxRelay
 
 public protocol UserSettingsUseCaseProtocol {
+
+    var currentUserSettingsRelay: BehaviorRelay<UserSettings?> { get }
 
     func updateTranslationLocale(source sourceLocale: TranslationLocale, target targetLocale: TranslationLocale) -> Single<Void>
 

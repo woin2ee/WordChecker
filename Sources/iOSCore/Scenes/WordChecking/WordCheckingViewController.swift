@@ -126,12 +126,6 @@ final class WordCheckingViewController: BaseViewController {
         self.setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        viewModel.updateTranslationLocale()
-    }
-
     override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
         return [.left, .right]
     }

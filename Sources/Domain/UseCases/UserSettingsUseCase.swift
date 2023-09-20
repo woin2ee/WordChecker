@@ -8,13 +8,24 @@
 
 import Foundation
 import RxSwift
+import RxRelay
+import RxUtility
 
 public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 
     let userSettingsRepository: UserSettingsRepositoryProtocol
 
+    public let currentUserSettingsRelay: BehaviorRelay<UserSettings?>
+
     public init(userSettingsRepository: UserSettingsRepositoryProtocol) {
         self.userSettingsRepository = userSettingsRepository
+        self.currentUserSettingsRelay = .init(value: nil)
+
+        self.userSettingsRepository.getUserSettings()
+            .subscribe(onSuccess: {
+                self.currentUserSettingsRelay.accept($0)
+            })
+            .dispose()
     }
 
     public func updateTranslationLocale(source sourceLocale: TranslationLocale, target targetLocale: TranslationLocale) -> RxSwift.Single<Void> {
@@ -25,6 +36,7 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
                 newSettings.translationTargetLocale = targetLocale
                 return newSettings
             }
+            .doOnSuccess { self.currentUserSettingsRelay.accept($0) }
             .flatMap { self.userSettingsRepository.saveUserSettings($0) }
     }
 
