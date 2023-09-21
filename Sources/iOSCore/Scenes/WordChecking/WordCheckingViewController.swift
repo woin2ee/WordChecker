@@ -57,39 +57,27 @@ final class WordCheckingViewController: BaseViewController {
 
     lazy var translateButton: BottomButton = {
         let button: BottomButton = .init(title: WCString.translate)
+
         let action: UIAction = .init { [weak self] _ in
-            let sourceLanguage: String
-            let targetLanguage: String
+            guard let self = self else { return }
 
-            switch self?.viewModel.translationTargetLocale {
-            case .korea:
-                targetLanguage = "ko"
-            default:
-                targetLanguage = "en"
+            let translationSite: TranslationSite = .init(
+                translationSourceLanguage: self.viewModel.translationSourceLocale,
+                translationTargetLanguage: self.viewModel.translationTargetLocale
+            )
+
+            let translationWebViewController: TranslationWebViewController = .init(translationSite: translationSite)
+            translationWebViewController.word = self.wordLabel.text ?? ""
+
+            do {
+                try translationWebViewController.loadWebView()
+            } catch {
+                self.presentOKAlert(title: WCString.notice, message: WCString.translation_site_alert_message)
             }
 
-            switch self?.viewModel.translationSourceLocale {
-            case .korea:
-                sourceLanguage = "ko"
-            default:
-                sourceLanguage = "en"
-            }
-
-            guard
-                let currentWord = self?.wordLabel.text,
-//                let encodedURL = "https://translate.google.co.kr/?sl=auto&tl=ko&text=\(currentWord)&op=translate".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                let encodedURL = "https://papago.naver.com/?sk=\(sourceLanguage)&tk=\(targetLanguage)&hn=0&st=\(currentWord)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                let url = URL(string: encodedURL)
-            else {
-                return
-            }
-            let urlRequest: URLRequest = .init(url: url)
-            let webView: WKWebView = .init()
-            webView.load(urlRequest)
-            let webViewController: UIViewController = .init()
-            webViewController.view = webView
-            self?.navigationController?.pushViewController(webViewController, animated: true)
+            self.navigationController?.pushViewController(translationWebViewController, animated: true)
         }
+
         button.addAction(action, for: .touchUpInside)
         return button
     }()

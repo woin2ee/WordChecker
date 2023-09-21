@@ -24,7 +24,7 @@ final class UserSettingsViewModel: ViewModelType {
     func transform(input: Input) -> Output {
         let dataSource = userSettingsUseCase.currentUserSettingsRelay
             .unwrapOrThrow()
-            .map { userSettings -> (source: TranslationLocale, target: TranslationLocale) in
+            .map { userSettings -> (source: TranslationLanguage, target: TranslationLanguage) in
                 return (userSettings.translationSourceLocale, userSettings.translationTargetLocale)
             }
             .map { translationLocale -> [UserSettingsValueListModel] in

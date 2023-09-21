@@ -50,13 +50,7 @@ final class LanguageSettingViewController: BaseViewController {
         output.selectableLocales
             .drive(languageSettingTableView.rx.items) { tableView, row, locale -> UITableViewCell in
                 var config = UIListContentConfiguration.cell()
-
-                switch locale {
-                case .korea:
-                    config.text = WCString.korean
-                case .english:
-                    config.text = WCString.english
-                }
+                config.text = locale.localizedString
 
                 let cell = tableView.dequeueReusableCell(withIdentifier: self.languageCellID, for: .init(row: row, section: 0))
                 cell.contentConfiguration = config

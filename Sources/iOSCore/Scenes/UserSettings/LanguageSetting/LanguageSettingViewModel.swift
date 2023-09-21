@@ -18,12 +18,12 @@ final class LanguageSettingViewModel: ViewModelType {
 
     let settingsDirection: SettingsDirection
 
-    let currentSettingLocale: TranslationLocale
+    let currentSettingLocale: TranslationLanguage
 
     init(
         userSettingsUseCase: UserSettingsUseCaseProtocol,
         settingsDirection: SettingsDirection,
-        currentSettingLocale: TranslationLocale
+        currentSettingLocale: TranslationLanguage
     ) {
         self.userSettingsUseCase = userSettingsUseCase
         self.settingsDirection = settingsDirection
@@ -31,15 +31,15 @@ final class LanguageSettingViewModel: ViewModelType {
     }
 
     func transform(input: Input) -> Output {
-        let selectableLocales = Driver.just(TranslationLocale.allCases)
+        let selectableLocales = Driver.just(TranslationLanguage.allCases)
 
         let currentTranslationLocale = userSettingsUseCase.currentTranslationLocale
             .asSignalOnErrorJustComplete()
 
         let didSelectCell = input.selectCell
             .map(\.row)
-            .map { TranslationLocale.allCases[$0] }
-            .withLatestFrom(currentTranslationLocale) { selectedLocale, currentTranslationLocale -> (sourceLocale: TranslationLocale, targetLocale: TranslationLocale) in
+            .map { TranslationLanguage.allCases[$0] }
+            .withLatestFrom(currentTranslationLocale) { selectedLocale, currentTranslationLocale -> (sourceLocale: TranslationLanguage, targetLocale: TranslationLanguage) in
                 switch self.settingsDirection {
                 case .sourceLanguage:
                     return (selectedLocale, currentTranslationLocale.target)
@@ -70,7 +70,7 @@ extension LanguageSettingViewModel {
 
     struct Output {
 
-        let selectableLocales: Driver<[TranslationLocale]>
+        let selectableLocales: Driver<[TranslationLanguage]>
 
         let didSelectCell: Signal<Void>
 

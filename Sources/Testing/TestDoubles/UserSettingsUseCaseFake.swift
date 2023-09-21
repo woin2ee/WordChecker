@@ -14,11 +14,11 @@ public final class UserSettingsUseCaseFake: UserSettingsUseCaseProtocol {
 
     public init() {}
 
-    public func updateTranslationLocale(source sourceLocale: Domain.TranslationLocale, target targetLocale: Domain.TranslationLocale) -> RxSwift.Single<Void> {
+    public func updateTranslationLocale(source sourceLocale: Domain.TranslationLanguage, target targetLocale: Domain.TranslationLanguage) -> RxSwift.Single<Void> {
         return .never()
     }
 
-    public var currentTranslationLocale: RxSwift.Single<(source: Domain.TranslationLocale, target: Domain.TranslationLocale)> {
+    public var currentTranslationLocale: RxSwift.Single<(source: Domain.TranslationLanguage, target: Domain.TranslationLanguage)> {
         return .never()
     }
 

@@ -32,23 +32,14 @@ final class UserSettingsViewController: BaseViewController {
     init(viewModel: UserSettingsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        setupDataSource()
+    }
 
+    func setupDataSource() {
         self.settingsTableViewDataSource = .init(tableView: settingsTableView) { tableView, indexPath, item in
             var config = UIListContentConfiguration.valueCell()
-
-            switch item.itemType {
-            case .sourceLanguageSetting:
-                config.text = WCString.source_language
-            case .targetLanguageSetting:
-                config.text = WCString.translation_language
-            }
-
-            switch item.value {
-            case .korea:
-                config.secondaryText = WCString.korean
-            case .english:
-                config.secondaryText = WCString.english
-            }
+            config.text =  item.itemType.titleText
+            config.secondaryText = item.value.localizedString
 
             let cell = tableView.dequeueReusableCell(withIdentifier: self.userSettingsCellID, for: indexPath)
             cell.contentConfiguration = config
@@ -86,7 +77,7 @@ final class UserSettingsViewController: BaseViewController {
                     settingsDirection = .targetLanguage
                 }
 
-                let currentSettingLocale: TranslationLocale = model.value
+                let currentSettingLocale: TranslationLanguage = model.value
 
                 let languageSettingVC: LanguageSettingViewController = DIContainer.shared.resolve(arguments: settingsDirection, currentSettingLocale)
                 owner.navigationController?.pushViewController(languageSettingVC, animated: true)

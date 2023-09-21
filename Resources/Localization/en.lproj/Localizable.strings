@@ -6,7 +6,12 @@
   
 */
 
+ok = "Ok";
 cancel = "Cancel";
+notice = "Notice";
+
+translation_site_alert_message = "There is a problem with your current translation site. Please go to Settings and set it to a different translation site.";
+
 add = "Add";
 addWord = "Add word";
 next = "Next";
@@ -35,7 +40,16 @@ quick_add_word = "Quick add word";
 "%@_added_successfully" = "[ %@ ] added successfully";
 settings = "Settings";
 translation_language = "Translation language";
-korean = "Korean";
-english = "English";
+
 languages = "Languages";
 source_language = "Source language";
+
+korean = "Korean";
+english = "English";
+japanese = "Japanese";
+chinese = "Chinese";
+french = "French";
+spanish = "Spanish";
+italian = "Italian";
+german = "German";
+russian = "Russian";

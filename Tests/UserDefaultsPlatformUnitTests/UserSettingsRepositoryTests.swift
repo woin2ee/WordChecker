@@ -34,7 +34,7 @@ final class UserSettingsRepositoryTests: XCTestCase {
     func testSaveAndGetUserSettings() throws {
         do {
             // Given
-            let userSettings: UserSettings = .init(translationSourceLocale: .english, translationTargetLocale: .korea)
+            let userSettings: UserSettings = .init(translationSourceLocale: .english, translationTargetLocale: .korean)
 
             // When
             try sut.saveUserSettings(userSettings)
@@ -47,12 +47,12 @@ final class UserSettingsRepositoryTests: XCTestCase {
                 .single()
 
             XCTAssertEqual(result.translationSourceLocale, .english)
-            XCTAssertEqual(result.translationTargetLocale, .korea)
+            XCTAssertEqual(result.translationTargetLocale, .korean)
         }
 
         do {
             // Given
-            let userSettings: UserSettings = .init(translationSourceLocale: .korea, translationTargetLocale: .english)
+            let userSettings: UserSettings = .init(translationSourceLocale: .korean, translationTargetLocale: .english)
 
             // When
             try sut.saveUserSettings(userSettings)
@@ -64,7 +64,7 @@ final class UserSettingsRepositoryTests: XCTestCase {
                 .toBlocking()
                 .single()
 
-            XCTAssertEqual(result.translationSourceLocale, .korea)
+            XCTAssertEqual(result.translationSourceLocale, .korean)
             XCTAssertEqual(result.translationTargetLocale, .english)
         }
     }
