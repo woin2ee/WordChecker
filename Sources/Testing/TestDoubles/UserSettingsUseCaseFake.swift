@@ -9,8 +9,11 @@
 import Domain
 import Foundation
 import RxSwift
+import RxRelay
 
 public final class UserSettingsUseCaseFake: UserSettingsUseCaseProtocol {
+
+    public var currentUserSettingsRelay: RxRelay.BehaviorRelay<Domain.UserSettings?> = .init(value: nil)
 
     public init() {}
 
