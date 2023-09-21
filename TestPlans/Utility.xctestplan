@@ -13,10 +13,9 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "DA09BF8C2AA985120000CF8F",
+        "identifier" : "B4760D68D950DD960933E277",
         "name" : "UtilityUnitTests"
       }
     }
