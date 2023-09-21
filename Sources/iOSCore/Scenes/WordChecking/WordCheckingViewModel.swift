@@ -39,9 +39,9 @@ protocol WordCheckingViewModelOutput {
 
     var currentWord: AnyPublisher<String?, Never> { get }
 
-    var translationSourceLocale: TranslationLocale { get }
+    var translationSourceLocale: TranslationLanguage { get }
 
-    var translationTargetLocale: TranslationLocale { get }
+    var translationTargetLocale: TranslationLanguage { get }
 
 }
 
@@ -60,8 +60,8 @@ final class WordCheckingViewModel: WordCheckingViewModelProtocol {
 
     let currentWordSubject: CurrentValueSubject<Domain.Word?, Never> = .init(nil)
 
-    private(set) var translationSourceLocale: TranslationLocale = .english
-    private(set) var translationTargetLocale: TranslationLocale = .korea
+    private(set) var translationSourceLocale: TranslationLanguage = .english
+    private(set) var translationTargetLocale: TranslationLanguage = .korean
 
     init(wordUseCase: WordUseCaseProtocol, userSettingsUseCase: UserSettingsUseCaseProtocol, state: UnmemorizedWordListStateProtocol, delegate: WordCheckingViewModelDelegate?) {
         self.wordUseCase = wordUseCase

@@ -11,7 +11,12 @@ public struct WCString {
 
     private init() {}
 
+    public static let ok = NSLocalizedString("ok", bundle: Bundle.module, comment: "")
     public static let cancel = NSLocalizedString("cancel", bundle: Bundle.module, comment: "")
+    public static let notice = NSLocalizedString("notice", bundle: Bundle.module, comment: "")
+
+    public static let translation_site_alert_message = NSLocalizedString("translation_site_alert_message", bundle: Bundle.module, comment: "")
+
     public static let add = NSLocalizedString("add", bundle: Bundle.module, comment: "")
     public static let addWord = NSLocalizedString("addWord", bundle: Bundle.module, comment: "")
     public static let quick_add_word = NSLocalizedString("quick_add_word", bundle: Bundle.module, comment: "")
@@ -25,12 +30,21 @@ public struct WCString {
     public static let edit = NSLocalizedString("edit", bundle: Bundle.module, comment: "")
     public static let editWord = NSLocalizedString("editWord", bundle: Bundle.module, comment: "")
     public static let shuffleOrder = NSLocalizedString("shuffleOrder", bundle: Bundle.module, comment: "")
+
     public static let translate = NSLocalizedString("translate", bundle: Bundle.module, comment: "")
     public static let source_language = NSLocalizedString("source_language", bundle: Bundle.module, comment: "")
     public static let translation_language = NSLocalizedString("translation_language", bundle: Bundle.module, comment: "")
     public static let languages = NSLocalizedString("languages", bundle: Bundle.module, comment: "")
     public static let korean = NSLocalizedString("korean", bundle: Bundle.module, comment: "")
     public static let english = NSLocalizedString("english", bundle: Bundle.module, comment: "")
+    public static let japanese = NSLocalizedString("japanese", bundle: Bundle.module, comment: "")
+    public static let chinese = NSLocalizedString("chinese", bundle: Bundle.module, comment: "")
+    public static let french = NSLocalizedString("french", bundle: Bundle.module, comment: "")
+    public static let spanish = NSLocalizedString("spanish", bundle: Bundle.module, comment: "")
+    public static let italian = NSLocalizedString("italian", bundle: Bundle.module, comment: "")
+    public static let german = NSLocalizedString("german", bundle: Bundle.module, comment: "")
+    public static let russian = NSLocalizedString("russian", bundle: Bundle.module, comment: "")
+
     public static let word = NSLocalizedString("word", bundle: Bundle.module, comment: "")
     public static let done = NSLocalizedString("done", bundle: Bundle.module, comment: "")
     public static let details = NSLocalizedString("details", bundle: Bundle.module, comment: "")

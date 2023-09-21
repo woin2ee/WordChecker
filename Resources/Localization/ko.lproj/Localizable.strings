@@ -6,7 +6,12 @@
   
 */
 
+ok = "확인";
 cancel = "취소";
+notice = "알림";
+
+translation_site_alert_message = "현재 번역 사이트에 문제가 있습니다. 설정으로 이동하여 다른 번역 사이트로 설정해주세요.";
+
 add = "추가";
 addWord = "단어 추가";
 next = "다음";
@@ -35,7 +40,16 @@ quick_add_word = "빠른 단어 추가";
 "%@_added_successfully" = "[ %@ ] 추가 성공";
 settings = "설정";
 translation_language = "번역 언어";
-korean = "한국어";
-english = "영어";
+
 languages = "언어";
 source_language = "원본 언어";
+
+korean = "한국어";
+english = "영어";
+japanese = "일본어";
+chinese = "중국어";
+french = "프랑스어";
+spanish = "스페인어";
+italian = "이탈리아어";
+german = "독일어";
+russian = "러시아어";

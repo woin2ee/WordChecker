@@ -14,9 +14,9 @@ public protocol UserSettingsUseCaseProtocol {
 
     var currentUserSettingsRelay: BehaviorRelay<UserSettings?> { get }
 
-    func updateTranslationLocale(source sourceLocale: TranslationLocale, target targetLocale: TranslationLocale) -> Single<Void>
+    func updateTranslationLocale(source sourceLocale: TranslationLanguage, target targetLocale: TranslationLanguage) -> Single<Void>
 
-    var currentTranslationLocale: Single<(source: TranslationLocale, target: TranslationLocale)> { get }
+    var currentTranslationLocale: Single<(source: TranslationLanguage, target: TranslationLanguage)> { get }
 
     func initUserSettings() -> Single<UserSettings>
 

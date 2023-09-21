@@ -10,11 +10,11 @@ import Foundation
 
 public struct UserSettings {
 
-    public var translationSourceLocale: TranslationLocale
+    public var translationSourceLocale: TranslationLanguage
 
-    public var translationTargetLocale: TranslationLocale
+    public var translationTargetLocale: TranslationLanguage
 
-    public init(translationSourceLocale: TranslationLocale, translationTargetLocale: TranslationLocale) {
+    public init(translationSourceLocale: TranslationLanguage, translationTargetLocale: TranslationLanguage) {
         self.translationSourceLocale = translationSourceLocale
         self.translationTargetLocale = translationTargetLocale
     }

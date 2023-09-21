@@ -8,12 +8,13 @@
 
 import Domain
 import Foundation
+import Localization
 
 struct UserSettingsValueListModel: Hashable, Sendable {
 
     let itemType: UserSettingsListType
 
-    let value: TranslationLocale
+    let value: TranslationLanguage
 
 }
 
@@ -22,5 +23,14 @@ enum UserSettingsListType: CaseIterable {
     case sourceLanguageSetting
 
     case targetLanguageSetting
+
+    var titleText: String {
+        switch self {
+        case .sourceLanguageSetting:
+            WCString.source_language
+        case .targetLanguageSetting:
+            WCString.translation_language
+        }
+    }
 
 }
