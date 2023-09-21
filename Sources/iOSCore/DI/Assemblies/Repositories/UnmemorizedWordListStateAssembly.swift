@@ -7,7 +7,7 @@
 
 import Domain
 import Foundation
-import State
+import InMemoryPlatform
 import Swinject
 
 public final class UnmemorizedWordListStateAssembly: Assembly {
