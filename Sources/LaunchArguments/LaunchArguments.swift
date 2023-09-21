@@ -13,4 +13,6 @@ public enum LaunchArguments: String {
 
     case sampledDatabase = "-sampledDatabase"
 
+    case initUserDefaults = "-initUserDefaults"
+
 }

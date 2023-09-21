@@ -1,5 +1,5 @@
 //
-//  RealmPlatformAssembly.swift
+//  WordRepositoryAssembly.swift
 //  WordChecker
 //
 //  Created by Jaewon Yun on 2023/09/12.
@@ -7,14 +7,15 @@
 //
 
 import Domain
-import iOSCore
 import RealmPlatform
 import RealmSwift
 import Swinject
 
-final class RealmPlatformAssembly: Assembly {
+open class WordRepositoryAssembly: Assembly {
 
-    public func assemble(container: Container) {
+    public init() {}
+
+    open func assemble(container: Container) {
         container.register(WordRepositoryProtocol.self) { _ in
             var config: Realm.Configuration = makeDefaultRealmConfiguration()
             guard config.fileURL != nil else {

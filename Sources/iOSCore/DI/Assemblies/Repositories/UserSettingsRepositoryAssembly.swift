@@ -11,9 +11,11 @@ import Foundation
 import Swinject
 import UserDefaultsPlatform
 
-final class RepositoryAssemblies: Assembly {
+open class UserSettingsRepositoryAssembly: Assembly {
 
-    func assemble(container: Container) {
+    public init() {}
+
+    open func assemble(container: Container) {
         container.register(UserSettingsRepositoryProtocol.self) { _ in
             let userDefaults: WCUserDefaults = .init(_userDefaults: .standard)
             return UserSettingsRepository.init(userDefaults: userDefaults)
