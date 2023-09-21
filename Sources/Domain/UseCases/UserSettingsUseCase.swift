@@ -75,6 +75,7 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 
         return userSettingsRepository.saveUserSettings(userSettings)
             .flatMap { self.userSettingsRepository.getUserSettings() }
+            .doOnSuccess { self.currentUserSettingsRelay.accept($0) }
     }
 
     public var currentUserSettings: Single<UserSettings> {
