@@ -10,9 +10,11 @@ import Foundation
 import State
 import Swinject
 
-final class UnmemorizedWordListStateAssembly: Assembly {
+public final class UnmemorizedWordListStateAssembly: Assembly {
 
-    func assemble(container: Container) {
+    public init() {}
+
+    public func assemble(container: Container) {
         container.register(UnmemorizedWordListStateProtocol.self) { _ in
             return UnmemorizedWordListState.init()
         }

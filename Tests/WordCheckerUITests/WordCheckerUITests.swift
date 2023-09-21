@@ -129,6 +129,21 @@ final class WordCheckerUITests: XCTestCase {
         app.staticTexts[WCString.there_are_no_words].assertExistence()
     }
 
+    func testChangeTranslationLanguageSettings() {
+        app.setLaunchArguments([.initUserDefaults])
+        app.launch()
+
+        moveSettingsTap()
+
+        app.tables.element.staticTexts[WCString.source_language].tap()
+        app.tables.element.staticTexts[WCString.russian].tap()
+        app.tables.element.staticTexts[WCString.russian].assertExistence()
+
+        app.tables.element.staticTexts[WCString.translation_language].tap()
+        app.tables.element.staticTexts[WCString.italian].tap()
+        app.tables.element.staticTexts[WCString.italian].assertExistence()
+    }
+
 }
 
 // MARK: - Helpers
@@ -148,6 +163,10 @@ extension WordCheckerUITests {
 
     func moveCheckingTap() {
         app.tabBars.buttons[WCString.memorization].tap()
+    }
+
+    func moveSettingsTap() {
+        app.tabBars.buttons[WCString.settings].tap()
     }
 
 }

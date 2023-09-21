@@ -14,9 +14,9 @@ import RealmPlatform
 import RealmSwift
 import Swinject
 
-final class RealmPlatformAssembly: Assembly {
+final class WordRepositoryDevAssembly: WordRepositoryAssembly {
 
-    public func assemble(container: Container) {
+    override func assemble(container: Container) {
         container.register(WordRepositoryProtocol.self) { _ in
             let arguments = ProcessInfo.processInfo.arguments
             // TODO: Insert [LaunchArguments 검증 code](상호배타적인것들)

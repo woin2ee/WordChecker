@@ -54,4 +54,10 @@ public final class WCUserDefaults {
         _userDefaults.removeObject(forKey: key.rawValue)
     }
 
+    func removeAllObject() {
+        UserDefaultsKey.allCases.forEach { key in
+            _userDefaults.removeObject(forKey: key.rawValue)
+        }
+    }
+
 }

@@ -9,9 +9,11 @@ import Domain
 import Foundation
 import Swinject
 
-final class UIViewControllerAssembly: Assembly {
+public final class UIViewControllerAssembly: Assembly {
 
-    func assemble(container: Container) {
+    public init() {}
+
+    public func assemble(container: Container) {
         container.register(WordCheckingViewController.self) { resolver, delegate in
             let wordUseCase: WordUseCaseProtocol = resolver.resolve()
             let userSettingsUseCase: UserSettingsUseCaseProtocol = resolver.resolve()

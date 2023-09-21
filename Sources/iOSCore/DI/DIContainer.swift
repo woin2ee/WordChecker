@@ -12,15 +12,10 @@ public final class DIContainer {
 
     public static let shared: DIContainer = .init()
 
-    public let assembler: Assembler
+    public var assembler: Assembler
 
     private init() {
-        self.assembler = .init([
-            UIViewControllerAssembly(),
-            UseCaseAssembly(),
-            UnmemorizedWordListStateAssembly(),
-            RepositoryAssemblies(),
-        ])
+        self.assembler = .init()
     }
 
     public func resolve<T>() -> T {
