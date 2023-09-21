@@ -9,7 +9,90 @@
     }
   ],
   "defaultOptions" : {
-
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "B4BE30DA5AD5643081B447FD",
+          "name" : "Domain"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "49913AE79745D97139F53879",
+          "name" : "DomainUnitTests"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "C08933AEFE77D5DBE0BAF13F",
+          "name" : "RealmPlatform"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "E07BF16D5CBBB2C8E57BA2F6",
+          "name" : "InMemoryPlatform"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "38409AF739160BAA00EC32C1",
+          "name" : "UserDefaultsPlatform"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "A598BA9E9D74AA42DBE7E953",
+          "name" : "UserDefaultsPlatformUnitTests"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "EFD6E7F704DEBE077D4675CC",
+          "name" : "Utility"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "B4760D68D950DD960933E277",
+          "name" : "UtilityUnitTests"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "630E4BBF6A625BA85212B11E",
+          "name" : "LaunchArguments"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "831EBB07F7475599B32E4F62",
+          "name" : "Localization"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "99101A23220E6633527152C2",
+          "name" : "Testing"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "F8342309D7E45D50DE9D91BE",
+          "name" : "iOSCore"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "5B5E8B6CF37D272DBB96F977",
+          "name" : "iOSCoreUnitTests"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "35C8F7AFFB930386CFACB429",
+          "name" : "WordChecker"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "68424ABCE6031055A6441973",
+          "name" : "WordCheckerDev"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "A768E0CF445E4B1F88AAA2B4",
+          "name" : "WordCheckerUITests"
+        }
+      ]
+    }
   },
   "testTargets" : [
     {
@@ -38,6 +121,13 @@
         "containerPath" : "container:WordChecker.xcodeproj",
         "identifier" : "5B5E8B6CF37D272DBB96F977",
         "name" : "iOSCoreUnitTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "A598BA9E9D74AA42DBE7E953",
+        "name" : "UserDefaultsPlatformUnitTests"
       }
     }
   ],
