@@ -53,6 +53,20 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
         switch Locale.current.language.region?.identifier {
         case "KR":
             translationTargetLocale = .korean
+        case "CN":
+            translationTargetLocale = .chinese
+        case "FR":
+            translationTargetLocale = .french
+        case "DE":
+            translationTargetLocale = .german
+        case "IT":
+            translationTargetLocale = .italian
+        case "JP":
+            translationTargetLocale = .japanese
+        case "RU":
+            translationTargetLocale = .russian
+        case "ES":
+            translationTargetLocale = .spanish
         default:
             translationTargetLocale = .english
         }
