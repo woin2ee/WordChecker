@@ -20,6 +20,7 @@ func targets() -> [Target] {
             deploymentTarget: DEPLOYMENT_TARGET,
             dependencies: [
                 .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.rxUtilityDynamic),
                 .target(name: "Utility"),
             ],
             hasUnitTests: true,
