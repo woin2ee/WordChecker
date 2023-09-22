@@ -44,10 +44,10 @@ translation_language = "Translation language";
 languages = "Languages";
 source_language = "Source language";
 sync_google_drive = "Google Drive Sync";
-google_drive_upload = "Google Drive Upload";
+google_drive_upload = "Upload data to Google Drive";
 upload_successful = "Upload successful";
 
-google_drive_download = "Google Drive Download";
+google_drive_download = "Download data to Google Drive";
 download_successful = "Download successful";
 
 google_drive_logout = "Google Drive Logout";

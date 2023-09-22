@@ -43,14 +43,14 @@ settings = "설정";
 languages = "언어";
 source_language = "원본 언어";
 translation_language = "번역 언어";
-sync_google_drive = "Google Drive 동기화";
-google_drive_upload = "Google Drive 업로드";
+sync_google_drive = "구글 드라이브 동기화";
+google_drive_upload = "구글 드라이브에 데이터 업로드";
 upload_successful = "업로드 성공";
 
-google_drive_download = "Google Drive 다운로드";
+google_drive_download = "구글 드라이브에서 데이터 다운로드";
 download_successful = "다운로드 성공";
 
-google_drive_logout = "Google Drive 로그아웃";
+google_drive_logout = "구글 드라이브에서 로그아웃";
 signed_out_of_google_drive = "구글 드라이브에서 로그아웃되었습니다.";
 
 synchronize_to_google_drive = "구글 드라이브에 동기화 합니다.";
