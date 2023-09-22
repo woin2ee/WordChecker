@@ -10,38 +10,44 @@ import Foundation
 
 public final class WordRepositoryFake: WordRepositoryProtocol {
 
-    public var words: [Word] = []
+    public var _wordList: [Word] = []
 
-    public init() {}
+    public init(sampleData: [Word] = []) {
+        _wordList = sampleData
+    }
 
     public func get(by uuid: UUID) -> Domain.Word? {
-        return words.first(where: { $0.uuid == uuid })
+        return _wordList.first(where: { $0.uuid == uuid })
     }
 
     public func save(_ word: Domain.Word) {
-        if let index = words.firstIndex(where: { $0.uuid == word.uuid }) {
-            words[index] = word
+        if let index = _wordList.firstIndex(where: { $0.uuid == word.uuid }) {
+            _wordList[index] = word
         } else {
-            words.append(word)
+            _wordList.append(word)
         }
     }
 
     public func getAll() -> [Domain.Word] {
-        return words
+        return _wordList
     }
 
     public func delete(by uuid: UUID) {
-        if let index = words.firstIndex(where: { $0.uuid == uuid }) {
-            words.remove(at: index)
+        if let index = _wordList.firstIndex(where: { $0.uuid == uuid }) {
+            _wordList.remove(at: index)
         }
     }
 
     public func getUnmemorizedList() -> [Domain.Word] {
-        return words.filter { !$0.isMemorized }
+        return _wordList.filter { !$0.isMemorized }
     }
 
     public func getMemorizedList() -> [Domain.Word] {
-        return words.filter { $0.isMemorized }
+        return _wordList.filter { $0.isMemorized }
+    }
+
+    public func reset(to wordList: [Domain.Word]) {
+        _wordList = wordList
     }
 
 }

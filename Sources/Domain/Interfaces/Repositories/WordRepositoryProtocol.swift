@@ -21,4 +21,6 @@ public protocol WordRepositoryProtocol {
 
     func getMemorizedList() -> [Word]
 
+    func reset(to wordList: [Word])
+
 }

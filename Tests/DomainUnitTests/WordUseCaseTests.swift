@@ -80,7 +80,7 @@ final class WordUseCaseTests: XCTestCase {
         sut.addNewWord(testWord)
 
         // Assert
-        XCTAssert(wordRepository.words.contains(where: { $0.uuid == testUUID }))
+        XCTAssert(wordRepository._wordList.contains(where: { $0.uuid == testUUID }))
         XCTAssert(unmemorizedWordListState._storedWords.contains(where: { $0.uuid == testUUID }))
     }
 
@@ -94,7 +94,7 @@ final class WordUseCaseTests: XCTestCase {
         sut.deleteWord(by: deleteTarget.uuid)
 
         // Assert
-        XCTAssertFalse(wordRepository.words.contains(where: { $0.uuid == deleteTarget.uuid }))
+        XCTAssertFalse(wordRepository._wordList.contains(where: { $0.uuid == deleteTarget.uuid }))
         XCTAssertEqual(unmemorizedWordListState._storedWords.count, unmemorizedWordList.count - 1)
     }
 
@@ -108,7 +108,7 @@ final class WordUseCaseTests: XCTestCase {
         sut.deleteWord(by: deleteTarget.uuid)
 
         // Assert
-        XCTAssertFalse(wordRepository.words.contains(where: { $0.uuid == deleteTarget.uuid }))
+        XCTAssertFalse(wordRepository._wordList.contains(where: { $0.uuid == deleteTarget.uuid }))
         XCTAssertEqual(unmemorizedWordListState._storedWords.count, unmemorizedWordList.count)
     }
 
@@ -136,7 +136,7 @@ final class WordUseCaseTests: XCTestCase {
         sut.updateWord(by: updateTarget.uuid, to: updateTarget)
 
         // Assert
-        XCTAssertEqual(wordRepository.words.first(where: { $0.uuid == updateTarget.uuid })?.word, "UpdatedWord")
+        XCTAssertEqual(wordRepository._wordList.first(where: { $0.uuid == updateTarget.uuid })?.word, "UpdatedWord")
         XCTAssertEqual(unmemorizedWordListState._storedWords.first(where: { $0.uuid == updateTarget.uuid })?.word, "UpdatedWord")
     }
 
@@ -151,7 +151,7 @@ final class WordUseCaseTests: XCTestCase {
         sut.updateWord(by: updateTarget.uuid, to: updateTarget)
 
         // Assert
-        XCTAssertEqual(wordRepository.words.first(where: { $0.uuid == updateTarget.uuid }), updateTarget)
+        XCTAssertEqual(wordRepository._wordList.first(where: { $0.uuid == updateTarget.uuid }), updateTarget)
         XCTAssertFalse(unmemorizedWordListState._storedWords.contains(where: { $0.uuid == updateTarget.uuid }))
     }
 
@@ -166,7 +166,7 @@ final class WordUseCaseTests: XCTestCase {
         sut.updateWord(by: updateTarget.uuid, to: updateTarget)
 
         // Assert
-        XCTAssertEqual(wordRepository.words.first(where: { $0.uuid == updateTarget.uuid }), updateTarget)
+        XCTAssertEqual(wordRepository._wordList.first(where: { $0.uuid == updateTarget.uuid }), updateTarget)
         XCTAssert(unmemorizedWordListState._storedWords.contains(where: { $0.uuid == updateTarget.uuid }))
     }
 
