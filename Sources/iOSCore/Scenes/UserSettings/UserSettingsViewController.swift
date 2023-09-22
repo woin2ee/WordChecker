@@ -77,7 +77,8 @@ final class UserSettingsViewController: BaseViewController {
         let input = UserSettingsViewModel.Input.init(
             selectItem: settingsTableView.rx.itemSelected
                 .doOnNext { [weak self] in self?.settingsTableView.deselectRow(at: $0, animated: true) }
-                .asSignalOnErrorJustComplete()
+                .asSignalOnErrorJustComplete(),
+            presentingConfiguration: .just(.init(window: self))
         )
         let output = viewModel.transform(input: input)
 

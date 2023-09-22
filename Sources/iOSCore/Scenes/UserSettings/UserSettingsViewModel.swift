@@ -44,14 +44,13 @@ final class UserSettingsViewModel: ViewModelType {
             .asDriverOnErrorJustComplete()
 
         let showLanguageSetting = input.selectItem
-            .asObservable()
             .filter { $0.section == 0 }
-            .withLatestFrom(dataSource) { indexPath, dataSource in
+            .withLatestFrom(dataSource.asSignalOnErrorJustComplete()) { indexPath, dataSource in
                 dataSource[0][indexPath.row]
             }
-            .map { selectedItemModel -> (settingsDirection: LanguageSettingViewModel.SettingsDirection, currentSettingLocale: TranslationLanguage) in
+            .map { selectedItemModel -> (settingsDirection: LanguageSettingViewModel.SettingsDirection, currentSettingLocale: TranslationLanguage)? in
                 guard let currentSettingLocale = selectedItemModel.value else {
-                    throw InternalError.noCurrentSettingLocale
+                    return nil
                 }
 
                 switch selectedItemModel.settingType {
@@ -60,24 +59,27 @@ final class UserSettingsViewModel: ViewModelType {
                 case .changeTargetLanguage:
                     return (.targetLanguage, currentSettingLocale)
                 default:
-                    throw InternalError.invalidSettingType
+                    return nil
                 }
             }
+            .compactMap { $0 }
             .asSignalOnErrorJustComplete()
 
         let googleDriveUploadComplete = input.selectItem
             .filter { $0.section == 1 && $0.row == 0 }
             .mapToVoid()
+            .withLatestFrom(input.presentingConfiguration)
             .flatMapFirst {
-                return self.externalStoreUseCase.upload()
+                return self.externalStoreUseCase.upload(presenting: $0)
                     .asSignalOnErrorJustComplete()
             }
 
         let googleDriveDownloadComplete = input.selectItem
             .filter { $0.section == 1 && $0.row == 1 }
             .mapToVoid()
+            .withLatestFrom(input.presentingConfiguration)
             .flatMapFirst {
-                return self.externalStoreUseCase.download()
+                return self.externalStoreUseCase.download(presenting: $0)
                     .asSignalOnErrorJustComplete()
             }
 
@@ -96,6 +98,8 @@ extension UserSettingsViewModel {
     struct Input {
 
         let selectItem: Signal<IndexPath>
+
+        let presentingConfiguration: Driver<PresentingConfiguration>
 
     }
 

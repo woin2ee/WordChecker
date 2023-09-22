@@ -20,8 +20,8 @@ public protocol ExternalStoreUseCaseProtocol {
     @discardableResult
     func restorePreviousSignIn() -> Result<Void, Error>
 
-    func upload() -> Single<Void>
+    func upload(presenting: PresentingConfiguration) -> Single<Void>
 
-    func download() -> Single<Void>
+    func download(presenting: PresentingConfiguration) -> Single<Void>
 
 }
