@@ -25,6 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         initUserSettingsIfFirstLaunch()
 
+        attemptRestoreGoogleSignInState()
+
         return true
     }
 
@@ -74,6 +76,11 @@ extension AppDelegate {
             }
             .subscribe()
             .disposed(by: disposeBag)
+    }
+
+    func attemptRestoreGoogleSignInState() {
+        let externalStoreUseCase: ExternalStoreUseCaseProtocol = DIContainer.shared.resolve()
+        externalStoreUseCase.restorePreviousSignIn()
     }
 
 }

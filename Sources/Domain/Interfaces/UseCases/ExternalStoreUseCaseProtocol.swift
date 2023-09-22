@@ -17,6 +17,7 @@ public protocol ExternalStoreUseCaseProtocol {
 
     var hasSignIn: Bool { get }
 
+    @discardableResult
     func restorePreviousSignIn() -> Result<Void, Error>
 
     func upload() -> Single<Void>
