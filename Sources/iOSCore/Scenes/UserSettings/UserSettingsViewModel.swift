@@ -29,7 +29,7 @@ final class UserSettingsViewModel: ViewModelType {
             }
             .map { translationLocale -> [UserSettingsValueListModel] in
                 return zip(
-                    UserSettingsListType.allCases,
+                    UserSettingsValueListModel.Style.allCases,
                     [translationLocale.source, translationLocale.target]
                 )
                 .map { itemType, translationLocale -> UserSettingsValueListModel in

@@ -12,25 +12,29 @@ import Localization
 
 struct UserSettingsValueListModel: Hashable, Sendable {
 
-    let itemType: UserSettingsListType
+    let itemType: Style
 
-    let value: TranslationLanguage
-
-}
-
-enum UserSettingsListType: CaseIterable {
-
-    case sourceLanguageSetting
-
-    case targetLanguageSetting
-
-    var titleText: String {
-        switch self {
+    var primaryText: String {
+        switch itemType {
         case .sourceLanguageSetting:
             WCString.source_language
         case .targetLanguageSetting:
             WCString.translation_language
         }
+    }
+
+    let value: TranslationLanguage
+
+}
+
+extension UserSettingsValueListModel {
+
+    enum Style: CaseIterable {
+
+        case sourceLanguageSetting
+
+        case targetLanguageSetting
+
     }
 
 }
