@@ -1,5 +1,5 @@
 //
-//  GoogleDriveUseCase.swift
+//  ExternalStoreUseCase.swift
 //  Domain
 //
 //  Created by Jaewon Yun on 2023/09/22.
@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import RxUtility
 
-public final class GoogleDriveUseCase: GoogleDriveUseCaseProtocol {
+public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
 
     let wordRepository: WordRepositoryProtocol
     let googleDriveRepository: GoogleDriveRepositoryProtocol

@@ -13,7 +13,7 @@ import XCTest
 
 final class GoogleDriveUseCaseTests: XCTestCase {
 
-    var sut: GoogleDriveUseCaseProtocol!
+    var sut: ExternalStoreUseCaseProtocol!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -29,7 +29,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         // Given
         let wordRepository: WordRepositoryFake = .init(sampleData: testSampleWordList)
         let googleDriveRepository: GoogleDriveRepositoryFake = .init()
-        sut = GoogleDriveUseCase.init(
+        sut = ExternalStoreUseCase.init(
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
             unmemorizedWordListState: UnmemorizedWordListStateSpy()
@@ -51,7 +51,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         let wordRepository: WordRepositoryFake = .init(sampleData: testSampleWordList)
         let googleDriveRepository: GoogleDriveRepositoryFake = .init(sampleWordList: driveData)
         let unmemorizedWordListState: UnmemorizedWordListStateSpy = .init()
-        sut = GoogleDriveUseCase.init(
+        sut = ExternalStoreUseCase.init(
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
             unmemorizedWordListState: unmemorizedWordListState
