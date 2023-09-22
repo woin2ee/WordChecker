@@ -34,6 +34,15 @@ public struct WCString {
     public static let translate = NSLocalizedString("translate", bundle: Bundle.module, comment: "")
     public static let source_language = NSLocalizedString("source_language", bundle: Bundle.module, comment: "")
     public static let translation_language = NSLocalizedString("translation_language", bundle: Bundle.module, comment: "")
+    public static let sync_google_drive = NSLocalizedString("sync_google_drive", bundle: Bundle.module, comment: "")
+    public static let google_drive_upload = NSLocalizedString("google_drive_upload", bundle: Bundle.module, comment: "")
+    public static let upload_successful = NSLocalizedString("upload_successful", bundle: Bundle.module, comment: "")
+
+    public static let google_drive_download = NSLocalizedString("google_drive_download", bundle: Bundle.module, comment: "")
+    public static let download_successful = NSLocalizedString("download_successful", bundle: Bundle.module, comment: "")
+
+    public static let synchronize_to_google_drive = NSLocalizedString("synchronize_to_google_drive", bundle: Bundle.module, comment: "")
+
     public static let languages = NSLocalizedString("languages", bundle: Bundle.module, comment: "")
     public static let korean = NSLocalizedString("korean", bundle: Bundle.module, comment: "")
     public static let english = NSLocalizedString("english", bundle: Bundle.module, comment: "")

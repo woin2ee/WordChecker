@@ -10,17 +10,72 @@ import Domain
 import Foundation
 import GoogleSignIn
 import RxSwift
+import UIKit
 
 public final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
 
+    let gidSignIn: GIDSignIn
+
+    public init(gidSignIn: GIDSignIn) {
+        self.gidSignIn = gidSignIn
+    }
+
+    public func signIn(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
+        let config: GIDConfiguration = .init(clientID: "")
+
+        guard let viewController = presenting.window as? UIViewController else {
+            return .error(GoogleDriveRepositoryError.unSupportedWindow)
+        }
+
+        return .create { result in
+            self.gidSignIn.signIn(with: config, presenting: viewController) { user, error in
+                if error != nil, user == nil {
+                    result(.failure(GoogleDriveRepositoryError.failedSignIn))
+                } else {
+                    result(.success(()))
+                }
+            }
+
+            return Disposables.create()
+        }
+    }
+
+    public func signOut() {
+        gidSignIn.signOut()
+    }
+
+    public var hasSignIn: Bool {
+        return gidSignIn.currentUser != nil
+    }
+
+    public func restorePreviousSignIn() -> Result<Void, Error> {
+        gidSignIn.restorePreviousSignIn()
+
+        if gidSignIn.currentUser != nil {
+            return .success(())
+        } else {
+            return .failure(GoogleDriveRepositoryError.failedRestorePreviousSignIn)
+        }
+    }
+
     public func uploadWordList(_ wordList: [Domain.Word]) -> RxSwift.Single<Void> {
         // GoogleDrive 저장
-        return .never()
+        fatalError("Not implemented.")
     }
 
     public func downloadWordList() -> RxSwift.Single<[Domain.Word]> {
         // GoogleDrive 가져오기
-        return .never()
+        fatalError("Not implemented.")
     }
+
+}
+
+enum GoogleDriveRepositoryError: Error {
+
+    case failedRestorePreviousSignIn
+
+    case failedSignIn
+
+    case unSupportedWindow
 
 }

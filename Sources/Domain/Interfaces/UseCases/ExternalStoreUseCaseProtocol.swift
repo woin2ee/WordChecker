@@ -11,6 +11,14 @@ import RxSwift
 
 public protocol ExternalStoreUseCaseProtocol {
 
+    func signIn(presenting: PresentingConfiguration) -> RxSwift.Single<Void>
+
+    func signOut()
+
+    var hasSignIn: Bool { get }
+
+    func restorePreviousSignIn() -> Result<Void, Error>
+
     func upload() -> Single<Void>
 
     func download() -> Single<Void>

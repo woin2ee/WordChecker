@@ -72,3 +72,6 @@ Tuist/Dependencies
 ### Tuist Signing
 Tuist/Signing
 Tuist/master.key
+
+### info.plist
+Resources/InfoPlist/Info.plist

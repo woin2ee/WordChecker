@@ -62,7 +62,7 @@ func targets() -> [Target] {
             dependencies: [
                 .target(name: "Domain"),
                 .external(name: ExternalDependencyName.rxSwift),
-                .external(name: ExternalDependencyName.googleSignIn),
+                .package(product: ExternalDependencyName.googleSignIn),
             ],
             appendSchemeTo: &schemes
         )
@@ -138,6 +138,7 @@ func targets() -> [Target] {
                 .target(name: "Domain"),
                 .target(name: "RealmPlatform"),
                 .target(name: "InMemoryPlatform"),
+                .target(name: "GoogleDrivePlatform"),
                 .target(name: "Utility"),
                 .target(name: "Localization"),
                 .target(name: "UserDefaultsPlatform"),
@@ -218,7 +219,8 @@ let project: Project = .init(
     organizationName: ORGANIZATION,
     options: .options(automaticSchemesOptions: .disabled),
     packages: [
-        .package(url: "https://github.com/realm/realm-swift.git", from: "10.42.0")
+        .package(url: "https://github.com/realm/realm-swift.git", from: "10.42.0"),
+        .package(url: "https://github.com/google/GoogleSignIn-iOS", from: "6.0.0"),
     ],
     settings: .settings(),
     targets: targets(),

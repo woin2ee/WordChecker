@@ -27,6 +27,7 @@ public final class RepositoryAssembly: Assembly {
             userSettingsRepositoryAssembly,
             wordRepositoryAssembly,
             UnmemorizedWordListStateAssembly(),
+            GoogleDriveRepositoryAssembly(),
         ]
 
         assemblies.forEach { assembly in

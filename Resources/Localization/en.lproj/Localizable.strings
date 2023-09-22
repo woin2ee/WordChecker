@@ -43,6 +43,14 @@ translation_language = "Translation language";
 
 languages = "Languages";
 source_language = "Source language";
+sync_google_drive = "Google Drive Sync";
+google_drive_upload = "Google Drive Upload";
+upload_successful = "Upload successful";
+
+google_drive_download = "Google Drive Download";
+download_successful = "Download successful";
+
+synchronize_to_google_drive = "Synchronize to Google Drive.";
 
 korean = "Korean";
 english = "English";

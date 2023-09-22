@@ -50,7 +50,8 @@ public final class UIViewControllerAssembly: Assembly {
 
         container.register(UserSettingsViewController.self) { resolver in
             let userSettingsUseCase: UserSettingsUseCaseProtocol = resolver.resolve()
-            let viewModel: UserSettingsViewModel = .init(userSettingsUseCase: userSettingsUseCase)
+            let externalStoreUseCase: ExternalStoreUseCaseProtocol = resolver.resolve()
+            let viewModel: UserSettingsViewModel = .init(userSettingsUseCase: userSettingsUseCase, externalStoreUseCase: externalStoreUseCase)
             let viewController: UserSettingsViewController = .init(viewModel: viewModel)
             return viewController
         }
