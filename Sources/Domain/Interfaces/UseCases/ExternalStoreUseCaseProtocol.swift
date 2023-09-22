@@ -1,5 +1,5 @@
 //
-//  GoogleDriveUseCaseProtocol.swift
+//  ExternalStoreUseCaseProtocol.swift
 //  Domain
 //
 //  Created by Jaewon Yun on 2023/09/22.
@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-public protocol GoogleDriveUseCaseProtocol {
+public protocol ExternalStoreUseCaseProtocol {
 
     func upload() -> Single<Void>
 
