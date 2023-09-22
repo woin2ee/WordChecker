@@ -64,6 +64,9 @@ final class UserSettingsViewController: BaseViewController {
             case .googleDriveUpload, .googleDriveDownload:
                 config = .cell()
                 config.textProperties.color = .systemBlue
+            case .googleDriveLogout:
+                config = .cell()
+                config.textProperties.color = .systemRed
             }
 
             config.text = item.primaryText
@@ -82,33 +85,43 @@ final class UserSettingsViewController: BaseViewController {
         )
         let output = viewModel.transform(input: input)
 
-        [
-            output.userSettingsDataSource
-                .drive(with: self) { owner, dataSource in
-                    var snapshot: NSDiffableDataSourceSnapshot<UUID, UserSettingsItemModel> = .init()
+        output.userSettingsDataSource
+            .drive(with: self) { owner, dataSource in
+                var snapshot: NSDiffableDataSourceSnapshot<UUID, UserSettingsItemModel> = .init()
 
-                    dataSource.forEach { sectionModel in
-                        snapshot.appendSections([UUID()])
-                        snapshot.appendItems(sectionModel)
-                    }
+                dataSource.forEach { sectionModel in
+                    snapshot.appendSections([UUID()])
+                    snapshot.appendItems(sectionModel)
+                }
 
-                    owner.settingsTableViewDataSource.applySnapshotUsingReloadData(snapshot)
-                },
-            output.showLanguageSetting
-                .emit(with: self, onNext: { owner, initData in
-                    let languageSettingVC: LanguageSettingViewController = DIContainer.shared.resolve(arguments: initData.settingsDirection, initData.currentSettingLocale)
-                    owner.navigationController?.pushViewController(languageSettingVC, animated: true)
-                }),
-            output.googleDriveUploadComplete
-                .emit(with: self, onNext: { owner, _ in
-                    owner.presentOKAlert(title: WCString.notice, message: WCString.upload_successful)
-                }),
-            output.googleDriveDownloadComplete
-                .emit(with: self, onNext: { owner, _ in
-                    owner.presentOKAlert(title: WCString.notice, message: WCString.download_successful)
-                }),
-        ]
-            .forEach { $0.disposed(by: disposeBag) }
+                owner.settingsTableViewDataSource.applySnapshotUsingReloadData(snapshot)
+            }
+            .disposed(by: disposeBag)
+
+        output.showLanguageSetting
+            .emit(with: self, onNext: { owner, initData in
+                let languageSettingVC: LanguageSettingViewController = DIContainer.shared.resolve(arguments: initData.settingsDirection, initData.currentSettingLocale)
+                owner.navigationController?.pushViewController(languageSettingVC, animated: true)
+            })
+            .disposed(by: disposeBag)
+
+        output.googleDriveUploadComplete
+            .emit(with: self, onNext: { owner, _ in
+                owner.presentOKAlert(title: WCString.notice, message: WCString.upload_successful)
+            })
+            .disposed(by: disposeBag)
+
+        output.googleDriveDownloadComplete
+            .emit(with: self, onNext: { owner, _ in
+                owner.presentOKAlert(title: WCString.notice, message: WCString.download_successful)
+            })
+            .disposed(by: disposeBag)
+
+        output.googleDriveSignOutComplete
+            .emit(with: self, onNext: { owner, _ in
+                owner.presentOKAlert(title: WCString.notice, message: WCString.signed_out_of_google_drive)
+            })
+            .disposed(by: disposeBag)
     }
 
     func setupSubviews() {

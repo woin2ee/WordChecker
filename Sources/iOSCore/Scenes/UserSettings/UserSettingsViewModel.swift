@@ -24,13 +24,19 @@ final class UserSettingsViewModel: ViewModelType {
     }
 
     func transform(input: Input) -> Output {
-        let dataSource = userSettingsUseCase.currentUserSettingsRelay
-            .unwrapOrThrow()
+        let dataSourceUpdateTrigger: PublishRelay<Void> = .init()
+
+        let dataSource = PublishRelay<Void>.merge([
+            dataSourceUpdateTrigger.asObservable(),
+            userSettingsUseCase.currentUserSettingsRelay.mapToVoid(),
+        ])
+            .withLatestFrom(userSettingsUseCase.currentUserSettingsRelay)
+            .compactMap { $0 }
             .map { userSettings -> (source: TranslationLanguage, target: TranslationLanguage) in
                 return (userSettings.translationSourceLocale, userSettings.translationTargetLocale)
             }
             .map { translationLocale -> [[UserSettingsItemModel]] in
-                return [
+                var models: [[UserSettingsItemModel]] = [
                     [
                         .init(settingType: .changeSourceLanguage, value: translationLocale.source),
                         .init(settingType: .changeTargetLanguage, value: translationLocale.target),
@@ -40,6 +46,12 @@ final class UserSettingsViewModel: ViewModelType {
                         .init(settingType: .googleDriveDownload),
                     ],
                 ]
+
+                if self.externalStoreUseCase.hasSignIn {
+                    models.append([.init(settingType: .googleDriveLogout)])
+                }
+
+                return models
             }
             .asDriverOnErrorJustComplete()
 
@@ -70,7 +82,12 @@ final class UserSettingsViewModel: ViewModelType {
             .mapToVoid()
             .withLatestFrom(input.presentingConfiguration)
             .flatMapFirst {
-                return self.externalStoreUseCase.upload(presenting: $0)
+                return self.externalStoreUseCase.signIn(presenting: $0)
+                    .doOnSuccess { dataSourceUpdateTrigger.accept(()) }
+                    .asSignalOnErrorJustComplete()
+            }
+            .flatMapFirst {
+                return self.externalStoreUseCase.upload(presenting: nil)
                     .asSignalOnErrorJustComplete()
             }
 
@@ -79,15 +96,27 @@ final class UserSettingsViewModel: ViewModelType {
             .mapToVoid()
             .withLatestFrom(input.presentingConfiguration)
             .flatMapFirst {
-                return self.externalStoreUseCase.download(presenting: $0)
+                return self.externalStoreUseCase.signIn(presenting: $0)
+                    .doOnSuccess { dataSourceUpdateTrigger.accept(()) }
                     .asSignalOnErrorJustComplete()
             }
+            .flatMapFirst {
+                return self.externalStoreUseCase.download(presenting: nil)
+                    .asSignalOnErrorJustComplete()
+            }
+
+        let googleDriveSignOutComplete = input.selectItem
+            .filter { $0.section == 2 }
+            .mapToVoid()
+            .doOnNext(externalStoreUseCase.signOut)
+            .doOnNext { dataSourceUpdateTrigger.accept(()) }
 
         return .init(
             userSettingsDataSource: dataSource,
             showLanguageSetting: showLanguageSetting,
             googleDriveUploadComplete: googleDriveUploadComplete,
-            googleDriveDownloadComplete: googleDriveDownloadComplete
+            googleDriveDownloadComplete: googleDriveDownloadComplete,
+            googleDriveSignOutComplete: googleDriveSignOutComplete
         )
     }
 
@@ -112,6 +141,8 @@ extension UserSettingsViewModel {
         let googleDriveUploadComplete: Signal<Void>
 
         let googleDriveDownloadComplete: Signal<Void>
+
+        let googleDriveSignOutComplete: Signal<Void>
 
     }
 
