@@ -22,6 +22,7 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
                 .target(name: "Utility"),
+                .target(name: "Localization"),
             ],
             hasUnitTests: true,
             additionalTestDependencies: [
@@ -50,6 +51,18 @@ func targets() -> [Target] {
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "Utility"),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
+            name: "GoogleDrivePlatform",
+            platform: .iOS,
+            product: .framework,
+            deploymentTarget: DEPLOYMENT_TARGET,
+            dependencies: [
+                .target(name: "Domain"),
+                .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.googleSignIn),
             ],
             appendSchemeTo: &schemes
         )

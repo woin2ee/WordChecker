@@ -14,5 +14,6 @@ public struct ExternalDependencyName {
     public static let sfSafeSymbols = "SFSafeSymbols"
     public static let then = "Then"
     public static let toast = "Toast"
+    public static let googleSignIn = "GoogleSignIn"
 
 }
