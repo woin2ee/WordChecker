@@ -21,7 +21,12 @@ public final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
     }
 
     public func signIn(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
-        let config: GIDConfiguration = .init(clientID: "")
+        guard let clientID = Bundle.main.object(forInfoDictionaryKey: "GIDClientID") as? String else {
+            assertionFailure("ClientID is missing from info.plist")
+            return .error(GoogleDriveRepositoryError.noClientID)
+        }
+
+        let config: GIDConfiguration = .init(clientID: clientID)
 
         guard let viewController = presenting.window as? UIViewController else {
             return .error(GoogleDriveRepositoryError.unSupportedWindow)
@@ -77,5 +82,7 @@ enum GoogleDriveRepositoryError: Error {
     case failedSignIn
 
     case unSupportedWindow
+
+    case noClientID
 
 }
