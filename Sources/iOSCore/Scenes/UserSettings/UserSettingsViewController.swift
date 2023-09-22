@@ -38,7 +38,7 @@ final class UserSettingsViewController: BaseViewController {
     func setupDataSource() {
         self.settingsTableViewDataSource = .init(tableView: settingsTableView) { tableView, indexPath, item in
             var config = UIListContentConfiguration.valueCell()
-            config.text =  item.itemType.titleText
+            config.text =  item.primaryText
             config.secondaryText = item.value.localizedString
 
             let cell = tableView.dequeueReusableCell(withIdentifier: self.userSettingsCellID, for: indexPath)
