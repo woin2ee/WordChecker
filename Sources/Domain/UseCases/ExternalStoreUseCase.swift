@@ -49,23 +49,36 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
         return googleDriveRepository.restorePreviousSignIn()
     }
 
-    public func upload() -> Single<Void> {
-        let wordList = wordRepository.getAll()
+    public func upload(presenting: PresentingConfiguration) -> Single<Void> {
+        func doUpload() -> Single<Void> {
+            let wordList = wordRepository.getAll()
+            return googleDriveRepository.uploadWordList(wordList)
+        }
 
-        guard hasSignIn else { return .error(ExternalStoreUseCaseError.noCurrentUser) }
-
-        return googleDriveRepository.uploadWordList(wordList)
+        if hasSignIn {
+            return doUpload()
+        } else {
+            return signIn(presenting: presenting)
+                .flatMap { doUpload() }
+        }
     }
 
-    public func download() -> Single<Void> {
-        guard hasSignIn else { return .error(ExternalStoreUseCaseError.noCurrentUser) }
+    public func download(presenting: PresentingConfiguration) -> Single<Void> {
+        func doDownload() -> Single<Void> {
+            return googleDriveRepository.downloadWordList()
+                .doOnSuccess { wordList in
+                    self.wordRepository.reset(to: wordList)
+                    self.unmemorizedWordListState.randomizeList(with: wordList)
+                }
+                .mapToVoid()
+        }
 
-        return googleDriveRepository.downloadWordList()
-            .doOnSuccess { wordList in
-                self.wordRepository.reset(to: wordList)
-                self.unmemorizedWordListState.randomizeList(with: wordList)
-            }
-            .mapToVoid()
+        if hasSignIn {
+            return doDownload()
+        } else {
+            return signIn(presenting: presenting)
+                .flatMap { doDownload() }
+        }
     }
 
 }
