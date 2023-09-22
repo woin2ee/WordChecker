@@ -22,7 +22,7 @@ final class UserSettingsViewController: BaseViewController {
 
     let viewModel: UserSettingsViewModel
 
-    var settingsTableViewDataSource: UITableViewDiffableDataSource<UUID, UserSettingsValueListModel>!
+    var settingsTableViewDataSource: UITableViewDiffableDataSource<UUID, UserSettingsItemModel>!
 
     lazy var settingsTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
         $0.backgroundColor = .systemGroupedBackground
@@ -35,19 +35,6 @@ final class UserSettingsViewController: BaseViewController {
         setupDataSource()
     }
 
-    func setupDataSource() {
-        self.settingsTableViewDataSource = .init(tableView: settingsTableView) { tableView, indexPath, item in
-            var config = UIListContentConfiguration.valueCell()
-            config.text =  item.primaryText
-            config.secondaryText = item.value.localizedString
-
-            let cell = tableView.dequeueReusableCell(withIdentifier: self.userSettingsCellID, for: indexPath)
-            cell.contentConfiguration = config
-            cell.accessoryType = .disclosureIndicator
-            return cell
-        }
-    }
-
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -58,48 +45,69 @@ final class UserSettingsViewController: BaseViewController {
         setupSubviews()
         setupNavigationBar()
         bindViewModel()
-        bindItemSelected()
     }
 
-    func bindItemSelected() {
-        settingsTableView.rx.itemSelected.asSignal()
-            .emit(with: self, onNext: { owner, indexPath in
-                let settingsDirection: LanguageSettingViewModel.SettingsDirection
+    func setupDataSource() {
+        self.settingsTableViewDataSource = .init(tableView: settingsTableView) { tableView, indexPath, item in
+            let cell = tableView.dequeueReusableCell(withIdentifier: self.userSettingsCellID, for: indexPath)
 
-                guard let model = owner.settingsTableViewDataSource.itemIdentifier(for: indexPath) else {
-                    return
-                }
+            cell.accessoryType = .none
 
-                switch model.itemType {
-                case .sourceLanguageSetting:
-                    settingsDirection = .sourceLanguage
-                case .targetLanguageSetting:
-                    settingsDirection = .targetLanguage
-                }
+            var config: UIListContentConfiguration
 
-                let currentSettingLocale: TranslationLanguage = model.value
+            switch item.settingType {
+            case .changeSourceLanguage, .changeTargetLanguage:
+                config = .valueCell()
+                config.secondaryText = item.value?.localizedString
 
-                let languageSettingVC: LanguageSettingViewController = DIContainer.shared.resolve(arguments: settingsDirection, currentSettingLocale)
-                owner.navigationController?.pushViewController(languageSettingVC, animated: true)
+                cell.accessoryType = .disclosureIndicator
+            case .googleDriveUpload, .googleDriveDownload:
+                config = .cell()
+                config.textProperties.color = .systemBlue
+            }
 
-                owner.settingsTableView.deselectRow(at: indexPath, animated: true)
-            })
-            .disposed(by: disposeBag)
+            config.text = item.primaryText
+
+            cell.contentConfiguration = config
+            return cell
+        }
     }
 
     func bindViewModel() {
-        let input = UserSettingsViewModel.Input.init()
+        let input = UserSettingsViewModel.Input.init(
+            selectItem: settingsTableView.rx.itemSelected
+                .doOnNext { [weak self] in self?.settingsTableView.deselectRow(at: $0, animated: true) }
+                .asSignalOnErrorJustComplete()
+        )
         let output = viewModel.transform(input: input)
 
-        output.userSettingsDataSource
-            .drive(with: self) { owner, dataSource in
-                var snapshot: NSDiffableDataSourceSnapshot<UUID, UserSettingsValueListModel> = .init()
-                snapshot.appendSections([UUID()])
-                snapshot.appendItems(dataSource)
+        [
+            output.userSettingsDataSource
+                .drive(with: self) { owner, dataSource in
+                    var snapshot: NSDiffableDataSourceSnapshot<UUID, UserSettingsItemModel> = .init()
 
-                owner.settingsTableViewDataSource.applySnapshotUsingReloadData(snapshot)
-            }
-            .disposed(by: disposeBag)
+                    dataSource.forEach { sectionModel in
+                        snapshot.appendSections([UUID()])
+                        snapshot.appendItems(sectionModel)
+                    }
+
+                    owner.settingsTableViewDataSource.applySnapshotUsingReloadData(snapshot)
+                },
+            output.showLanguageSetting
+                .emit(with: self, onNext: { owner, initData in
+                    let languageSettingVC: LanguageSettingViewController = DIContainer.shared.resolve(arguments: initData.settingsDirection, initData.currentSettingLocale)
+                    owner.navigationController?.pushViewController(languageSettingVC, animated: true)
+                }),
+            output.googleDriveUploadComplete
+                .emit(with: self, onNext: { owner, _ in
+                    owner.presentOKAlert(title: WCString.notice, message: WCString.upload_successful)
+                }),
+            output.googleDriveDownloadComplete
+                .emit(with: self, onNext: { owner, _ in
+                    owner.presentOKAlert(title: WCString.notice, message: WCString.download_successful)
+                }),
+        ]
+            .forEach { $0.disposed(by: disposeBag) }
     }
 
     func setupSubviews() {

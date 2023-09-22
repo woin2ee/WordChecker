@@ -18,6 +18,7 @@ public final class UseCaseAssembly: Assembly {
             WordUseCaseAssembly(),
             WordRxUseCaseAssembly(),
             UserSettingsUseCaseAssembly(),
+            ExternalStoreUseCaseAssembly(),
         ]
 
         assemblies.forEach { assembly in

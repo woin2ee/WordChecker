@@ -38,11 +38,19 @@ all = "전체";
 there_are_no_words = "단어가 없습니다.";
 quick_add_word = "빠른 단어 추가";
 "%@_added_successfully" = "[ %@ ] 추가 성공";
-settings = "설정";
-translation_language = "번역 언어";
 
+settings = "설정";
 languages = "언어";
 source_language = "원본 언어";
+translation_language = "번역 언어";
+sync_google_drive = "Google Drive 동기화";
+google_drive_upload = "Google Drive 업로드";
+upload_successful = "업로드 성공";
+
+google_drive_download = "Google Drive 다운로드";
+download_successful = "다운로드 성공";
+
+synchronize_to_google_drive = "구글 드라이브에 동기화 합니다.";
 
 korean = "한국어";
 english = "영어";
