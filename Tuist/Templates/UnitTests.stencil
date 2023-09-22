@@ -3,6 +3,13 @@ import XCTest
 final class {{ name }}Tests: XCTestCase {
 
     func test_example() {
+        // Given
+        
+        
+        // When
+        
+        
+        // Then
         XCTAssertEqual("{{ name }}Kit", "{{ name }}Kit")
     }
     
