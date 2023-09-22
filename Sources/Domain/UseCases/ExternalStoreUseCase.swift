@@ -27,6 +27,10 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
     }
 
     public func signIn(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
+        if hasSignIn {
+            return .just(())
+        }
+
         let result = googleDriveRepository.restorePreviousSignIn()
 
         do {
@@ -49,7 +53,8 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
         return googleDriveRepository.restorePreviousSignIn()
     }
 
-    public func upload(presenting: PresentingConfiguration) -> Single<Void> {
+    /// - Parameter presenting: 구글 드라이브 로그인이 되어있지 않을 때 로그인 화면을 제시하는데 사용되는 구성
+    public func upload(presenting: PresentingConfiguration?) -> Single<Void> {
         func doUpload() -> Single<Void> {
             let wordList = wordRepository.getAll()
             return googleDriveRepository.uploadWordList(wordList)
@@ -57,13 +62,18 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
 
         if hasSignIn {
             return doUpload()
-        } else {
-            return signIn(presenting: presenting)
-                .flatMap { doUpload() }
         }
+
+        guard let presenting = presenting else {
+            return .error(ExternalStoreUseCaseError.noPresentingConfiguration)
+        }
+
+        return signIn(presenting: presenting)
+            .flatMap { doUpload() }
     }
 
-    public func download(presenting: PresentingConfiguration) -> Single<Void> {
+    /// - Parameter presenting: 구글 드라이브 로그인이 되어있지 않을 때 로그인 화면을 제시하는데 사용되는 구성
+    public func download(presenting: PresentingConfiguration?) -> Single<Void> {
         func doDownload() -> Single<Void> {
             return googleDriveRepository.downloadWordList()
                 .doOnSuccess { wordList in
@@ -75,10 +85,14 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
 
         if hasSignIn {
             return doDownload()
-        } else {
-            return signIn(presenting: presenting)
-                .flatMap { doDownload() }
         }
+
+        guard let presenting = presenting else {
+            return .error(ExternalStoreUseCaseError.noPresentingConfiguration)
+        }
+
+        return signIn(presenting: presenting)
+            .flatMap { doDownload() }
     }
 
 }
@@ -86,5 +100,7 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
 enum ExternalStoreUseCaseError: Error {
 
     case noCurrentUser
+
+    case noPresentingConfiguration
 
 }

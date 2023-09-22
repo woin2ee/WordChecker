@@ -24,6 +24,8 @@ struct UserSettingsItemModel: Hashable, Sendable {
             WCString.google_drive_upload
         case .googleDriveDownload:
             WCString.google_drive_download
+        case .googleDriveLogout:
+            WCString.google_drive_logout
         }
     }
 
@@ -48,6 +50,7 @@ extension UserSettingsItemModel {
 
         case googleDriveUpload
         case googleDriveDownload
+        case googleDriveLogout
 
     }
 

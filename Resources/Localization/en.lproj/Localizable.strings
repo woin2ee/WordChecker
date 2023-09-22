@@ -50,6 +50,9 @@ upload_successful = "Upload successful";
 google_drive_download = "Google Drive Download";
 download_successful = "Download successful";
 
+google_drive_logout = "Google Drive Logout";
+signed_out_of_google_drive = "You're signed out of Google Drive.";
+
 synchronize_to_google_drive = "Synchronize to Google Drive.";
 
 korean = "Korean";
