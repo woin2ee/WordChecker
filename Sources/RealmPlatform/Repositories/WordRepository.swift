@@ -61,6 +61,16 @@ public final class WordRepository: WordRepositoryProtocol {
             .map { $0.toDomain() }
     }
 
+    public func reset(to wordList: [Domain.Word]) {
+        try? realm.write {
+            let oldList = findAll()
+            self.realm.delete(oldList)
+
+            let newList = wordList.map { $0.toObjectModel() }
+            self.realm.add(newList)
+        }
+    }
+
     func find(by uuid: UUID) -> Word? {
         guard let object = realm.object(ofType: Word.self, forPrimaryKey: uuid) else {
             return nil

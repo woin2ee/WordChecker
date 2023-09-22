@@ -52,12 +52,15 @@ public final class UnmemorizedWordListStateSpy: UnmemorizedWordListStateProtocol
 
     public func randomizeList(with unmemorizedList: [Domain.Word]) {
         _state.randomizeList(with: unmemorizedList)
+        _storedWords = unmemorizedList
+
         guard
             _storedWords.count > 1,
             let oldFirstElement = _storedWords.first
         else {
             return
         }
+
         repeat {
             _storedWords.shuffle()
         } while _storedWords.first ?? .init(word: "") == oldFirstElement
