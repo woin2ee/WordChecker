@@ -34,27 +34,25 @@ final class WordAdditionViewModel: ViewModelType {
         let hasChanges = input.wordText.map { $0 != initialWordText }
 
         let saveComplete = input.saveAttempt
-            .asObservable()
-            .withLatestFrom(input.wordText) { _, wordText -> Word in
+            .withLatestFrom(input.wordText)
+            .map { wordText -> Word in
                 return .init(word: wordText)
             }
             .flatMapFirst { newWord in
                 return self.wordUseCase.addNewWord(newWord)
+                    .asSignalOnErrorJustComplete()
             }
             .doOnNext { _ in self.delegate?.wordAdditionViewModelDidFinishAddWord() }
-            .asSignalOnErrorJustComplete()
 
         let wordTextIsNotEmpty = input.wordText.map(\.isNotEmpty)
 
         let reconfirmDismiss = input.dismissAttempt
-            .asObservable()
             .withLatestFrom(hasChanges)
             .filter { $0 }
             .mapToVoid()
             .asSignalOnErrorJustComplete()
 
         let dismissComplete = input.dismissAttempt
-            .asObservable()
             .withLatestFrom(hasChanges)
             .filter { !$0 }
             .mapToVoid()
