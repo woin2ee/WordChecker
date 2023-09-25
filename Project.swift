@@ -62,6 +62,8 @@ func targets() -> [Target] {
             dependencies: [
                 .target(name: "Domain"),
                 .external(name: ExternalDependencyName.rxSwift),
+                .package(product: ExternalDependencyName.googleAPIClientForRESTCore),
+                .package(product: ExternalDependencyName.googleAPIClientForREST_Drive),
                 .package(product: ExternalDependencyName.googleSignIn),
             ],
             appendSchemeTo: &schemes
@@ -221,6 +223,7 @@ let project: Project = .init(
     packages: [
         .package(url: "https://github.com/realm/realm-swift.git", from: "10.42.0"),
         .package(url: "https://github.com/google/GoogleSignIn-iOS", from: "6.0.0"),
+        .package(url: "https://github.com/google/google-api-objectivec-client-for-rest.git", from: "3.0.0"),
     ],
     settings: .settings(),
     targets: targets(),

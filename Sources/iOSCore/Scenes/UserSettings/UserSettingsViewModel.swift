@@ -82,12 +82,14 @@ final class UserSettingsViewModel: ViewModelType {
             .mapToVoid()
             .withLatestFrom(input.presentingConfiguration)
             .flatMapFirst {
-                return self.externalStoreUseCase.signIn(presenting: $0)
+                return self.externalStoreUseCase.signInWithAppDataScope(presenting: $0)
                     .doOnSuccess { dataSourceUpdateTrigger.accept(()) }
                     .asSignalOnErrorJustComplete()
             }
+            .withLatestFrom(input.presentingConfiguration)
             .flatMapFirst {
-                return self.externalStoreUseCase.upload(presenting: nil)
+                return self.externalStoreUseCase.upload(presenting: $0)
+                    .mapToVoid()
                     .asSignalOnErrorJustComplete()
             }
 
@@ -96,7 +98,7 @@ final class UserSettingsViewModel: ViewModelType {
             .mapToVoid()
             .withLatestFrom(input.presentingConfiguration)
             .flatMapFirst {
-                return self.externalStoreUseCase.signIn(presenting: $0)
+                return self.externalStoreUseCase.signInWithAppDataScope(presenting: $0)
                     .doOnSuccess { dataSourceUpdateTrigger.accept(()) }
                     .asSignalOnErrorJustComplete()
             }
