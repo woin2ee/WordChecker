@@ -28,9 +28,12 @@ let dependencies = Dependencies(
         // Toast-Swift
         .remote(url: "https://github.com/scalessec/Toast-Swift.git",
                 requirement: .upToNextMajor(from: "5.0.0")),
-        // GoogleSignIn
+        // GoogleSignIn-iOS
         .remote(url: "https://github.com/google/GoogleSignIn-iOS",
                 requirement: .upToNextMajor(from: "6.0.2")),
+        // google-api-objectivec-client-for-rest
+        .remote(url: "https://github.com/google/google-api-objectivec-client-for-rest.git",
+                requirement: .upToNextMajor(from: "3.0.0")),
     ],
     platforms: [.iOS]
 )

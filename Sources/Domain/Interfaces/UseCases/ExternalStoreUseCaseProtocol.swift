@@ -11,7 +11,7 @@ import RxSwift
 
 public protocol ExternalStoreUseCaseProtocol {
 
-    func signIn(presenting: PresentingConfiguration) -> RxSwift.Single<Void>
+    func signInWithAppDataScope(presenting: PresentingConfiguration) -> RxSwift.Single<Void>
 
     func signOut()
 

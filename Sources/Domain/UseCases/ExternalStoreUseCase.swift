@@ -26,7 +26,7 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
         self.unmemorizedWordListState = unmemorizedWordListState
     }
 
-    public func signIn(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
+    public func signInWithAppDataScope(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
         if hasSignIn {
             return .just(())
         }
@@ -37,7 +37,7 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
             try result.get()
             return .just(())
         } catch {
-            return self.googleDriveRepository.signIn(presenting: presenting)
+            return self.googleDriveRepository.signInWithAppDataScope(presenting: presenting)
         }
     }
 
@@ -60,7 +60,7 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
             return googleDriveRepository.uploadWordList(wordList)
         }
 
-        if hasSignIn {
+        if hasSignIn, googleDriveRepository.isGrantedAppDataScope {
             return doUpload()
         }
 
@@ -68,7 +68,13 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
             return .error(ExternalStoreUseCaseError.noPresentingConfiguration)
         }
 
-        return signIn(presenting: presenting)
+        if hasSignIn {
+            return googleDriveRepository.requestAccess(presenting: presenting)
+                .flatMap { doUpload() }
+        }
+
+        return signInWithAppDataScope(presenting: presenting)
+            .flatMap { self.googleDriveRepository.requestAccess(presenting: presenting) }
             .flatMap { doUpload() }
     }
 
@@ -83,7 +89,7 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
                 .mapToVoid()
         }
 
-        if hasSignIn {
+        if hasSignIn, googleDriveRepository.isGrantedAppDataScope {
             return doDownload()
         }
 
@@ -91,7 +97,13 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
             return .error(ExternalStoreUseCaseError.noPresentingConfiguration)
         }
 
-        return signIn(presenting: presenting)
+        if hasSignIn {
+            return googleDriveRepository.requestAccess(presenting: presenting)
+                .flatMap { doDownload() }
+        }
+
+        return signInWithAppDataScope(presenting: presenting)
+            .flatMap { self.googleDriveRepository.requestAccess(presenting: presenting) }
             .flatMap { doDownload() }
     }
 
