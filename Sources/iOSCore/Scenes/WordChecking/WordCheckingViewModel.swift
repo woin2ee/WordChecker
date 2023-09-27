@@ -6,9 +6,9 @@
 //
 
 import Combine
+import DataDriver
 import Domain
 import Foundation
-import UserDefaultsPlatform
 import RxSwift
 
 protocol WordCheckingViewModelDelegate: AnyObject {

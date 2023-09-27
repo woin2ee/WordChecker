@@ -10,7 +10,7 @@ import Domain
 import Foundation
 import iOSCore
 import LaunchArguments
-import RealmPlatform
+import DataDriver
 import RealmSwift
 import Swinject
 
@@ -47,7 +47,7 @@ final class WordRepositoryDevAssembly: WordRepositoryAssembly {
         do {
             try realm.write {
                 sampleWords
-                    .map { RealmPlatform.Word.init(word: $0) }
+                    .map { DataDriver.Word.init(word: $0) }
                     .forEach { realm.add($0) }
             }
         } catch {

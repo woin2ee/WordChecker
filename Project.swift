@@ -32,51 +32,20 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "RealmPlatform",
+            name: "DataDriver",
             platform: .iOS,
             product: .framework,
             deploymentTarget: DEPLOYMENT_TARGET,
             dependencies: [
                 .package(product: ExternalDependencyName.realm),
                 .package(product: ExternalDependencyName.realmSwift),
-                .target(name: "Domain"),
-            ],
-            appendSchemeTo: &schemes
-        )
-        + Target.module(
-            name: "InMemoryPlatform",
-            platform: .iOS,
-            product: .framework,
-            deploymentTarget: DEPLOYMENT_TARGET,
-            dependencies: [
-                .target(name: "Domain"),
-                .target(name: "Utility"),
-            ],
-            appendSchemeTo: &schemes
-        )
-        + Target.module(
-            name: "GoogleDrivePlatform",
-            platform: .iOS,
-            product: .framework,
-            deploymentTarget: DEPLOYMENT_TARGET,
-            dependencies: [
-                .target(name: "Domain"),
-                .external(name: ExternalDependencyName.rxSwift),
                 .package(product: ExternalDependencyName.googleAPIClientForRESTCore),
                 .package(product: ExternalDependencyName.googleAPIClientForREST_Drive),
                 .package(product: ExternalDependencyName.googleSignIn),
-            ],
-            appendSchemeTo: &schemes
-        )
-        + Target.module(
-            name: "UserDefaultsPlatform",
-            platform: .iOS,
-            product: .framework,
-            deploymentTarget: DEPLOYMENT_TARGET,
-            dependencies: [
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
                 .target(name: "Domain"),
+                .target(name: "Utility"),
             ],
             hasUnitTests: true,
             additionalTestDependencies: [
@@ -121,7 +90,7 @@ func targets() -> [Target] {
             deploymentTarget: DEPLOYMENT_TARGET,
             dependencies: [
                 .target(name: "Domain"),
-                .target(name: "InMemoryPlatform"),
+                .target(name: "DataDriver"),
                 .target(name: "Utility"),
                 .target(name: "iOSCore"),
                 .external(name: ExternalDependencyName.rxSwift),
@@ -138,12 +107,9 @@ func targets() -> [Target] {
             ],
             dependencies: [
                 .target(name: "Domain"),
-                .target(name: "RealmPlatform"),
-                .target(name: "InMemoryPlatform"),
-                .target(name: "GoogleDrivePlatform"),
+                .target(name: "DataDriver"),
                 .target(name: "Utility"),
                 .target(name: "Localization"),
-                .target(name: "UserDefaultsPlatform"),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxCocoa),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),

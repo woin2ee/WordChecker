@@ -7,7 +7,7 @@
 
 import Domain
 import Foundation
-import GoogleDrivePlatform
+import DataDriver
 import Swinject
 
 public final class GoogleDriveRepositoryAssembly: Assembly {
