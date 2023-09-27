@@ -6,8 +6,9 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import DataDriver
+@testable import DataDriver
 import Domain
+import ExtendedUserDefaults
 import RxBlocking
 import XCTest
 
@@ -18,11 +19,10 @@ final class UserSettingsRepositoryTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
 
-        let wcUserDefaults: WCUserDefaults = .init(_userDefaults: .init(suiteName: #file)!)
+        let userDefaults: ExtendedUserDefaults = .init(suiteName: #file)!
+        userDefaults.removeAllObject(forKeyType: UserDefaultsKey.self)
 
-        clearWCUserDefaults(wcUserDefaults)
-
-        sut = UserSettingsRepository.init(userDefaults: wcUserDefaults)
+        sut = UserSettingsRepository.init(userDefaults: userDefaults)
     }
 
     override func tearDownWithError() throws {

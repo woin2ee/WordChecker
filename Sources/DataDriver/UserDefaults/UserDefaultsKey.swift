@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import ExtendedUserDefaults
 
-enum UserDefaultsKey: String, CaseIterable {
+enum UserDefaultsKey: UserDefaultsKeyProtocol, CaseIterable {
 
     case translationSourceLocale
 
@@ -16,5 +17,9 @@ enum UserDefaultsKey: String, CaseIterable {
 
     /// 테스트용 Key 입니다.
     case test
+
+    var identifier: String {
+        return String(describing: self)
+    }
 
 }

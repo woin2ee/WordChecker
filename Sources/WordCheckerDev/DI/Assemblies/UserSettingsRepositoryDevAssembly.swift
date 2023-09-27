@@ -6,22 +6,22 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
+@testable import DataDriver
 import Domain
+import ExtendedUserDefaults
 import Foundation
 import iOSCore
 import LaunchArguments
 import Swinject
-@testable import DataDriver
 
 final class UserSettingsRepositoryDevAssembly: UserSettingsRepositoryAssembly {
 
     override func assemble(container: Container) {
         container.register(UserSettingsRepositoryProtocol.self) { _ in
-            let userDefaults: WCUserDefaults = .init(_userDefaults: .init(suiteName: "Dev")!)
-
+            let userDefaults: ExtendedUserDefaults = .init(suiteName: "Dev")!
             let arguments = ProcessInfo.processInfo.arguments
             if arguments.contains(LaunchArguments.initUserDefaults.rawValue) {
-                userDefaults.removeAllObject()
+                userDefaults.removeAllObject(forKeyType: UserDefaultsKey.self)
             }
 
             return UserSettingsRepository.init(userDefaults: userDefaults)

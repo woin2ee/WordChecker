@@ -19,6 +19,9 @@ let dependencies = Dependencies(
         // RxUtility
         .remote(url: "https://github.com/woin2ee/RxUtility.git",
                 requirement: .upToNextMajor(from: "1.0.0")),
+        // ExtendedUserDefaults
+        .remote(url: "https://github.com/Woin2ee-Modules/ExtendedUserDefaults.git",
+                requirement: .upToNextMajor(from: "1.0.0")),
         // SFSafeSymbols
         .remote(url: "https://github.com/SFSafeSymbols/SFSafeSymbols.git",
                 requirement: .upToNextMajor(from: "4.0.0")),
