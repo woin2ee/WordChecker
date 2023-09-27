@@ -1,5 +1,5 @@
 //
-//  GoogleDriveUseCaseTests.swift
+//  ExternalStoreUseCaseTests.swift
 //  DomainUnitTests
 //
 //  Created by Jaewon Yun on 2023/09/22.
@@ -11,7 +11,7 @@ import RxBlocking
 import Testing
 import XCTest
 
-final class GoogleDriveUseCaseTests: XCTestCase {
+final class ExternalStoreUseCaseTests: XCTestCase {
 
     var sut: ExternalStoreUseCaseProtocol!
 
