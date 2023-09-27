@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class Word: Equatable, Hashable {
+public final class Word: Equatable, Hashable, Codable {
 
     public let uuid: UUID
 
