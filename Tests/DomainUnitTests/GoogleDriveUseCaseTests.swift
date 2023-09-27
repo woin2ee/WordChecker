@@ -44,6 +44,58 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         XCTAssertEqual(testSampleWordList, googleDriveRepository._wordList)
     }
 
+    func test_uploadAfterSignInWithOutGrant() throws {
+        // Given
+        let wordRepository: WordRepositoryFake = .init(sampleData: testSampleWordList)
+
+        let googleDriveRepository: GoogleDriveRepositoryFake = .init()
+        googleDriveRepository._hasSignIn = true
+
+        sut = ExternalStoreUseCase.init(
+            wordRepository: wordRepository,
+            googleDriveRepository: googleDriveRepository,
+            unmemorizedWordListState: UnmemorizedWordListStateSpy()
+        )
+
+        let presentingConfig: PresentingConfiguration = .init(window: UIViewController())
+
+        // When
+        try sut.upload(presenting: presentingConfig)
+            .toBlocking()
+            .single()
+
+        // Then
+        XCTAssertEqual(testSampleWordList, googleDriveRepository._wordList)
+    }
+
+    func test_downloadBeforeSignIn() throws {
+        // Given
+        let driveData: [Word] = testSampleWordList + [.init(word: "Drive")]
+
+        let wordRepository: WordRepositoryFake = .init(sampleData: testSampleWordList)
+
+        let googleDriveRepository: GoogleDriveRepositoryFake = .init(sampleWordList: driveData)
+
+        let unmemorizedWordListState: UnmemorizedWordListStateSpy = .init()
+
+        sut = ExternalStoreUseCase.init(
+            wordRepository: wordRepository,
+            googleDriveRepository: googleDriveRepository,
+            unmemorizedWordListState: unmemorizedWordListState
+        )
+
+        let presentingConfig: PresentingConfiguration = .init(window: UIViewController())
+
+        // When
+        try sut.download(presenting: presentingConfig)
+            .toBlocking()
+            .single()
+
+        // Then
+        XCTAssertEqual(wordRepository._wordList, driveData)
+        XCTAssertEqual(Set(unmemorizedWordListState._storedWords), Set(driveData))
+    }
+
     func test_downloadWhenNeedSyncToDriveAfterSignIn() throws {
         // Given
         let driveData: [Word] = testSampleWordList + [.init(word: "Drive")]
