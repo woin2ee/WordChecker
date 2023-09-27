@@ -6,7 +6,7 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-@testable import UserDefaultsPlatform
+@testable import DataDriver
 import XCTest
 
 final class WCUserDefaultsTests: XCTestCase {

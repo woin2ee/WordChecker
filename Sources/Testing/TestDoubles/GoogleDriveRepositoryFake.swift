@@ -27,4 +27,28 @@ public final class GoogleDriveRepositoryFake: GoogleDriveRepositoryProtocol {
         return .just(_wordList)
     }
 
+    public func signInWithAppDataScope(presenting: Domain.PresentingConfiguration) -> RxSwift.Single<Void> {
+        fatalError()
+    }
+
+    public func signOut() {
+        fatalError()
+    }
+
+    public var hasSignIn: Bool {
+        fatalError()
+    }
+
+    public var isGrantedAppDataScope: Bool {
+        fatalError()
+    }
+
+    public func restorePreviousSignIn() -> Result<Void, Error> {
+        fatalError()
+    }
+
+    public func requestAccess(presenting: Domain.PresentingConfiguration) -> RxSwift.Single<Void> {
+        fatalError()
+    }
+
 }

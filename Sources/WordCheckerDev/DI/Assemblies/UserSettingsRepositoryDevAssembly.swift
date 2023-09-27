@@ -11,7 +11,7 @@ import Foundation
 import iOSCore
 import LaunchArguments
 import Swinject
-@testable import UserDefaultsPlatform
+@testable import DataDriver
 
 final class UserSettingsRepositoryDevAssembly: UserSettingsRepositoryAssembly {
 
