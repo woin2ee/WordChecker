@@ -7,9 +7,9 @@
 //
 
 import Combine
+import DataDriver
 import Domain
 import Foundation
-import State
 
 public final class UnmemorizedWordListStateSpy: UnmemorizedWordListStateProtocol {
 
