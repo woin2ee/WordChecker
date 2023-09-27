@@ -14,41 +14,66 @@ public final class GoogleDriveRepositoryFake: GoogleDriveRepositoryProtocol {
 
     public var _wordList: [Word] = []
 
+    public var _hasSignIn: Bool = false
+
+    public var _isGrantedAppDataScope: Bool = false
+
     public init(sampleWordList: [Word] = []) {
         _wordList = sampleWordList
     }
 
     public func uploadWordList(_ wordList: [Word]) -> Single<Void> {
+        if _hasSignIn == false || _isGrantedAppDataScope == false {
+            return .error(TestingError.testingError)
+        }
+
         _wordList = wordList
+
         return .just(())
     }
 
     public func downloadWordList() -> Single<[Word]> {
+        if _hasSignIn == false || _isGrantedAppDataScope == false {
+            return .error(TestingError.testingError)
+        }
+
         return .just(_wordList)
     }
 
     public func signInWithAppDataScope(presenting: Domain.PresentingConfiguration) -> RxSwift.Single<Void> {
-        fatalError()
+        _hasSignIn = true
+        _isGrantedAppDataScope = true
+
+        return .just(())
     }
 
     public func signOut() {
-        fatalError()
+        _hasSignIn = false
+        _isGrantedAppDataScope = false
     }
 
     public var hasSignIn: Bool {
-        fatalError()
+        _hasSignIn
     }
 
     public var isGrantedAppDataScope: Bool {
-        fatalError()
+        _isGrantedAppDataScope
     }
 
     public func restorePreviousSignIn() -> Result<Void, Error> {
-        fatalError()
+        _hasSignIn = true
+
+        return .success(())
     }
 
     public func requestAccess(presenting: Domain.PresentingConfiguration) -> RxSwift.Single<Void> {
-        fatalError()
+        if _hasSignIn == false {
+            return .error(TestingError.testingError)
+        }
+
+        _isGrantedAppDataScope = true
+
+        return .just(())
     }
 
 }

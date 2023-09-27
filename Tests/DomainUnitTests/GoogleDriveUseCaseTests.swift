@@ -15,28 +15,28 @@ final class GoogleDriveUseCaseTests: XCTestCase {
 
     var sut: ExternalStoreUseCaseProtocol!
 
-    override func setUpWithError() throws {
-        try super.setUpWithError()
-    }
-
     override func tearDownWithError() throws {
         try super.tearDownWithError()
 
         sut = nil
     }
 
-    func test_firstUpload() throws {
+    func test_firstUploadBeforeSignIn() throws {
         // Given
         let wordRepository: WordRepositoryFake = .init(sampleData: testSampleWordList)
+
         let googleDriveRepository: GoogleDriveRepositoryFake = .init()
+
         sut = ExternalStoreUseCase.init(
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
             unmemorizedWordListState: UnmemorizedWordListStateSpy()
         )
 
+        let presentingConfig: PresentingConfiguration = .init(window: UIViewController())
+
         // When
-        try sut.upload()
+        try sut.upload(presenting: presentingConfig)
             .toBlocking()
             .single()
 
@@ -44,13 +44,18 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         XCTAssertEqual(testSampleWordList, googleDriveRepository._wordList)
     }
 
-    func test_downloadWhenNeedSyncToDrive() throws {
+    func test_downloadWhenNeedSyncToDriveAfterSignIn() throws {
         // Given
         let driveData: [Word] = testSampleWordList + [.init(word: "Drive")]
 
         let wordRepository: WordRepositoryFake = .init(sampleData: testSampleWordList)
+
         let googleDriveRepository: GoogleDriveRepositoryFake = .init(sampleWordList: driveData)
+        googleDriveRepository._hasSignIn = true
+        googleDriveRepository._isGrantedAppDataScope = true
+
         let unmemorizedWordListState: UnmemorizedWordListStateSpy = .init()
+
         sut = ExternalStoreUseCase.init(
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
@@ -58,7 +63,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         )
 
         // When
-        try sut.download()
+        try sut.download(presenting: nil)
             .toBlocking()
             .single()
 
