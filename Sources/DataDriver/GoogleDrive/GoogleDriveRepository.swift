@@ -9,12 +9,16 @@
 import Domain
 import Foundation
 import GoogleSignIn
+import GoogleAPIClientForRESTCore
+import GoogleAPIClientForREST_Drive
 import RxSwift
 import UIKit
 
 public final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
 
     let gidSignIn: GIDSignIn
+
+    let backupFileName = "word_list_backup"
 
     public init(gidSignIn: GIDSignIn) {
         self.gidSignIn = gidSignIn
@@ -96,13 +100,67 @@ public final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
     }
 
     public func uploadWordList(_ wordList: [Domain.Word]) -> RxSwift.Single<Void> {
-        // GoogleDrive 저장
-        fatalError("Not implemented.")
+        guard let currentUser = gidSignIn.currentUser else {
+            return .error(GoogleDriveRepositoryError.noSignedInUser)
+        }
+
+        guard let data = try? JSONEncoder().encode(wordList) else {
+            return .error(EncodingError.invalidValue(wordList, .init(codingPath: [], debugDescription: "")))
+        }
+
+        let file: GTLRDrive_File = .init()
+        file.name = backupFileName
+        file.parents = ["appDataFolder"]
+
+        return .create { result in
+            Task {
+                do {
+                    try await GoogleDriveAPI(user: currentUser).create(for: file, with: data)
+                    result(.success(()))
+                } catch {
+                    result(.failure(error))
+                }
+            }
+
+            return Disposables.create()
+        }
     }
 
     public func downloadWordList() -> RxSwift.Single<[Domain.Word]> {
-        // GoogleDrive 가져오기
-        fatalError("Not implemented.")
+        guard let currentUser = gidSignIn.currentUser else {
+            return .error(GoogleDriveRepositoryError.noSignedInUser)
+        }
+
+        let service: GTLRDriveService = .init()
+        service.authorizer = currentUser.authentication.fetcherAuthorizer()
+
+        let filesListQuery: GTLRDriveQuery_FilesList = .query()
+        filesListQuery.q = "name = '\(backupFileName)' and trashed = false"
+        filesListQuery.spaces = "appDataFolder"
+
+        let api = GoogleDriveAPI(user: currentUser)
+
+        return .create { result in
+            Task {
+                do {
+                    let fileList = try await api.filesList(query: filesListQuery)
+
+                    guard let backupFileID = fileList.files?.first?.identifier else {
+                        result(.failure(GoogleDriveRepositoryError.noFileInDrive))
+                        return
+                    }
+
+                    let dataObject = try await api.files(forFileID: backupFileID)
+                    let decoded = try JSONDecoder().decode([Domain.Word].self, from: dataObject.data)
+
+                    result(.success(decoded))
+                } catch {
+                    result(.failure(error))
+                }
+            }
+
+            return Disposables.create()
+        }
     }
 
 }
@@ -118,5 +176,9 @@ enum GoogleDriveRepositoryError: Error {
     case noClientID
 
     case denyAccess
+
+    case noSignedInUser
+
+    case noFileInDrive
 
 }

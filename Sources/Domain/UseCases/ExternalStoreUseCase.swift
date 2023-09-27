@@ -82,6 +82,7 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
     public func download(presenting: PresentingConfiguration?) -> Single<Void> {
         func doDownload() -> Single<Void> {
             return googleDriveRepository.downloadWordList()
+                .observe(on: MainScheduler.instance)
                 .doOnSuccess { wordList in
                     self.wordRepository.reset(to: wordList)
                     self.unmemorizedWordListState.randomizeList(with: wordList)
