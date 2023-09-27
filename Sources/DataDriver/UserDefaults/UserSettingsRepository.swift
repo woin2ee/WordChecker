@@ -7,30 +7,38 @@
 //
 
 import Domain
+import ExtendedUserDefaults
+import ExtendedUserDefaultsRxExtension
 import Foundation
 import RxSwift
 import RxUtility
 
 public final class UserSettingsRepository: UserSettingsRepositoryProtocol {
 
-    let userDefaults: WCUserDefaults
+    let userDefaults: ExtendedUserDefaults
 
-    public init(userDefaults: WCUserDefaults) {
+    public init(userDefaults: ExtendedUserDefaults) {
         self.userDefaults = userDefaults
     }
 
     public func saveUserSettings(_ userSettings: Domain.UserSettings) -> RxSwift.Single<Void> {
         return Single.zip(
-            userDefaults.rx.setCodable(userSettings.translationSourceLocale, forKey: .translationSourceLocale),
-            userDefaults.rx.setCodable(userSettings.translationTargetLocale, forKey: .translationTargetLocale)
+            userDefaults.rx.setCodable(
+                userSettings.translationSourceLocale,
+                forKey: UserDefaultsKey.translationSourceLocale
+            ),
+            userDefaults.rx.setCodable(
+                userSettings.translationTargetLocale,
+                forKey: UserDefaultsKey.translationTargetLocale
+            )
         )
         .mapToVoid()
     }
 
     public func getUserSettings() -> RxSwift.Single<Domain.UserSettings> {
         return Single.zip(
-            userDefaults.rx.object(TranslationLanguage.self, forKey: .translationSourceLocale),
-            userDefaults.rx.object(TranslationLanguage.self, forKey: .translationTargetLocale)
+            userDefaults.rx.object(TranslationLanguage.self, forKey: UserDefaultsKey.translationSourceLocale),
+            userDefaults.rx.object(TranslationLanguage.self, forKey: UserDefaultsKey.translationTargetLocale)
         )
         .map { sourceLocale, targetLocale -> Domain.UserSettings in
             return .init(translationSourceLocale: sourceLocale, translationTargetLocale: targetLocale)

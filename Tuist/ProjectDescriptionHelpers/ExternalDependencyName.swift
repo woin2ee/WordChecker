@@ -11,6 +11,8 @@ public struct ExternalDependencyName {
     public static let realm = "Realm"
     public static let realmSwift = "RealmSwift"
     public static let rxUtilityDynamic = "RxUtility-Dynamic"
+    public static let extendedUserDefaults = "ExtendedUserDefaults"
+    public static let extendedUserDefaultsRxExtension = "ExtendedUserDefaultsRxExtension"
     public static let sfSafeSymbols = "SFSafeSymbols"
     public static let then = "Then"
     public static let toast = "Toast"

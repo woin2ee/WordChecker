@@ -44,6 +44,8 @@ func targets() -> [Target] {
                 .package(product: ExternalDependencyName.googleSignIn),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
+                .external(name: ExternalDependencyName.extendedUserDefaults),
+                .external(name: ExternalDependencyName.extendedUserDefaultsRxExtension),
                 .target(name: "Domain"),
                 .target(name: "Utility"),
             ],

@@ -8,6 +8,7 @@
 
 import DataDriver
 import Domain
+import ExtendedUserDefaults
 import Foundation
 import Swinject
 
@@ -17,7 +18,7 @@ open class UserSettingsRepositoryAssembly: Assembly {
 
     open func assemble(container: Container) {
         container.register(UserSettingsRepositoryProtocol.self) { _ in
-            let userDefaults: WCUserDefaults = .init(_userDefaults: .standard)
+            let userDefaults: ExtendedUserDefaults = .standard
             return UserSettingsRepository.init(userDefaults: userDefaults)
         }
     }
