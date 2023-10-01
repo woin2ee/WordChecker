@@ -21,6 +21,7 @@ open class UserSettingsRepositoryAssembly: Assembly {
             let userDefaults: ExtendedUserDefaults = .standard
             return UserSettingsRepository.init(userDefaults: userDefaults)
         }
+        .inObjectScope(.container)
     }
 
 }
