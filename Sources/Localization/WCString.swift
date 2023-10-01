@@ -36,10 +36,10 @@ public struct WCString {
     public static let translation_language = NSLocalizedString("translation_language", bundle: Bundle.module, comment: "")
     public static let sync_google_drive = NSLocalizedString("sync_google_drive", bundle: Bundle.module, comment: "")
     public static let google_drive_upload = NSLocalizedString("google_drive_upload", bundle: Bundle.module, comment: "")
-    public static let upload_successful = NSLocalizedString("upload_successful", bundle: Bundle.module, comment: "")
+    public static let google_drive_upload_successfully = NSLocalizedString("google_drive_upload_successfully", bundle: Bundle.module, comment: "")
 
     public static let google_drive_download = NSLocalizedString("google_drive_download", bundle: Bundle.module, comment: "")
-    public static let download_successful = NSLocalizedString("download_successful", bundle: Bundle.module, comment: "")
+    public static let google_drive_download_successfully = NSLocalizedString("google_drive_download_successfully", bundle: Bundle.module, comment: "")
     public static let google_drive_logout = NSLocalizedString("google_drive_logout", bundle: Bundle.module, comment: "")
     public static let signed_out_of_google_drive = NSLocalizedString("signed_out_of_google_drive", bundle: Bundle.module, comment: "")
 
