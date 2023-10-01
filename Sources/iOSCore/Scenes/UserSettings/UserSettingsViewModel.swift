@@ -77,7 +77,7 @@ final class UserSettingsViewModel: ViewModelType {
             .asSignalOnErrorJustComplete()
 
         let googleDriveUploadComplete = input.selectItem
-            .filter { $0.section == 1 && $0.row == 0 }
+            .filter { $0.section == 1 && $0.row == 0 } // 업로드 버튼
             .mapToVoid()
             .withLatestFrom(input.presentingConfiguration)
             .flatMapFirst {
@@ -88,12 +88,11 @@ final class UserSettingsViewModel: ViewModelType {
             .withLatestFrom(input.presentingConfiguration)
             .flatMapFirst {
                 return self.externalStoreUseCase.upload(presenting: $0)
-                    .mapToVoid()
                     .asSignalOnErrorJustComplete()
             }
 
         let googleDriveDownloadComplete = input.selectItem
-            .filter { $0.section == 1 && $0.row == 1 }
+            .filter { $0.section == 1 && $0.row == 1 } // 다운로드 버튼
             .mapToVoid()
             .withLatestFrom(input.presentingConfiguration)
             .flatMapFirst {
