@@ -8,7 +8,6 @@
 
 import Domain
 import Foundation
-import Localization
 
 struct UserSettingsItemModel: Hashable, Sendable {
 

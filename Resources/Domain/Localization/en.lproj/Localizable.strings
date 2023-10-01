@@ -1,0 +1,17 @@
+/* 
+  Localizable.strings
+  WordChecker
+
+  Created by Jaewon Yun on 2023/10/01.
+  
+*/
+
+korean = "Korean";
+english = "English";
+japanese = "Japanese";
+chinese = "Chinese";
+french = "French";
+spanish = "Spanish";
+italian = "Italian";
+german = "German";
+russian = "Russian";

@@ -6,7 +6,6 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import Localization
 import SFSafeSymbols
 import UIKit
 

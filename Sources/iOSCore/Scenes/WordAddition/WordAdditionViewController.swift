@@ -5,7 +5,6 @@
 //  Created by Jaewon Yun on 2023/09/09.
 //
 
-import Localization
 import RxSwift
 import RxCocoa
 import RxUtility

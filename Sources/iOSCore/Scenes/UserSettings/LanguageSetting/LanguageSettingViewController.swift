@@ -7,7 +7,6 @@
 //
 
 import Domain
-import Localization
 import RxSwift
 import SnapKit
 import Then

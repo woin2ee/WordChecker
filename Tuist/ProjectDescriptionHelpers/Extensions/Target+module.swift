@@ -8,6 +8,16 @@
 import Foundation
 import ProjectDescription
 
+public enum ResourceOption {
+
+    case common
+
+    case `default`
+
+    case additional(ProjectDescription.ResourceFileElement)
+
+}
+
 extension Target {
 
     /// Parameters 에 따라 Target 을 만들고 Unit Tests Target 을 추가하거나 Scheme 을 추가하는 등의 작업을 수행합니다.
@@ -22,7 +32,8 @@ extension Target {
         product: ProjectDescription.Product,
         bundleId: String? = nil,
         deploymentTarget: ProjectDescription.DeploymentTarget,
-        resources: ProjectDescription.ResourceFileElements? = nil,
+        resourceOptions: [ResourceOption] = [],
+//        resources: ProjectDescription.ResourceFileElements? = nil,
         entitlements: ProjectDescription.Path? = nil,
         scripts: [ProjectDescription.TargetScript] = [],
         dependencies: [ProjectDescription.TargetDependency] = [],
@@ -36,6 +47,19 @@ extension Target {
         appendSchemeTo scheme: inout [Scheme]
     ) -> [Target] {
         let bundleId = bundleId ?? "\(BASIC_BUNDLE_ID).\(name)"
+
+        let resourceFileElements = resourceOptions
+            .reduce(into: [ResourceFileElement](), { partialResult, option in
+                switch option {
+                case .common:
+                    partialResult.append("Resources/Common/**")
+                case .default:
+                    partialResult.append("Resources/\(name)/**")
+                case .additional(let resourceFileElement):
+                    partialResult.append(resourceFileElement)
+                }
+            })
+        let resources: ResourceFileElements = .init(resources: resourceFileElements)
 
         if hasUnitTests {
             let moduleScheme: Scheme = .init(

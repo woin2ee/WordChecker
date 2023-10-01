@@ -8,7 +8,6 @@
 
 import Domain
 import Foundation
-import Localization
 import RxSwift
 import RxCocoa
 import RxUtility
