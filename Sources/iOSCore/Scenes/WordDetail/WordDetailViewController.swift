@@ -7,7 +7,6 @@
 
 import Combine
 import Domain
-import Localization
 import SnapKit
 import Then
 import UIKit

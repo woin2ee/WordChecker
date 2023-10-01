@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Localization
 
 public enum TranslationLanguage: CaseIterable, Codable, Sendable {
 
@@ -32,23 +31,23 @@ public enum TranslationLanguage: CaseIterable, Codable, Sendable {
     public var localizedString: String {
         switch self {
         case .korean:
-            WCString.korean
+            DomainString.korean
         case .english:
-            WCString.english
+            DomainString.english
         case .japanese:
-            WCString.japanese
+            DomainString.japanese
         case .chinese:
-            WCString.chinese
+            DomainString.chinese
         case .french:
-            WCString.french
+            DomainString.french
         case .spanish:
-            WCString.spanish
+            DomainString.spanish
         case .italian:
-            WCString.italian
+            DomainString.italian
         case .german:
-            WCString.german
+            DomainString.german
         case .russian:
-            WCString.russian
+            DomainString.russian
         }
     }
 

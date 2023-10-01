@@ -6,7 +6,6 @@
 //
 
 import Combine
-import Localization
 import SFSafeSymbols
 import SnapKit
 import Then

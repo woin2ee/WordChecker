@@ -7,7 +7,6 @@
 
 import Combine
 import Domain
-import Localization
 import UIKit
 
 final class WordSearchResultsController: UITableViewController {

@@ -18,11 +18,11 @@ func targets() -> [Target] {
             platform: .iOS,
             product: .framework,
             deploymentTarget: DEPLOYMENT_TARGET,
+            resourceOptions: [.default],
             dependencies: [
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
                 .target(name: "Utility"),
-                .target(name: "Localization"),
             ],
             hasUnitTests: true,
             additionalTestDependencies: [
@@ -61,6 +61,7 @@ func targets() -> [Target] {
             product: .framework,
             deploymentTarget: DEPLOYMENT_TARGET,
             scripts: [
+                // 공동 작업자의 githook path 자동 세팅을 위함
                 .pre(
                     path: "Scripts/set_githooks_path.sh",
                     name: "Set githooks path",
@@ -75,14 +76,6 @@ func targets() -> [Target] {
             platform: .iOS,
             product: .framework,
             deploymentTarget: DEPLOYMENT_TARGET,
-            appendSchemeTo: &schemes
-        )
-        + Target.module(
-            name: "Localization",
-            platform: .iOS,
-            product: .framework,
-            deploymentTarget: DEPLOYMENT_TARGET,
-            resources: ["Resources/Localization/**"],
             appendSchemeTo: &schemes
         )
         + Target.module(
@@ -104,14 +97,11 @@ func targets() -> [Target] {
             platform: .iOS,
             product: .framework,
             deploymentTarget: DEPLOYMENT_TARGET,
-            resources: [
-                "Resources/Common/**"
-            ],
+            resourceOptions: [.default, .common],
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "DataDriver"),
                 .target(name: "Utility"),
-                .target(name: "Localization"),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxCocoa),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
@@ -172,7 +162,6 @@ func targets() -> [Target] {
                     .target(name: "\(PROJECT_NAME)Dev"),
                     .target(name: "iOSCore"),
                     .target(name: "LaunchArguments"),
-                    .target(name: "Localization"),
                     .package(product: "Realm"),
                 ]
             ),

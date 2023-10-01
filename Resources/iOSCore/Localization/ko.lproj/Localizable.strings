@@ -54,13 +54,3 @@ google_drive_logout = "구글 드라이브에서 로그아웃";
 signed_out_of_google_drive = "구글 드라이브에서 로그아웃되었습니다.";
 
 synchronize_to_google_drive = "구글 드라이브에 동기화 합니다.";
-
-korean = "한국어";
-english = "영어";
-japanese = "일본어";
-chinese = "중국어";
-french = "프랑스어";
-spanish = "스페인어";
-italian = "이탈리아어";
-german = "독일어";
-russian = "러시아어";

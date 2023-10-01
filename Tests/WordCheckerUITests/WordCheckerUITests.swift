@@ -5,9 +5,9 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
-import iOSCore
+@testable import Domain
+@testable import iOSCore
 import LaunchArguments
-import Localization
 import XCTest
 
 final class WordCheckerUITests: XCTestCase {
@@ -136,12 +136,12 @@ final class WordCheckerUITests: XCTestCase {
         moveSettingsTap()
 
         app.tables.element.staticTexts[WCString.source_language].tap()
-        app.tables.element.staticTexts[WCString.russian].tap()
-        app.tables.element.staticTexts[WCString.russian].assertExistence()
+        app.tables.element.staticTexts[DomainString.russian].tap()
+        app.tables.element.staticTexts[DomainString.russian].assertExistence()
 
         app.tables.element.staticTexts[WCString.translation_language].tap()
-        app.tables.element.staticTexts[WCString.italian].tap()
-        app.tables.element.staticTexts[WCString.italian].assertExistence()
+        app.tables.element.staticTexts[DomainString.italian].tap()
+        app.tables.element.staticTexts[DomainString.italian].assertExistence()
     }
 
 }

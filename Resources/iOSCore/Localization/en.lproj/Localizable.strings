@@ -54,13 +54,3 @@ google_drive_logout = "Google Drive Logout";
 signed_out_of_google_drive = "Signed out of Google Drive.";
 
 synchronize_to_google_drive = "Synchronize to Google Drive.";
-
-korean = "Korean";
-english = "English";
-japanese = "Japanese";
-chinese = "Chinese";
-french = "French";
-spanish = "Spanish";
-italian = "Italian";
-german = "German";
-russian = "Russian";
