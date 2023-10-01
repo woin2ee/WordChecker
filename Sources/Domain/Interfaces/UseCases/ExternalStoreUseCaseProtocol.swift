@@ -21,9 +21,9 @@ public protocol ExternalStoreUseCaseProtocol {
     func restorePreviousSignIn() -> Result<Void, Error>
 
     /// - Parameter presenting: 구글 드라이브 로그인이 되어있지 않을 때 로그인 화면을 제시하는데 사용되는 구성
-    func upload(presenting: PresentingConfiguration?) -> Single<Void>
+    func upload(presenting: PresentingConfiguration?) -> Observable<ProgressStatus>
 
     /// - Parameter presenting: 구글 드라이브 로그인이 되어있지 않을 때 로그인 화면을 제시하는데 사용되는 구성
-    func download(presenting: PresentingConfiguration?) -> Single<Void>
+    func download(presenting: PresentingConfiguration?) -> Observable<ProgressStatus>
 
 }

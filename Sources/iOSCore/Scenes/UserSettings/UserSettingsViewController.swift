@@ -104,15 +104,25 @@ final class UserSettingsViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
 
-        output.googleDriveUploadComplete
-            .emit(with: self, onNext: { owner, _ in
-                owner.presentOKAlert(title: WCString.notice, message: WCString.google_drive_upload_successfully)
+        output.googleDriveUploadStatus
+            .emit(with: self, onNext: { owner, status in
+                switch status {
+                case .inProgress:
+                    break
+                case .complete:
+                    owner.presentOKAlert(title: WCString.notice, message: WCString.google_drive_upload_successfully)
+                }
             })
             .disposed(by: disposeBag)
 
-        output.googleDriveDownloadComplete
-            .emit(with: self, onNext: { owner, _ in
-                owner.presentOKAlert(title: WCString.notice, message: WCString.google_drive_download_successfully)
+        output.googleDriveDownloadStatus
+            .emit(with: self, onNext: { owner, status in
+                switch status {
+                case .inProgress:
+                    break
+                case .complete:
+                    owner.presentOKAlert(title: WCString.notice, message: WCString.google_drive_download_successfully)
+                }
             })
             .disposed(by: disposeBag)
 
