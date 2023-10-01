@@ -14,8 +14,6 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    let disposeBag: DisposeBag = .init()
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         DIContainer.shared.assembler = .init([
             UseCaseAssembly(),
@@ -75,7 +73,7 @@ extension AppDelegate {
                     .mapToVoid()
             }
             .subscribe()
-            .disposed(by: disposeBag)
+            .dispose()
     }
 
     func attemptRestoreGoogleSignInState() {
