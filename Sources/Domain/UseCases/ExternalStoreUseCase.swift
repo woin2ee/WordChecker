@@ -53,57 +53,123 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
         return googleDriveRepository.restorePreviousSignIn()
     }
 
-    public func upload(presenting: PresentingConfiguration?) -> Single<Void> {
-        func doUpload() -> Single<Void> {
-            let wordList = wordRepository.getAll()
-            return googleDriveRepository.uploadWordList(wordList)
-        }
+    public func upload(presenting: PresentingConfiguration?) -> Observable<ProgressStatus> {
+        return .create { observer in
+            var disposables: [Disposable] = []
 
-        if hasSignIn, googleDriveRepository.isGrantedAppDataScope {
-            return doUpload()
-        }
+            /// 권한 부여 상태에 따라 `Google Drive` 에 업로드를 시작하고 경과에 따라 `observer` 에 적절한 Event 를 보냅니다.
+            ///
+            /// 권한이 있는 경우 즉시 `ProgressStatus.inProgress` 값을 가진 `Next Event` 를 생성하고 `Google Drive` 에 업로드를 시작합니다. 업로드가 성공하면 `ProgressStatus.complete` 값을 가진 `Next Event` 를 보내고 시퀀스가 종료됩니다.
+            ///
+            /// 권한이 없는 상태거나 업로드가 실패하면 이유에 맞는 `Error Event` 를 보내고 시퀀스가 종료됩니다.
+            ///
+            /// - Parameter authorizationStatus: 권한 부여 상태.
+            func doUpload(authorizationStatus: SingleEvent<Void>) {
+                switch authorizationStatus {
+                case .success:
+                    observer.onNext(.inProgress)
 
-        guard let presenting = presenting else {
-            return .error(ExternalStoreUseCaseError.noPresentingConfiguration)
-        }
+                    let wordList = self.wordRepository.getAll()
 
-        if hasSignIn {
-            return googleDriveRepository.requestAccess(presenting: presenting)
-                .flatMap { doUpload() }
-        }
+                    let disposable = self.googleDriveRepository.uploadWordList(wordList)
+                        .subscribe(
+                            onSuccess: { _ in
+                                observer.onNext(.complete)
+                                observer.onCompleted()
+                            },
+                            onFailure: { error in
+                                observer.onError(error)
+                            }
+                        )
+                    disposables.append(disposable)
+                case .failure(let error):
+                    observer.onError(error)
+                }
+            }
 
-        return signInWithAppDataScope(presenting: presenting)
-            .flatMap { self.googleDriveRepository.requestAccess(presenting: presenting) }
-            .flatMap { doUpload() }
+            if self.hasSignIn, self.googleDriveRepository.isGrantedAppDataScope {
+                doUpload(authorizationStatus: .success(()))
+                return Disposables.create(disposables)
+            }
+
+            guard let presenting = presenting else {
+                observer.onError(ExternalStoreUseCaseError.noPresentingConfiguration)
+                return Disposables.create()
+            }
+
+            if self.hasSignIn {
+                let disposable = self.googleDriveRepository.requestAccess(presenting: presenting)
+                    .subscribe(doUpload(authorizationStatus:))
+                disposables.append(disposable)
+                return Disposables.create(disposables)
+            }
+
+            let disposable = self.signInWithAppDataScope(presenting: presenting)
+                .subscribe(doUpload(authorizationStatus:))
+            disposables.append(disposable)
+            return Disposables.create(disposables)
+        }
     }
 
-    public func download(presenting: PresentingConfiguration?) -> Single<Void> {
-        func doDownload() -> Single<Void> {
-            return googleDriveRepository.downloadWordList()
-                .observe(on: MainScheduler.instance)
-                .doOnSuccess { wordList in
-                    self.wordRepository.reset(to: wordList)
-                    self.unmemorizedWordListState.randomizeList(with: wordList)
+    public func download(presenting: PresentingConfiguration?) -> Observable<ProgressStatus> {
+        return .create { observer in
+            var disposables: [Disposable] = []
+
+            /// 권한 부여 상태에 따라 `Google Drive` 로부터 다운로드를 시작하고 경과에 따라 `observer` 에 적절한 Event 를 보냅니다.
+            ///
+            /// 권한이 있는 경우 즉시 `ProgressStatus.inProgress` 값을 가진 `Next Event` 를 생성하고 `Google Drive` 로부터 다운로드를 시작합니다. 다운로드가 성공하면 단어 목록을 동기화한 뒤, `ProgressStatus.complete` 값을 가진 `Next Event` 를 보내고 시퀀스가 종료됩니다.
+            ///
+            /// 권한이 없는 상태거나 다운로드가 실패하면 이유에 맞는 `Error Event` 를 보내고 시퀀스가 종료됩니다.
+            ///
+            /// - Parameter authorizationStatus: 권한 부여 상태.
+            func doDownload(authorizationStatus: SingleEvent<Void>) {
+                switch authorizationStatus {
+                case .success:
+                    observer.onNext(.inProgress)
+
+                    let disposable = self.googleDriveRepository.downloadWordList()
+                        .observe(on: MainScheduler.instance)
+                        .doOnSuccess { wordList in
+                            self.wordRepository.reset(to: wordList)
+                            self.unmemorizedWordListState.randomizeList(with: wordList)
+                        }
+                        .subscribe(
+                            onSuccess: { _ in
+                                observer.onNext(.complete)
+                                observer.onCompleted()
+                            },
+                            onFailure: { error in
+                                observer.onError(error)
+                            }
+                        )
+                    disposables.append(disposable)
+                case .failure(let error):
+                    observer.onError(error)
                 }
-                .mapToVoid()
-        }
+            }
 
-        if hasSignIn, googleDriveRepository.isGrantedAppDataScope {
-            return doDownload()
-        }
+            if self.hasSignIn, self.googleDriveRepository.isGrantedAppDataScope {
+                doDownload(authorizationStatus: .success(()))
+                return Disposables.create(disposables)
+            }
 
-        guard let presenting = presenting else {
-            return .error(ExternalStoreUseCaseError.noPresentingConfiguration)
-        }
+            guard let presenting = presenting else {
+                observer.onError(ExternalStoreUseCaseError.noPresentingConfiguration)
+                return Disposables.create(disposables)
+            }
 
-        if hasSignIn {
-            return googleDriveRepository.requestAccess(presenting: presenting)
-                .flatMap { doDownload() }
-        }
+            if self.hasSignIn {
+                let disposable = self.googleDriveRepository.requestAccess(presenting: presenting)
+                    .subscribe(doDownload(authorizationStatus:))
+                disposables.append(disposable)
+                return Disposables.create(disposables)
+            }
 
-        return signInWithAppDataScope(presenting: presenting)
-            .flatMap { self.googleDriveRepository.requestAccess(presenting: presenting) }
-            .flatMap { doDownload() }
+            let disposable = self.signInWithAppDataScope(presenting: presenting)
+                .subscribe(doDownload(authorizationStatus:))
+            disposables.append(disposable)
+            return Disposables.create(disposables)
+        }
     }
 
 }

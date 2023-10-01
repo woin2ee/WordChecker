@@ -76,7 +76,7 @@ final class UserSettingsViewModel: ViewModelType {
             .compactMap { $0 }
             .asSignalOnErrorJustComplete()
 
-        let googleDriveUploadComplete = input.selectItem
+        let googleDriveUploadStatus = input.selectItem
             .filter { $0.section == 1 && $0.row == 0 } // 업로드 버튼
             .mapToVoid()
             .withLatestFrom(input.presentingConfiguration)
@@ -91,7 +91,7 @@ final class UserSettingsViewModel: ViewModelType {
                     .asSignalOnErrorJustComplete()
             }
 
-        let googleDriveDownloadComplete = input.selectItem
+        let googleDriveDownloadStatus = input.selectItem
             .filter { $0.section == 1 && $0.row == 1 } // 다운로드 버튼
             .mapToVoid()
             .withLatestFrom(input.presentingConfiguration)
@@ -114,8 +114,8 @@ final class UserSettingsViewModel: ViewModelType {
         return .init(
             userSettingsDataSource: dataSource,
             showLanguageSetting: showLanguageSetting,
-            googleDriveUploadComplete: googleDriveUploadComplete,
-            googleDriveDownloadComplete: googleDriveDownloadComplete,
+            googleDriveUploadStatus: googleDriveUploadStatus,
+            googleDriveDownloadStatus: googleDriveDownloadStatus,
             googleDriveSignOutComplete: googleDriveSignOutComplete
         )
     }
@@ -138,9 +138,9 @@ extension UserSettingsViewModel {
 
         let showLanguageSetting: Signal<(settingsDirection: LanguageSettingViewModel.SettingsDirection, currentSettingLocale: TranslationLanguage)>
 
-        let googleDriveUploadComplete: Signal<Void>
+        let googleDriveUploadStatus: Signal<ProgressStatus>
 
-        let googleDriveDownloadComplete: Signal<Void>
+        let googleDriveDownloadStatus: Signal<ProgressStatus>
 
         let googleDriveSignOutComplete: Signal<Void>
 
