@@ -11,8 +11,8 @@ import Domain
 import ExtendedUserDefaults
 import Foundation
 import iOSCore
-import LaunchArguments
 import Swinject
+import Testing
 
 final class UserSettingsRepositoryDevAssembly: UserSettingsRepositoryAssembly {
 

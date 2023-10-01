@@ -72,13 +72,6 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "LaunchArguments",
-            platform: .iOS,
-            product: .framework,
-            deploymentTarget: DEPLOYMENT_TARGET,
-            appendSchemeTo: &schemes
-        )
-        + Target.module(
             name: "Testing",
             platform: .iOS,
             product: .framework,
@@ -147,7 +140,7 @@ func targets() -> [Target] {
                 ],
                 dependencies: [
                     .target(name: "iOSCore"),
-                    .target(name: "LaunchArguments"),
+                    .target(name: "Testing"),
                 ],
                 settings: .settings()
             ),
@@ -161,7 +154,7 @@ func targets() -> [Target] {
                 dependencies: [
                     .target(name: "\(PROJECT_NAME)Dev"),
                     .target(name: "iOSCore"),
-                    .target(name: "LaunchArguments"),
+                    .target(name: "Testing"),
                     .package(product: "Realm"),
                 ]
             ),

@@ -7,7 +7,7 @@
 
 @testable import Domain
 @testable import iOSCore
-import LaunchArguments
+import Testing
 import XCTest
 
 final class WordCheckerUITests: XCTestCase {
