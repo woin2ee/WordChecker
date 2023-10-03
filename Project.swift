@@ -8,6 +8,7 @@ let localHelper = LocalHelper(name: "MyPlugin")
 // MARK: - Targets
 
 var schemes: [Scheme] = []
+var disposedSchemes: [Scheme] = []
 
 // swiftlint:disable:next function_body_length
 func targets() -> [Target] {
@@ -83,7 +84,7 @@ func targets() -> [Target] {
                 .target(name: "iOSCore"),
                 .external(name: ExternalDependencyName.rxSwift),
             ],
-            appendSchemeTo: &schemes
+            appendSchemeTo: &disposedSchemes
         )
         + Target.module(
             name: "iOSCore",
