@@ -36,11 +36,12 @@ final class ExternalStoreUseCaseTests: XCTestCase {
         let presentingConfig: PresentingConfiguration = .init(window: UIViewController())
 
         // When
-        try sut.upload(presenting: presentingConfig)
+        let elements = try sut.upload(presenting: presentingConfig)
             .toBlocking()
-            .single()
+            .toArray()
 
         // Then
+        XCTAssertEqual(elements, [.inProgress, .complete])
         XCTAssertEqual(testSampleWordList, googleDriveRepository._wordList)
     }
 
@@ -60,11 +61,12 @@ final class ExternalStoreUseCaseTests: XCTestCase {
         let presentingConfig: PresentingConfiguration = .init(window: UIViewController())
 
         // When
-        try sut.upload(presenting: presentingConfig)
+        let elements = try sut.upload(presenting: presentingConfig)
             .toBlocking()
-            .single()
+            .toArray()
 
         // Then
+        XCTAssertEqual(elements, [.inProgress, .complete])
         XCTAssertEqual(testSampleWordList, googleDriveRepository._wordList)
     }
 
@@ -87,11 +89,12 @@ final class ExternalStoreUseCaseTests: XCTestCase {
         let presentingConfig: PresentingConfiguration = .init(window: UIViewController())
 
         // When
-        try sut.download(presenting: presentingConfig)
+        let elements = try sut.download(presenting: presentingConfig)
             .toBlocking()
-            .single()
+            .toArray()
 
         // Then
+        XCTAssertEqual(elements, [.inProgress, .complete])
         XCTAssertEqual(wordRepository._wordList, driveData)
         XCTAssertEqual(Set(unmemorizedWordListState._storedWords), Set(driveData))
     }
@@ -115,11 +118,12 @@ final class ExternalStoreUseCaseTests: XCTestCase {
         )
 
         // When
-        try sut.download(presenting: nil)
+        let elements = try sut.download(presenting: nil)
             .toBlocking()
-            .single()
+            .toArray()
 
         // Then
+        XCTAssertEqual(elements, [.inProgress, .complete])
         XCTAssertEqual(wordRepository._wordList, driveData)
         XCTAssertEqual(Set(unmemorizedWordListState._storedWords), Set(driveData))
     }

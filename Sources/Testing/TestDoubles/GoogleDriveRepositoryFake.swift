@@ -7,8 +7,8 @@
 //
 
 import Domain
-import RxSwift
 import Foundation
+import RxSwift
 
 public final class GoogleDriveRepositoryFake: GoogleDriveRepositoryProtocol {
 
@@ -23,8 +23,12 @@ public final class GoogleDriveRepositoryFake: GoogleDriveRepositoryProtocol {
     }
 
     public func uploadWordList(_ wordList: [Word]) -> Single<Void> {
-        if _hasSignIn == false || _isGrantedAppDataScope == false {
-            return .error(TestingError.testingError)
+        if _hasSignIn == false {
+            return .error(GoogleDriveRepositoryFakeError.noSignedIn)
+        }
+
+        if _isGrantedAppDataScope == false {
+            return .error(GoogleDriveRepositoryFakeError.noGranted)
         }
 
         _wordList = wordList
@@ -33,8 +37,12 @@ public final class GoogleDriveRepositoryFake: GoogleDriveRepositoryProtocol {
     }
 
     public func downloadWordList() -> Single<[Word]> {
-        if _hasSignIn == false || _isGrantedAppDataScope == false {
-            return .error(TestingError.testingError)
+        if _hasSignIn == false {
+            return .error(GoogleDriveRepositoryFakeError.noSignedIn)
+        }
+
+        if _isGrantedAppDataScope == false {
+            return .error(GoogleDriveRepositoryFakeError.noGranted)
         }
 
         return .just(_wordList)
@@ -68,12 +76,20 @@ public final class GoogleDriveRepositoryFake: GoogleDriveRepositoryProtocol {
 
     public func requestAccess(presenting: Domain.PresentingConfiguration) -> RxSwift.Single<Void> {
         if _hasSignIn == false {
-            return .error(TestingError.testingError)
+            return .error(GoogleDriveRepositoryFakeError.noSignedIn)
         }
 
         _isGrantedAppDataScope = true
 
         return .just(())
     }
+
+}
+
+enum GoogleDriveRepositoryFakeError: Error {
+
+    case noSignedIn
+
+    case noGranted
 
 }
