@@ -20,7 +20,7 @@ public final class ExternalStoreUseCaseAssembly: Assembly {
             let googleDriveRepository: GoogleDriveRepositoryProtocol = resolver.resolve()
             let state: UnmemorizedWordListStateProtocol = resolver.resolve()
 
-            return ExternalStoreUseCase.init(
+            return GoogleDriveUseCase.init(
                 wordRepository: wordRepository,
                 googleDriveRepository: googleDriveRepository,
                 unmemorizedWordListState: state

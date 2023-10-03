@@ -16,9 +16,9 @@ public protocol GoogleDriveRepositoryProtocol {
 
     func signOut()
 
-    var hasSignIn: Bool { get }
+    var hasSigned: Bool { get }
 
-    func restorePreviousSignIn() -> Result<Void, Error>
+    func restorePreviousSignIn() -> Single<Void>
 
     func requestAccess(presenting: PresentingConfiguration) -> Single<Void>
 

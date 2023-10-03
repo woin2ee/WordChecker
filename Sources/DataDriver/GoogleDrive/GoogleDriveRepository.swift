@@ -43,7 +43,7 @@ public final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
                 hint: nil,
                 additionalScopes: [ScopeCode.appData]
             ) { user, error in
-                if error != nil, user == nil {
+                if error != nil || user == nil {
                     result(.failure(GoogleDriveRepositoryError.failedSignIn))
                 } else {
                     result(.success(()))
@@ -58,17 +58,21 @@ public final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
         gidSignIn.signOut()
     }
 
-    public var hasSignIn: Bool {
+    public var hasSigned: Bool {
         return gidSignIn.currentUser != nil
     }
 
-    public func restorePreviousSignIn() -> Result<Void, Error> {
-        gidSignIn.restorePreviousSignIn()
+    public func restorePreviousSignIn() -> Single<Void> {
+        return .create { result in
+            self.gidSignIn.restorePreviousSignIn { user, error in
+                if error != nil || user == nil {
+                    result(.failure(GoogleDriveRepositoryError.failedRestorePreviousSignIn))
+                } else {
+                    result(.success(()))
+                }
+            }
 
-        if gidSignIn.currentUser != nil {
-            return .success(())
-        } else {
-            return .failure(GoogleDriveRepositoryError.failedRestorePreviousSignIn)
+            return Disposables.create()
         }
     }
 
@@ -79,7 +83,7 @@ public final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
 
         return .create { result in
             self.gidSignIn.addScopes([ScopeCode.appData], presenting: presentingViewController) { user, error in
-                if error != nil, user == nil {
+                if error != nil || user == nil {
                     result(.failure(GoogleDriveRepositoryError.denyAccess))
                 } else {
                     result(.success(()))
