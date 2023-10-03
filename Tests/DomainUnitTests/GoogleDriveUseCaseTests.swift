@@ -1,5 +1,5 @@
 //
-//  ExternalStoreUseCaseTests.swift
+//  GoogleDriveUseCaseTests.swift
 //  DomainUnitTests
 //
 //  Created by Jaewon Yun on 2023/09/22.
@@ -11,7 +11,7 @@ import RxBlocking
 import Testing
 import XCTest
 
-final class ExternalStoreUseCaseTests: XCTestCase {
+final class GoogleDriveUseCaseTests: XCTestCase {
 
     var sut: ExternalStoreUseCaseProtocol!
 
@@ -27,7 +27,7 @@ final class ExternalStoreUseCaseTests: XCTestCase {
 
         let googleDriveRepository: GoogleDriveRepositoryFake = .init()
 
-        sut = ExternalStoreUseCase.init(
+        sut = GoogleDriveUseCase.init(
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
             unmemorizedWordListState: UnmemorizedWordListStateSpy()
@@ -52,7 +52,7 @@ final class ExternalStoreUseCaseTests: XCTestCase {
         let googleDriveRepository: GoogleDriveRepositoryFake = .init()
         googleDriveRepository._hasSignIn = true
 
-        sut = ExternalStoreUseCase.init(
+        sut = GoogleDriveUseCase.init(
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
             unmemorizedWordListState: UnmemorizedWordListStateSpy()
@@ -80,7 +80,7 @@ final class ExternalStoreUseCaseTests: XCTestCase {
 
         let unmemorizedWordListState: UnmemorizedWordListStateSpy = .init()
 
-        sut = ExternalStoreUseCase.init(
+        sut = GoogleDriveUseCase.init(
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
             unmemorizedWordListState: unmemorizedWordListState
@@ -111,7 +111,7 @@ final class ExternalStoreUseCaseTests: XCTestCase {
 
         let unmemorizedWordListState: UnmemorizedWordListStateSpy = .init()
 
-        sut = ExternalStoreUseCase.init(
+        sut = GoogleDriveUseCase.init(
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
             unmemorizedWordListState: unmemorizedWordListState

@@ -1,5 +1,5 @@
 //
-//  ExternalStoreUseCase.swift
+//  GoogleDriveUseCase.swift
 //  Domain
 //
 //  Created by Jaewon Yun on 2023/09/22.
@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import RxUtility
 
-public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
+public final class GoogleDriveUseCase: ExternalStoreUseCaseProtocol {
 
     let wordRepository: WordRepositoryProtocol
     let googleDriveRepository: GoogleDriveRepositoryProtocol
@@ -26,31 +26,22 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
         self.unmemorizedWordListState = unmemorizedWordListState
     }
 
-    public func signInWithAppDataScope(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
-        if hasSignIn {
+    public func signInWithAuthorization(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
+        if hasSigned {
             return .just(())
         }
 
-        let restoreResult = googleDriveRepository.restorePreviousSignIn()
-
-        do {
-            try restoreResult.get()
-            return googleDriveRepository.requestAccess(presenting: presenting)
-        } catch {
-            return googleDriveRepository.signInWithAppDataScope(presenting: presenting)
-        }
+        return googleDriveRepository.restorePreviousSignIn()
+            .flatMap { self.googleDriveRepository.requestAccess(presenting: presenting) }
+            .catch { _ in self.googleDriveRepository.signInWithAppDataScope(presenting: presenting) }
     }
 
     public func signOut() {
         googleDriveRepository.signOut()
     }
 
-    public var hasSignIn: Bool {
-        return googleDriveRepository.hasSignIn
-    }
-
-    public func restorePreviousSignIn() -> Result<Void, Error> {
-        return googleDriveRepository.restorePreviousSignIn()
+    public var hasSigned: Bool {
+        return googleDriveRepository.hasSigned
     }
 
     public func upload(presenting: PresentingConfiguration?) -> Observable<ProgressStatus> {
@@ -87,7 +78,7 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
                 }
             }
 
-            if self.hasSignIn, self.googleDriveRepository.isGrantedAppDataScope {
+            if self.hasSigned, self.googleDriveRepository.isGrantedAppDataScope {
                 doUpload(authorizationStatus: .success(()))
                 return Disposables.create(disposables)
             }
@@ -97,14 +88,14 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
                 return Disposables.create()
             }
 
-            if self.hasSignIn {
+            if self.hasSigned {
                 let disposable = self.googleDriveRepository.requestAccess(presenting: presenting)
                     .subscribe(doUpload(authorizationStatus:))
                 disposables.append(disposable)
                 return Disposables.create(disposables)
             }
 
-            let disposable = self.signInWithAppDataScope(presenting: presenting)
+            let disposable = self.signInWithAuthorization(presenting: presenting)
                 .subscribe(doUpload(authorizationStatus:))
             disposables.append(disposable)
             return Disposables.create(disposables)
@@ -148,7 +139,7 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
                 }
             }
 
-            if self.hasSignIn, self.googleDriveRepository.isGrantedAppDataScope {
+            if self.hasSigned, self.googleDriveRepository.isGrantedAppDataScope {
                 doDownload(authorizationStatus: .success(()))
                 return Disposables.create(disposables)
             }
@@ -158,14 +149,14 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
                 return Disposables.create(disposables)
             }
 
-            if self.hasSignIn {
+            if self.hasSigned {
                 let disposable = self.googleDriveRepository.requestAccess(presenting: presenting)
                     .subscribe(doDownload(authorizationStatus:))
                 disposables.append(disposable)
                 return Disposables.create(disposables)
             }
 
-            let disposable = self.signInWithAppDataScope(presenting: presenting)
+            let disposable = self.signInWithAuthorization(presenting: presenting)
                 .subscribe(doDownload(authorizationStatus:))
             disposables.append(disposable)
             return Disposables.create(disposables)

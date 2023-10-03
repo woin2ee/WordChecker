@@ -11,19 +11,16 @@ import RxSwift
 
 public protocol ExternalStoreUseCaseProtocol {
 
-    func signInWithAppDataScope(presenting: PresentingConfiguration) -> RxSwift.Single<Void>
+    func signInWithAuthorization(presenting: PresentingConfiguration) -> RxSwift.Single<Void>
 
     func signOut()
 
-    var hasSignIn: Bool { get }
+    var hasSigned: Bool { get }
 
-    @discardableResult
-    func restorePreviousSignIn() -> Result<Void, Error>
-
-    /// - Parameter presenting: 구글 드라이브 로그인이 되어있지 않을 때 로그인 화면을 제시하는데 사용되는 구성
+    /// - Parameter presenting: 외부 서비스에 로그인이 되어있지 않을 때 로그인 화면을 제시하는데 사용되는 구성
     func upload(presenting: PresentingConfiguration?) -> Observable<ProgressStatus>
 
-    /// - Parameter presenting: 구글 드라이브 로그인이 되어있지 않을 때 로그인 화면을 제시하는데 사용되는 구성
+    /// - Parameter presenting: 외부 서비스에 로그인이 되어있지 않을 때 로그인 화면을 제시하는데 사용되는 구성
     func download(presenting: PresentingConfiguration?) -> Observable<ProgressStatus>
 
 }

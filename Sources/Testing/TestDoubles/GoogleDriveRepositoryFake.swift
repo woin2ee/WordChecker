@@ -60,7 +60,7 @@ public final class GoogleDriveRepositoryFake: GoogleDriveRepositoryProtocol {
         _isGrantedAppDataScope = false
     }
 
-    public var hasSignIn: Bool {
+    public var hasSigned: Bool {
         _hasSignIn
     }
 
@@ -68,10 +68,10 @@ public final class GoogleDriveRepositoryFake: GoogleDriveRepositoryProtocol {
         _isGrantedAppDataScope
     }
 
-    public func restorePreviousSignIn() -> Result<Void, Error> {
+    public func restorePreviousSignIn() -> RxSwift.Single<Void> {
         _hasSignIn = true
 
-        return .success(())
+        return .just(())
     }
 
     public func requestAccess(presenting: Domain.PresentingConfiguration) -> RxSwift.Single<Void> {

@@ -5,6 +5,7 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
+import DataDriver
 import Domain
 import GoogleSignIn
 import iOSCore
@@ -77,8 +78,11 @@ extension AppDelegate {
     }
 
     func attemptRestoreGoogleSignInState() {
-        let externalStoreUseCase: ExternalStoreUseCaseProtocol = DIContainer.shared.resolve()
-        externalStoreUseCase.restorePreviousSignIn()
+        let googleDriveRepository: GoogleDriveRepositoryProtocol = DIContainer.shared.resolve()
+        googleDriveRepository.restorePreviousSignIn()
+            .subscribe(on: ConcurrentMainScheduler.instance)
+            .subscribe()
+            .dispose()
     }
 
 }

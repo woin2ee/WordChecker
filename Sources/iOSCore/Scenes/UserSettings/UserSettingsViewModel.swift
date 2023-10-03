@@ -46,7 +46,7 @@ final class UserSettingsViewModel: ViewModelType {
                     ],
                 ]
 
-                if self.externalStoreUseCase.hasSignIn {
+                if self.externalStoreUseCase.hasSigned {
                     models.append([.init(settingType: .googleDriveLogout)])
                 }
 
@@ -81,7 +81,7 @@ final class UserSettingsViewModel: ViewModelType {
             .mapToVoid()
             .withLatestFrom(input.presentingConfiguration)
             .flatMapFirst {
-                return self.externalStoreUseCase.signInWithAppDataScope(presenting: $0)
+                return self.externalStoreUseCase.signInWithAuthorization(presenting: $0)
                     .doOnSuccess { dataSourceUpdateTrigger.accept(()) }
                     .asSignalOnErrorJustComplete()
             }
@@ -96,7 +96,7 @@ final class UserSettingsViewModel: ViewModelType {
             .mapToVoid()
             .withLatestFrom(input.presentingConfiguration)
             .flatMapFirst {
-                return self.externalStoreUseCase.signInWithAppDataScope(presenting: $0)
+                return self.externalStoreUseCase.signInWithAuthorization(presenting: $0)
                     .doOnSuccess { dataSourceUpdateTrigger.accept(()) }
                     .asSignalOnErrorJustComplete()
             }
