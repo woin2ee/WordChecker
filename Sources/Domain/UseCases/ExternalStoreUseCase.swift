@@ -31,13 +31,13 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
             return .just(())
         }
 
-        let result = googleDriveRepository.restorePreviousSignIn()
+        let restoreResult = googleDriveRepository.restorePreviousSignIn()
 
         do {
-            try result.get()
-            return .just(())
+            try restoreResult.get()
+            return googleDriveRepository.requestAccess(presenting: presenting)
         } catch {
-            return self.googleDriveRepository.signInWithAppDataScope(presenting: presenting)
+            return googleDriveRepository.signInWithAppDataScope(presenting: presenting)
         }
     }
 
