@@ -11,7 +11,7 @@ import Foundation
 
 struct UserSettingsItemModel: Hashable, Sendable {
 
-    let settingType: Settings
+    let settingType: SettingType
 
     var primaryText: String {
         switch settingType {
@@ -23,7 +23,7 @@ struct UserSettingsItemModel: Hashable, Sendable {
             WCString.google_drive_upload
         case .googleDriveDownload:
             WCString.google_drive_download
-        case .googleDriveLogout:
+        case .googleDriveSignOut:
             WCString.google_drive_logout
         }
     }
@@ -32,7 +32,7 @@ struct UserSettingsItemModel: Hashable, Sendable {
 
     var value: TranslationLanguage?
 
-    init(settingType: Settings, subtitle: String? = nil, value: TranslationLanguage? = nil) {
+    init(settingType: SettingType, subtitle: String? = nil, value: TranslationLanguage? = nil) {
         self.settingType = settingType
         self.subtitle = subtitle
         self.value = value
@@ -42,14 +42,14 @@ struct UserSettingsItemModel: Hashable, Sendable {
 
 extension UserSettingsItemModel {
 
-    enum Settings: CaseIterable {
+    enum SettingType: CaseIterable {
 
         case changeSourceLanguage
         case changeTargetLanguage
 
         case googleDriveUpload
         case googleDriveDownload
-        case googleDriveLogout
+        case googleDriveSignOut
 
     }
 

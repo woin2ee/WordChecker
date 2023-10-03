@@ -23,81 +23,33 @@ final class UserSettingsViewModel: ViewModelType {
     }
 
     func transform(input: Input) -> Output {
-        let dataSourceUpdateTrigger: PublishRelay<Void> = .init()
+        let hasSigned: BehaviorRelay<Bool> = .init(value: externalStoreUseCase.hasSigned)
 
-        let dataSource = PublishRelay<Void>.merge([
-            dataSourceUpdateTrigger.asObservable(),
-            userSettingsUseCase.currentUserSettingsRelay.mapToVoid(),
-        ])
-            .withLatestFrom(userSettingsUseCase.currentUserSettingsRelay)
-            .compactMap { $0 }
-            .map { userSettings -> (source: TranslationLanguage, target: TranslationLanguage) in
-                return (userSettings.translationSourceLocale, userSettings.translationTargetLocale)
-            }
-            .map { translationLocale -> [[UserSettingsItemModel]] in
-                var models: [[UserSettingsItemModel]] = [
-                    [
-                        .init(settingType: .changeSourceLanguage, value: translationLocale.source),
-                        .init(settingType: .changeTargetLanguage, value: translationLocale.target),
-                    ],
-                    [
-                        .init(settingType: .googleDriveUpload),
-                        .init(settingType: .googleDriveDownload),
-                    ],
-                ]
+        let currentTranslationSourceLanguage = userSettingsUseCase.currentUserSettingsRelay
+            .asDriver()
+            .compactMap(\.?.translationSourceLocale)
 
-                if self.externalStoreUseCase.hasSigned {
-                    models.append([.init(settingType: .googleDriveLogout)])
-                }
+        let currentTranslationTargetLanguage = userSettingsUseCase.currentUserSettingsRelay
+            .asDriver()
+            .compactMap(\.?.translationTargetLocale)
 
-                return models
-            }
-            .asDriverOnErrorJustComplete()
-
-        let showLanguageSetting = input.selectItem
-            .filter { $0.section == 0 }
-            .withLatestFrom(dataSource.asSignalOnErrorJustComplete()) { indexPath, dataSource in
-                dataSource[0][indexPath.row]
-            }
-            .map { selectedItemModel -> (settingsDirection: LanguageSettingViewModel.SettingsDirection, currentSettingLocale: TranslationLanguage)? in
-                guard let currentSettingLocale = selectedItemModel.value else {
-                    return nil
-                }
-
-                switch selectedItemModel.settingType {
-                case .changeSourceLanguage:
-                    return (.sourceLanguage, currentSettingLocale)
-                case .changeTargetLanguage:
-                    return (.targetLanguage, currentSettingLocale)
-                default:
-                    return nil
-                }
-            }
-            .compactMap { $0 }
-            .asSignalOnErrorJustComplete()
-
-        let googleDriveUploadStatus = input.selectItem
-            .filter { $0.section == 1 && $0.row == 0 } // 업로드 버튼
-            .mapToVoid()
+        let uploadStatus = input.uploadTrigger
             .withLatestFrom(input.presentingConfiguration)
             .flatMapFirst {
                 return self.externalStoreUseCase.signInWithAuthorization(presenting: $0)
-                    .doOnSuccess { dataSourceUpdateTrigger.accept(()) }
+                    .doOnSuccess { hasSigned.accept((true)) }
                     .asSignalOnErrorJustComplete()
             }
-            .withLatestFrom(input.presentingConfiguration)
             .flatMapFirst {
-                return self.externalStoreUseCase.upload(presenting: $0)
+                return self.externalStoreUseCase.upload(presenting: nil)
                     .asSignalOnErrorJustComplete()
             }
 
-        let googleDriveDownloadStatus = input.selectItem
-            .filter { $0.section == 1 && $0.row == 1 } // 다운로드 버튼
-            .mapToVoid()
+        let downloadStatus = input.downloadTrigger
             .withLatestFrom(input.presentingConfiguration)
             .flatMapFirst {
                 return self.externalStoreUseCase.signInWithAuthorization(presenting: $0)
-                    .doOnSuccess { dataSourceUpdateTrigger.accept(()) }
+                    .doOnSuccess { hasSigned.accept((true)) }
                     .asSignalOnErrorJustComplete()
             }
             .flatMapFirst {
@@ -105,18 +57,19 @@ final class UserSettingsViewModel: ViewModelType {
                     .asSignalOnErrorJustComplete()
             }
 
-        let googleDriveSignOutComplete = input.selectItem
-            .filter { $0.section == 2 }
-            .mapToVoid()
-            .doOnNext(externalStoreUseCase.signOut)
-            .doOnNext { dataSourceUpdateTrigger.accept(()) }
+        let signOut = input.signOut
+            .doOnNext {
+                self.externalStoreUseCase.signOut()
+                hasSigned.accept(false)
+            }
 
         return .init(
-            userSettingsDataSource: dataSource,
-            showLanguageSetting: showLanguageSetting,
-            googleDriveUploadStatus: googleDriveUploadStatus,
-            googleDriveDownloadStatus: googleDriveDownloadStatus,
-            googleDriveSignOutComplete: googleDriveSignOutComplete
+            hasSigned: hasSigned.asDriver(),
+            currentTranslationSourceLanguage: currentTranslationSourceLanguage,
+            currentTranslationTargetLanguage: currentTranslationTargetLanguage,
+            uploadStatus: uploadStatus,
+            downloadStatus: downloadStatus,
+            signOut: signOut
         )
     }
 
@@ -126,7 +79,11 @@ extension UserSettingsViewModel {
 
     struct Input {
 
-        let selectItem: Signal<IndexPath>
+        let uploadTrigger: Signal<Void>
+
+        let downloadTrigger: Signal<Void>
+
+        let signOut: Signal<Void>
 
         let presentingConfiguration: Driver<PresentingConfiguration>
 
@@ -134,15 +91,17 @@ extension UserSettingsViewModel {
 
     struct Output {
 
-        let userSettingsDataSource: Driver<[[UserSettingsItemModel]]>
+        let hasSigned: Driver<Bool>
 
-        let showLanguageSetting: Signal<(settingsDirection: LanguageSettingViewModel.SettingsDirection, currentSettingLocale: TranslationLanguage)>
+        let currentTranslationSourceLanguage: Driver<TranslationLanguage>
 
-        let googleDriveUploadStatus: Signal<ProgressStatus>
+        let currentTranslationTargetLanguage: Driver<TranslationLanguage>
 
-        let googleDriveDownloadStatus: Signal<ProgressStatus>
+        let uploadStatus: Signal<ProgressStatus>
 
-        let googleDriveSignOutComplete: Signal<Void>
+        let downloadStatus: Signal<ProgressStatus>
+
+        let signOut: Signal<Void>
 
     }
 
