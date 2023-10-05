@@ -107,7 +107,9 @@ func targets() -> [Target] {
             ],
             hasUnitTests: true,
             additionalTestDependencies: [
-                .target(name: "Testing")
+                .target(name: "Testing"),
+                .external(name: ExternalDependencyName.rxBlocking),
+                .external(name: ExternalDependencyName.rxTest),
             ],
             appendSchemeTo: &schemes
         )
