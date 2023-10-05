@@ -94,6 +94,7 @@ final class UserSettingsViewController: BaseViewController {
         settingsTableViewDataSource.applySnapshotUsingReloadData(snapshot)
     }
 
+    // swiftlint:disable:next function_body_length
     func bindViewModel() {
         let itemSelectedEvent = settingsTableView.rx.itemSelected.asSignal()
             .doOnNext { [weak self] in self?.settingsTableView.deselectRow(at: $0, animated: true) }
@@ -190,8 +191,9 @@ final class UserSettingsViewController: BaseViewController {
             .emit(with: self, onNext: { owner, status in
                 switch status {
                 case .inProgress:
-                    break
+                    ActivityIndicatorViewController.shared.startAnimating(on: self)
                 case .complete:
+                    ActivityIndicatorViewController.shared.stopAnimating(on: self)
                     owner.presentOKAlert(title: WCString.notice, message: WCString.google_drive_upload_successfully)
                 }
             })
@@ -201,8 +203,9 @@ final class UserSettingsViewController: BaseViewController {
             .emit(with: self, onNext: { owner, status in
                 switch status {
                 case .inProgress:
-                    break
+                    ActivityIndicatorViewController.shared.startAnimating(on: self)
                 case .complete:
+                    ActivityIndicatorViewController.shared.stopAnimating(on: self)
                     owner.presentOKAlert(title: WCString.notice, message: WCString.google_drive_download_successfully)
                 }
             })
