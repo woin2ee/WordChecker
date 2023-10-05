@@ -122,7 +122,8 @@ public final class GoogleDriveUseCase: ExternalStoreUseCaseProtocol {
                         .observe(on: MainScheduler.instance)
                         .doOnSuccess { wordList in
                             self.wordRepository.reset(to: wordList)
-                            self.unmemorizedWordListState.randomizeList(with: wordList)
+                            let unmemorizedList = self.wordRepository.getUnmemorizedList()
+                            self.unmemorizedWordListState.randomizeList(with: unmemorizedList)
                         }
                         .subscribe(
                             onSuccess: { _ in

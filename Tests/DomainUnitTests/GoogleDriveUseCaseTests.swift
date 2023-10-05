@@ -96,7 +96,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         // Then
         XCTAssertEqual(elements, [.inProgress, .complete])
         XCTAssertEqual(wordRepository._wordList, driveData)
-        XCTAssertEqual(Set(unmemorizedWordListState._storedWords), Set(driveData))
+        XCTAssertEqual(Set(unmemorizedWordListState._storedWords), Set(driveData).filter({ $0.isMemorized == false }))
     }
 
     func test_downloadWhenNeedSyncToDriveAfterSignIn() throws {
@@ -125,7 +125,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         // Then
         XCTAssertEqual(elements, [.inProgress, .complete])
         XCTAssertEqual(wordRepository._wordList, driveData)
-        XCTAssertEqual(Set(unmemorizedWordListState._storedWords), Set(driveData))
+        XCTAssertEqual(Set(unmemorizedWordListState._storedWords), Set(driveData).filter({ $0.isMemorized == false }))
     }
 
 }
