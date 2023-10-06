@@ -17,7 +17,7 @@ let dependencies = Dependencies(
         .remote(url: "https://github.com/realm/realm-swift.git",
                 requirement: .upToNextMajor(from: "10.42.0")),
         // RxUtility
-        .remote(url: "https://github.com/woin2ee/RxUtility.git",
+        .remote(url: "https://github.com/Woin2ee-Modules/RxUtility.git",
                 requirement: .upToNextMajor(from: "1.0.0")),
         // ExtendedUserDefaults
         .remote(url: "https://github.com/Woin2ee-Modules/ExtendedUserDefaults.git",
