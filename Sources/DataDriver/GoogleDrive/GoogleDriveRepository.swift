@@ -13,6 +13,7 @@ import GoogleAPIClientForRESTCore
 import GoogleAPIClientForREST_Drive
 import RxSwift
 import UIKit
+import Utility
 
 public final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
 
@@ -116,18 +117,20 @@ public final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
         file.name = backupFileName
         file.parents = ["appDataFolder"]
 
-        return .create { result in
+        let fileCreatingSequence: Single<Void> = .create { result in
             Task {
-                do {
-                    try await GoogleDriveAPI(user: currentUser).create(for: file, with: data)
-                    result(.success(()))
-                } catch {
-                    result(.failure(error))
-                }
+                try await GoogleDriveAPI(user: currentUser).create(for: file, with: data)
+                result(.success(()))
+            } catch: {
+                result(.failure($0))
             }
 
             return Disposables.create()
         }
+
+        return deleteBackupFiles()
+            .catchAndThenJustNext()
+            .flatMap { return fileCreatingSequence }
     }
 
     public func downloadWordList() -> RxSwift.Single<[Domain.Word]> {
@@ -135,35 +138,66 @@ public final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
             return .error(GoogleDriveRepositoryError.noSignedInUser)
         }
 
-        let service: GTLRDriveService = .init()
-        service.authorizer = currentUser.authentication.fetcherAuthorizer()
-
-        let filesListQuery: GTLRDriveQuery_FilesList = .query()
-        filesListQuery.q = "name = '\(backupFileName)' and trashed = false"
-        filesListQuery.spaces = "appDataFolder"
-
-        let api = GoogleDriveAPI(user: currentUser)
-
         return .create { result in
             Task {
-                do {
-                    let fileList = try await api.filesList(query: filesListQuery)
+                let fileList = try await self.backupFiles
 
-                    guard let backupFileID = fileList.files?.first?.identifier else {
-                        result(.failure(GoogleDriveRepositoryError.noFileInDrive))
-                        return
-                    }
-
-                    let dataObject = try await api.files(forFileID: backupFileID)
-                    let decoded = try JSONDecoder().decode([Domain.Word].self, from: dataObject.data)
-
-                    result(.success(decoded))
-                } catch {
-                    result(.failure(error))
+                guard let backupFileID = fileList.files?.first?.identifier else {
+                    result(.failure(GoogleDriveRepositoryError.noFileInDrive))
+                    return
                 }
+
+                let dataObject = try await GoogleDriveAPI(user: currentUser).files(forFileID: backupFileID)
+                let decoded = try JSONDecoder().decode([Domain.Word].self, from: dataObject.data)
+
+                result(.success(decoded))
+            } catch: {
+                result(.failure($0))
             }
 
             return Disposables.create()
+        }
+    }
+
+    func deleteBackupFiles() -> Completable {
+        guard let currentUser = gidSignIn.currentUser else {
+            return .error(GoogleDriveRepositoryError.noSignedInUser)
+        }
+
+        return .create { observer in
+            Task {
+                let fileList = try await self.backupFiles
+
+                guard let backupFiles = fileList.files else {
+                    observer(.completed)
+                    return
+                }
+
+                try await backupFiles.compactMap(\.identifier)
+                    .asyncForEach {
+                        try await GoogleDriveAPI(user: currentUser).delete(byFileID: $0)
+                    }
+
+                observer(.completed)
+            } catch: {
+                observer(.error($0))
+            }
+
+            return Disposables.create()
+        }
+    }
+
+    var backupFiles: GTLRDrive_FileList {
+        get async throws {
+            guard let currentUser = gidSignIn.currentUser else {
+                throw GoogleDriveRepositoryError.noSignedInUser
+            }
+
+            let filesListQuery: GTLRDriveQuery_FilesList = .query()
+            filesListQuery.q = "name = '\(backupFileName)' and trashed = false"
+            filesListQuery.spaces = "appDataFolder"
+
+            return try await GoogleDriveAPI(user: currentUser).filesList(query: filesListQuery)
         }
     }
 
