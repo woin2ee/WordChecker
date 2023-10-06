@@ -78,4 +78,19 @@ struct GoogleDriveAPI {
         }
     }
 
+    /// Method: files.delete
+    func delete(byFileID fileID: String) async throws {
+        let query: GTLRDriveQuery_FilesDelete = .query(withFileId: fileID)
+
+        return try await withCheckedThrowingContinuation { continuation in
+            service.executeQuery(query) { _, _, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume()
+                }
+            }
+        }
+    }
+
 }
