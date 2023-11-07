@@ -22,7 +22,7 @@ final class UserSettingsViewModelTests: RxBaseTestCase {
 
         sut = .init(
             userSettingsUseCase: UserSettingsUseCaseFake.init(),
-            externalStoreUseCase: GoogleDriveUseCaseFake.init()
+            googleDriveUseCase: GoogleDriveUseCaseFake.init()
         )
     }
 

@@ -15,7 +15,7 @@ final class UserSettingsViewControllerAssembly: Assembly {
         container.register(UserSettingsViewController.self) { resolver in
             let userSettingsUseCase: UserSettingsUseCaseProtocol = resolver.resolve()
             let externalStoreUseCase: ExternalStoreUseCaseProtocol = resolver.resolve()
-            let viewModel: UserSettingsViewModel = .init(userSettingsUseCase: userSettingsUseCase, externalStoreUseCase: externalStoreUseCase)
+            let viewModel: UserSettingsViewModel = .init(userSettingsUseCase: userSettingsUseCase, googleDriveUseCase: externalStoreUseCase)
             let viewController: UserSettingsViewController = .init(viewModel: viewModel)
             return viewController
         }

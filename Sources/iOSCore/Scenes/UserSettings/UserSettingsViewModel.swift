@@ -15,15 +15,15 @@ import RxUtility
 final class UserSettingsViewModel: ViewModelType {
 
     let userSettingsUseCase: UserSettingsUseCaseProtocol
-    let externalStoreUseCase: ExternalStoreUseCaseProtocol
+    let googleDriveUseCase: ExternalStoreUseCaseProtocol
 
-    init(userSettingsUseCase: UserSettingsUseCaseProtocol, externalStoreUseCase: ExternalStoreUseCaseProtocol) {
+    init(userSettingsUseCase: UserSettingsUseCaseProtocol, googleDriveUseCase: ExternalStoreUseCaseProtocol) {
         self.userSettingsUseCase = userSettingsUseCase
-        self.externalStoreUseCase = externalStoreUseCase
+        self.googleDriveUseCase = googleDriveUseCase
     }
 
     func transform(input: Input) -> Output {
-        let hasSigned: BehaviorRelay<Bool> = .init(value: externalStoreUseCase.hasSigned)
+        let hasSigned: BehaviorRelay<Bool> = .init(value: googleDriveUseCase.hasSigned)
 
         let currentTranslationSourceLanguage = userSettingsUseCase.currentUserSettingsRelay
             .asDriver()
@@ -36,30 +36,30 @@ final class UserSettingsViewModel: ViewModelType {
         let uploadStatus = input.uploadTrigger
             .withLatestFrom(input.presentingConfiguration)
             .flatMapFirst {
-                return self.externalStoreUseCase.signInWithAuthorization(presenting: $0)
+                return self.googleDriveUseCase.signInWithAuthorization(presenting: $0)
                     .doOnSuccess { hasSigned.accept((true)) }
                     .asSignalOnErrorJustComplete()
             }
             .flatMapFirst {
-                return self.externalStoreUseCase.upload(presenting: nil)
+                return self.googleDriveUseCase.upload(presenting: nil)
                     .asSignalOnErrorJustComplete()
             }
 
         let downloadStatus = input.downloadTrigger
             .withLatestFrom(input.presentingConfiguration)
             .flatMapFirst {
-                return self.externalStoreUseCase.signInWithAuthorization(presenting: $0)
+                return self.googleDriveUseCase.signInWithAuthorization(presenting: $0)
                     .doOnSuccess { hasSigned.accept((true)) }
                     .asSignalOnErrorJustComplete()
             }
             .flatMapFirst {
-                return self.externalStoreUseCase.download(presenting: nil)
+                return self.googleDriveUseCase.download(presenting: nil)
                     .asSignalOnErrorJustComplete()
             }
 
         let signOut = input.signOut
             .doOnNext {
-                self.externalStoreUseCase.signOut()
+                self.googleDriveUseCase.signOut()
                 hasSigned.accept(false)
             }
 
