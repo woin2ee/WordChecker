@@ -56,6 +56,11 @@ final class UserSettingsViewModel: ViewModelType {
                 return self.googleDriveUseCase.download(presenting: nil)
                     .asSignalOnErrorJustComplete()
             }
+            .doOnNext { progressStatus in
+                if progressStatus == .complete {
+                    GlobalAction.shared.didResetWordList.accept(())
+                }
+            }
 
         let signOut = input.signOut
             .doOnNext {

@@ -140,6 +140,8 @@ final class WordCheckingReactor: Reactor {
             globalAction.didDeleteWord
                 .filter { $0.uuid == self.currentState.currentWord?.uuid }
                 .map { _ in Mutation.setCurrentWord(self.wordUseCase.currentUnmemorizedWord) },
+            globalAction.didResetWordList
+                .map { _ in Mutation.setCurrentWord(self.wordUseCase.currentUnmemorizedWord) },
         ])
     }
 
