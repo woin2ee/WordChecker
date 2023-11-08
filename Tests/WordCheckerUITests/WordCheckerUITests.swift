@@ -86,9 +86,14 @@ final class WordCheckerUITests: XCTestCase {
 
     func testWordListUseCase() {
         // App Launch
-        app.setLaunchArguments([.sampledDatabase])
+        app.setLaunchArguments([.useInMemoryDatabase])
         app.launch()
 
+        // Prepare
+        runAddWord(text: "Test1")
+        runAddWord(text: "Test2")
+        runAddWord(text: "Test3")
+        
         let currentWord: String = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
 
         app.tabBars.buttons[WCString.list].tap()
@@ -105,19 +110,37 @@ final class WordCheckerUITests: XCTestCase {
         XCTAssertEqual(detailTextField.value as? String, currentWord)
         XCTAssertEqual(detailMemorizationStateButton.label, WCString.memorizing)
         detailTextField.tap()
-        detailTextField.typeText("1")
+        detailTextField.typeText("#")
         detailMemorizationStateButton.tap()
         app.buttons[WCString.memorized].tap()
         XCTAssertEqual(detailMemorizationStateButton.label, WCString.memorized)
         app.navigationBars.buttons[WCString.done].tap()
-        app.tables.element(boundBy: 1).cells.staticTexts["\(currentWord)1"].assertExistence()
+        app.tables.element(boundBy: 1).cells.staticTexts["\(currentWord)#"].assertExistence()
 
         // Check memorization state
         app.tabBars.buttons[WCString.memorization].tap()
         let newWord: String = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
-        XCTAssertNotEqual(currentWord, newWord)
+        XCTAssertNotEqual("\(currentWord)#", newWord)
+        
+        // Change state to unmemorized
+        do {
+            app.navigationBars.buttons[AccessibilityIdentifier.WordChecking.moreButton].tap()
+            app.collectionViews.buttons[WCString.memorized].tap()
+            app.navigationBars.buttons[AccessibilityIdentifier.WordChecking.moreButton].tap()
+            app.collectionViews.buttons[WCString.memorized].tap()
+            
+            moveListTap()
+            
+            app.tables.element(boundBy: 1).cells.element(boundBy: 0).tap()
+            app.buttons[AccessibilityIdentifier.WordDetail.memorizationStateButton].tap()
+            app.buttons[WCString.memorizing].tap()
+            app.navigationBars.buttons[WCString.done].tap()
 
-        let image = app.screenshot().image
+            moveCheckingTap()
+            
+            let currentWord: String = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
+            XCTAssertNotEqual(currentWord, WCString.there_are_no_words)
+        }
     }
 
     func testNoWordMessage() {
