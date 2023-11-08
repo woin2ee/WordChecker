@@ -24,7 +24,7 @@ public final class AppTabBarController: UITabBarController {
             selectedImage: .init(systemSymbol: .listBullet, withConfiguration: symbolWeightConfig)
         )
 
-        let wordCheckingVC: WordCheckingViewController = DIContainer.shared.resolve(argument: wordListVC.viewModel as? WordCheckingViewModelDelegate)
+        let wordCheckingVC: WordCheckingViewController = DIContainer.shared.resolve()
         let wordCheckingNC: UINavigationController = .init(rootViewController: wordCheckingVC)
         wordCheckingNC.tabBarItem = .init(
             title: WCString.memorization,

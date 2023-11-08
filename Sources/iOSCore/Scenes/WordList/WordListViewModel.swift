@@ -69,6 +69,8 @@ extension WordListViewModel {
         wordUseCase.deleteWord(by: deleteTarget.uuid)
 
         refreshWordList(by: currentListType)
+
+        GlobalAction.shared.didDeleteWord.accept(deleteTarget)
     }
 
     func editWord(index: IndexPath.Index, newWord: String) {
@@ -78,6 +80,8 @@ extension WordListViewModel {
         wordUseCase.updateWord(by: updateTarget.uuid, to: updateTarget)
 
         refreshWordList(by: currentListType)
+
+        GlobalAction.shared.didEditWord.accept(updateTarget)
     }
 
     func refreshWordList(by type: WordListType) {
@@ -104,17 +108,13 @@ extension WordListViewModel {
 
 // MARK: - Delegates
 
-extension WordListViewModel: WordDetailViewModelDelegate, WordAdditionViewModelDelegate, WordCheckingViewModelDelegate {
+extension WordListViewModel: WordDetailViewModelDelegate, WordAdditionViewModelDelegate {
 
     func wordDetailViewModelDidUpdateWord(with uuid: UUID) {
         refreshWordList(by: currentListType)
     }
 
     func wordAdditionViewModelDidFinishAddWord() {
-        refreshWordList(by: currentListType)
-    }
-
-    func wordCheckingViewModelDidMarkCurrentWordAsMemorized() {
         refreshWordList(by: currentListType)
     }
 

@@ -16,15 +16,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        DIContainer.shared.assembler = .init([
-            UseCaseAssembly(),
-            ViewControllerAssembly(),
-            RepositoryAssembly(
-                userSettingsRepositoryAssembly: UserSettingsRepositoryDevAssembly(),
-                wordRepositoryAssembly: WordRepositoryDevAssembly()
-            ),
-        ])
-
+        injectDependencies()
         initUserSettingsIfFirstLaunch()
 
         return true
@@ -76,6 +68,18 @@ extension AppDelegate {
             }
             .subscribe()
             .dispose()
+    }
+
+    func injectDependencies() {
+        DIContainer.shared.assembler = .init([
+            UseCaseAssembly(),
+            ViewControllerAssembly(),
+            RepositoryAssembly(
+                userSettingsRepositoryAssembly: UserSettingsRepositoryDevAssembly(),
+                wordRepositoryAssembly: WordRepositoryDevAssembly()
+            ),
+            ReactorsAssembly(),
+        ])
     }
 
 }

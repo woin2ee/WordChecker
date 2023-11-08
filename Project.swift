@@ -104,6 +104,7 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.sfSafeSymbols),
                 .external(name: ExternalDependencyName.then),
                 .external(name: ExternalDependencyName.toast),
+                .external(name: ExternalDependencyName.reactorKit),
             ],
             hasUnitTests: true,
             additionalTestDependencies: [

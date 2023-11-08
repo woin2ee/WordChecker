@@ -112,4 +112,8 @@ public final class WordRxUseCase: WordRxUseCaseProtocol {
         }
     }
 
+    public var currentUnmemorizedWord: Word? {
+        wordUseCase.currentUnmemorizedWord
+    }
+
 }

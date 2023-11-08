@@ -17,16 +17,8 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        DIContainer.shared.assembler = .init([
-            UseCaseAssembly(),
-            ViewControllerAssembly(),
-            RepositoryAssembly(),
-        ])
-
         initUserSettingsIfFirstLaunch()
-
         attemptRestoreGoogleSignInState()
-
         return true
     }
 
@@ -84,6 +76,15 @@ extension AppDelegate {
             .subscribe(on: ConcurrentMainScheduler.instance)
             .subscribe()
             .dispose()
+    }
+
+    func injectDependencies() {
+        DIContainer.shared.assembler = .init([
+            UseCaseAssembly(),
+            ViewControllerAssembly(),
+            RepositoryAssembly(),
+            ReactorsAssembly(),
+        ])
     }
 
 }

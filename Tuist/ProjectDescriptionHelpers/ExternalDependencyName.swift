@@ -19,5 +19,6 @@ public struct ExternalDependencyName {
     public static let googleSignIn = "GoogleSignIn"
     public static let googleAPIClientForREST_Drive = "GoogleAPIClientForREST_Drive"
     public static let googleAPIClientForRESTCore = "GoogleAPIClientForRESTCore"
+    public static let reactorKit = "ReactorKit"
 
 }

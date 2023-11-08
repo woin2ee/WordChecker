@@ -11,13 +11,13 @@ import SnapKit
 import Then
 import Toast
 import UIKit
+import ReactorKit
+import RxSwift
+import RxCocoa
+import RxUtility
 import WebKit
 
-final class WordCheckingViewController: BaseViewController {
-
-    let viewModel: WordCheckingViewModelProtocol
-
-    var cancelBag: Set<AnyCancellable> = .init()
+final class WordCheckingViewController: RxBaseViewController, View {
 
     // MARK: - UI Objects Declaration
 
@@ -31,24 +31,12 @@ final class WordCheckingViewController: BaseViewController {
     }()
 
     lazy var previousButton: ChangeWordButton = .init().then {
-        let action: UIAction = .init { [weak self] _ in
-            self?.viewModel.updateToPreviousWord()
-        }
-
-        $0.addAction(action, for: .touchUpInside)
-
         $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.previousButton
     }
 
     let previousButtonSymbol: ChangeWordSymbol = .init(direction: .left)
 
     lazy var nextButton: ChangeWordButton = .init().then {
-        let action: UIAction = .init { [weak self] _ in
-            self?.viewModel.updateToNextWord()
-        }
-
-        $0.addAction(action, for: .touchUpInside)
-
         $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.nextButton
     }
 
@@ -61,8 +49,8 @@ final class WordCheckingViewController: BaseViewController {
             guard let self = self else { return }
 
             let translationSite: TranslationSite = .init(
-                translationSourceLanguage: self.viewModel.translationSourceLocale,
-                translationTargetLanguage: self.viewModel.translationTargetLocale
+                translationSourceLanguage: self.reactor!.currentState.translationSourceLanguage,
+                translationTargetLanguage: self.reactor!.currentState.translationTargetLanguage
             )
 
             let translationWebViewController: TranslationWebViewController = .init(translationSite: translationSite)
@@ -81,7 +69,7 @@ final class WordCheckingViewController: BaseViewController {
         return button
     }()
 
-    let addWordButton: UIBarButtonItem = .init().then {
+    let addWordButton: UIBarButtonItem = .init(image: .init(systemSymbol: .plusApp)).then {
         $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.addWordButton
     }
 
@@ -94,9 +82,9 @@ final class WordCheckingViewController: BaseViewController {
 
     // MARK: - Initializers
 
-    init(viewModel: WordCheckingViewModelProtocol) {
-        self.viewModel = viewModel
+    init(reactor: WordCheckingReactor) {
         super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
     }
 
     required init?(coder: NSCoder) {
@@ -108,7 +96,6 @@ final class WordCheckingViewController: BaseViewController {
 
         setupSubviews()
         setupNavigationBar()
-        bindViewModel()
 
         self.setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
     }
@@ -166,10 +153,73 @@ final class WordCheckingViewController: BaseViewController {
 
         self.navigationItem.rightBarButtonItems = [moreButton, addWordButton]
 
-        addWordButton.primaryAction = .init(image: .init(systemSymbol: .plusApp), handler: { [weak self] _ in
-            let alertController = UIAlertController(title: WCString.quick_add_word, message: nil, preferredStyle: .alert)
+        let menuGroup: UIMenu = .init(
+            options: .displayInline,
+            children: [
+                UIAction(
+                    title: WCString.memorized,
+                    image: .init(systemSymbol: .checkmarkDiamondFill),
+                    handler: { [weak self] _ in self?.reactor?.action.onNext(.markCurrentWordAsMemorized) }
+                ),
+                UIAction(
+                    title: WCString.shuffleOrder,
+                    image: .init(systemSymbol: .shuffle),
+                    handler: { [weak self] _ in self?.reactor?.action.onNext(.shuffleWordList) }
+                ),
+            ]
+        )
+        let deleteMenu: UIAction = .init(
+            title: WCString.deleteWord,
+            image: .init(systemSymbol: .trash),
+            attributes: .destructive,
+            handler: { [weak self] _ in self?.reactor?.action.onNext(.deleteCurrentWord) }
+        )
 
-            let cancelAction: UIAlertAction = .init(title: WCString.cancel, style: .cancel)
+        moreButton.menu = .init(children: [menuGroup, deleteMenu])
+    }
+
+    func bind(reactor: WordCheckingReactor) {
+        // Action
+        [
+            self.rx.sentMessage(#selector(self.viewDidLoad))
+                .map { _ in Reactor.Action.viewDidLoad },
+            addWordButton.rx.tap
+                .flatMapFirst { _ in
+                    return self.presentAddWordAlert()
+                }
+                .map { Reactor.Action.addWord($0) },
+            nextButton.rx.tap
+                .map { Reactor.Action.updateToNextWord },
+            previousButton.rx.tap
+                .map { Reactor.Action.updateToPreviousWord },
+        ]
+            .forEach { action in
+                action
+                    .bind(to: reactor.action)
+                    .disposed(by: self.disposeBag)
+            }
+
+        // State
+        reactor.state
+            .map(\.currentWord)
+            .asDriverOnErrorJustComplete()
+            .drive(with: self) { owner, word in
+                if let currentWord = word {
+                    owner.wordLabel.text = currentWord.word
+                } else {
+                    owner.wordLabel.text = WCString.noWords
+                }
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    func presentAddWordAlert() -> Maybe<String> {
+        let alertController = UIAlertController(title: WCString.quick_add_word, message: nil, preferredStyle: .alert)
+
+        return .create { observer in
+            let cancelAction: UIAlertAction = .init(title: WCString.cancel, style: .cancel) { _ in
+                observer(.completed)
+            }
             alertController.addAction(cancelAction)
 
             let addAction: UIAlertAction = .init(title: WCString.add, style: .default) { [weak self] _ in
@@ -178,7 +228,7 @@ final class WordCheckingViewController: BaseViewController {
                     return
                 }
 
-                self?.viewModel.addWord(word)
+                observer(.success(word))
 
                 self?.view.makeToast(WCString.word_added_successfully(word: word), duration: 1.2, position: .top)
             }
@@ -198,43 +248,10 @@ final class WordCheckingViewController: BaseViewController {
                 )
             }
 
-            self?.present(alertController, animated: true)
-        })
+            self.present(alertController, animated: true)
 
-        let menuGroup: UIMenu = .init(options: .displayInline, children: [
-            UIAction(
-                title: WCString.memorized,
-                image: .init(systemSymbol: .checkmarkDiamondFill),
-                handler: { [weak self] _ in self?.viewModel.markCurrentWordAsMemorized() }
-            ),
-            UIAction(
-                title: WCString.shuffleOrder,
-                image: .init(systemSymbol: .shuffle),
-                handler: { [weak self] _ in self?.viewModel.shuffleWordList() }
-            ),
-        ])
-
-        let deleteMenu: UIAction = .init(
-            title: WCString.deleteWord,
-            image: .init(systemSymbol: .trash),
-            attributes: .destructive,
-            handler: { [weak self] _ in self?.viewModel.deleteCurrentWord() }
-        )
-
-        moreButton.menu = .init(children: [menuGroup, deleteMenu])
-    }
-
-    func bindViewModel() {
-        viewModel.currentWord
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] word in
-                if let currentWord = word {
-                    self?.wordLabel.text = currentWord
-                } else {
-                    self?.wordLabel.text = WCString.noWords
-                }
-            }
-            .store(in: &cancelBag)
+            return Disposables.create()
+        }
     }
 
 }

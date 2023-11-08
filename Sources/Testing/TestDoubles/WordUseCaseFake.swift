@@ -71,4 +71,8 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
         _unmemorizedWordList.deleteWord(by: uuid)
     }
 
+    public var currentUnmemorizedWord: Domain.Word? {
+        _unmemorizedWordList.getCurrentWord()
+    }
+
 }

@@ -22,11 +22,13 @@ public final class Word: Equatable, Hashable, Codable {
     }
 
     public static func == (lhs: Word, rhs: Word) -> Bool {
-        return lhs.uuid == rhs.uuid
+        return (lhs.uuid == rhs.uuid) && (lhs.word == rhs.word) && (lhs.isMemorized == rhs.isMemorized)
     }
 
     public func hash(into hasher: inout Hasher) {
         hasher.combine(uuid)
+        hasher.combine(word)
+        hasher.combine(isMemorized)
     }
 
 }

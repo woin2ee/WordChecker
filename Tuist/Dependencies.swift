@@ -37,6 +37,9 @@ let dependencies = Dependencies(
         // google-api-objectivec-client-for-rest
         .remote(url: "https://github.com/google/google-api-objectivec-client-for-rest.git",
                 requirement: .upToNextMajor(from: "3.0.0")),
+        // ReactorKit
+        .remote(url: "https://github.com/ReactorKit/ReactorKit.git",
+                requirement: .upToNextMajor(from: "3.0.0")),
     ],
     platforms: [.iOS]
 )

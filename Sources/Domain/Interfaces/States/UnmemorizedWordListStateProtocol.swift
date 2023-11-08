@@ -26,4 +26,6 @@ public protocol UnmemorizedWordListStateProtocol {
 
     func contains(where predicate: (Word) -> Bool) -> Bool
 
+    func getCurrentWord() -> Word?
+
 }

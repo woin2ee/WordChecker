@@ -8,12 +8,8 @@
 
 @testable import iOSCore
 
-public final class DelegateStub: WordCheckingViewModelDelegate {
+public final class DelegateStub {
 
     public init() {}
-
-    public func wordCheckingViewModelDidMarkCurrentWordAsMemorized() {
-
-    }
 
 }
