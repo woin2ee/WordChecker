@@ -47,6 +47,14 @@ final class LanguageSettingViewModel: ViewModelType {
                     return (currentTranslationLocale.source, selectedLocale)
                 }
             }
+            .doOnNext { newTranslationLocale in
+                switch self.settingsDirection {
+                case .sourceLanguage:
+                    GlobalAction.shared.didSetSourceLanguage.accept(newTranslationLocale.sourceLocale)
+                case .targetLanguage:
+                    GlobalAction.shared.didSetTargetLanguage.accept(newTranslationLocale.targetLocale)
+                }
+            }
             .flatMapLatest { newTranslationLocale in
                 return self.userSettingsUseCase.updateTranslationLocale(source: newTranslationLocale.sourceLocale, target: newTranslationLocale.targetLocale)
                     .asSignalOnErrorJustComplete()

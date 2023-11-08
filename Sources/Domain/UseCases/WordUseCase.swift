@@ -89,4 +89,8 @@ public final class WordUseCase: WordUseCaseProtocol {
         wordRepository.save(currentWord)
     }
 
+    public var currentUnmemorizedWord: Word? {
+        unmemorizedWordListState.getCurrentWord()
+    }
+
 }

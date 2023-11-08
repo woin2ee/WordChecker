@@ -63,4 +63,8 @@ public struct UnmemorizedWordListState: UnmemorizedWordListStateProtocol {
         return unmemorizedWordList.value.contains(where: predicate)
     }
 
+    public func getCurrentWord() -> Domain.Word? {
+        return unmemorizedWordList.value.current
+    }
+
 }

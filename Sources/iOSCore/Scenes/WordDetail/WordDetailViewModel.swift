@@ -68,6 +68,8 @@ extension WordDetailViewModel {
         let updateTarget: Domain.Word = .init(uuid: updateTargetUUID, word: word.word, isMemorized: word.isMemorized)
         wordUseCase.updateWord(by: updateTargetUUID, to: updateTarget)
         delegate?.wordDetailViewModelDidUpdateWord(with: updateTargetUUID)
+
+        GlobalAction.shared.didEditWord.accept(updateTarget)
     }
 
     func markAsChanged() {

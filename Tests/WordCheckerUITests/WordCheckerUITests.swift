@@ -93,7 +93,7 @@ final class WordCheckerUITests: XCTestCase {
         runAddWord(text: "Test1")
         runAddWord(text: "Test2")
         runAddWord(text: "Test3")
-        
+
         let currentWord: String = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
 
         app.tabBars.buttons[WCString.list].tap()
@@ -121,23 +121,23 @@ final class WordCheckerUITests: XCTestCase {
         app.tabBars.buttons[WCString.memorization].tap()
         let newWord: String = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
         XCTAssertNotEqual("\(currentWord)#", newWord)
-        
+
         // Change state to unmemorized
         do {
             app.navigationBars.buttons[AccessibilityIdentifier.WordChecking.moreButton].tap()
             app.collectionViews.buttons[WCString.memorized].tap()
             app.navigationBars.buttons[AccessibilityIdentifier.WordChecking.moreButton].tap()
             app.collectionViews.buttons[WCString.memorized].tap()
-            
+
             moveListTap()
-            
+
             app.tables.element(boundBy: 1).cells.element(boundBy: 0).tap()
             app.buttons[AccessibilityIdentifier.WordDetail.memorizationStateButton].tap()
             app.buttons[WCString.memorizing].tap()
             app.navigationBars.buttons[WCString.done].tap()
 
             moveCheckingTap()
-            
+
             let currentWord: String = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
             XCTAssertNotEqual(currentWord, WCString.there_are_no_words)
         }

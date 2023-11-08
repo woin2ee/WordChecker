@@ -70,4 +70,8 @@ public final class UnmemorizedWordListStateSpy: UnmemorizedWordListStateProtocol
         _state.contains(where: predicate)
     }
 
+    public func getCurrentWord() -> Domain.Word? {
+        _state.getCurrentWord()
+    }
+
 }
