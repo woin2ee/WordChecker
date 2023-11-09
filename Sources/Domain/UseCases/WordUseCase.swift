@@ -54,7 +54,7 @@ public final class WordUseCase: WordUseCaseProtocol {
             word: newWord.word,
             memorizedState: newWord.memorizedState
         )
-        
+
         if unmemorizedWordListState.contains(where: { $0.uuid == updateTarget.uuid }) {
             if updateTarget.memorizedState == .memorized {
                 unmemorizedWordListState.deleteWord(by: uuid)
@@ -63,7 +63,7 @@ public final class WordUseCase: WordUseCaseProtocol {
         } else if updateTarget.memorizedState == .memorizing {
             unmemorizedWordListState.addWord(updateTarget)
         }
-        
+
         wordRepository.save(updateTarget)
     }
 

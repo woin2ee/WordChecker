@@ -5,7 +5,6 @@
 //  Created by Jaewon Yun on 2023/09/04.
 //
 
-import Combine
 import Domain
 import ReactorKit
 import SnapKit
@@ -14,10 +13,6 @@ import UIKit
 import Utility
 
 final class WordDetailViewController: RxBaseViewController {
-    
-//    let viewModel: WordDetailViewModelProtocol
-
-//    var cancelBag: Set<AnyCancellable> = .init()
 
     // MARK: - UI Objects Declaration
 
@@ -51,7 +46,7 @@ final class WordDetailViewController: RxBaseViewController {
 
         return button
     }()
-    
+
     let doneBarButton: UIBarButtonItem = .init(title: WCString.done).then {
         $0.style = .done
     }
@@ -63,8 +58,6 @@ final class WordDetailViewController: RxBaseViewController {
 
         setupSubviews()
         setupNavigationBar()
-//        bindViewModel()
-//        addTextFieldObserver()
     }
 
     private func setupSubviews() {
@@ -85,8 +78,8 @@ final class WordDetailViewController: RxBaseViewController {
     private func setupNavigationBar() {
         let cancelAction: UIAction = .init { [weak self] _ in
             guard let self = self else { return }
-            
-            if self.reactor!.currentState.hasChanged {
+
+            if self.reactor!.currentState.hasChanges {
                 self.presentDismissActionSheet()
             } else {
                 self.dismiss(animated: true)
@@ -101,78 +94,52 @@ final class WordDetailViewController: RxBaseViewController {
         self.navigationItem.title = WCString.details
     }
 
-//    func bindViewModel() {
-//        viewModel.word
-//            .sink { [weak self] word in
-//                guard let self = self else { return }
-//                self.wordTextField.text = word.word
-//                if word.memorizedState == .memorized {
-//                    (self.memorizationStatePopupButton.menu?.children[1] as? UIAction)?.state = .on
-//                    self.memorizationStatePopupButton.setTitle(WCString.memorized, for: .normal)
-//                } else {
-//                    (self.memorizationStatePopupButton.menu?.children[0] as? UIAction)?.state = .on
-//                    self.memorizationStatePopupButton.setTitle(WCString.memorizing, for: .normal)
-//                }
-//            }
-//            .store(in: &cancelBag)
-//
-//        viewModel.hasChangesSubject
-//            .assign(to: \.isModalInPresentation, on: self)
-//            .store(in: &cancelBag)
-//    }
-    
-//    func addTextFieldObserver() {
-//        NotificationCenter.default.addObserver(
-//            self,
-//            selector: #selector(self.markAsChanges),
-//            name: UITextField.textDidChangeNotification,
-//            object: wordTextField
-//        )
-//    }
-//
-//    @objc func markAsChanges() {
-//        viewModel.markAsChanged()
-//    }
-
 }
 
 // MARK: - Bind Reactor
 
 extension WordDetailViewController: View {
-    
+
     func bind(reactor: WordDetailReactor) {
         // Action
         self.rx.sentMessage(#selector(self.viewDidLoad))
             .map { _ in Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
-        
+
         doneBarButton.rx.tap
             .doOnNext { self.dismiss(animated: true) }
             .map { Reactor.Action.doneEditing }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
-        
+
         wordTextField.rx.text.orEmpty
             .map(Reactor.Action.editWord)
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
-        
+
+        wordTextField.rx.text.orEmpty
+            .skip(1) // 초깃값("") 무시
+            .filter { $0 != reactor.originWord }
+            .map { _ in Reactor.Action.beginEditing }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+
         // State
         reactor.state
-            .map(\.hasChanged)
+            .map(\.hasChanges)
             .distinctUntilChanged()
             .asDriverOnErrorJustComplete()
             .drive(self.rx.isModalInPresentation)
             .disposed(by: self.disposeBag)
-        
+
         reactor.state
             .map(\.word.word)
             .distinctUntilChanged()
             .asDriverOnErrorJustComplete()
             .drive(wordTextField.rx.text)
             .disposed(by: self.disposeBag)
-        
+
         reactor.state
             .map(\.word.memorizedState)
             .distinctUntilChanged()
@@ -188,7 +155,7 @@ extension WordDetailViewController: View {
             }
             .disposed(by: self.disposeBag)
     }
-    
+
 }
 
 // MARK: - UIAdaptivePresentationControllerDelegate

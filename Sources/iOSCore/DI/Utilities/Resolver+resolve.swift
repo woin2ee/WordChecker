@@ -23,7 +23,7 @@ extension Resolver {
         }
         return resolved
     }
-    
+
     func resolve<T, Arg1, Arg2>(arguments arg1: Arg1, _ arg2: Arg2) -> T {
         guard let resolved = self.resolve(T.self, arguments: arg1, arg2) else {
             fatalError("Failed to resolve for '\(T.self)' type with [\(arg1), \(arg2)].")

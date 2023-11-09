@@ -11,7 +11,7 @@ import Foundation
 import Swinject
 
 final class WordDetailReactorAssembly: Assembly {
-    
+
     func assemble(container: Container) {
         container.register(WordDetailReactor.self) { resolver, uuid, delegate in
             let wordUseCase: WordRxUseCaseProtocol = resolver.resolve()
@@ -24,5 +24,5 @@ final class WordDetailReactorAssembly: Assembly {
             )
         }
     }
-    
+
 }

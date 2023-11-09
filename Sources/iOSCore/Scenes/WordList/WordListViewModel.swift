@@ -109,7 +109,7 @@ extension WordListViewModel {
 // MARK: - Delegates
 
 extension WordListViewModel: WordDetailReactorDelegate, WordAdditionViewModelDelegate {
-    
+
     func wordDetailReactorDidUpdateWord(with uuid: UUID) {
         refreshWordList(by: currentListType)
     }
