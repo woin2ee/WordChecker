@@ -7,16 +7,17 @@
 
 import Combine
 import Domain
+import ReactorKit
 import SnapKit
 import Then
 import UIKit
 import Utility
 
-final class WordDetailViewController: BaseViewController {
+final class WordDetailViewController: RxBaseViewController {
+    
+//    let viewModel: WordDetailViewModelProtocol
 
-    let viewModel: WordDetailViewModelProtocol
-
-    var cancelBag: Set<AnyCancellable> = .init()
+//    var cancelBag: Set<AnyCancellable> = .init()
 
     // MARK: - UI Objects Declaration
 
@@ -25,12 +26,6 @@ final class WordDetailViewController: BaseViewController {
         $0.borderStyle = .roundedRect
         $0.accessibilityIdentifier = AccessibilityIdentifier.WordDetail.wordTextField
     }
-
-//    let memorizedLabel: UILabel = .init().then {
-//        $0.text = "단어 암기 상태"
-//        $0.adjustsFontForContentSizeCategory = true
-//        $0.font = .preferredFont(forTextStyle: .body)
-//    }
 
     lazy var memorizationStatePopupButton: UIButton = {
         var config: UIButton.Configuration = .bordered()
@@ -42,11 +37,11 @@ final class WordDetailViewController: BaseViewController {
         button.menu = .init(children: [
             UIAction.init(title: WCString.memorizing) { [weak self] _ in
                 self?.memorizationStatePopupButton.setTitle(WCString.memorizing, for: .normal)
-                self?.viewModel.markAsChanged()
+                self?.reactor?.action.onNext(.changeMemorizedState(.memorizing))
             },
             UIAction.init(title: WCString.memorized) { [weak self] _ in
                 self?.memorizationStatePopupButton.setTitle(WCString.memorized, for: .normal)
-                self?.viewModel.markAsChanged()
+                self?.reactor?.action.onNext(.changeMemorizedState(.memorized))
             },
         ])
 
@@ -56,16 +51,9 @@ final class WordDetailViewController: BaseViewController {
 
         return button
     }()
-
-    // MARK: Initializers
-
-    init(viewModel: WordDetailViewModelProtocol) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("\(#file):\(#line):\(#function)")
+    
+    let doneBarButton: UIBarButtonItem = .init(title: WCString.done).then {
+        $0.style = .done
     }
 
     override func viewDidLoad() {
@@ -75,13 +63,12 @@ final class WordDetailViewController: BaseViewController {
 
         setupSubviews()
         setupNavigationBar()
-        bindViewModel()
-        addTextFieldObserver()
+//        bindViewModel()
+//        addTextFieldObserver()
     }
 
     private func setupSubviews() {
         self.view.addSubview(wordTextField)
-//        self.view.addSubview(memorizedLabel)
         self.view.addSubview(memorizationStatePopupButton)
 
         wordTextField.snp.makeConstraints { make in
@@ -96,24 +83,10 @@ final class WordDetailViewController: BaseViewController {
     }
 
     private func setupNavigationBar() {
-        let doneAction: UIAction = .init { [weak self] _ in
-            guard let self = self else { return }
-            let memorizedMenu: UIAction = castOrFatalError(self.memorizationStatePopupButton.menu?.children[1])
-            let isMemorized = (memorizedMenu.state == .on)
-            let word: Word = .init(
-                word: self.wordTextField.text ?? "",
-                isMemorized: isMemorized
-            )
-            self.viewModel.doneEditing(word)
-            self.dismiss(animated: true)
-        }
-
-        let doneBarButton: UIBarButtonItem = .init(title: WCString.done, primaryAction: doneAction)
-        doneBarButton.style = .done
-
         let cancelAction: UIAction = .init { [weak self] _ in
             guard let self = self else { return }
-            if self.viewModel.hasChangesSubject.value {
+            
+            if self.reactor!.currentState.hasChanged {
                 self.presentDismissActionSheet()
             } else {
                 self.dismiss(animated: true)
@@ -128,39 +101,94 @@ final class WordDetailViewController: BaseViewController {
         self.navigationItem.title = WCString.details
     }
 
-    func bindViewModel() {
-        viewModel.word
-            .sink { [weak self] word in
-                guard let self = self else { return }
-                self.wordTextField.text = word.word
-                if word.isMemorized {
-                    (self.memorizationStatePopupButton.menu?.children[1] as? UIAction)?.state = .on
-                    self.memorizationStatePopupButton.setTitle(WCString.memorized, for: .normal)
+//    func bindViewModel() {
+//        viewModel.word
+//            .sink { [weak self] word in
+//                guard let self = self else { return }
+//                self.wordTextField.text = word.word
+//                if word.memorizedState == .memorized {
+//                    (self.memorizationStatePopupButton.menu?.children[1] as? UIAction)?.state = .on
+//                    self.memorizationStatePopupButton.setTitle(WCString.memorized, for: .normal)
+//                } else {
+//                    (self.memorizationStatePopupButton.menu?.children[0] as? UIAction)?.state = .on
+//                    self.memorizationStatePopupButton.setTitle(WCString.memorizing, for: .normal)
+//                }
+//            }
+//            .store(in: &cancelBag)
+//
+//        viewModel.hasChangesSubject
+//            .assign(to: \.isModalInPresentation, on: self)
+//            .store(in: &cancelBag)
+//    }
+    
+//    func addTextFieldObserver() {
+//        NotificationCenter.default.addObserver(
+//            self,
+//            selector: #selector(self.markAsChanges),
+//            name: UITextField.textDidChangeNotification,
+//            object: wordTextField
+//        )
+//    }
+//
+//    @objc func markAsChanges() {
+//        viewModel.markAsChanged()
+//    }
+
+}
+
+// MARK: - Bind Reactor
+
+extension WordDetailViewController: View {
+    
+    func bind(reactor: WordDetailReactor) {
+        // Action
+        self.rx.sentMessage(#selector(self.viewDidLoad))
+            .map { _ in Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        doneBarButton.rx.tap
+            .doOnNext { self.dismiss(animated: true) }
+            .map { Reactor.Action.doneEditing }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        wordTextField.rx.text.orEmpty
+            .map(Reactor.Action.editWord)
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        // State
+        reactor.state
+            .map(\.hasChanged)
+            .distinctUntilChanged()
+            .asDriverOnErrorJustComplete()
+            .drive(self.rx.isModalInPresentation)
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map(\.word.word)
+            .distinctUntilChanged()
+            .asDriverOnErrorJustComplete()
+            .drive(wordTextField.rx.text)
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map(\.word.memorizedState)
+            .distinctUntilChanged()
+            .asDriverOnErrorJustComplete()
+            .drive(with: self) { owner, state in
+                if state == .memorized {
+                    (owner.memorizationStatePopupButton.menu?.children[1] as? UIAction)?.state = .on
+                    owner.memorizationStatePopupButton.setTitle(WCString.memorized, for: .normal)
                 } else {
-                    (self.memorizationStatePopupButton.menu?.children[0] as? UIAction)?.state = .on
-                    self.memorizationStatePopupButton.setTitle(WCString.memorizing, for: .normal)
+                    (owner.memorizationStatePopupButton.menu?.children[0] as? UIAction)?.state = .on
+                    owner.memorizationStatePopupButton.setTitle(WCString.memorizing, for: .normal)
                 }
             }
-            .store(in: &cancelBag)
-
-        viewModel.hasChangesSubject
-            .assign(to: \.isModalInPresentation, on: self)
-            .store(in: &cancelBag)
+            .disposed(by: self.disposeBag)
     }
-
-    func addTextFieldObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.markAsChanges),
-            name: UITextField.textDidChangeNotification,
-            object: wordTextField
-        )
-    }
-
-    @objc func markAsChanges() {
-        viewModel.markAsChanged()
-    }
-
+    
 }
 
 // MARK: - UIAdaptivePresentationControllerDelegate

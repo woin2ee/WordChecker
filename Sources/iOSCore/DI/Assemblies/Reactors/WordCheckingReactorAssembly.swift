@@ -23,7 +23,6 @@ final class WordCheckingReactorAssembly: Assembly {
                 globalAction: .shared
             )
         }
-        .inObjectScope(.container)
     }
 
 }

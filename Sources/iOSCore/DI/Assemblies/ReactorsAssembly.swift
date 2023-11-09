@@ -16,6 +16,7 @@ public final class ReactorsAssembly: Assembly {
     public func assemble(container: Container) {
         let assemblies: [Assembly] = [
             WordCheckingReactorAssembly(),
+            WordDetailReactorAssembly(),
         ]
 
         assemblies.forEach { assembly in

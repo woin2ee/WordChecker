@@ -13,22 +13,22 @@ public final class Word: Equatable, Hashable, Codable {
 
     public var word: String
 
-    public var isMemorized: Bool
+    public var memorizedState: MemorizedState
 
-    public init(uuid: UUID = .init(), word: String, isMemorized: Bool = false) {
+    public init(uuid: UUID = .init(), word: String, memorizedState: MemorizedState = .memorizing) {
         self.uuid = uuid
         self.word = word
-        self.isMemorized = isMemorized
+        self.memorizedState = memorizedState
     }
 
     public static func == (lhs: Word, rhs: Word) -> Bool {
-        return (lhs.uuid == rhs.uuid) && (lhs.word == rhs.word) && (lhs.isMemorized == rhs.isMemorized)
+        return (lhs.uuid == rhs.uuid) && (lhs.word == rhs.word) && (lhs.memorizedState == rhs.memorizedState)
     }
 
     public func hash(into hasher: inout Hasher) {
         hasher.combine(uuid)
         hasher.combine(word)
-        hasher.combine(isMemorized)
+        hasher.combine(memorizedState)
     }
 
 }
@@ -36,7 +36,7 @@ public final class Word: Equatable, Hashable, Codable {
 extension Word {
 
     public static var empty: Word {
-        return .init(uuid: .init(), word: "", isMemorized: false)
+        return .init(uuid: .init(), word: "", memorizedState: .memorizing)
     }
 
 }

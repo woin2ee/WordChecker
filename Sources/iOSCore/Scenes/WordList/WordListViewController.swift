@@ -199,7 +199,7 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let uuid: UUID = viewModel.wordList[indexPath.row].uuid
-        let viewController: WordDetailViewController = DIContainer.shared.resolve(arguments: uuid, viewModel as? WordDetailViewModelDelegate)
+        let viewController: WordDetailViewController = DIContainer.shared.resolve(arguments: uuid, viewModel as? WordDetailReactorDelegate)
         let navigationController: UINavigationController = .init(rootViewController: viewController)
         self.present(navigationController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)

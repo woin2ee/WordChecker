@@ -15,10 +15,10 @@ final class WordListViewModelTests: XCTestCase {
     var sut: WordListViewModelProtocol!
 
     let testMemorizedWordList: [Word] = [
-        .init(word: "F", isMemorized: true),
-        .init(word: "G", isMemorized: true),
-        .init(word: "H", isMemorized: true),
-        .init(word: "I", isMemorized: true),
+        .init(word: "F", memorizedState: .memorized),
+        .init(word: "G", memorizedState: .memorized),
+        .init(word: "H", memorizedState: .memorized),
+        .init(word: "I", memorizedState: .memorized),
     ]
 
     let testUnmemorizedWordList: [Word] = [
@@ -80,7 +80,7 @@ final class WordListViewModelTests: XCTestCase {
     func testEditMemorizedWordWhenShowAll() {
         // Arrange
         let newWord = "EditedWord"
-        let index = sut.wordList.firstIndex(where: { $0.isMemorized == true })!
+        let index = sut.wordList.firstIndex(where: { $0.memorizedState == .memorized })!
 
         // Act
         sut.editWord(index: index, newWord: newWord)
@@ -93,7 +93,7 @@ final class WordListViewModelTests: XCTestCase {
     func testEditUnmemorizedWordWhenShowAll() {
         // Arrange
         let newWord = "EditedWord"
-        let index = sut.wordList.firstIndex(where: { $0.isMemorized == false })!
+        let index = sut.wordList.firstIndex(where: { $0.memorizedState == .memorizing })!
 
         // Act
         sut.editWord(index: index, newWord: newWord)
@@ -133,7 +133,7 @@ final class WordListViewModelTests: XCTestCase {
 
     func testDeleteMemorizedWordWhenShowAll() {
         // Arrange
-        let index = sut.wordList.firstIndex(where: { $0.isMemorized == true })!
+        let index = sut.wordList.firstIndex(where: { $0.memorizedState == .memorized })!
 
         // Act
         sut.deleteWord(index: index)
@@ -152,7 +152,7 @@ final class WordListViewModelTests: XCTestCase {
 
     func testDeleteUnmemorizedWordWhenShowAll() {
         // Arrange
-        let index = sut.wordList.firstIndex(where: { $0.isMemorized == false })!
+        let index = sut.wordList.firstIndex(where: { $0.memorizedState == .memorizing })!
 
         // Act
         sut.deleteWord(index: index)

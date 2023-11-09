@@ -19,7 +19,7 @@ public final class WordUseCase: WordUseCaseProtocol {
     }
 
     public func addNewWord(_ word: Word) {
-        if word.isMemorized == true {
+        if word.memorizedState == .memorized {
             assertionFailure("Added a already memorized word.")
         }
 
@@ -52,16 +52,18 @@ public final class WordUseCase: WordUseCaseProtocol {
         let updateTarget: Word = .init(
             uuid: uuid,
             word: newWord.word,
-            isMemorized: newWord.isMemorized
+            memorizedState: newWord.memorizedState
         )
+        
         if unmemorizedWordListState.contains(where: { $0.uuid == updateTarget.uuid }) {
-            if updateTarget.isMemorized {
+            if updateTarget.memorizedState == .memorized {
                 unmemorizedWordListState.deleteWord(by: uuid)
             }
             unmemorizedWordListState.replaceWord(where: uuid, with: updateTarget)
-        } else if !updateTarget.isMemorized {
+        } else if updateTarget.memorizedState == .memorizing {
             unmemorizedWordListState.addWord(updateTarget)
         }
+        
         wordRepository.save(updateTarget)
     }
 
@@ -83,7 +85,7 @@ public final class WordUseCase: WordUseCaseProtocol {
             return
         }
 
-        currentWord.isMemorized = true
+        currentWord.memorizedState = .memorized
 
         unmemorizedWordListState.deleteWord(by: uuid)
         wordRepository.save(currentWord)
