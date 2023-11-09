@@ -12,14 +12,14 @@ extension Domain.Word {
 
     func toObjectModel() -> Word {
         let isMemorized: Bool
-        
+
         switch self.memorizedState {
         case .memorized:
             isMemorized = true
         case .memorizing:
             isMemorized = false
         }
-        
+
         return .init(uuid: self.uuid, word: self.word, isMemorized: isMemorized)
     }
 
@@ -29,7 +29,7 @@ extension Word {
 
     func toDomain() -> Domain.Word {
         let memorizedState: MemorizedState = self.isMemorized ? .memorized : .memorizing
-        
+
         return .init(uuid: self.uuid, word: self.word, memorizedState: memorizedState)
     }
 
