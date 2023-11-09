@@ -39,11 +39,11 @@ public final class WordRepositoryFake: WordRepositoryProtocol {
     }
 
     public func getUnmemorizedList() -> [Domain.Word] {
-        return _wordList.filter { !$0.isMemorized }
+        return _wordList.filter { $0.memorizedState == .memorizing }
     }
 
     public func getMemorizedList() -> [Domain.Word] {
-        return _wordList.filter { $0.isMemorized }
+        return _wordList.filter { $0.memorizedState == .memorized }
     }
 
     public func reset(to wordList: [Domain.Word]) {
