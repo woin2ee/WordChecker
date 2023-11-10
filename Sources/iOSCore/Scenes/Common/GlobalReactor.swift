@@ -22,6 +22,7 @@ final class GlobalAction {
 
     var didEditWord: PublishRelay<Word> = .init()
     var didDeleteWord: PublishRelay<Word> = .init()
+    var didAddWord: PublishRelay<Void> = .init()
 
     var didResetWordList: PublishRelay<Void> = .init()
 

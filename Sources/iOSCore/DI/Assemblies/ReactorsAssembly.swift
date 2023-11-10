@@ -17,6 +17,7 @@ public final class ReactorsAssembly: Assembly {
         let assemblies: [Assembly] = [
             WordCheckingReactorAssembly(),
             WordDetailReactorAssembly(),
+            WordListReactorAssembly(),
         ]
 
         assemblies.forEach { assembly in

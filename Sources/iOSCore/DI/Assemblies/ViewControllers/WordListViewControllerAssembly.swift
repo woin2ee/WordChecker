@@ -8,15 +8,17 @@
 
 import Domain
 import Swinject
+import Then
 
 final class WordListViewControllerAssembly: Assembly {
 
     func assemble(container: Container) {
         container.register(WordListViewController.self) { resolver in
-            let wordUseCase: WordUseCaseProtocol = resolver.resolve()
-            let viewModel: WordListViewModelProtocol = WordListViewModel.init(wordUseCase: wordUseCase)
-            let viewController: WordListViewController = .init(viewModel: viewModel)
-            return viewController
+            let reactor: WordListReactor = resolver.resolve()
+
+            return .init().then {
+                $0.reactor = reactor
+            }
         }
     }
 
