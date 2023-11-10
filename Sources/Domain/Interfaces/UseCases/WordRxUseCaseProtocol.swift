@@ -16,6 +16,10 @@ public protocol WordRxUseCaseProtocol {
 
     func getWordList() -> Single<[Word]>
 
+    func getMemorizedWordList() -> Single<[Word]>
+
+    func getUnmemorizedWordList() -> Single<[Word]>
+
     func getWord(by uuid: UUID) -> Single<Word>
 
     func updateWord(by uuid: UUID, to newWord: Word) -> Single<Void>

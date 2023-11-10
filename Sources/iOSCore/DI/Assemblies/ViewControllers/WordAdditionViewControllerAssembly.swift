@@ -12,9 +12,10 @@ import Swinject
 final class WordAdditionViewControllerAssembly: Assembly {
 
     func assemble(container: Container) {
-        container.register(WordAdditionViewController.self) { resolver, delegate in
+        container.register(WordAdditionViewController.self) { resolver in
             let wordUseCase: WordRxUseCaseProtocol = resolver.resolve()
-            let viewModel: WordAdditionViewModel = .init(wordUseCase: wordUseCase, delegate: delegate)
+            let viewModel: WordAdditionViewModel = .init(wordUseCase: wordUseCase)
+
             let viewController: WordAdditionViewController = .init(viewModel: viewModel)
             return viewController
         }

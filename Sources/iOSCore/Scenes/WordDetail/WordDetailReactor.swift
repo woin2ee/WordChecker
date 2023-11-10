@@ -10,12 +10,6 @@ import Domain
 import Foundation
 import ReactorKit
 
-protocol WordDetailReactorDelegate: AnyObject {
-
-    func wordDetailReactorDidUpdateWord(with uuid: UUID)
-
-}
-
 final class WordDetailReactor: Reactor {
 
     enum Action {
@@ -46,18 +40,15 @@ final class WordDetailReactor: Reactor {
 
     let globalAction: GlobalAction
     let wordUseCase: WordRxUseCaseProtocol
-    weak var delegate: WordDetailReactorDelegate?
 
     init(
         uuid: UUID,
         globalAction: GlobalAction,
-        wordUseCase: WordRxUseCaseProtocol,
-        delegate: WordDetailReactorDelegate? = nil
+        wordUseCase: WordRxUseCaseProtocol
     ) {
         self.uuid = uuid
         self.globalAction = globalAction
         self.wordUseCase = wordUseCase
-        self.delegate = delegate
     }
 
     func mutate(action: Action) -> Observable<Mutation> {
@@ -76,8 +67,7 @@ final class WordDetailReactor: Reactor {
         case .doneEditing:
             return wordUseCase.updateWord(by: uuid, to: self.currentState.word)
                 .doOnSuccess { _ in
-                    self.delegate?.wordDetailReactorDidUpdateWord(with: self.uuid)
-                    GlobalAction.shared.didEditWord.accept(self.currentState.word)
+                    self.globalAction.didEditWord.accept(self.currentState.word)
                 }
                 .asObservable()
                 .flatMap { _ -> Observable<Mutation> in return .empty() }

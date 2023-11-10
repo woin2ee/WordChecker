@@ -5,15 +5,13 @@
 //  Created by Jaewon Yun on 2023/08/27.
 //
 
-import Combine
 import Domain
+import ReactorKit
 import UIKit
 
-final class WordSearchResultsController: UITableViewController {
+final class WordSearchResultsController: UITableViewController, View {
 
-    let viewModel: WordListViewModelProtocol
-
-    var cancelBag: Set<AnyCancellable> = .init()
+    var disposeBag: RxSwift.DisposeBag = .init()
 
     let cellReuseIdentifier = "WORD_SEARCH_RESULT_CELL"
 
@@ -31,35 +29,27 @@ final class WordSearchResultsController: UITableViewController {
         }
     }
 
-    init(viewModel: WordListViewModelProtocol) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("\(#file):\(#line):\(#function)")
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .clear
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
-        bindViewModel()
     }
 
     private func updateSearchedList(with text: String) {
         let keyword = text.lowercased()
-        searchedList = viewModel.wordList.filter { $0.word.lowercased().contains(keyword) }
+        searchedList = self.reactor!.currentState.wordList.filter { $0.word.lowercased().contains(keyword) }
     }
 
-    func bindViewModel() {
-        viewModel.wordListPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let self = self else { return }
-                self.updateSearchedList(with: self.currentSearchBarText)
+    func bind(reactor: WordListReactor) {
+        // State
+        reactor.state
+            .map(\.wordList)
+            .distinctUntilChanged()
+            .asDriverOnErrorJustComplete()
+            .drive(with: self) { owner, _ in
+                owner.updateSearchedList(with: self.currentSearchBarText)
             }
-            .store(in: &cancelBag)
+            .disposed(by: self.disposeBag)
     }
 
 }
@@ -84,8 +74,8 @@ extension WordSearchResultsController {
         let deleteAction: UIContextualAction = .init(style: .destructive, title: WCString.delete) { [weak self] _, _, completionHandler in
             guard let self = self else { return }
             let targetItem = self.searchedList[indexPath.row]
-            guard let index = self.viewModel.wordList.firstIndex(of: targetItem) else { return }
-            self.viewModel.deleteWord(index: index)
+            guard let index = self.reactor?.currentState.wordList.firstIndex(of: targetItem) else { return }
+            self.reactor?.action.onNext(.deleteWord(index))
             self.updateSearchedList(with: currentSearchBarText)
             completionHandler(true)
         }
@@ -95,17 +85,17 @@ extension WordSearchResultsController {
             let completeAction: UIAlertAction = .init(title: WCString.edit, style: .default) { [weak self] _ in
                 guard let self = self, let newWord = alertController.textFields?.first?.text else { return }
                 let editedWord = self.searchedList[indexPath.row]
-                guard let index = self.viewModel.wordList.firstIndex(of: editedWord) else { return }
-                self.viewModel.editWord(index: index, newWord: newWord)
-                self.updateSearchedList(with: currentSearchBarText)
+                guard let index = self.reactor?.currentState.wordList.firstIndex(of: editedWord) else { return }
+                self.reactor?.action.onNext(.editWord(newWord, index))
+                self.updateSearchedList(with: currentSearchBarText) // FIXME: 동기화 문제 발생 가능성
             }
             alertController.addAction(cancelAction)
             alertController.addAction(completeAction)
             alertController.addTextField { [weak self] textField in
                 guard let self = self else { return }
                 let targetItem = self.searchedList[indexPath.row]
-                guard let index = self.viewModel.wordList.firstIndex(of: targetItem) else { return }
-                textField.text = self.viewModel.wordList[index].word
+                guard let index = self.reactor?.currentState.wordList.firstIndex(of: targetItem) else { return }
+                textField.text = self.reactor?.currentState.wordList[index].word
                 let action: UIAction = .init { _ in
                     let text = textField.text ?? ""
                     if text.isEmpty {
@@ -124,7 +114,7 @@ extension WordSearchResultsController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let uuid: UUID = searchedList[indexPath.row].uuid
-        let viewController: WordDetailViewController = DIContainer.shared.resolve(arguments: uuid, viewModel as? WordDetailReactorDelegate)
+        let viewController: WordDetailViewController = DIContainer.shared.resolve(argument: uuid)
         let navigationController: UINavigationController = .init(rootViewController: viewController)
         self.present(navigationController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)

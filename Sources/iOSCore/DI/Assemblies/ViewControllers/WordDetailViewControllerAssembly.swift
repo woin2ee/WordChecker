@@ -9,16 +9,17 @@
 import Domain
 import Foundation
 import Swinject
+import Then
 
 final class WordDetailViewControllerAssembly: Assembly {
 
     func assemble(container: Container) {
-        container.register(WordDetailViewController.self) { (resolver, uuid: UUID, delegate: WordDetailReactorDelegate?) in
-            let reactor: WordDetailReactor = resolver.resolve(arguments: uuid, delegate)
+        container.register(WordDetailViewController.self) { (resolver, uuid: UUID) in
+            let reactor: WordDetailReactor = resolver.resolve(argument: uuid)
 
-            let viewController: WordDetailViewController = .init()
-            viewController.reactor = reactor
-            return viewController
+            return .init().then {
+                $0.reactor = reactor
+            }
         }
     }
 

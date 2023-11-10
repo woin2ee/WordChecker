@@ -13,14 +13,13 @@ import Swinject
 final class WordDetailReactorAssembly: Assembly {
 
     func assemble(container: Container) {
-        container.register(WordDetailReactor.self) { resolver, uuid, delegate in
+        container.register(WordDetailReactor.self) { resolver, uuid in
             let wordUseCase: WordRxUseCaseProtocol = resolver.resolve()
 
             return WordDetailReactor.init(
                 uuid: uuid,
                 globalAction: .shared,
-                wordUseCase: wordUseCase,
-                delegate: delegate
+                wordUseCase: wordUseCase
             )
         }
     }

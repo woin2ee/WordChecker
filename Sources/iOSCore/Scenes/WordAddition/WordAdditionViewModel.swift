@@ -11,21 +11,12 @@ import RxSwift
 import RxCocoa
 import RxUtility
 
-protocol WordAdditionViewModelDelegate: AnyObject {
-
-    func wordAdditionViewModelDidFinishAddWord()
-
-}
-
 final class WordAdditionViewModel: ViewModelType {
 
     let wordUseCase: WordRxUseCaseProtocol
 
-    private(set) var delegate: WordAdditionViewModelDelegate?
-
-    init(wordUseCase: WordRxUseCaseProtocol, delegate: WordAdditionViewModelDelegate?) {
+    init(wordUseCase: WordRxUseCaseProtocol) {
         self.wordUseCase = wordUseCase
-        self.delegate = delegate
     }
 
     func transform(input: Input) -> Output {
@@ -42,7 +33,9 @@ final class WordAdditionViewModel: ViewModelType {
                 return self.wordUseCase.addNewWord(newWord)
                     .asSignalOnErrorJustComplete()
             }
-            .doOnNext { _ in self.delegate?.wordAdditionViewModelDidFinishAddWord() }
+            .doOnNext { _ in
+                GlobalAction.shared.didAddWord.accept(())
+            }
 
         let wordTextIsNotEmpty = input.wordText.map(\.isNotEmpty)
 
