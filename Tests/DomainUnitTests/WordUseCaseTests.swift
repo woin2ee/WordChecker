@@ -7,6 +7,7 @@
 
 import Domain
 import Testing
+@testable import Utility
 import XCTest
 
 final class WordUseCaseTests: XCTestCase {
@@ -14,14 +15,14 @@ final class WordUseCaseTests: XCTestCase {
     var sut: WordUseCaseProtocol!
 
     var wordRepository: WordRepositoryFake!
-    var unmemorizedWordListState: UnmemorizedWordListRepositorySpy!
+    var unmemorizedWordListRepository: UnmemorizedWordListRepositorySpy!
 
     let memorizedWordList: [Word] = [
-        .init(word: "F", isMemorized: true),
-        .init(word: "G", isMemorized: true),
-        .init(word: "H", isMemorized: true),
-        .init(word: "I", isMemorized: true),
-        .init(word: "J", isMemorized: true),
+        .init(word: "F", memorizedState: .memorized),
+        .init(word: "G", memorizedState: .memorized),
+        .init(word: "H", memorizedState: .memorized),
+        .init(word: "I", memorizedState: .memorized),
+        .init(word: "J", memorizedState: .memorized),
     ]
 
     let unmemorizedWordList: [Word] = [
@@ -35,16 +36,16 @@ final class WordUseCaseTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
 
-        wordRepository = makePreparedRepository()
-        unmemorizedWordListState = makePreparedState()
+        wordRepository = makePreparedWordRepository()
+        unmemorizedWordListRepository = makePreparedUnmemorizedWordListRepository()
 
         sut = WordUseCase.init(
             wordRepository: wordRepository,
-            unmemorizedWordListState: unmemorizedWordListState
+            unmemorizedWordListRepository: unmemorizedWordListRepository
         )
     }
 
-    func makePreparedRepository() -> WordRepositoryFake {
+    func makePreparedWordRepository() -> WordRepositoryFake {
         let repository = WordRepositoryFake()
         zip(memorizedWordList, unmemorizedWordList).forEach {
             repository.save($0)
@@ -53,12 +54,12 @@ final class WordUseCaseTests: XCTestCase {
         return repository
     }
 
-    func makePreparedState() -> UnmemorizedWordListRepositorySpy {
-        let state: UnmemorizedWordListRepositorySpy = .init()
+    func makePreparedUnmemorizedWordListRepository() -> UnmemorizedWordListRepositorySpy {
+        let repository: UnmemorizedWordListRepositorySpy = .init()
         unmemorizedWordList.forEach {
-            state.addWord($0)
+            repository.addWord($0)
         }
-        return state
+        return repository
     }
 
     override func tearDownWithError() throws {
@@ -66,7 +67,7 @@ final class WordUseCaseTests: XCTestCase {
 
         sut = nil
         wordRepository = nil
-        unmemorizedWordListState = nil
+        unmemorizedWordListRepository = nil
     }
 
     func test_addNewWord() {
@@ -74,14 +75,14 @@ final class WordUseCaseTests: XCTestCase {
         guard let testUUID: UUID = .init(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F") else {
             return XCTFail("Failed to initialize uuid.")
         }
-        let testWord: Word = .init(uuid: testUUID, word: "Test", isMemorized: false)
+        let testWord: Word = .init(uuid: testUUID, word: "Test", memorizedState: .memorizing)
 
         // Act
         sut.addNewWord(testWord)
 
         // Assert
         XCTAssert(wordRepository._wordList.contains(where: { $0.uuid == testUUID }))
-        XCTAssert(unmemorizedWordListState._storedWords.contains(where: { $0.uuid == testUUID }))
+        XCTAssert(unmemorizedWordListRepository._storedWords.contains(where: { $0.uuid == testUUID }))
     }
 
     func test_deleteUnmemorizedWord() {
@@ -95,7 +96,7 @@ final class WordUseCaseTests: XCTestCase {
 
         // Assert
         XCTAssertFalse(wordRepository._wordList.contains(where: { $0.uuid == deleteTarget.uuid }))
-        XCTAssertEqual(unmemorizedWordListState._storedWords.count, unmemorizedWordList.count - 1)
+        XCTAssertEqual(unmemorizedWordListRepository._storedWords.count, unmemorizedWordList.count - 1)
     }
 
     func test_deleteMemorizedWord() {
@@ -109,7 +110,7 @@ final class WordUseCaseTests: XCTestCase {
 
         // Assert
         XCTAssertFalse(wordRepository._wordList.contains(where: { $0.uuid == deleteTarget.uuid }))
-        XCTAssertEqual(unmemorizedWordListState._storedWords.count, unmemorizedWordList.count)
+        XCTAssertEqual(unmemorizedWordListRepository._storedWords.count, unmemorizedWordList.count)
     }
 
     func test_getWordList() {
@@ -137,7 +138,7 @@ final class WordUseCaseTests: XCTestCase {
 
         // Assert
         XCTAssertEqual(wordRepository._wordList.first(where: { $0.uuid == updateTarget.uuid })?.word, "UpdatedWord")
-        XCTAssertEqual(unmemorizedWordListState._storedWords.first(where: { $0.uuid == updateTarget.uuid })?.word, "UpdatedWord")
+        XCTAssertEqual(unmemorizedWordListRepository._storedWords.first(where: { $0.uuid == updateTarget.uuid })?.word, "UpdatedWord")
     }
 
     func test_updateUnmemorizedWordToMemorized() {
@@ -145,14 +146,14 @@ final class WordUseCaseTests: XCTestCase {
         guard let updateTarget: Word = unmemorizedWordList.last else {
             return XCTFail("'unmemorizedWordList' property is empty.")
         }
-        updateTarget.isMemorized = true
+        updateTarget.memorizedState = .memorized
 
         // Act
         sut.updateWord(by: updateTarget.uuid, to: updateTarget)
 
         // Assert
         XCTAssertEqual(wordRepository._wordList.first(where: { $0.uuid == updateTarget.uuid }), updateTarget)
-        XCTAssertFalse(unmemorizedWordListState._storedWords.contains(where: { $0.uuid == updateTarget.uuid }))
+        XCTAssertFalse(unmemorizedWordListRepository._storedWords.contains(where: { $0.uuid == updateTarget.uuid }))
     }
 
     func test_updateMemorizedWordToUnMemorized() {
@@ -160,14 +161,14 @@ final class WordUseCaseTests: XCTestCase {
         guard let updateTarget: Word = memorizedWordList.last else {
             return XCTFail("'memorizedWordList' property is empty.")
         }
-        updateTarget.isMemorized = false
+        updateTarget.memorizedState = .memorizing
 
         // Act
         sut.updateWord(by: updateTarget.uuid, to: updateTarget)
 
         // Assert
         XCTAssertEqual(wordRepository._wordList.first(where: { $0.uuid == updateTarget.uuid }), updateTarget)
-        XCTAssert(unmemorizedWordListState._storedWords.contains(where: { $0.uuid == updateTarget.uuid }))
+        XCTAssert(unmemorizedWordListRepository._storedWords.contains(where: { $0.uuid == updateTarget.uuid }))
     }
 
     func test_randomizeUnmemorizedWordListWhenOnly1Element() {
@@ -182,18 +183,18 @@ final class WordUseCaseTests: XCTestCase {
         sut.randomizeUnmemorizedWordList()
 
         // Assert
-        XCTAssertEqual(unmemorizedWordListState._storedWords, [testWord])
+        XCTAssertEqual(sut.currentUnmemorizedWord, testWord)
     }
 
     func test_randomizeUnmemorizedWordListWhenMoreThen2Element() {
         // Arrange
-        let oldWordList = unmemorizedWordList
+        let oldCurrentWord = sut.currentUnmemorizedWord
 
         // Act
         sut.randomizeUnmemorizedWordList()
 
         // Assert
-        XCTAssertNotEqual(unmemorizedWordListState._storedWords, oldWordList)
+        XCTAssertNotEqual(sut.currentUnmemorizedWord, oldCurrentWord)
     }
 
 }
