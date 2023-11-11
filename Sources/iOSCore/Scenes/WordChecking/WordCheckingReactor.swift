@@ -78,10 +78,10 @@ final class WordCheckingReactor: Reactor {
         case .addWord(let newWord):
             let newWord: Word = .init(word: newWord)
             return wordUseCase.addNewWord(newWord)
-                .map {
-                    return Mutation.setCurrentWord(newWord)
-                }
                 .asObservable()
+                .map {
+                    return Mutation.setCurrentWord(self.wordUseCase.currentUnmemorizedWord)
+                }
 
         case .updateToNextWord:
             return wordUseCase.updateToNextWord()
