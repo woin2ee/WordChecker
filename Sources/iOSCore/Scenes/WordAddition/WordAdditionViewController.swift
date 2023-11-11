@@ -12,9 +12,7 @@ import SnapKit
 import Then
 import UIKit
 
-final class WordAdditionViewController: BaseViewController {
-
-    let disposeBag: DisposeBag = .init()
+final class WordAdditionViewController: RxBaseViewController {
 
     let viewModel: WordAdditionViewModel
 

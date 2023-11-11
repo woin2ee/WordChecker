@@ -8,7 +8,7 @@
 import SFSafeSymbols
 import UIKit
 
-extension WordCheckingViewController {
+extension WordCheckingView {
 
     final class ChangeWordSymbol: UIImageView {
 
