@@ -22,3 +22,8 @@ public func unwrapOrThrow<T>(_ optionalValue: T?) throws -> T {
     }
     return unwrappedValue
 }
+
+/// Swift does not implement abstract methods. This method is used as a runtime check to ensure that methods which intended to be abstract (i.e., they should be implemented in subclasses) are not called directly on the superclass.
+public func abstractMethod(message: String = "Abstract method", file: StaticString = #file, line: UInt = #line) -> Swift.Never {
+    fatalError(message, file: file, line: line)
+}

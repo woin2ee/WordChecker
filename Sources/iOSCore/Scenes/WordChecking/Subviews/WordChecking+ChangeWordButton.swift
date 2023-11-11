@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension WordCheckingViewController {
+extension WordCheckingView {
 
     final class ChangeWordButton: UIButton {
 

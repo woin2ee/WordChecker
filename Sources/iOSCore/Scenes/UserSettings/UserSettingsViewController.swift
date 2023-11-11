@@ -13,9 +13,7 @@ import SnapKit
 import Then
 import UIKit
 
-final class UserSettingsViewController: BaseViewController {
-
-    let disposeBag: DisposeBag = .init()
+final class UserSettingsViewController: RxBaseViewController {
 
     let userSettingsCellID = "USER_SETTINGS_CELL"
 
