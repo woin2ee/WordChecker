@@ -57,7 +57,6 @@ final class WordListViewController: RxBaseViewController {
         $0.font = .preferredFont(forTextStyle: .title3, weight: .medium)
         $0.text = WCString.there_are_no_words
         $0.textColor = .systemGray3
-        $0.isHidden = true
     }
 
     // MARK: - Life cycle
@@ -157,9 +156,19 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath)
+
         var config: UIListContentConfiguration = .cell()
         config.text = self.reactor!.currentState.wordList[indexPath.row].word
+
         cell.contentConfiguration = config
+
+        switch self.reactor!.currentState.wordList[indexPath.row].memorizedState {
+        case .memorized:
+            cell.accessoryType = .checkmark
+        case .memorizing:
+            cell.accessoryType = .none
+        }
+
         return cell
     }
 
