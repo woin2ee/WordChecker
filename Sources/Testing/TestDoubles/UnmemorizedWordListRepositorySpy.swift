@@ -1,77 +1,67 @@
 //
-//  UnmemorizedWordListStateSpy.swift
+//  UnmemorizedWordListRepositorySpy.swift
 //  iOSCoreUnitTests
 //
 //  Created by Jaewon Yun on 2023/09/13.
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import Combine
 import DataDriver
 import Domain
 import Foundation
+import Utility
 
-public final class UnmemorizedWordListStateSpy: UnmemorizedWordListStateProtocol {
+public final class UnmemorizedWordListRepositorySpy: UnmemorizedWordListRepositoryProtocol {
 
-    public var _state: UnmemorizedWordListState = .init()
-
-    public var _storedWords: [Domain.Word] = []
+    public var _storedWords: CircularLinkedList<Domain.Word> = .init()
 
     public init() {}
 
-    public var currentWord: AnyPublisher<Domain.Word?, Never> {
-        _state.currentWord
-    }
-
     public func updateToNextWord() {
-        _state.updateToNextWord()
+        _storedWords.next()
     }
 
     public func updateToPreviousWord() {
-        _state.updateToPreviousWord()
+        _storedWords.previous()
     }
 
     public func addWord(_ word: Domain.Word) {
-        _state.addWord(word)
         _storedWords.append(word)
     }
 
     public func deleteWord(by uuid: UUID) {
-        _state.deleteWord(by: uuid)
         if let index = _storedWords.firstIndex(where: { $0.uuid == uuid }) {
             _storedWords.remove(at: index)
         }
     }
 
     public func replaceWord(where uuid: UUID, with newWord: Domain.Word) {
-        _state.replaceWord(where: uuid, with: newWord)
         if let index = _storedWords.firstIndex(where: { $0.uuid == uuid }) {
             _storedWords[index] = newWord
         }
     }
 
     public func randomizeList(with unmemorizedList: [Domain.Word]) {
-        _state.randomizeList(with: unmemorizedList)
-        _storedWords = unmemorizedList
+        _storedWords = .init(unmemorizedList)
 
         guard
             _storedWords.count > 1,
-            let oldFirstElement = _storedWords.first
+            let oldCurrentElement = _storedWords.current
         else {
             return
         }
 
         repeat {
             _storedWords.shuffle()
-        } while _storedWords.first ?? .init(word: "") == oldFirstElement
+        } while _storedWords.current! == oldCurrentElement
     }
 
     public func contains(where predicate: (Domain.Word) -> Bool) -> Bool {
-        _state.contains(where: predicate)
+        _storedWords.contains(where: predicate)
     }
 
     public func getCurrentWord() -> Domain.Word? {
-        _state.getCurrentWord()
+        _storedWords.current
     }
 
 }

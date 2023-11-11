@@ -14,7 +14,7 @@ final class WordUseCaseTests: XCTestCase {
     var sut: WordUseCaseProtocol!
 
     var wordRepository: WordRepositoryFake!
-    var unmemorizedWordListState: UnmemorizedWordListStateSpy!
+    var unmemorizedWordListState: UnmemorizedWordListRepositorySpy!
 
     let memorizedWordList: [Word] = [
         .init(word: "F", isMemorized: true),
@@ -53,8 +53,8 @@ final class WordUseCaseTests: XCTestCase {
         return repository
     }
 
-    func makePreparedState() -> UnmemorizedWordListStateSpy {
-        let state: UnmemorizedWordListStateSpy = .init()
+    func makePreparedState() -> UnmemorizedWordListRepositorySpy {
+        let state: UnmemorizedWordListRepositorySpy = .init()
         unmemorizedWordList.forEach {
             state.addWord($0)
         }

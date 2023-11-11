@@ -30,7 +30,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         sut = GoogleDriveUseCase.init(
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
-            unmemorizedWordListState: UnmemorizedWordListStateSpy()
+            unmemorizedWordListState: UnmemorizedWordListRepositorySpy()
         )
 
         let presentingConfig: PresentingConfiguration = .init(window: UIViewController())
@@ -55,7 +55,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         sut = GoogleDriveUseCase.init(
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
-            unmemorizedWordListState: UnmemorizedWordListStateSpy()
+            unmemorizedWordListState: UnmemorizedWordListRepositorySpy()
         )
 
         let presentingConfig: PresentingConfiguration = .init(window: UIViewController())
@@ -78,7 +78,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
 
         let googleDriveRepository: GoogleDriveRepositoryFake = .init(sampleWordList: driveData)
 
-        let unmemorizedWordListState: UnmemorizedWordListStateSpy = .init()
+        let unmemorizedWordListState: UnmemorizedWordListRepositorySpy = .init()
 
         sut = GoogleDriveUseCase.init(
             wordRepository: wordRepository,
@@ -109,7 +109,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         googleDriveRepository._hasSignIn = true
         googleDriveRepository._isGrantedAppDataScope = true
 
-        let unmemorizedWordListState: UnmemorizedWordListStateSpy = .init()
+        let unmemorizedWordListState: UnmemorizedWordListRepositorySpy = .init()
 
         sut = GoogleDriveUseCase.init(
             wordRepository: wordRepository,

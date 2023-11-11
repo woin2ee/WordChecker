@@ -13,7 +13,7 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
 
     public var _wordList: [Domain.Word] = []
 
-    public var _unmemorizedWordList: UnmemorizedWordListStateSpy = .init()
+    public var _unmemorizedWordList: UnmemorizedWordListRepositorySpy = .init()
 
     public init() {}
 
