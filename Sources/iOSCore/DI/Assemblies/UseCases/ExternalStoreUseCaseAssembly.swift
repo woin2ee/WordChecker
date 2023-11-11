@@ -18,12 +18,12 @@ public final class ExternalStoreUseCaseAssembly: Assembly {
         container.register(ExternalStoreUseCaseProtocol.self) { resolver in
             let wordRepository: WordRepositoryProtocol = resolver.resolve()
             let googleDriveRepository: GoogleDriveRepositoryProtocol = resolver.resolve()
-            let state: UnmemorizedWordListStateProtocol = resolver.resolve()
+            let unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol = resolver.resolve()
 
             return GoogleDriveUseCase.init(
                 wordRepository: wordRepository,
                 googleDriveRepository: googleDriveRepository,
-                unmemorizedWordListState: state
+                unmemorizedWordListRepository: unmemorizedWordListRepository
             )
         }
         .inObjectScope(.container)
