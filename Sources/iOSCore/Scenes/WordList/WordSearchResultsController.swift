@@ -64,9 +64,19 @@ extension WordSearchResultsController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath)
+
         var config: UIListContentConfiguration = .cell()
         config.text = searchedList[indexPath.row].word
+
         cell.contentConfiguration = config
+
+        switch searchedList[indexPath.row].memorizedState {
+        case .memorized:
+            cell.accessoryType = .checkmark
+        case .memorizing:
+            cell.accessoryType = .none
+        }
+
         return cell
     }
 
