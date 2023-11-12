@@ -7,7 +7,6 @@
 
 import Foundation
 import RxSwift
-import Utility
 
 public final class WordRxUseCase: WordRxUseCaseProtocol {
 
@@ -69,13 +68,10 @@ public final class WordRxUseCase: WordRxUseCaseProtocol {
 
     public func getWord(by uuid: UUID) -> RxSwift.Single<Word> {
         return .create { single in
-            let maybeWord = self.wordUseCase.getWord(by: uuid)
-
-            do {
-                let word = try unwrapOrThrow(maybeWord)
+            if let word = self.wordUseCase.getWord(by: uuid) {
                 single(.success(word))
-            } catch {
-                single(.failure(error))
+            } else {
+                single(.failure(WordRxUseCaseError.invalidUUID(uuid)))
             }
 
             return Disposables.create()
@@ -136,4 +132,8 @@ public final class WordRxUseCase: WordRxUseCaseProtocol {
         wordUseCase.currentUnmemorizedWord
     }
 
+}
+
+enum WordRxUseCaseError: Error {
+    case invalidUUID(UUID)
 }
