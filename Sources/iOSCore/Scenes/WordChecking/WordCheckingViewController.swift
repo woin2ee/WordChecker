@@ -108,13 +108,18 @@ final class WordCheckingViewController: RxBaseViewController, View {
                     return
                 }
 
+                guard let word = reactor.currentState.currentWord?.word else {
+                    assertionFailure("현재 표시된 단어가 없는데 번역 버튼이 활성화된 것으로 예상.")
+                    return
+                }
+
                 let translationSite: TranslationSite = .init(
                     translationSourceLanguage: reactor.currentState.translationSourceLanguage,
                     translationTargetLanguage: reactor.currentState.translationTargetLanguage
                 )
 
                 let translationWebViewController: TranslationWebViewController = .init(translationSite: translationSite)
-                translationWebViewController.word = owner.rootView.wordLabel.text ?? ""
+                translationWebViewController.word = word
 
                 do {
                     try translationWebViewController.loadWebView()
@@ -133,8 +138,10 @@ final class WordCheckingViewController: RxBaseViewController, View {
             .drive(with: self) { owner, word in
                 if let currentWord = word {
                     owner.rootView.wordLabel.text = currentWord.word
+                    owner.rootView.translateButton.isEnabled = true
                 } else {
                     owner.rootView.wordLabel.text = WCString.noWords
+                    owner.rootView.translateButton.isEnabled = false
                 }
             }
             .disposed(by: self.disposeBag)
