@@ -13,6 +13,7 @@ import SFSafeSymbols
 import Then
 import Toast
 import UIKit
+import Utility
 import WebKit
 
 final class WordCheckingViewController: RxBaseViewController, View {
@@ -102,6 +103,11 @@ final class WordCheckingViewController: RxBaseViewController, View {
 
         rootView.translateButton.rx.tap
             .subscribe(with: self, onNext: { owner, _ in
+                guard NetworkMonitor.shared.isEstablishedConnection else {
+                    owner.presentOKAlert(title: nil, message: WCString.please_check_your_network_connection)
+                    return
+                }
+
                 let translationSite: TranslationSite = .init(
                     translationSourceLanguage: reactor.currentState.translationSourceLanguage,
                     translationTargetLanguage: reactor.currentState.translationTargetLanguage
