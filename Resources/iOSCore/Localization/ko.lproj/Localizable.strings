@@ -54,3 +54,5 @@ google_drive_logout = "구글 드라이브 로그아웃";
 signed_out_of_google_drive = "구글 드라이브에서 로그아웃되었습니다.";
 
 synchronize_to_google_drive = "구글 드라이브에 동기화 합니다.";
+
+please_check_your_network_connection = "네트워크 연결 상태를 확인해 주세요.";

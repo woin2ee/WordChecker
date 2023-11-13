@@ -11,6 +11,7 @@ import iOSCore
 import RxSwift
 import RxUtility
 import UIKit
+import Utility
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         injectDependencies()
         initUserSettingsIfFirstLaunch()
+        NetworkMonitor.start()
 
         return true
     }
