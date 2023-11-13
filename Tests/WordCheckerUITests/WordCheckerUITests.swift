@@ -66,11 +66,11 @@ final class WordCheckerUITests: XCTestCase {
 
         // Delete
         var currentWord: String = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
-        app.tabBars.buttons[WCString.list].tap()
-        app.staticTexts["EditedWord"].swipeLeft()
+        moveListTap()
+        app.staticTexts[currentWord].swipeLeft()
         app.buttons[WCString.delete].tap()
         XCTAssertEqual(app.tables.cells.count, 2)
-        app.tabBars.buttons[WCString.memorization].tap()
+        moveCheckingTap()
         var newCurrentWord = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
         XCTAssertNotEqual(currentWord, newCurrentWord)
 
@@ -80,8 +80,6 @@ final class WordCheckerUITests: XCTestCase {
         app.collectionViews.buttons[WCString.shuffleOrder].tap()
         newCurrentWord = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
         XCTAssertNotEqual(currentWord, newCurrentWord)
-
-        let image = app.screenshot().image
     }
 
     func testWordListUseCase() {

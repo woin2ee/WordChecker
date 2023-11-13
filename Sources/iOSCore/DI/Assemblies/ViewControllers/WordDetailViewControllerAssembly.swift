@@ -7,20 +7,19 @@
 //
 
 import Domain
+import Foundation
 import Swinject
+import Then
 
 final class WordDetailViewControllerAssembly: Assembly {
 
     func assemble(container: Container) {
-        container.register(WordDetailViewController.self) { resolver, uuid, delegate in
-            let wordUseCase: WordUseCaseProtocol = resolver.resolve()
-            let viewModel: WordDetailViewModelProtocol = WordDetailViewModel.init(
-                wordUseCase: wordUseCase,
-                uuid: uuid,
-                delegate: delegate
-            )
-            let viewController: WordDetailViewController = .init(viewModel: viewModel)
-            return viewController
+        container.register(WordDetailViewController.self) { (resolver, uuid: UUID) in
+            let reactor: WordDetailReactor = resolver.resolve(argument: uuid)
+
+            return .init().then {
+                $0.reactor = reactor
+            }
         }
     }
 

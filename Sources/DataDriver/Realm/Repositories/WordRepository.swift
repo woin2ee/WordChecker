@@ -22,7 +22,12 @@ public final class WordRepository: WordRepositoryProtocol {
         if let updateTarget = find(by: word.uuid) {
             try? realm.write {
                 updateTarget.word = word.word
-                updateTarget.isMemorized = word.isMemorized
+                switch word.memorizedState {
+                case .memorized:
+                    updateTarget.isMemorized = true
+                case .memorizing:
+                    updateTarget.isMemorized = false
+                }
             }
         } else {
             try? realm.write {

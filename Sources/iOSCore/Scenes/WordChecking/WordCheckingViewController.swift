@@ -5,96 +5,37 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
-import Combine
-import SFSafeSymbols
-import SnapKit
-import Then
-import Toast
-import UIKit
 import ReactorKit
 import RxSwift
 import RxCocoa
 import RxUtility
+import SFSafeSymbols
+import Then
+import Toast
+import UIKit
 import WebKit
 
 final class WordCheckingViewController: RxBaseViewController, View {
 
-    // MARK: - UI Objects Declaration
+    let rootView: WordCheckingView = .init()
 
-    let wordLabel: UILabel = {
-        let label: UILabel = .init()
-        label.adjustsFontForContentSizeCategory = true
-        label.font = .preferredFont(forTextStyle: .title3)
-        label.numberOfLines = 0
-        label.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.wordLabel
-        return label
-    }()
-
-    lazy var previousButton: ChangeWordButton = .init().then {
-        $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.previousButton
-    }
-
-    let previousButtonSymbol: ChangeWordSymbol = .init(direction: .left)
-
-    lazy var nextButton: ChangeWordButton = .init().then {
-        $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.nextButton
-    }
-
-    let nextButtonSymbol: ChangeWordSymbol = .init(direction: .right)
-
-    lazy var translateButton: BottomButton = {
-        let button: BottomButton = .init(title: WCString.translate)
-
-        let action: UIAction = .init { [weak self] _ in
-            guard let self = self else { return }
-
-            let translationSite: TranslationSite = .init(
-                translationSourceLanguage: self.reactor!.currentState.translationSourceLanguage,
-                translationTargetLanguage: self.reactor!.currentState.translationTargetLanguage
-            )
-
-            let translationWebViewController: TranslationWebViewController = .init(translationSite: translationSite)
-            translationWebViewController.word = self.wordLabel.text ?? ""
-
-            do {
-                try translationWebViewController.loadWebView()
-            } catch {
-                self.presentOKAlert(title: WCString.notice, message: WCString.translation_site_alert_message)
-            }
-
-            self.navigationController?.pushViewController(translationWebViewController, animated: true)
-        }
-
-        button.addAction(action, for: .touchUpInside)
-        return button
-    }()
-
-    let addWordButton: UIBarButtonItem = .init(image: .init(systemSymbol: .plusApp)).then {
+    let addWordButton: UIBarButtonItem = .init().then {
+        $0.image = .init(systemSymbol: .plusApp)
         $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.addWordButton
     }
 
-    let moreButton: UIBarButtonItem = {
-        let buttonSymbolImage: UIImage = .init(systemSymbol: .ellipsisCircle)
-        let barButton: UIBarButtonItem = .init(image: buttonSymbolImage)
-        barButton.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.moreButton
-        return barButton
-    }()
-
-    // MARK: - Initializers
-
-    init(reactor: WordCheckingReactor) {
-        super.init(nibName: nil, bundle: nil)
-        self.reactor = reactor
+    let moreButton: UIBarButtonItem = .init().then {
+        $0.image = .init(systemSymbol: .ellipsisCircle)
+        $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.moreButton
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("\(#file):\(#line):\(#function)")
+    override func loadView() {
+        self.view = rootView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupSubviews()
         setupNavigationBar()
 
         self.setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
@@ -102,46 +43,6 @@ final class WordCheckingViewController: RxBaseViewController, View {
 
     override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
         return [.left, .right]
-    }
-
-    private func setupSubviews() {
-        self.view.addSubview(previousButton)
-        self.view.addSubview(previousButtonSymbol)
-        self.view.addSubview(nextButton)
-        self.view.addSubview(nextButtonSymbol)
-        self.view.addSubview(translateButton)
-        self.view.addSubview(wordLabel)
-
-        wordLabel.snp.makeConstraints { make in
-            make.centerX.centerY.equalTo(self.view.safeAreaLayoutGuide)
-            make.leading.greaterThanOrEqualTo(self.view.safeAreaLayoutGuide).inset(30)
-            make.trailing.lessThanOrEqualTo(self.view.safeAreaLayoutGuide).inset(30)
-        }
-
-        previousButton.snp.makeConstraints { make in
-            make.top.leading.bottom.equalTo(self.view.safeAreaLayoutGuide)
-            make.trailing.equalTo(self.view.snp.centerX)
-        }
-
-        previousButtonSymbol.snp.makeConstraints { make in
-            make.centerY.equalTo(self.view.safeAreaLayoutGuide)
-            make.leading.equalTo(self.view.safeAreaLayoutGuide).inset(14)
-        }
-
-        nextButton.snp.makeConstraints { make in
-            make.top.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
-            make.leading.equalTo(self.view.snp.centerX)
-        }
-
-        nextButtonSymbol.snp.makeConstraints { make in
-            make.centerY.equalTo(self.view.safeAreaLayoutGuide)
-            make.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(14)
-        }
-
-        translateButton.snp.makeConstraints { make in
-            make.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(20)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(12)
-        }
     }
 
     private func setupNavigationBar() {
@@ -188,9 +89,9 @@ final class WordCheckingViewController: RxBaseViewController, View {
                     return self.presentAddWordAlert()
                 }
                 .map { Reactor.Action.addWord($0) },
-            nextButton.rx.tap
+            rootView.nextButton.rx.tap
                 .map { Reactor.Action.updateToNextWord },
-            previousButton.rx.tap
+            rootView.previousButton.rx.tap
                 .map { Reactor.Action.updateToPreviousWord },
         ]
             .forEach { action in
@@ -199,15 +100,35 @@ final class WordCheckingViewController: RxBaseViewController, View {
                     .disposed(by: self.disposeBag)
             }
 
+        rootView.translateButton.rx.tap
+            .subscribe(with: self, onNext: { owner, _ in
+                let translationSite: TranslationSite = .init(
+                    translationSourceLanguage: reactor.currentState.translationSourceLanguage,
+                    translationTargetLanguage: reactor.currentState.translationTargetLanguage
+                )
+
+                let translationWebViewController: TranslationWebViewController = .init(translationSite: translationSite)
+                translationWebViewController.word = owner.rootView.wordLabel.text ?? ""
+
+                do {
+                    try translationWebViewController.loadWebView()
+                } catch {
+                    owner.presentOKAlert(title: WCString.notice, message: WCString.translation_site_alert_message)
+                }
+
+                owner.navigationController?.pushViewController(translationWebViewController, animated: true)
+            })
+            .disposed(by: self.disposeBag)
+
         // State
         reactor.state
             .map(\.currentWord)
             .asDriverOnErrorJustComplete()
             .drive(with: self) { owner, word in
                 if let currentWord = word {
-                    owner.wordLabel.text = currentWord.word
+                    owner.rootView.wordLabel.text = currentWord.word
                 } else {
-                    owner.wordLabel.text = WCString.noWords
+                    owner.rootView.wordLabel.text = WCString.noWords
                 }
             }
             .disposed(by: self.disposeBag)

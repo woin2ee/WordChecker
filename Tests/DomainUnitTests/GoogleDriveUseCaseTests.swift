@@ -9,6 +9,7 @@
 import Domain
 import RxBlocking
 import Testing
+@testable import Utility
 import XCTest
 
 final class GoogleDriveUseCaseTests: XCTestCase {
@@ -30,7 +31,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         sut = GoogleDriveUseCase.init(
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
-            unmemorizedWordListState: UnmemorizedWordListStateSpy()
+            unmemorizedWordListRepository: UnmemorizedWordListRepositorySpy()
         )
 
         let presentingConfig: PresentingConfiguration = .init(window: UIViewController())
@@ -55,7 +56,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         sut = GoogleDriveUseCase.init(
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
-            unmemorizedWordListState: UnmemorizedWordListStateSpy()
+            unmemorizedWordListRepository: UnmemorizedWordListRepositorySpy()
         )
 
         let presentingConfig: PresentingConfiguration = .init(window: UIViewController())
@@ -78,12 +79,12 @@ final class GoogleDriveUseCaseTests: XCTestCase {
 
         let googleDriveRepository: GoogleDriveRepositoryFake = .init(sampleWordList: driveData)
 
-        let unmemorizedWordListState: UnmemorizedWordListStateSpy = .init()
+        let unmemorizedWordListRepository: UnmemorizedWordListRepositorySpy = .init()
 
         sut = GoogleDriveUseCase.init(
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
-            unmemorizedWordListState: unmemorizedWordListState
+            unmemorizedWordListRepository: unmemorizedWordListRepository
         )
 
         let presentingConfig: PresentingConfiguration = .init(window: UIViewController())
@@ -96,7 +97,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         // Then
         XCTAssertEqual(elements, [.inProgress, .complete])
         XCTAssertEqual(wordRepository._wordList, driveData)
-        XCTAssertEqual(Set(unmemorizedWordListState._storedWords), Set(driveData).filter({ $0.isMemorized == false }))
+        XCTAssertEqual(Set(unmemorizedWordListRepository._storedWords.elements), Set(driveData).filter({ $0.memorizedState == .memorizing }))
     }
 
     func test_downloadWhenNeedSyncToDriveAfterSignIn() throws {
@@ -109,12 +110,12 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         googleDriveRepository._hasSignIn = true
         googleDriveRepository._isGrantedAppDataScope = true
 
-        let unmemorizedWordListState: UnmemorizedWordListStateSpy = .init()
+        let unmemorizedWordListRepository: UnmemorizedWordListRepositorySpy = .init()
 
         sut = GoogleDriveUseCase.init(
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
-            unmemorizedWordListState: unmemorizedWordListState
+            unmemorizedWordListRepository: unmemorizedWordListRepository
         )
 
         // When
@@ -125,7 +126,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         // Then
         XCTAssertEqual(elements, [.inProgress, .complete])
         XCTAssertEqual(wordRepository._wordList, driveData)
-        XCTAssertEqual(Set(unmemorizedWordListState._storedWords), Set(driveData).filter({ $0.isMemorized == false }))
+        XCTAssertEqual(Set(unmemorizedWordListRepository._storedWords.elements), Set(driveData).filter({ $0.memorizedState == .memorizing }))
     }
 
 }
@@ -135,7 +136,7 @@ private let testSampleWordList: [Word] = [
     .init(word: "B"),
     .init(word: "C"),
     .init(word: "D"),
-    .init(word: "E", isMemorized: true),
-    .init(word: "F", isMemorized: true),
-    .init(word: "G", isMemorized: true),
+    .init(word: "E", memorizedState: .memorized),
+    .init(word: "F", memorizedState: .memorized),
+    .init(word: "G", memorizedState: .memorized),
 ]

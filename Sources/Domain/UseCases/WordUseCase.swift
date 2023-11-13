@@ -10,25 +10,27 @@ import Foundation
 public final class WordUseCase: WordUseCaseProtocol {
 
     let wordRepository: WordRepositoryProtocol
+    let unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol
 
-    let unmemorizedWordListState: UnmemorizedWordListStateProtocol
-
-    public init(wordRepository: WordRepositoryProtocol, unmemorizedWordListState: UnmemorizedWordListStateProtocol) {
+    public init(
+        wordRepository: WordRepositoryProtocol,
+        unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol
+    ) {
         self.wordRepository = wordRepository
-        self.unmemorizedWordListState = unmemorizedWordListState
+        self.unmemorizedWordListRepository = unmemorizedWordListRepository
     }
 
     public func addNewWord(_ word: Word) {
-        if word.isMemorized == true {
+        if word.memorizedState == .memorized {
             assertionFailure("Added a already memorized word.")
         }
 
-        unmemorizedWordListState.addWord(word)
+        unmemorizedWordListRepository.addWord(word)
         wordRepository.save(word)
     }
 
     public func deleteWord(by uuid: UUID) {
-        unmemorizedWordListState.deleteWord(by: uuid)
+        unmemorizedWordListRepository.deleteWord(by: uuid)
         wordRepository.delete(by: uuid)
     }
 
@@ -52,30 +54,32 @@ public final class WordUseCase: WordUseCaseProtocol {
         let updateTarget: Word = .init(
             uuid: uuid,
             word: newWord.word,
-            isMemorized: newWord.isMemorized
+            memorizedState: newWord.memorizedState
         )
-        if unmemorizedWordListState.contains(where: { $0.uuid == updateTarget.uuid }) {
-            if updateTarget.isMemorized {
-                unmemorizedWordListState.deleteWord(by: uuid)
+
+        if unmemorizedWordListRepository.contains(where: { $0.uuid == updateTarget.uuid }) {
+            if updateTarget.memorizedState == .memorized {
+                unmemorizedWordListRepository.deleteWord(by: uuid)
             }
-            unmemorizedWordListState.replaceWord(where: uuid, with: updateTarget)
-        } else if !updateTarget.isMemorized {
-            unmemorizedWordListState.addWord(updateTarget)
+            unmemorizedWordListRepository.replaceWord(where: uuid, with: updateTarget)
+        } else if updateTarget.memorizedState == .memorizing {
+            unmemorizedWordListRepository.addWord(updateTarget)
         }
+
         wordRepository.save(updateTarget)
     }
 
     public func randomizeUnmemorizedWordList() {
         let unmemorizedList = wordRepository.getUnmemorizedList()
-        unmemorizedWordListState.randomizeList(with: unmemorizedList)
+        unmemorizedWordListRepository.randomizeList(with: unmemorizedList)
     }
 
     public func updateToNextWord() {
-        unmemorizedWordListState.updateToNextWord()
+        unmemorizedWordListRepository.updateToNextWord()
     }
 
     public func updateToPreviousWord() {
-        unmemorizedWordListState.updateToPreviousWord()
+        unmemorizedWordListRepository.updateToPreviousWord()
     }
 
     public func markCurrentWordAsMemorized(uuid: UUID) {
@@ -83,14 +87,14 @@ public final class WordUseCase: WordUseCaseProtocol {
             return
         }
 
-        currentWord.isMemorized = true
+        currentWord.memorizedState = .memorized
 
-        unmemorizedWordListState.deleteWord(by: uuid)
+        unmemorizedWordListRepository.deleteWord(by: uuid)
         wordRepository.save(currentWord)
     }
 
     public var currentUnmemorizedWord: Word? {
-        unmemorizedWordListState.getCurrentWord()
+        unmemorizedWordListRepository.getCurrentWord()
     }
 
 }

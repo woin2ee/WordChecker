@@ -12,9 +12,7 @@ import SnapKit
 import Then
 import UIKit
 
-final class LanguageSettingViewController: BaseViewController {
-
-    let disposeBag: DisposeBag = .init()
+final class LanguageSettingViewController: RxBaseViewController {
 
     let viewModel: LanguageSettingViewModel
 

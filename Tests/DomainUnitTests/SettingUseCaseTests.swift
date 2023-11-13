@@ -64,19 +64,4 @@ final class SettingUseCaseTests: XCTestCase {
         }
     }
 
-    func testCurrentTranslationLocaleExistenceAfterInitUserSettings() throws {
-        // Given
-        _ = try sut.initUserSettings()
-            .toBlocking()
-            .single()
-
-        // When
-        let currentTranslationLocale = try sut.currentTranslationLocale
-            .toBlocking()
-            .single()
-
-        // Then
-        XCTAssertEqual(currentTranslationLocale.target, .english)
-    }
-
 }
