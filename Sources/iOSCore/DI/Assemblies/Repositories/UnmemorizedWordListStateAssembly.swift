@@ -15,8 +15,8 @@ public final class UnmemorizedWordListStateAssembly: Assembly {
     public init() {}
 
     public func assemble(container: Container) {
-        container.register(UnmemorizedWordListStateProtocol.self) { _ in
-            return UnmemorizedWordListState.init()
+        container.register(UnmemorizedWordListRepositoryProtocol.self) { _ in
+            return UnmemorizedWordListRepository.init()
         }
         .inObjectScope(.container)
     }

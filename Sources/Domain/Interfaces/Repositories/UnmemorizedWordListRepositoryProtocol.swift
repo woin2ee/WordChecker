@@ -6,11 +6,8 @@
 //
 
 import Foundation
-import Combine
 
-public protocol UnmemorizedWordListStateProtocol {
-
-    var currentWord: AnyPublisher<Word?, Never> { get }
+public protocol UnmemorizedWordListRepositoryProtocol {
 
     func updateToNextWord()
 

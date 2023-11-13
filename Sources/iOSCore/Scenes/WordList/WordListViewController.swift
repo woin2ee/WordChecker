@@ -5,17 +5,14 @@
 //  Created by Jaewon Yun on 2023/08/25.
 //
 
-import Combine
+import ReactorKit
+import RxUtility
 import SFSafeSymbols
 import SnapKit
 import Then
 import UIKit
 
-final class WordListViewController: BaseViewController {
-
-    let viewModel: WordListViewModelProtocol
-
-    var cancelBag: Set<AnyCancellable> = .init()
+final class WordListViewController: RxBaseViewController {
 
     var cellReuseIdentifier: String = "WORD_LIST_CELL"
 
@@ -37,15 +34,15 @@ final class WordListViewController: BaseViewController {
 
     lazy var segmentedControl: UISegmentedControl = .init().then {
         let showAllListAction: UIAction = .init(title: WCString.all) { [weak self] _ in
-            self?.viewModel.refreshWordList(by: .all)
+            self?.reactor?.action.onNext(.refreshWordList(.all))
         }
 
         let showUnmemorizedListAction: UIAction = .init(title: WCString.memorizing) { [weak self] _ in
-            self?.viewModel.refreshWordList(by: .unmemorized)
+            self?.reactor?.action.onNext(.refreshWordList(.unmemorized))
         }
 
         let showMemorizedListAction: UIAction = .init(title: WCString.memorized) { [weak self] _ in
-            self?.viewModel.refreshWordList(by: .memorized)
+            self?.reactor?.action.onNext(.refreshWordList(.memorized))
         }
 
         $0.insertSegment(action: showAllListAction, at: 0, animated: false)
@@ -60,16 +57,6 @@ final class WordListViewController: BaseViewController {
         $0.font = .preferredFont(forTextStyle: .title3, weight: .medium)
         $0.text = WCString.there_are_no_words
         $0.textColor = .systemGray3
-        $0.isHidden = true
-    }
-
-    init(viewModel: WordListViewModelProtocol) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("\(#file):\(#line):\(#function)")
     }
 
     // MARK: - Life cycle
@@ -79,13 +66,12 @@ final class WordListViewController: BaseViewController {
 
         setupSubviews()
         setupNavigationBar()
-        bindViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        viewModel.refreshWordListByCurrentType()
+        self.reactor?.action.onNext(.refreshWordListByCurrentType)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -117,14 +103,16 @@ final class WordListViewController: BaseViewController {
 
         self.navigationItem.rightBarButtonItem = addWordButton
         addWordButton.primaryAction = .init(handler: { [weak self] _ in
-            let wordAdditionVC: WordAdditionViewController = DIContainer.shared.resolve(argument: self?.viewModel as? WordAdditionViewModelDelegate)
+            let wordAdditionVC: WordAdditionViewController = DIContainer.shared.resolve()
             let wordAdditionNC: UINavigationController = .init(rootViewController: wordAdditionVC)
             self?.present(wordAdditionNC, animated: true)
         })
     }
 
     func setupSearchBar() {
-        let searchResultsController: WordSearchResultsController = .init(viewModel: viewModel)
+        let searchResultsController: WordSearchResultsController = .init().then {
+            $0.reactor = self.reactor
+        }
         let searchController: UISearchController = .init(searchResultsController: searchResultsController)
 
         searchController.searchResultsUpdater = searchResultsController
@@ -134,15 +122,26 @@ final class WordListViewController: BaseViewController {
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
 
-    func bindViewModel() {
-        viewModel.wordListPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] wordList in
-                self?.wordListTableView.reloadData()
+}
 
-                self?.noWordListLabel.isHidden = !wordList.isEmpty
+// MARK: - Reactor Binding
+
+extension WordListViewController: View {
+
+    func bind(reactor: WordListReactor) {
+        // Action
+
+        // State
+        reactor.state
+            .map(\.wordList)
+//            .distinctUntilChanged() // 첫번째 수정에 작동을 안함 why?
+            .asDriverOnErrorJustComplete()
+            .drive(with: self) { owner, wordList in
+                owner.wordListTableView.reloadData()
+
+                owner.noWordListLabel.isHidden = !wordList.isEmpty
             }
-            .store(in: &cancelBag)
+            .disposed(by: self.disposeBag)
     }
 
 }
@@ -152,20 +151,30 @@ final class WordListViewController: BaseViewController {
 extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.wordList.count
+        return self.reactor!.currentState.wordList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath)
+
         var config: UIListContentConfiguration = .cell()
-        config.text = viewModel.wordList[indexPath.row].word
+        config.text = self.reactor!.currentState.wordList[indexPath.row].word
+
         cell.contentConfiguration = config
+
+        switch self.reactor!.currentState.wordList[indexPath.row].memorizedState {
+        case .memorized:
+            cell.accessoryType = .checkmark
+        case .memorizing:
+            cell.accessoryType = .none
+        }
+
         return cell
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction: UIContextualAction = .init(style: .destructive, title: WCString.delete) { [weak self] _, _, completionHandler in
-            self?.viewModel.deleteWord(index: indexPath.row)
+            self?.reactor?.action.onNext(.deleteWord(indexPath.row))
             completionHandler(true)
         }
         let editAction: UIContextualAction = .init(style: .normal, title: WCString.edit) { [weak self] action, _, completionHandler in
@@ -175,12 +184,12 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
                 guard let newWord = alertController.textFields?.first?.text else {
                     return
                 }
-                self?.viewModel.editWord(index: indexPath.row, newWord: newWord)
+                self?.reactor?.action.onNext(.editWord(newWord, indexPath.row))
             }
             alertController.addAction(cancelAction)
             alertController.addAction(completeAction)
             alertController.addTextField { [weak self] textField in
-                textField.text = self?.viewModel.wordList[indexPath.row].word
+                textField.text = self?.reactor?.currentState.wordList[indexPath.row].word
                 let action: UIAction = .init { _ in
                     let text = textField.text ?? ""
                     if text.isEmpty {
@@ -198,8 +207,8 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let uuid: UUID = viewModel.wordList[indexPath.row].uuid
-        let viewController: WordDetailViewController = DIContainer.shared.resolve(arguments: uuid, viewModel as? WordDetailViewModelDelegate)
+        let uuid: UUID = self.reactor!.currentState.wordList[indexPath.row].uuid
+        let viewController: WordDetailViewController = DIContainer.shared.resolve(argument: uuid)
         let navigationController: UINavigationController = .init(rootViewController: viewController)
         self.present(navigationController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)

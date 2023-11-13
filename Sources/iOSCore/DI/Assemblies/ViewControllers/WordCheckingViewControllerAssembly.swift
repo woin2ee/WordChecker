@@ -8,6 +8,7 @@
 
 import Domain
 import Swinject
+import Then
 
 final class WordCheckingViewControllerAssembly: Assembly {
 
@@ -15,7 +16,9 @@ final class WordCheckingViewControllerAssembly: Assembly {
         container.register(WordCheckingViewController.self) { resolver in
             let reactor: WordCheckingReactor = resolver.resolve()
 
-            return WordCheckingViewController(reactor: reactor)
+            return .init().then {
+                $0.reactor = reactor
+            }
         }
     }
 

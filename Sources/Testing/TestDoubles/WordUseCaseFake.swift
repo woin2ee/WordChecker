@@ -13,7 +13,7 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
 
     public var _wordList: [Domain.Word] = []
 
-    public var _unmemorizedWordList: UnmemorizedWordListStateSpy = .init()
+    public var _unmemorizedWordList: UnmemorizedWordListRepositorySpy = .init()
 
     public init() {}
 
@@ -34,11 +34,11 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
     }
 
     public func getMemorizedWordList() -> [Domain.Word] {
-        return _wordList.filter { $0.isMemorized == true }
+        return _wordList.filter { $0.memorizedState == .memorized }
     }
 
     public func getUnmemorizedWordList() -> [Domain.Word] {
-        return _wordList.filter { $0.isMemorized == false }
+        return _wordList.filter { $0.memorizedState == .memorizing }
     }
 
     public func getWord(by uuid: UUID) -> Domain.Word? {
@@ -66,7 +66,7 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
 
     public func markCurrentWordAsMemorized(uuid: UUID) {
         if let index = _wordList.firstIndex(where: { $0.uuid == uuid }) {
-            _wordList[index].isMemorized = true
+            _wordList[index].memorizedState = .memorized
         }
         _unmemorizedWordList.deleteWord(by: uuid)
     }

@@ -47,6 +47,26 @@ public final class WordRxUseCase: WordRxUseCaseProtocol {
         }
     }
 
+    public func getUnmemorizedWordList() -> Single<[Word]> {
+        return .create { single in
+            let wordList = self.wordUseCase.getUnmemorizedWordList()
+
+            single(.success(wordList))
+
+            return Disposables.create()
+        }
+    }
+
+    public func getMemorizedWordList() -> Single<[Word]> {
+        return .create { single in
+            let wordList = self.wordUseCase.getMemorizedWordList()
+
+            single(.success(wordList))
+
+            return Disposables.create()
+        }
+    }
+
     public func getWord(by uuid: UUID) -> RxSwift.Single<Word> {
         return .create { single in
             let maybeWord = self.wordUseCase.getWord(by: uuid)

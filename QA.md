@@ -17,6 +17,11 @@
 - 현재 단어 암기 완료 표시 시 암기 화면에 반영
 - 현재 단어 없을 때 단어 암기중 표시 시 화면에 반영
 
+##WordSearch
+
+- 단어 검색 이상 여부 확인
+- 단어 검색 후 수정 시 리스트&암기 화면에 바로 적용 여부 확인
+
 ##Settings
 
 - Source language / Translation language 변경 정상 적용
