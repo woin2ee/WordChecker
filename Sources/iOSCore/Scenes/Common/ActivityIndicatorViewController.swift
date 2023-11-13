@@ -10,13 +10,17 @@ import SnapKit
 import Then
 import UIKit
 
+/// 화면 전체에 dim view 와 함께 `ActivityIndicator` 를 띄우고 싶을때 사용하는 ViewController 입니다.
+///
+/// `startAnimating(on:)` 함수를 이용하여 원하는 ViewController 에 `ActivityIndicator` 를 띄울 수 있습니다.
+/// 적절한 시점에 반드시 `stopAnimating(on:)` 함수를 호출하여 `ActivityIndicator` 를 화면에서 제거해야 합니다.
 final class ActivityIndicatorViewController: UIViewController {
 
     static let shared: ActivityIndicatorViewController = .init()
 
     let activityIndicatorView: UIActivityIndicatorView = .init(style: .large)
 
-    private init() {
+    init() {
         super.init(nibName: nil, bundle: nil)
 
         self.modalPresentationStyle = .overFullScreen

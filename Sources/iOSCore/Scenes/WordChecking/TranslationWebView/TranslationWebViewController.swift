@@ -7,16 +7,21 @@
 //
 
 import Domain
+import Then
 import UIKit
 import WebKit
 
-final class TranslationWebViewController: UIViewController {
+final class TranslationWebViewController: BaseViewController {
 
-    let webView: WKWebView = .init()
+    lazy var webView: WKWebView = .init().then {
+        $0.navigationDelegate = self
+    }
 
     var translationSite: TranslationSite
 
     var word: String = ""
+
+    private var activityIndicatorView: ActivityIndicatorViewController? = .init()
 
     init(translationSite: TranslationSite) {
         self.translationSite = translationSite
@@ -29,6 +34,12 @@ final class TranslationWebViewController: UIViewController {
 
     override func loadView() {
         self.view = webView
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        activityIndicatorView = nil
     }
 
     func loadWebView() throws {
@@ -53,6 +64,20 @@ extension TranslationWebViewController {
 
         case notValidURL
 
+    }
+
+}
+
+// MARK: - WKNavigationDelegate
+
+extension TranslationWebViewController: WKNavigationDelegate {
+
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        activityIndicatorView?.startAnimating(on: self)
+    }
+
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        activityIndicatorView?.stopAnimating(on: self)
     }
 
 }
