@@ -138,9 +138,11 @@ final class WordCheckingViewController: RxBaseViewController, View {
             .drive(with: self) { owner, word in
                 if let currentWord = word {
                     owner.rootView.wordLabel.text = currentWord.word
+                    owner.rootView.wordLabel.textColor = .label
                     owner.rootView.translateButton.isEnabled = true
                 } else {
                     owner.rootView.wordLabel.text = WCString.noWords
+                    owner.rootView.wordLabel.textColor = .systemGray2
                     owner.rootView.translateButton.isEnabled = false
                 }
             }
