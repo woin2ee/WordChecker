@@ -64,4 +64,6 @@ struct WCString {
         return .init(format: localizedString, arguments: [word])
     }
 
+    static let please_check_your_network_connection = NSLocalizedString("please_check_your_network_connection", bundle: Bundle.module, comment: "")
+
 }
