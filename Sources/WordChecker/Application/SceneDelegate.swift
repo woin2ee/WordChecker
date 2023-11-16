@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import iOSCore
 
 public class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
