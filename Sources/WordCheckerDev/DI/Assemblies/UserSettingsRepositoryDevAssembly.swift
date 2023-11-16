@@ -26,6 +26,7 @@ final class UserSettingsRepositoryDevAssembly: UserSettingsRepositoryAssembly {
 
             return UserSettingsRepository.init(userDefaults: userDefaults)
         }
+        .inObjectScope(.container)
     }
 
 }
