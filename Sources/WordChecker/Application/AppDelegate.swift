@@ -12,6 +12,7 @@ import iOSCore
 import RxSwift
 import RxUtility
 import UIKit
+import Utility
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         injectDependencies()
         initUserSettingsIfFirstLaunch()
         attemptRestoreGoogleSignInState()
+        NetworkMonitor.start()
+
         return true
     }
 

@@ -5,15 +5,19 @@ on:
     # branches:
     #   - main
     tags:
-    - 'v*'
+    - 'v*.*.*'
 
 jobs:
   create_new_release:
     name: Create new release
     runs-on: ubuntu-latest
+    env:
+      CURRENT_TAG: ${{ github.ref_name }}
     permissions:
       contents: write
     steps:
     - uses: actions/checkout@v3
     - name: Create Release
       uses: ncipollo/release-action@v1.13.0
+      with:
+        bodyFile: "Changelog/$CURRENT_TAG.md"

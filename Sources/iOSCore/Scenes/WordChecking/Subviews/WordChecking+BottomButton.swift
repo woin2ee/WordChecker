@@ -32,6 +32,15 @@ extension WordCheckingView {
             return config
         }
 
+        override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+            // 하위뷰의 여부, hidden, alpha 값 등 hitTest 에 영향을 미치는 요소들을 무시합니다.
+            if self.point(inside: point, with: event) {
+                return self
+            } else {
+                return nil
+            }
+        }
+
     }
 
 }
