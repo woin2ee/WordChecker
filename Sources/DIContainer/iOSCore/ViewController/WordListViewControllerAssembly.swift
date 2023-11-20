@@ -6,6 +6,7 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
+import iOSCore
 import Swinject
 import SwinjectExtension
 import Then

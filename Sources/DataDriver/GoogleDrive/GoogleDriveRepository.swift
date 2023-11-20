@@ -15,17 +15,17 @@ import RxSwift
 import UIKit
 import Utility
 
-final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
+public final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
 
     let gidSignIn: GIDSignIn
 
     let backupFileName = "word_list_backup"
 
-    init(gidSignIn: GIDSignIn) {
+    public init(gidSignIn: GIDSignIn) {
         self.gidSignIn = gidSignIn
     }
 
-    func signInWithAppDataScope(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
+    public func signInWithAppDataScope(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
         guard let presentingViewController = presenting.window as? UIViewController else {
             return .error(GoogleDriveRepositoryError.unSupportedWindow)
         }
@@ -55,15 +55,15 @@ final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
         }
     }
 
-    func signOut() {
+    public func signOut() {
         gidSignIn.signOut()
     }
 
-    var hasSigned: Bool {
+    public var hasSigned: Bool {
         return gidSignIn.currentUser != nil
     }
 
-    func restorePreviousSignIn() -> Single<Void> {
+    public func restorePreviousSignIn() -> Single<Void> {
         return .create { result in
             self.gidSignIn.restorePreviousSignIn { user, error in
                 if error != nil || user == nil {
@@ -77,7 +77,7 @@ final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
         }
     }
 
-    func requestAccess(presenting: PresentingConfiguration) -> Single<Void> {
+    public func requestAccess(presenting: PresentingConfiguration) -> Single<Void> {
         guard let presentingViewController = presenting.window as? UIViewController else {
             return .error(GoogleDriveRepositoryError.unSupportedWindow)
         }
@@ -95,7 +95,7 @@ final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
         }
     }
 
-    var isGrantedAppDataScope: Bool {
+    public var isGrantedAppDataScope: Bool {
         guard let currentUser = gidSignIn.currentUser,
               let grantedScopes = currentUser.grantedScopes else {
             return false
@@ -104,7 +104,7 @@ final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
         return grantedScopes.contains(where: { $0 == ScopeCode.appData })
     }
 
-    func uploadWordList(_ wordList: [Domain.Word]) -> RxSwift.Single<Void> {
+    public func uploadWordList(_ wordList: [Domain.Word]) -> RxSwift.Single<Void> {
         guard let currentUser = gidSignIn.currentUser else {
             return .error(GoogleDriveRepositoryError.noSignedInUser)
         }
@@ -133,7 +133,7 @@ final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
             .flatMap { return fileCreatingSequence }
     }
 
-    func downloadWordList() -> RxSwift.Single<[Domain.Word]> {
+    public func downloadWordList() -> RxSwift.Single<[Domain.Word]> {
         guard let currentUser = gidSignIn.currentUser else {
             return .error(GoogleDriveRepositoryError.noSignedInUser)
         }

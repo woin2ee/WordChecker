@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import iOSCore
 import Swinject
 import SwinjectExtension
 import Then

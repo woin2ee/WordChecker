@@ -6,9 +6,9 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
+import DIContainer
 import UIKit
 import iOSCore
-import SwinjectExtension
 
 final class WordListCoordinator: Coordinator {
 
@@ -29,7 +29,7 @@ final class WordListCoordinator: Coordinator {
 
 }
 
-extension WordListCoordinator: WordListViewControllerDelegate {
+extension WordListCoordinator: WordListViewControllerDelegate, WordSearchResultsControllerDelegate {
 
     func didTapWordRow(with uuid: UUID) {
         let presentedNavigationController: UINavigationController = .init()

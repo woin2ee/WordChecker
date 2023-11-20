@@ -8,6 +8,7 @@
 
 @testable import DataDriver
 import Domain
+import DIContainer
 import ExtendedUserDefaults
 import Foundation
 import iOSCore

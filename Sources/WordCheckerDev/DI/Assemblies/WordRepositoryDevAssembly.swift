@@ -8,6 +8,7 @@
 
 import DataDriver
 import Domain
+import DIContainer
 import Foundation
 import RealmSwift
 import Swinject

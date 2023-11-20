@@ -20,7 +20,7 @@ public final class LanguageSettingViewModel: ViewModelType {
 
     let currentSettingLocale: TranslationLanguage
 
-    init(
+    public init(
         userSettingsUseCase: UserSettingsUseCaseProtocol,
         settingsDirection: SettingsDirection,
         currentSettingLocale: TranslationLanguage

@@ -81,6 +81,11 @@ public final class GoogleDriveUseCaseFake: ExternalStoreUseCaseProtocol {
         return doDownload()
     }
 
+    public func restoreSignIn() -> RxSwift.Observable<Void> {
+        _hasSigned = true
+        return .just(())
+    }
+
 }
 
 enum GoogleDriveUseCaseFakeError: Error {

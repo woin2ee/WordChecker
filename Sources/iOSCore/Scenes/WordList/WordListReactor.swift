@@ -35,7 +35,7 @@ public final class WordListReactor: Reactor {
     let globalAction: GlobalAction
     let wordUseCase: WordRxUseCaseProtocol
 
-    init(globalAction: GlobalAction, wordUseCase: WordRxUseCaseProtocol) {
+    public init(globalAction: GlobalAction, wordUseCase: WordRxUseCaseProtocol) {
         self.globalAction = globalAction
         self.wordUseCase = wordUseCase
     }

@@ -115,6 +115,7 @@ public final class WordListViewController: RxBaseViewController {
     func setupSearchBar() {
         let searchResultsController: WordSearchResultsController = .init().then {
             $0.reactor = self.reactor
+            $0.delegate = self.delegate as? WordSearchResultsControllerDelegate
         }
         let searchController: UISearchController = .init(searchResultsController: searchResultsController)
 

@@ -12,12 +12,12 @@ import RxSwift
 import RxCocoa
 import RxUtility
 
-final class UserSettingsViewModel: ViewModelType {
+public final class UserSettingsViewModel: ViewModelType {
 
     let userSettingsUseCase: UserSettingsUseCaseProtocol
     let googleDriveUseCase: ExternalStoreUseCaseProtocol
 
-    init(userSettingsUseCase: UserSettingsUseCaseProtocol, googleDriveUseCase: ExternalStoreUseCaseProtocol) {
+    public init(userSettingsUseCase: UserSettingsUseCaseProtocol, googleDriveUseCase: ExternalStoreUseCaseProtocol) {
         self.userSettingsUseCase = userSettingsUseCase
         self.googleDriveUseCase = googleDriveUseCase
     }

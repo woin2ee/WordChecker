@@ -41,7 +41,7 @@ public final class WordDetailReactor: Reactor {
     let globalAction: GlobalAction
     let wordUseCase: WordRxUseCaseProtocol
 
-    init(
+    public init(
         uuid: UUID,
         globalAction: GlobalAction,
         wordUseCase: WordRxUseCaseProtocol
