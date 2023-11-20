@@ -12,11 +12,24 @@ import SnapKit
 import Then
 import UIKit
 
-final class LanguageSettingViewController: RxBaseViewController {
+public protocol LanguageSettingViewControllerDelegate: AnyObject {
+
+    func didSelectLanguageRow()
+
+}
+
+/// 원본/번역 언어 설정 화면
+///
+/// Resolve arguments:
+/// - settingsDirection: LanguageSettingViewModel.SettingsDirection
+/// - currentSettingLocale: TranslationLanguage)
+public final class LanguageSettingViewController: RxBaseViewController {
 
     let viewModel: LanguageSettingViewModel
 
     let languageCellID = "LANGUAGE_SETTING_LANGUAGE_CELL"
+
+    public weak var delegate: LanguageSettingViewControllerDelegate?
 
     lazy var languageSettingTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
         $0.backgroundColor = .systemGroupedBackground
@@ -32,7 +45,7 @@ final class LanguageSettingViewController: RxBaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         setupSubviews()
@@ -62,7 +75,7 @@ final class LanguageSettingViewController: RxBaseViewController {
 
         output.didSelectCell
             .emit(with: self, onNext: { owner, _ in
-                owner.navigationController?.popViewController(animated: true)
+                owner.delegate?.didSelectLanguageRow()
             })
             .disposed(by: disposeBag)
     }

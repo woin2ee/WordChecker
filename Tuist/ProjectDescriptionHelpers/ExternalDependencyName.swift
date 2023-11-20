@@ -7,6 +7,7 @@ public struct ExternalDependencyName {
     public static let rxTest = "RxTest"
     public static let rxBlocking = "RxBlocking"
     public static let swinject = "Swinject"
+    public static let swinjectExtension = "SwinjectExtension-Dynamic"
     public static let snapKit = "SnapKit"
     public static let realm = "Realm"
     public static let realmSwift = "RealmSwift"

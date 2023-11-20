@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import DataDriver
 import RealmSwift
 
 public func makeDefaultRealmConfiguration() -> Realm.Configuration {

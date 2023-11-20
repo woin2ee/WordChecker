@@ -10,9 +10,9 @@ import Domain
 import Foundation
 import ReactorKit
 
-final class WordCheckingReactor: Reactor {
+public final class WordCheckingReactor: Reactor {
 
-    enum Action {
+    public enum Action {
         case viewDidLoad
         case addWord(String)
         case updateToNextWord
@@ -22,19 +22,19 @@ final class WordCheckingReactor: Reactor {
         case markCurrentWordAsMemorized
     }
 
-    enum Mutation {
+    public enum Mutation {
         case setCurrentWord(Word?)
         case setSourceLanguage(TranslationLanguage)
         case setTargetLanguage(TranslationLanguage)
     }
 
-    struct State {
+    public struct State {
         var currentWord: Word?
         var translationSourceLanguage: TranslationLanguage
         var translationTargetLanguage: TranslationLanguage
     }
 
-    let initialState: State = State(
+    public let initialState: State = State(
         currentWord: nil,
         translationSourceLanguage: .english,
         translationTargetLanguage: .korean
@@ -54,7 +54,7 @@ final class WordCheckingReactor: Reactor {
         self.globalAction = globalAction
     }
 
-    func mutate(action: Action) -> Observable<Mutation> {
+    public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
             let initUnmemorizedWordList = wordUseCase.randomizeUnmemorizedWordList()
@@ -128,7 +128,7 @@ final class WordCheckingReactor: Reactor {
         }
     }
 
-    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+    public func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
         return .merge([
             mutation,
             globalAction.didSetSourceLanguage
@@ -145,7 +145,7 @@ final class WordCheckingReactor: Reactor {
         ])
     }
 
-    func reduce(state: State, mutation: Mutation) -> State {
+    public func reduce(state: State, mutation: Mutation) -> State {
         var state = state
 
         switch mutation {

@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 import RxUtility
 
-final class LanguageSettingViewModel: ViewModelType {
+public final class LanguageSettingViewModel: ViewModelType {
 
     let userSettingsUseCase: UserSettingsUseCaseProtocol
 
@@ -88,7 +88,7 @@ extension LanguageSettingViewModel {
 
 extension LanguageSettingViewModel {
 
-    enum SettingsDirection {
+    public enum SettingsDirection {
 
         case sourceLanguage
 

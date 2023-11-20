@@ -9,7 +9,6 @@
 import DataDriver
 import Domain
 import Foundation
-import iOSCore
 import RealmSwift
 import Swinject
 import Testing

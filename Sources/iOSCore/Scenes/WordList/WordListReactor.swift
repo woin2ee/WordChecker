@@ -10,9 +10,9 @@ import Domain
 import Foundation
 import ReactorKit
 
-final class WordListReactor: Reactor {
+public final class WordListReactor: Reactor {
 
-    enum Action {
+    public enum Action {
         case viewDidLoad
         case deleteWord(IndexPath.Index)
         case editWord(String, IndexPath.Index)
@@ -20,17 +20,17 @@ final class WordListReactor: Reactor {
         case refreshWordListByCurrentType
     }
 
-    enum Mutation {
+    public enum Mutation {
         case changeListType(ListType)
         case updateWordList([Word])
     }
 
-    struct State {
+    public struct State {
         var listType: ListType
         var wordList: [Word]
     }
 
-    var initialState: State = State(listType: .all, wordList: [])
+    public var initialState: State = State(listType: .all, wordList: [])
 
     let globalAction: GlobalAction
     let wordUseCase: WordRxUseCaseProtocol
@@ -40,7 +40,7 @@ final class WordListReactor: Reactor {
         self.wordUseCase = wordUseCase
     }
 
-    func mutate(action: Action) -> Observable<Mutation> {
+    public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
             return updateWordList(by: self.currentState.listType)
@@ -71,7 +71,7 @@ final class WordListReactor: Reactor {
         }
     }
 
-    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+    public func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
         return .merge([
             mutation,
             globalAction.didEditWord
@@ -81,7 +81,7 @@ final class WordListReactor: Reactor {
         ])
     }
 
-    func reduce(state: State, mutation: Mutation) -> State {
+    public func reduce(state: State, mutation: Mutation) -> State {
         var state = state
 
         switch mutation {
@@ -120,7 +120,7 @@ final class WordListReactor: Reactor {
 
 extension WordListReactor {
 
-    enum ListType {
+    public enum ListType {
 
         case all
 

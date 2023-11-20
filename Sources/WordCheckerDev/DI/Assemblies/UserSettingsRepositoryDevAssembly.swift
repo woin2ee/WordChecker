@@ -11,6 +11,7 @@ import Domain
 import ExtendedUserDefaults
 import Foundation
 import iOSCore
+import iPhoneDriver
 import Swinject
 import Testing
 

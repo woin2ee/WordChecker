@@ -12,9 +12,19 @@ import SnapKit
 import Then
 import UIKit
 
-final class WordListViewController: RxBaseViewController {
+public protocol WordListViewControllerDelegate: AnyObject {
+
+    func didTapWordRow(with uuid: UUID)
+
+    func didTapAddWordButton()
+
+}
+
+public final class WordListViewController: RxBaseViewController {
 
     var cellReuseIdentifier: String = "WORD_LIST_CELL"
+
+    public weak var delegate: WordListViewControllerDelegate?
 
     lazy var wordListTableView: UITableView = {
         let tableView: UITableView = .init()
@@ -61,25 +71,25 @@ final class WordListViewController: RxBaseViewController {
 
     // MARK: - Life cycle
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         setupSubviews()
         setupNavigationBar()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         self.reactor?.action.onNext(.refreshWordListByCurrentType)
     }
 
-    override func viewDidAppear(_ animated: Bool) {
+    public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationItem.hidesSearchBarWhenScrolling = true
     }
 
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         wordListTableView.frame = .init(origin: .zero, size: size)
     }
@@ -98,15 +108,8 @@ final class WordListViewController: RxBaseViewController {
 
     private func setupNavigationBar() {
         self.navigationItem.titleView = segmentedControl
-
-        setupSearchBar()
-
         self.navigationItem.rightBarButtonItem = addWordButton
-        addWordButton.primaryAction = .init(handler: { [weak self] _ in
-            let wordAdditionVC: WordAdditionViewController = DIContainer.shared.resolve()
-            let wordAdditionNC: UINavigationController = .init(rootViewController: wordAdditionVC)
-            self?.present(wordAdditionNC, animated: true)
-        })
+        setupSearchBar()
     }
 
     func setupSearchBar() {
@@ -122,13 +125,22 @@ final class WordListViewController: RxBaseViewController {
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
 
+    override func bindAction() {
+        addWordButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.delegate?.didTapAddWordButton()
+            }
+            .disposed(by: self.disposeBag)
+    }
+
 }
 
 // MARK: - Reactor Binding
 
 extension WordListViewController: View {
 
-    func bind(reactor: WordListReactor) {
+    public func bind(reactor: WordListReactor) {
         // Action
 
         // State
@@ -150,11 +162,11 @@ extension WordListViewController: View {
 
 extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.reactor!.currentState.wordList.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath)
 
         var config: UIListContentConfiguration = .cell()
@@ -172,7 +184,7 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
 
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    public func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction: UIContextualAction = .init(style: .destructive, title: WCString.delete) { [weak self] _, _, completionHandler in
             self?.reactor?.action.onNext(.deleteWord(indexPath.row))
             completionHandler(true)
@@ -206,11 +218,9 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
         return .init(actions: [deleteAction, editAction])
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let uuid: UUID = self.reactor!.currentState.wordList[indexPath.row].uuid
-        let viewController: WordDetailViewController = DIContainer.shared.resolve(argument: uuid)
-        let navigationController: UINavigationController = .init(rootViewController: viewController)
-        self.present(navigationController, animated: true)
+        delegate?.didTapWordRow(with: uuid)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
@@ -220,11 +230,11 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension WordListViewController: UISearchControllerDelegate {
 
-    func willPresentSearchController(_ searchController: UISearchController) {
+    public func willPresentSearchController(_ searchController: UISearchController) {
         searchController.view.backgroundColor = .systemBackground
     }
 
-    func willDismissSearchController(_ searchController: UISearchController) {
+    public func willDismissSearchController(_ searchController: UISearchController) {
         UIView.animate(withDuration: 0.4) {
             searchController.view.backgroundColor = .clear
         }

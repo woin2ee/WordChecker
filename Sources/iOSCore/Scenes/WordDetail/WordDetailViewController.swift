@@ -12,7 +12,18 @@ import Then
 import UIKit
 import Utility
 
-final class WordDetailViewController: RxBaseViewController {
+public protocol WordDetailViewControllerDelegate: AnyObject {
+
+    func didFinishInteraction()
+
+}
+
+/// 상세 보기 화면
+///
+/// Resolve arguments: (uuid: UUID)
+public final class WordDetailViewController: RxBaseViewController {
+
+    public weak var delegate: WordDetailViewControllerDelegate?
 
     // MARK: - UI Objects Declaration
 
@@ -51,7 +62,9 @@ final class WordDetailViewController: RxBaseViewController {
         $0.style = .done
     }
 
-    override func viewDidLoad() {
+    let cancelBarButton: UIBarButtonItem = .init(systemItem: .cancel)
+
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         self.navigationController?.presentationController?.delegate = self
@@ -76,22 +89,25 @@ final class WordDetailViewController: RxBaseViewController {
     }
 
     private func setupNavigationBar() {
-        let cancelAction: UIAction = .init { [weak self] _ in
-            guard let self = self else { return }
-
-            if self.reactor!.currentState.hasChanges {
-                self.presentDismissActionSheet()
-            } else {
-                self.dismiss(animated: true)
-            }
-        }
-
-        let cancelButton: UIBarButtonItem = .init(systemItem: .cancel, primaryAction: cancelAction)
+        self.navigationItem.title = WCString.details
 
         self.navigationItem.rightBarButtonItem = doneBarButton
-        self.navigationItem.leftBarButtonItem = cancelButton
+        self.navigationItem.leftBarButtonItem = cancelBarButton
+    }
 
-        self.navigationItem.title = WCString.details
+    override func bindAction() {
+        cancelBarButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                if owner.reactor!.currentState.hasChanges {
+                    owner.presentDismissActionSheet {
+                        owner.delegate?.didFinishInteraction()
+                    }
+                } else {
+                    owner.delegate?.didFinishInteraction()
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
 
 }
@@ -100,7 +116,7 @@ final class WordDetailViewController: RxBaseViewController {
 
 extension WordDetailViewController: View {
 
-    func bind(reactor: WordDetailReactor) {
+    public func bind(reactor: WordDetailReactor) {
         // Action
         self.rx.sentMessage(#selector(self.viewDidLoad))
             .map { _ in Reactor.Action.viewDidLoad }
@@ -108,7 +124,7 @@ extension WordDetailViewController: View {
             .disposed(by: self.disposeBag)
 
         doneBarButton.rx.tap
-            .doOnNext { self.dismiss(animated: true) }
+            .doOnNext { self.delegate?.didFinishInteraction() }
             .map { Reactor.Action.doneEditing }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
@@ -162,8 +178,10 @@ extension WordDetailViewController: View {
 
 extension WordDetailViewController: UIAdaptivePresentationControllerDelegate {
 
-    func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
-        self.presentDismissActionSheet()
+    public func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
+        self.presentDismissActionSheet {
+            self.delegate?.didFinishInteraction()
+        }
     }
 
 }
