@@ -10,7 +10,8 @@ import Domain
 import GoogleSignIn
 import iOSCore
 import RxSwift
-import RxUtility
+import Swinject
+import SwinjectExtension
 import UIKit
 import Utility
 
@@ -62,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate {
 
     func initUserSettingsIfFirstLaunch() {
-        let userSettingsUseCase: UserSettingsUseCaseProtocol = DIContainer.shared.resolve()
+        let userSettingsUseCase: UserSettingsUseCaseProtocol = DIContainer.shared.resolver.resolve()
 
         userSettingsUseCase.currentUserSettings
             .mapToVoid()
@@ -75,7 +76,7 @@ extension AppDelegate {
     }
 
     func attemptRestoreGoogleSignInState() {
-        let googleDriveRepository: GoogleDriveRepositoryProtocol = DIContainer.shared.resolve()
+        let googleDriveRepository: GoogleDriveRepositoryProtocol = DIContainer.shared.resolver.resolve()
         googleDriveRepository.restorePreviousSignIn()
             .subscribe(on: ConcurrentMainScheduler.instance)
             .subscribe()
@@ -83,7 +84,7 @@ extension AppDelegate {
     }
 
     func injectDependencies() {
-        DIContainer.shared.assembler = .init([
+        DIContainer.shared.assembler.apply(assemblies: [
             UseCaseAssembly(),
             ViewControllerAssembly(),
             RepositoryAssembly(),

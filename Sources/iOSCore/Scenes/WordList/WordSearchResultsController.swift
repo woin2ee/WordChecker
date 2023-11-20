@@ -7,6 +7,7 @@
 
 import Domain
 import ReactorKit
+import SwinjectExtension
 import UIKit
 
 final class WordSearchResultsController: UITableViewController, View {
@@ -123,11 +124,15 @@ extension WordSearchResultsController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
         let uuid: UUID = searchedList[indexPath.row].uuid
-        let viewController: WordDetailViewController = DIContainer.shared.resolve(argument: uuid)
+
+        let viewController: WordDetailViewController = DIContainer.shared.resolver.resolve(argument: uuid)
+        viewController.delegate = self
+
         let navigationController: UINavigationController = .init(rootViewController: viewController)
         self.present(navigationController, animated: true)
-        tableView.deselectRow(at: indexPath, animated: true)
     }
 
 }
@@ -139,6 +144,16 @@ extension WordSearchResultsController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
         currentSearchBarText = text
+    }
+
+}
+
+// MARK: - WordDetailViewControllerDelegate
+
+extension WordSearchResultsController: WordDetailViewControllerDelegate {
+
+    func didFinishInteraction() {
+        self.presentingViewController?.tabBarController?.dismiss(animated: true)
     }
 
 }

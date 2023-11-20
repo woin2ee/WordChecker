@@ -5,11 +5,13 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
+import DataDriver
 import Domain
 import GoogleSignIn
 import iOSCore
 import RxSwift
-import RxUtility
+import Swinject
+import SwinjectExtension
 import UIKit
 import Utility
 
@@ -60,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate {
 
     func initUserSettingsIfFirstLaunch() {
-        let userSettingsUseCase: UserSettingsUseCaseProtocol = DIContainer.shared.resolve()
+        let userSettingsUseCase: UserSettingsUseCaseProtocol = DIContainer.shared.resolver.resolve()
 
         userSettingsUseCase.currentUserSettings
             .mapToVoid()
@@ -73,7 +75,7 @@ extension AppDelegate {
     }
 
     func injectDependencies() {
-        DIContainer.shared.assembler = .init([
+        DIContainer.shared.assembler.apply(assemblies: [
             UseCaseAssembly(),
             ViewControllerAssembly(),
             RepositoryAssembly(

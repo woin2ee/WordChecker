@@ -13,13 +13,21 @@ import SnapKit
 import Then
 import UIKit
 
-final class UserSettingsViewController: RxBaseViewController {
+public protocol UserSettingsViewControllerDelegate: AnyObject {
+
+    func didTapLanguageSettingRow(settingsDirection: LanguageSettingViewModel.SettingsDirection, currentSettingLocale: TranslationLanguage)
+
+}
+
+public final class UserSettingsViewController: RxBaseViewController {
 
     let userSettingsCellID = "USER_SETTINGS_CELL"
 
     let viewModel: UserSettingsViewModel
 
     var settingsTableViewDataSource: UITableViewDiffableDataSource<UserSettingsSection, UserSettingsItemModel>!
+
+    public weak var delegate: UserSettingsViewControllerDelegate?
 
     lazy var settingsTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
         $0.backgroundColor = .systemGroupedBackground
@@ -37,7 +45,7 @@ final class UserSettingsViewController: RxBaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         setupSubviews()
@@ -116,8 +124,7 @@ final class UserSettingsViewController: RxBaseViewController {
             .mapToVoid()
             .withLatestFrom(output.currentTranslationSourceLanguage)
             .emit(with: self, onNext: { owner, translationSourceLanguage in
-                let languageSettingVC: LanguageSettingViewController = DIContainer.shared.resolve(arguments: LanguageSettingViewModel.SettingsDirection.sourceLanguage, translationSourceLanguage)
-                owner.navigationController?.pushViewController(languageSettingVC, animated: true)
+                owner.delegate?.didTapLanguageSettingRow(settingsDirection: .sourceLanguage, currentSettingLocale: translationSourceLanguage)
             })
             .disposed(by: disposeBag)
 
@@ -126,8 +133,7 @@ final class UserSettingsViewController: RxBaseViewController {
             .mapToVoid()
             .withLatestFrom(output.currentTranslationTargetLanguage)
             .emit(with: self, onNext: { owner, translationTargetLanguage in
-                let languageSettingVC: LanguageSettingViewController = DIContainer.shared.resolve(arguments: LanguageSettingViewModel.SettingsDirection.targetLanguage, translationTargetLanguage)
-                owner.navigationController?.pushViewController(languageSettingVC, animated: true)
+                owner.delegate?.didTapLanguageSettingRow(settingsDirection: .targetLanguage, currentSettingLocale: translationTargetLanguage)
             })
             .disposed(by: disposeBag)
 

@@ -10,6 +10,9 @@ let dependencies = Dependencies(
         // Swinject
         .remote(url: "https://github.com/Swinject/Swinject.git",
                 requirement: .upToNextMajor(from: "2.8.0")),
+        // SwinjectExtension
+        .remote(url: "https://github.com/Woin2ee-Modules/SwinjectExtension.git",
+                requirement: .upToNextMajor(from: "1.0.0")),
         // SnapKit
         .remote(url: "https://github.com/SnapKit/SnapKit.git",
                 requirement: .upToNextMajor(from: "5.0.1")),

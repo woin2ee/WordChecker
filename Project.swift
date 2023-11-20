@@ -21,9 +21,11 @@ func targets() -> [Target] {
             deploymentTarget: DEPLOYMENT_TARGET,
             resourceOptions: [.default],
             dependencies: [
+                .target(name: "Utility"),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
-                .target(name: "Utility"),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
             ],
             hasUnitTests: true,
             additionalTestDependencies: [
@@ -38,6 +40,8 @@ func targets() -> [Target] {
             product: .framework,
             deploymentTarget: DEPLOYMENT_TARGET,
             dependencies: [
+                .target(name: "Domain"),
+                .target(name: "Utility"),
                 .package(product: ExternalDependencyName.realm),
                 .package(product: ExternalDependencyName.realmSwift),
                 .package(product: ExternalDependencyName.googleAPIClientForRESTCore),
@@ -47,8 +51,8 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
                 .external(name: ExternalDependencyName.extendedUserDefaults),
                 .external(name: ExternalDependencyName.extendedUserDefaultsRxExtension),
-                .target(name: "Domain"),
-                .target(name: "Utility"),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
             ],
             hasUnitTests: true,
             additionalTestDependencies: [
@@ -94,23 +98,38 @@ func targets() -> [Target] {
             resourceOptions: [.default, .common],
             dependencies: [
                 .target(name: "Domain"),
-                .target(name: "DataDriver"),
                 .target(name: "Utility"),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxCocoa),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
-                .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.snapKit),
                 .external(name: ExternalDependencyName.sfSafeSymbols),
                 .external(name: ExternalDependencyName.then),
                 .external(name: ExternalDependencyName.toast),
                 .external(name: ExternalDependencyName.reactorKit),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
             ],
             hasUnitTests: true,
             additionalTestDependencies: [
                 .target(name: "Testing"),
                 .external(name: ExternalDependencyName.rxBlocking),
                 .external(name: ExternalDependencyName.rxTest),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
+            name: "iPhoneDriver",
+            platform: .iOS,
+            product: .framework,
+            deploymentTarget: DEPLOYMENT_TARGET,
+            dependencies: [
+                .target(name: "Domain"),
+                .target(name: "iOSCore"),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
+                .external(name: ExternalDependencyName.sfSafeSymbols),
+                .external(name: ExternalDependencyName.then),
             ],
             appendSchemeTo: &schemes
         )
@@ -127,7 +146,11 @@ func targets() -> [Target] {
                     "Resources/Common/**",
                     "Resources/InfoPlist/Product/**",
                 ],
-                dependencies: [.target(name: "iOSCore")],
+                dependencies: [
+                    .target(name: "iPhoneDriver"),
+                    .external(name: ExternalDependencyName.swinject),
+                    .external(name: ExternalDependencyName.swinjectExtension),
+                ],
                 settings: .settings()
             ),
             Target.init(
@@ -143,8 +166,10 @@ func targets() -> [Target] {
                     "Resources/InfoPlist/Dev/**",
                 ],
                 dependencies: [
-                    .target(name: "iOSCore"),
+                    .target(name: "iPhoneDriver"),
                     .target(name: "Testing"),
+                    .external(name: ExternalDependencyName.swinject),
+                    .external(name: ExternalDependencyName.swinjectExtension),
                 ],
                 settings: .settings()
             ),

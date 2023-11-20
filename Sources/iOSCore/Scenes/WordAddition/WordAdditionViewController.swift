@@ -12,9 +12,17 @@ import SnapKit
 import Then
 import UIKit
 
-final class WordAdditionViewController: RxBaseViewController {
+public protocol WordAdditionViewControllerDelegate: AnyObject {
+
+    func didFinishInteration()
+
+}
+
+public final class WordAdditionViewController: RxBaseViewController {
 
     let viewModel: WordAdditionViewModel
+
+    public weak var delegate: WordAdditionViewControllerDelegate?
 
     let wordTextField: UITextField = .init().then {
         $0.placeholder = WCString.word
@@ -36,7 +44,7 @@ final class WordAdditionViewController: RxBaseViewController {
         fatalError("\(#file):\(#line):\(#function)")
     }
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         self.isModalInPresentation = true
@@ -46,7 +54,7 @@ final class WordAdditionViewController: RxBaseViewController {
         bindViewModel()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         wordTextField.becomeFirstResponder()
@@ -86,17 +94,19 @@ final class WordAdditionViewController: RxBaseViewController {
         [
             output.saveComplete
                 .emit(with: self, onNext: { owner, _ in
-                    owner.dismiss(animated: true)
+                    owner.delegate?.didFinishInteration()
                 }),
             output.wordTextIsNotEmpty
                 .drive(doneBarButton.rx.isEnabled),
             output.reconfirmDismiss
                 .emit(with: self, onNext: { owner, _ in
-                    owner.presentDismissActionSheet()
+                    owner.presentDismissActionSheet {
+                        owner.delegate?.didFinishInteration()
+                    }
                 }),
             output.dismissComplete
                 .emit(with: self, onNext: { owner, _ in
-                    owner.dismiss(animated: true)
+                    owner.delegate?.didFinishInteration()
                 }),
         ]
             .forEach { $0.disposed(by: disposeBag) }

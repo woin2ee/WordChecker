@@ -9,13 +9,13 @@ import UIKit
 
 extension UIViewController {
 
-    public func presentDismissActionSheet() {
+    public func presentDismissActionSheet(discardChangesAction: (() -> Void)?) {
         let actionSheetController: UIAlertController = .init(title: nil, message: nil, preferredStyle: .actionSheet)
 
         let discardChangesAction: UIAlertAction = .init(
             title: WCString.discardChanges,
             style: .destructive,
-            handler: { [weak self] _ in self?.dismiss(animated: true) }
+            handler: { _ in discardChangesAction?() }
         )
         let cancelAction: UIAlertAction = .init(title: WCString.cancel, style: .cancel)
 
