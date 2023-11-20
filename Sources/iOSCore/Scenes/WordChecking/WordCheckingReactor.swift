@@ -44,7 +44,7 @@ public final class WordCheckingReactor: Reactor {
     let userSettingsUseCase: UserSettingsUseCaseProtocol
     let globalAction: GlobalAction
 
-    init(
+    public init(
         wordUseCase: WordRxUseCaseProtocol,
         userSettingsUseCase: UserSettingsUseCaseProtocol,
         globalAction: GlobalAction

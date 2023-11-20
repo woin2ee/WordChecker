@@ -11,9 +11,9 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-final class GlobalAction {
+public final class GlobalAction {
 
-    static let shared: GlobalAction = .init()
+    public static let shared: GlobalAction = .init()
 
     private init() {}
 

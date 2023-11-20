@@ -24,8 +24,6 @@ func targets() -> [Target] {
                 .target(name: "Utility"),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
-                .external(name: ExternalDependencyName.swinject),
-                .external(name: ExternalDependencyName.swinjectExtension),
             ],
             hasUnitTests: true,
             additionalTestDependencies: [
@@ -51,8 +49,6 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
                 .external(name: ExternalDependencyName.extendedUserDefaults),
                 .external(name: ExternalDependencyName.extendedUserDefaultsRxExtension),
-                .external(name: ExternalDependencyName.swinject),
-                .external(name: ExternalDependencyName.swinjectExtension),
             ],
             hasUnitTests: true,
             additionalTestDependencies: [
@@ -107,8 +103,6 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.then),
                 .external(name: ExternalDependencyName.toast),
                 .external(name: ExternalDependencyName.reactorKit),
-                .external(name: ExternalDependencyName.swinject),
-                .external(name: ExternalDependencyName.swinjectExtension),
             ],
             hasUnitTests: true,
             additionalTestDependencies: [
@@ -126,12 +120,29 @@ func targets() -> [Target] {
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "iOSCore"),
-                .external(name: ExternalDependencyName.swinject),
-                .external(name: ExternalDependencyName.swinjectExtension),
+                .target(name: "DIContainer"),
                 .external(name: ExternalDependencyName.sfSafeSymbols),
                 .external(name: ExternalDependencyName.then),
             ],
             appendSchemeTo: &schemes
+        )
+        + Target.module(
+            name: "DIContainer",
+            platform: .iOS,
+            product: .framework,
+            deploymentTarget: DEPLOYMENT_TARGET,
+            dependencies: [
+                .target(name: "Domain"),
+                .target(name: "DataDriver"),
+                .target(name: "iOSCore"),
+                .package(product: ExternalDependencyName.realm),
+                .package(product: ExternalDependencyName.realmSwift),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
+                .external(name: ExternalDependencyName.then),
+                .external(name: ExternalDependencyName.extendedUserDefaults),
+            ],
+            appendSchemeTo: &disposedSchemes
         )
         + [
             Target.init(
@@ -148,8 +159,7 @@ func targets() -> [Target] {
                 ],
                 dependencies: [
                     .target(name: "iPhoneDriver"),
-                    .external(name: ExternalDependencyName.swinject),
-                    .external(name: ExternalDependencyName.swinjectExtension),
+                    .target(name: "DIContainer"),
                 ],
                 settings: .settings()
             ),
@@ -168,8 +178,9 @@ func targets() -> [Target] {
                 dependencies: [
                     .target(name: "iPhoneDriver"),
                     .target(name: "Testing"),
-                    .external(name: ExternalDependencyName.swinject),
-                    .external(name: ExternalDependencyName.swinjectExtension),
+                    .target(name: "DIContainer"),
+                    .package(product: ExternalDependencyName.realm),
+                    .package(product: ExternalDependencyName.realmSwift),
                 ],
                 settings: .settings()
             ),

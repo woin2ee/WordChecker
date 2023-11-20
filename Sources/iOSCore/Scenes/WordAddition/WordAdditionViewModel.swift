@@ -11,11 +11,11 @@ import RxSwift
 import RxCocoa
 import RxUtility
 
-final class WordAdditionViewModel: ViewModelType {
+public final class WordAdditionViewModel: ViewModelType {
 
     let wordUseCase: WordRxUseCaseProtocol
 
-    init(wordUseCase: WordRxUseCaseProtocol) {
+    public init(wordUseCase: WordRxUseCaseProtocol) {
         self.wordUseCase = wordUseCase
     }
 

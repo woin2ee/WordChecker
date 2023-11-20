@@ -7,9 +7,9 @@
 //
 
 import Domain
+import DIContainer
 import UIKit
 import iOSCore
-import SwinjectExtension
 
 final class UserSettingsCoordinator: Coordinator {
 

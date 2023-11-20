@@ -36,7 +36,7 @@ public final class LanguageSettingViewController: RxBaseViewController {
         $0.register(UITableViewCell.self, forCellReuseIdentifier: languageCellID)
     }
 
-    init(viewModel: LanguageSettingViewModel) {
+    public init(viewModel: LanguageSettingViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

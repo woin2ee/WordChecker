@@ -35,7 +35,7 @@ public final class WordAdditionViewController: RxBaseViewController {
         $0.style = .done
     }
 
-    init(viewModel: WordAdditionViewModel) {
+    public init(viewModel: WordAdditionViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

@@ -6,9 +6,9 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
+import DIContainer
 import UIKit
 import iOSCore
-import SwinjectExtension
 
 final class LanguageSettingCoordinator: Coordinator {
 

@@ -34,7 +34,7 @@ public final class UserSettingsViewController: RxBaseViewController {
         $0.register(UITableViewCell.self, forCellReuseIdentifier: userSettingsCellID)
     }
 
-    init(viewModel: UserSettingsViewModel) {
+    public init(viewModel: UserSettingsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         setupDataSource()

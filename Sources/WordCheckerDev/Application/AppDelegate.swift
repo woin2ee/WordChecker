@@ -5,13 +5,11 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
-import DataDriver
 import Domain
+import DIContainer
 import GoogleSignIn
 import iOSCore
 import RxSwift
-import Swinject
-import SwinjectExtension
 import UIKit
 import Utility
 
@@ -19,7 +17,7 @@ import Utility
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        injectDependencies()
+        injectDependenciesForDev()
         initUserSettingsIfFirstLaunch()
         NetworkMonitor.start()
 
@@ -74,8 +72,8 @@ extension AppDelegate {
             .dispose()
     }
 
-    func injectDependencies() {
-        DIContainer.shared.assembler.apply(assemblies: [
+    func injectDependenciesForDev() {
+        DIContainer.shared.assembler = .init([
             UseCaseAssembly(),
             ViewControllerAssembly(),
             RepositoryAssembly(

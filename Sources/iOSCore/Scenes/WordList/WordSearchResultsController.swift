@@ -10,11 +10,19 @@ import ReactorKit
 import SwinjectExtension
 import UIKit
 
+public protocol WordSearchResultsControllerDelegate: AnyObject {
+
+    func didTapWordRow(with uuid: UUID)
+
+}
+
 final class WordSearchResultsController: UITableViewController, View {
 
     var disposeBag: RxSwift.DisposeBag = .init()
 
     let cellReuseIdentifier = "WORD_SEARCH_RESULT_CELL"
+
+    public weak var delegate: WordSearchResultsControllerDelegate?
 
     private var searchedList: [Word] = [] {
         didSet {
@@ -127,12 +135,7 @@ extension WordSearchResultsController {
         tableView.deselectRow(at: indexPath, animated: true)
 
         let uuid: UUID = searchedList[indexPath.row].uuid
-
-        let viewController: WordDetailViewController = DIContainer.shared.resolver.resolve(argument: uuid)
-        viewController.delegate = self
-
-        let navigationController: UINavigationController = .init(rootViewController: viewController)
-        self.present(navigationController, animated: true)
+        delegate?.didTapWordRow(with: uuid)
     }
 
 }

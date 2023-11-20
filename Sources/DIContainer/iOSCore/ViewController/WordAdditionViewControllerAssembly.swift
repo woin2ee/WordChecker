@@ -7,6 +7,7 @@
 //
 
 import Domain
+import iOSCore
 import Swinject
 import SwinjectExtension
 

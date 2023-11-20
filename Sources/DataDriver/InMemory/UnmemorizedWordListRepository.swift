@@ -9,27 +9,27 @@ import Domain
 import Foundation
 import Utility
 
-final class UnmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol {
+public final class UnmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol {
 
     private(set) var unmemorizedWordList: CircularLinkedList<Domain.Word>
 
-    init() {
+    public init() {
         self.unmemorizedWordList = .init()
     }
 
-    func updateToNextWord() {
+    public func updateToNextWord() {
         unmemorizedWordList.next()
     }
 
-    func updateToPreviousWord() {
+    public func updateToPreviousWord() {
         unmemorizedWordList.previous()
     }
 
-    func addWord(_ word: Domain.Word) {
+    public func addWord(_ word: Domain.Word) {
         unmemorizedWordList.append(word)
     }
 
-    func deleteWord(by uuid: UUID) {
+    public func deleteWord(by uuid: UUID) {
         guard let targetIndex = unmemorizedWordList.firstIndex(where: { $0.uuid == uuid }) else {
             return
         }
@@ -37,7 +37,7 @@ final class UnmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol
         unmemorizedWordList.remove(at: targetIndex)
     }
 
-    func replaceWord(where uuid: UUID, with newWord: Domain.Word) {
+    public func replaceWord(where uuid: UUID, with newWord: Domain.Word) {
         guard let targetIndex = unmemorizedWordList.firstIndex(where: { $0.uuid == uuid }) else {
             return
         }
@@ -45,7 +45,7 @@ final class UnmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol
         unmemorizedWordList[targetIndex] = newWord
     }
 
-    func randomizeList(with unmemorizedList: [Domain.Word]) {
+    public func randomizeList(with unmemorizedList: [Domain.Word]) {
         var newList: CircularLinkedList<Domain.Word> = .init(unmemorizedList.shuffled())
         if let oldCurrentWord = unmemorizedWordList.current,
            let newCurrentWord = newList.current,
@@ -55,11 +55,11 @@ final class UnmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol
         unmemorizedWordList = newList
     }
 
-    func contains(where predicate: (Domain.Word) -> Bool) -> Bool {
+    public func contains(where predicate: (Domain.Word) -> Bool) -> Bool {
         return unmemorizedWordList.contains(where: predicate)
     }
 
-    func getCurrentWord() -> Domain.Word? {
+    public func getCurrentWord() -> Domain.Word? {
         return unmemorizedWordList.current
     }
 
