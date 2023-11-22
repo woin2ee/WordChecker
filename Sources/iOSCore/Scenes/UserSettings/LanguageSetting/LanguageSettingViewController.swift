@@ -91,7 +91,13 @@ public final class LanguageSettingViewController: RxBaseViewController {
     }
 
     func setupNavigationBar() {
-        self.navigationItem.title = WCString.languages
+        switch viewModel.settingsDirection {
+        case .sourceLanguage:
+            self.navigationItem.title = WCString.source_language
+        case .targetLanguage:
+            self.navigationItem.title = WCString.translation_language
+        }
+
         self.navigationItem.largeTitleDisplayMode = .never
     }
 
