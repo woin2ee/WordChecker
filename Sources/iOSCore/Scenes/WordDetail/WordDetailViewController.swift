@@ -124,7 +124,7 @@ extension WordDetailViewController: View {
             .disposed(by: self.disposeBag)
 
         doneBarButton.rx.tap
-            .doOnNext { self.delegate?.didFinishInteraction() }
+            .doOnNext { [weak self] _ in self?.delegate?.didFinishInteraction() }
             .map { Reactor.Action.doneEditing }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
@@ -182,6 +182,10 @@ extension WordDetailViewController: UIAdaptivePresentationControllerDelegate {
         self.presentDismissActionSheet {
             self.delegate?.didFinishInteraction()
         }
+    }
+
+    public func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
+        delegate?.didFinishInteraction()
     }
 
 }

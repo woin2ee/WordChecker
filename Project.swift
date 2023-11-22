@@ -220,8 +220,10 @@ let project: Project = .init(
     schemes: schemes + [
         .init(
             name: PROJECT_NAME,
+            buildAction: .buildAction(targets: ["\(PROJECT_NAME)"]),
             testAction: .testPlans([.relativeToRoot("TestPlans/WordChecker.xctestplan")]),
-            runAction: .runAction(executable: "\(PROJECT_NAME)")
+            runAction: .runAction(executable: "\(PROJECT_NAME)"),
+            profileAction: .profileAction(executable: "\(PROJECT_NAME)")
         ),
         .init(
             name: "\(PROJECT_NAME)Dev",

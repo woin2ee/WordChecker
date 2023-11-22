@@ -58,7 +58,9 @@ public final class LanguageSettingViewController: RxBaseViewController {
         let output = viewModel.transform(input: input)
 
         output.selectableLocales
-            .drive(languageSettingTableView.rx.items) { tableView, row, locale -> UITableViewCell in
+            .drive(languageSettingTableView.rx.items) { [weak self] tableView, row, locale -> UITableViewCell in
+                guard let self = self else { return UITableViewCell() }
+
                 var config = UIListContentConfiguration.cell()
                 config.text = locale.localizedString
 

@@ -63,8 +63,8 @@ public final class UserSettingsViewModel: ViewModelType {
             }
 
         let signOut = input.signOut
-            .doOnNext {
-                self.googleDriveUseCase.signOut()
+            .doOnNext { [weak self] _ in
+                self?.googleDriveUseCase.signOut()
                 hasSigned.accept(false)
             }
 
