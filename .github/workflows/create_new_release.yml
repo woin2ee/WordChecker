@@ -5,7 +5,7 @@ on:
     # branches:
     #   - main
     tags:
-    - 'v*.*.*'
+    - '*.*.*'
 
 jobs:
   create_new_release:
