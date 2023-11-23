@@ -98,20 +98,6 @@
     {
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "49913AE79745D97139F53879",
-        "name" : "DomainUnitTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "B4760D68D950DD960933E277",
-        "name" : "UtilityUnitTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:WordChecker.xcodeproj",
         "identifier" : "A768E0CF445E4B1F88AAA2B4",
         "name" : "WordCheckerUITests"
       }
@@ -119,15 +105,64 @@
     {
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "5B5E8B6CF37D272DBB96F977",
-        "name" : "iOSCoreUnitTests"
+        "identifier" : "DCCAE250A32485D11F075E3E",
+        "name" : "DataDriverTests"
       }
     },
     {
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "837ACBEE552B5E509D040687",
-        "name" : "DataDriverUnitTests"
+        "identifier" : "D6E847CEB3E1C72D665A8879",
+        "name" : "DomainTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "585092990423BB1A0834B60A",
+        "name" : "UtilityTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "27FAB0A92E9F64A545C3337E",
+        "name" : "LanguageSettingTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "6A11BA59AA3F5D03369E7DB1",
+        "name" : "UserSettingsTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "295EABF20CB5D0D026D529FB",
+        "name" : "WordAdditionTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "8565189CBD668EEEB0D9A1F9",
+        "name" : "WordDetailTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "8C56DE0A6C766A25CAD972B0",
+        "name" : "WordCheckingTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "AA3329E574FC503FF669CE7B",
+        "name" : "WordListTests"
       }
     }
   ],

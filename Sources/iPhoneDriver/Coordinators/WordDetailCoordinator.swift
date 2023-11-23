@@ -6,14 +6,16 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import DIContainer
+import iOSSupport
+import SwinjectDIContainer
+import SwinjectExtension
 import UIKit
-import iOSCore
+import WordDetail
 
 final class WordDetailCoordinator: Coordinator {
 
-    weak var parentCoordinator: iOSCore.Coordinator?
-    var childCoordinators: [iOSCore.Coordinator] = []
+    weak var parentCoordinator: Coordinator?
+    var childCoordinators: [Coordinator] = []
 
     let navigationController: UINavigationController
 
