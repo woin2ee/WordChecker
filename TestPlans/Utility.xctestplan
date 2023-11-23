@@ -15,8 +15,8 @@
     {
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "B4760D68D950DD960933E277",
-        "name" : "UtilityUnitTests"
+        "identifier" : "585092990423BB1A0834B60A",
+        "name" : "UtilityTests"
       }
     }
   ],

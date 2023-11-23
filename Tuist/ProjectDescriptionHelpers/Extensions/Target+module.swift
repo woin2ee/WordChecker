@@ -12,7 +12,7 @@ public enum ResourceOption {
 
     case common
 
-    case `default`
+    case own
 
     case additional(ProjectDescription.ResourceFileElement)
 
@@ -28,10 +28,12 @@ extension Target {
     /// 모듈의 Sources 패스는 `Source/$(name)`이고 Tests 패스는 `Tests/$(name)UnitTests` 입니다.
     public static func module(
         name: String,
-        platform: ProjectDescription.Platform,
-        product: ProjectDescription.Product,
+        platform: ProjectDescription.Platform = .iOS,
+        product: ProjectDescription.Product = .framework,
         bundleId: String? = nil,
-        deploymentTarget: ProjectDescription.DeploymentTarget,
+        deploymentTarget: ProjectDescription.DeploymentTarget = DEPLOYMENT_TARGET,
+        infoPlist: InfoPlist? = .default,
+        sourcesPrefix: String? = nil,
         resourceOptions: [ResourceOption] = [],
 //        resources: ProjectDescription.ResourceFileElements? = nil,
         entitlements: ProjectDescription.Path? = nil,
@@ -42,7 +44,7 @@ extension Target {
         environment: [String: String] = [:],
         launchArguments: [ProjectDescription.LaunchArgument] = [],
         additionalFiles: [ProjectDescription.FileElement] = [],
-        hasUnitTests: Bool = false,
+        hasTests: Bool = false,
         additionalTestDependencies: [ProjectDescription.TargetDependency] = [],
         appendSchemeTo scheme: inout [Scheme]
     ) -> [Target] {
@@ -53,7 +55,7 @@ extension Target {
                 switch option {
                 case .common:
                     partialResult.append("Resources/Common/**")
-                case .default:
+                case .own:
                     partialResult.append("Resources/\(name)/**")
                 case .additional(let resourceFileElement):
                     partialResult.append(resourceFileElement)
@@ -61,7 +63,7 @@ extension Target {
             })
         let resources: ResourceFileElements = .init(resources: resourceFileElements)
 
-        if hasUnitTests {
+        if hasTests {
             let moduleScheme: Scheme = .init(
                 name: name,
                 buildAction: .buildAction(targets: ["\(name)"]),
@@ -76,6 +78,8 @@ extension Target {
             scheme.append(moduleScheme)
         }
 
+        let sources: SourceFilesList? = (sourcesPrefix == nil) ? "Sources/\(name)/**" : "Sources/\(sourcesPrefix!)/\(name)/**"
+
         let frameworkTarget: Target = .init(
             name: name,
             platform: platform,
@@ -83,8 +87,8 @@ extension Target {
             productName: nil,
             bundleId: bundleId,
             deploymentTarget: deploymentTarget,
-            infoPlist: .default,
-            sources: "Sources/\(name)/**",
+            infoPlist: infoPlist,
+            sources: sources,
             resources: resources,
             copyFiles: nil,
             headers: nil,
@@ -99,16 +103,19 @@ extension Target {
             buildRules: []
         )
 
-        if hasUnitTests {
-            let unitTestsTarget: Target = .init(
-                name: "\(name)UnitTests",
+        if hasTests {
+            let testsTargetName = "\(name)Tests"
+            let testsSources: SourceFilesList? = (sourcesPrefix == nil) ? "Tests/\(testsTargetName)/**" : "Tests/\(sourcesPrefix!)Tests/\(testsTargetName)/**"
+
+            let testsTarget: Target = .init(
+                name: testsTargetName,
                 platform: platform,
                 product: .unitTests,
                 productName: nil,
-                bundleId: "\(BASIC_BUNDLE_ID).\(name)UnitTests",
+                bundleId: "\(BASIC_BUNDLE_ID).\(testsTargetName)",
                 deploymentTarget: deploymentTarget,
                 infoPlist: .default,
-                sources: "Tests/\(name)UnitTests/**",
+                sources: testsSources,
                 resources: resources,
                 copyFiles: nil,
                 headers: nil,
@@ -123,7 +130,7 @@ extension Target {
                 buildRules: []
             )
 
-            return [frameworkTarget, unitTestsTarget]
+            return [frameworkTarget, testsTarget]
         } else {
             return [frameworkTarget]
         }
