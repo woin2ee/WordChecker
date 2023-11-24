@@ -7,14 +7,17 @@
 //
 
 import Domain
-import DIContainer
+import iOSSupport
+import LanguageSetting
+import SwinjectDIContainer
+import SwinjectExtension
 import UIKit
-import iOSCore
+import UserSettings
 
 final class UserSettingsCoordinator: Coordinator {
 
-    weak var parentCoordinator: iOSCore.Coordinator?
-    var childCoordinators: [iOSCore.Coordinator] = []
+    weak var parentCoordinator: Coordinator?
+    var childCoordinators: [Coordinator] = []
 
     let navigationController: UINavigationController
 
@@ -32,11 +35,18 @@ final class UserSettingsCoordinator: Coordinator {
 
 extension UserSettingsCoordinator: UserSettingsViewControllerDelegate {
 
-    func didTapLanguageSettingRow(settingsDirection: LanguageSettingViewModel.SettingsDirection, currentSettingLocale: TranslationLanguage) {
+    func didTapSourceLanguageSettingRow(currentSettingLocale: TranslationLanguage) {
         let coordinator: LanguageSettingCoordinator = .init(navigationController: navigationController)
         coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)
-        coordinator.start(with: settingsDirection, currentSettingLocale)
+        coordinator.start(with: LanguageSettingViewModel.SettingsDirection.sourceLanguage, currentSettingLocale)
+    }
+
+    func didTapTargetLanguageSettingRow(currentSettingLocale: TranslationLanguage) {
+        let coordinator: LanguageSettingCoordinator = .init(navigationController: navigationController)
+        coordinator.parentCoordinator = self
+        childCoordinators.append(coordinator)
+        coordinator.start(with: LanguageSettingViewModel.SettingsDirection.targetLanguage, currentSettingLocale)
     }
 
 }

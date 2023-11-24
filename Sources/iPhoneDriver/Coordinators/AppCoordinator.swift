@@ -6,7 +6,7 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import iOSCore
+import iOSSupport
 import SFSafeSymbols
 import Then
 import UIKit
@@ -19,7 +19,7 @@ import UIKit
 /// 후에 iPhone / iPad 둘 다 지원할 경우 `ViewController` 를 공유하며 `Coordinator` 객체만 따로 작성하여 모듈로 분리가 가능합니다.
 final class AppCoordinator: Coordinator {
 
-    weak var parentCoordinator: iOSCore.Coordinator?
+    weak var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
 
     let rootTabBarController: UITabBarController
