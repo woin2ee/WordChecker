@@ -128,8 +128,8 @@ public final class WordRxUseCase: WordRxUseCaseProtocol {
         }
     }
 
-    public var currentUnmemorizedWord: Word? {
-        wordUseCase.currentUnmemorizedWord
+    public func getCurrentUnmemorizedWord() -> Word? {
+        return wordUseCase.getCurrentUnmemorizedWord()
     }
 
 }
