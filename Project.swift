@@ -91,6 +91,7 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxCocoa),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
+                .external(name: ExternalDependencyName.reactorKit),
                 .external(name: ExternalDependencyName.snapKit),
                 .external(name: ExternalDependencyName.then),
             ],
@@ -119,6 +120,17 @@ func targets() -> [Target] {
                 .target(name: "DomainTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
                 .external(name: ExternalDependencyName.rxTest),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
+            name: "WordCheckingExample",
+            product: .app,
+            infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
+            sourcesPrefix: "iOSScenes",
+            dependencies: [
+                .target(name: "WordChecking"),
+                .target(name: "DomainTesting"),
             ],
             appendSchemeTo: &schemes
         )

@@ -54,7 +54,7 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
     }
 
     public func randomizeUnmemorizedWordList() {
-        _unmemorizedWordList.randomizeList(with: _wordList)
+        _unmemorizedWordList.randomizeList(with: getUnmemorizedWordList())
     }
 
     public func updateToNextWord() {

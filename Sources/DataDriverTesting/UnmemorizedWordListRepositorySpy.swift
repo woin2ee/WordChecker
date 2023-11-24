@@ -41,18 +41,17 @@ public final class UnmemorizedWordListRepositorySpy: UnmemorizedWordListReposito
     }
 
     public func randomizeList(with unmemorizedList: [Domain.Word]) {
+        let oldCurrentElement = _storedWords.current
+
         _storedWords = .init(unmemorizedList)
 
-        guard
-            _storedWords.count > 1,
-            let oldCurrentElement = _storedWords.current
-        else {
+        guard _storedWords.count > 1 else {
             return
         }
 
         repeat {
             _storedWords.shuffle()
-        } while _storedWords.current! == oldCurrentElement
+        } while _storedWords.current == oldCurrentElement
     }
 
     public func contains(where predicate: (Domain.Word) -> Bool) -> Bool {
