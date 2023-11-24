@@ -1,3 +1,5 @@
+@testable import {{ name }}
+
 import XCTest
 
 final class {{ name }}Tests: XCTestCase {
