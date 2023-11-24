@@ -93,8 +93,8 @@ final class WordUseCase: WordUseCaseProtocol {
         wordRepository.save(currentWord)
     }
 
-    var currentUnmemorizedWord: Word? {
-        unmemorizedWordListRepository.getCurrentWord()
+    func getCurrentUnmemorizedWord() -> Word? {
+        return unmemorizedWordListRepository.getCurrentWord()
     }
 
 }

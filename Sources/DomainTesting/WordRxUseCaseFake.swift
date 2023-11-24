@@ -74,8 +74,8 @@ public final class WordRxUseCaseFake: WordRxUseCaseProtocol {
         return .just(())
     }
 
-    public var currentUnmemorizedWord: Domain.Word? {
-        wordUseCaseFake.currentUnmemorizedWord
+    public func getCurrentUnmemorizedWord() -> Domain.Word? {
+        return wordUseCaseFake.getCurrentUnmemorizedWord()
     }
 
 }
