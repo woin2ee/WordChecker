@@ -35,7 +35,6 @@ extension Target {
         infoPlist: InfoPlist? = .default,
         sourcesPrefix: String? = nil,
         resourceOptions: [ResourceOption] = [],
-//        resources: ProjectDescription.ResourceFileElements? = nil,
         entitlements: ProjectDescription.Path? = nil,
         scripts: [ProjectDescription.TargetScript] = [],
         dependencies: [ProjectDescription.TargetDependency] = [],
