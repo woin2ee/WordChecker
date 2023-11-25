@@ -88,6 +88,17 @@ func targets() -> [Target] {
             appendSchemeTo: &disposedSchemes
         )
         + Target.module(
+            name: "WCNotificationCenter",
+            dependencies: [
+                .external(name: ExternalDependencyName.swinject),
+            ],
+            hasTests: true,
+            additionalTestDependencies: [
+                .target(name: "\(PROJECT_NAME)Dev"),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
             name: "iOSSupport",
             resourceOptions: [.own],
             dependencies: [

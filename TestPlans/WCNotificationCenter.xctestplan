@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "ED90B5AA-19A5-465B-9AC8-B1AAA38D4C16",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "CBD1BBE887C15E6447B4F177",
+        "name" : "WCNotificationCenterTests"
+      }
+    }
+  ],
+  "version" : 1
+}
