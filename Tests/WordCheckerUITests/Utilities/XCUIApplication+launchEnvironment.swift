@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Testing
+import Utility
 import XCTest
 
 extension XCUIApplication {
