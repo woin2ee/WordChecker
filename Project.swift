@@ -16,28 +16,47 @@ func targets() -> [Target] {
     [
         Target.module(
             name: "Domain",
-            platform: .iOS,
-            product: .framework,
-            deploymentTarget: DEPLOYMENT_TARGET,
-            resourceOptions: [.default],
+            resourceOptions: [.own],
             dependencies: [
+                .target(name: "Utility"),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
-                .target(name: "Utility"),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
             ],
-            hasUnitTests: true,
+            hasTests: true,
             additionalTestDependencies: [
-                .target(name: "Testing"),
+                .target(name: "DataDriverTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
             ],
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "DataDriver",
-            platform: .iOS,
-            product: .framework,
-            deploymentTarget: DEPLOYMENT_TARGET,
+            name: "DomainTesting",
             dependencies: [
+                .target(name: "Domain"),
+                .target(name: "DataDriverTesting"),
+            ],
+            appendSchemeTo: &disposedSchemes
+        )
+        + Target.module(
+            name: "Utility",
+            scripts: [
+                // 공동 작업자의 githook path 자동 세팅을 위함
+                .pre(
+                    path: "Scripts/set_githooks_path.sh",
+                    name: "Set githooks path",
+                    basedOnDependencyAnalysis: false
+                ),
+            ],
+            hasTests: true,
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
+            name: "DataDriver",
+            dependencies: [
+                .target(name: "Domain"),
+                .target(name: "Utility"),
                 .package(product: ExternalDependencyName.realm),
                 .package(product: ExternalDependencyName.realmSwift),
                 .package(product: ExternalDependencyName.googleAPIClientForRESTCore),
@@ -47,107 +66,262 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
                 .external(name: ExternalDependencyName.extendedUserDefaults),
                 .external(name: ExternalDependencyName.extendedUserDefaultsRxExtension),
-                .target(name: "Domain"),
-                .target(name: "Utility"),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
             ],
-            hasUnitTests: true,
+            hasTests: true,
             additionalTestDependencies: [
                 .external(name: ExternalDependencyName.rxBlocking),
             ],
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "Utility",
-            platform: .iOS,
-            product: .framework,
-            deploymentTarget: DEPLOYMENT_TARGET,
-            scripts: [
-                // 공동 작업자의 githook path 자동 세팅을 위함
-                .pre(
-                    path: "Scripts/set_githooks_path.sh",
-                    name: "Set githooks path",
-                    basedOnDependencyAnalysis: false
-                ),
-            ],
-            hasUnitTests: true,
-            appendSchemeTo: &schemes
-        )
-        + Target.module(
-            name: "Testing",
-            platform: .iOS,
-            product: .framework,
-            deploymentTarget: DEPLOYMENT_TARGET,
+            name: "DataDriverTesting",
             dependencies: [
                 .target(name: "Domain"),
-                .target(name: "DataDriver"),
-                .target(name: "Utility"),
-                .target(name: "iOSCore"),
-                .external(name: ExternalDependencyName.rxSwift),
             ],
             appendSchemeTo: &disposedSchemes
         )
         + Target.module(
-            name: "iOSCore",
-            platform: .iOS,
-            product: .framework,
-            deploymentTarget: DEPLOYMENT_TARGET,
-            resourceOptions: [.default, .common],
+            name: "iOSSupport",
+            resourceOptions: [.own],
             dependencies: [
                 .target(name: "Domain"),
-                .target(name: "DataDriver"),
                 .target(name: "Utility"),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxCocoa),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
-                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.reactorKit),
                 .external(name: ExternalDependencyName.snapKit),
-                .external(name: ExternalDependencyName.sfSafeSymbols),
+                .external(name: ExternalDependencyName.then),
+            ],
+            appendSchemeTo: &disposedSchemes
+        )
+        + Target.module(
+            name: "WordChecking",
+            sourcesPrefix: "iOSScenes",
+            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            dependencies: [
+                .target(name: "Domain"),
+                .target(name: "iOSSupport"),
+                .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.rxCocoa),
+                .external(name: ExternalDependencyName.rxUtilityDynamic),
+                .external(name: ExternalDependencyName.reactorKit),
+                .external(name: ExternalDependencyName.snapKit),
                 .external(name: ExternalDependencyName.then),
                 .external(name: ExternalDependencyName.toast),
-                .external(name: ExternalDependencyName.reactorKit),
+                .external(name: ExternalDependencyName.sfSafeSymbols),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
             ],
-            hasUnitTests: true,
+            hasTests: true,
             additionalTestDependencies: [
-                .target(name: "Testing"),
+                .target(name: "DomainTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
                 .external(name: ExternalDependencyName.rxTest),
             ],
             appendSchemeTo: &schemes
         )
+        + Target.module(
+            name: "WordCheckingExample",
+            product: .app,
+            infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
+            sourcesPrefix: "iOSScenes",
+            dependencies: [
+                .target(name: "WordChecking"),
+                .target(name: "DomainTesting"),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
+            name: "WordList",
+            sourcesPrefix: "iOSScenes",
+            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            dependencies: [
+                .target(name: "Domain"),
+                .target(name: "iOSSupport"),
+                .target(name: "WordDetail"),
+                .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.rxCocoa),
+                .external(name: ExternalDependencyName.rxUtilityDynamic),
+                .external(name: ExternalDependencyName.reactorKit),
+                .external(name: ExternalDependencyName.snapKit),
+                .external(name: ExternalDependencyName.then),
+                .external(name: ExternalDependencyName.toast),
+                .external(name: ExternalDependencyName.sfSafeSymbols),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
+            ],
+            hasTests: true,
+            additionalTestDependencies: [
+                .target(name: "DomainTesting"),
+                .external(name: ExternalDependencyName.rxBlocking),
+                .external(name: ExternalDependencyName.rxTest),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
+            name: "WordDetail",
+            sourcesPrefix: "iOSScenes",
+            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            dependencies: [
+                .target(name: "Domain"),
+                .target(name: "iOSSupport"),
+                .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.rxCocoa),
+                .external(name: ExternalDependencyName.rxUtilityDynamic),
+                .external(name: ExternalDependencyName.reactorKit),
+                .external(name: ExternalDependencyName.snapKit),
+                .external(name: ExternalDependencyName.then),
+                .external(name: ExternalDependencyName.toast),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
+            ],
+            hasTests: true,
+            additionalTestDependencies: [
+                .target(name: "DomainTesting"),
+                .external(name: ExternalDependencyName.rxBlocking),
+                .external(name: ExternalDependencyName.rxTest),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
+            name: "WordAddition",
+            sourcesPrefix: "iOSScenes",
+            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            dependencies: [
+                .target(name: "Domain"),
+                .target(name: "iOSSupport"),
+                .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.rxCocoa),
+                .external(name: ExternalDependencyName.rxUtilityDynamic),
+                .external(name: ExternalDependencyName.reactorKit),
+                .external(name: ExternalDependencyName.snapKit),
+                .external(name: ExternalDependencyName.then),
+                .external(name: ExternalDependencyName.toast),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
+            ],
+            hasTests: true,
+            additionalTestDependencies: [
+                .target(name: "DomainTesting"),
+                .external(name: ExternalDependencyName.rxBlocking),
+                .external(name: ExternalDependencyName.rxTest),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
+            name: "UserSettings",
+            sourcesPrefix: "iOSScenes",
+            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            dependencies: [
+                .target(name: "Domain"),
+                .target(name: "iOSSupport"),
+                .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.rxCocoa),
+                .external(name: ExternalDependencyName.rxUtilityDynamic),
+                .external(name: ExternalDependencyName.reactorKit),
+                .external(name: ExternalDependencyName.snapKit),
+                .external(name: ExternalDependencyName.then),
+                .external(name: ExternalDependencyName.toast),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
+            ],
+            hasTests: true,
+            additionalTestDependencies: [
+                .target(name: "DomainTesting"),
+                .target(name: "TestsSupport"),
+                .external(name: ExternalDependencyName.rxBlocking),
+                .external(name: ExternalDependencyName.rxTest),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
+            name: "LanguageSetting",
+            sourcesPrefix: "iOSScenes",
+            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            dependencies: [
+                .target(name: "Domain"),
+                .target(name: "iOSSupport"),
+                .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.rxCocoa),
+                .external(name: ExternalDependencyName.rxUtilityDynamic),
+                .external(name: ExternalDependencyName.reactorKit),
+                .external(name: ExternalDependencyName.snapKit),
+                .external(name: ExternalDependencyName.then),
+                .external(name: ExternalDependencyName.toast),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
+            ],
+            hasTests: true,
+            additionalTestDependencies: [
+                .target(name: "DomainTesting"),
+                .external(name: ExternalDependencyName.rxBlocking),
+                .external(name: ExternalDependencyName.rxTest),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
+            name: "iPhoneDriver",
+            dependencies: [
+                .target(name: "iOSSupport"),
+                .target(name: "WordChecking"),
+                .target(name: "WordList"),
+                .target(name: "WordAddition"),
+                .target(name: "WordDetail"),
+                .target(name: "UserSettings"),
+                .target(name: "LanguageSetting"),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectDIContainer),
+                .external(name: ExternalDependencyName.sfSafeSymbols),
+                .external(name: ExternalDependencyName.then),
+
+            ],
+            appendSchemeTo: &disposedSchemes
+        )
+        + Target.module(
+            name: PROJECT_NAME,
+            product: .app,
+            bundleId: BASIC_BUNDLE_ID,
+            infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
+            resourceOptions: [
+                .common,
+                .additional("Resources/InfoPlist/Product/**"),
+            ],
+            dependencies: [
+                .target(name: "DataDriver"),
+                .target(name: "iPhoneDriver"),
+            ],
+            settings: .settings(),
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
+            name: "\(PROJECT_NAME)Dev",
+            product: .app,
+            bundleId: "\(BASIC_BUNDLE_ID)Dev",
+            infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
+            resourceOptions: [
+                .common,
+                .additional("Resources/InfoPlist/Dev/**"),
+            ],
+            dependencies: [
+                .target(name: "DataDriver"),
+                .target(name: "iPhoneDriver"),
+            ],
+            settings: .settings(),
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
+            name: "TestsSupport",
+            dependencies: [
+                .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.rxTest),
+            ],
+            settings: .settings(base: ["ENABLE_TESTING_SEARCH_PATHS": "YES"]),
+            appendSchemeTo: &disposedSchemes
+        )
         + [
-            Target.init(
-                name: PROJECT_NAME,
-                platform: .iOS,
-                product: .app,
-                bundleId: "\(BASIC_BUNDLE_ID)",
-                deploymentTarget: DEPLOYMENT_TARGET,
-                infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
-                sources: "Sources/\(PROJECT_NAME)/**",
-                resources: [
-                    "Resources/Common/**",
-                    "Resources/InfoPlist/Product/**",
-                ],
-                dependencies: [.target(name: "iOSCore")],
-                settings: .settings()
-            ),
-            Target.init(
-                name: "\(PROJECT_NAME)Dev",
-                platform: .iOS,
-                product: .app,
-                bundleId: "\(BASIC_BUNDLE_ID)Dev",
-                deploymentTarget: DEPLOYMENT_TARGET,
-                infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
-                sources: "Sources/\(PROJECT_NAME)Dev/**",
-                resources: [
-                    "Resources/Common/**",
-                    "Resources/InfoPlist/Dev/**",
-                ],
-                dependencies: [
-                    .target(name: "iOSCore"),
-                    .target(name: "Testing"),
-                ],
-                settings: .settings()
-            ),
             Target.init(
                 name: "\(PROJECT_NAME)UITests",
                 platform: .iOS,
@@ -157,8 +331,8 @@ func targets() -> [Target] {
                 sources: "Tests/\(PROJECT_NAME)UITests/**",
                 dependencies: [
                     .target(name: "\(PROJECT_NAME)Dev"),
-                    .target(name: "iOSCore"),
-                    .target(name: "Testing"),
+                    .target(name: "iOSSupport"),
+                    .target(name: "Utility"),
                     .package(product: "Realm"),
                 ]
             ),
@@ -184,8 +358,10 @@ let project: Project = .init(
     schemes: schemes + [
         .init(
             name: PROJECT_NAME,
+            buildAction: .buildAction(targets: ["\(PROJECT_NAME)"]),
             testAction: .testPlans([.relativeToRoot("TestPlans/WordChecker.xctestplan")]),
-            runAction: .runAction(executable: "\(PROJECT_NAME)")
+            runAction: .runAction(executable: "\(PROJECT_NAME)"),
+            profileAction: .profileAction(executable: "\(PROJECT_NAME)")
         ),
         .init(
             name: "\(PROJECT_NAME)Dev",

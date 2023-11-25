@@ -164,6 +164,11 @@ public final class GoogleDriveUseCase: ExternalStoreUseCaseProtocol {
         }
     }
 
+    public func restoreSignIn() -> Observable<Void> {
+        return googleDriveRepository.restorePreviousSignIn()
+            .asObservable()
+    }
+
 }
 
 enum ExternalStoreUseCaseError: Error {

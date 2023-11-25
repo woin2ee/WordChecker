@@ -23,4 +23,6 @@ public protocol ExternalStoreUseCaseProtocol {
     /// - Parameter presenting: 외부 서비스에 로그인이 되어있지 않을 때 로그인 화면을 제시하는데 사용되는 구성
     func download(presenting: PresentingConfiguration?) -> Observable<ProgressStatus>
 
+    func restoreSignIn() -> Observable<Void>
+
 }

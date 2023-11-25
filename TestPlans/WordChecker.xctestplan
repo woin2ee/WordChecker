@@ -22,8 +22,43 @@
     {
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "5B5E8B6CF37D272DBB96F977",
-        "name" : "iOSCoreUnitTests"
+        "identifier" : "6A11BA59AA3F5D03369E7DB1",
+        "name" : "UserSettingsTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "27FAB0A92E9F64A545C3337E",
+        "name" : "LanguageSettingTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "295EABF20CB5D0D026D529FB",
+        "name" : "WordAdditionTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "8565189CBD668EEEB0D9A1F9",
+        "name" : "WordDetailTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "8C56DE0A6C766A25CAD972B0",
+        "name" : "WordCheckingTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "AA3329E574FC503FF669CE7B",
+        "name" : "WordListTests"
       }
     }
   ],
