@@ -404,6 +404,7 @@ let project: Project = .init(
         "TestPlans/",
         "Scripts/",
         ".gitignore",
+        "Project.swift",
     ],
     resourceSynthesizers: []
 )
