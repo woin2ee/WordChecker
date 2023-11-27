@@ -61,11 +61,11 @@ public final class WordCheckingReactor: Reactor {
             let initUnmemorizedWordList = wordUseCase.randomizeUnmemorizedWordList()
                 .map { Mutation.setCurrentWord(self.wordUseCase.getCurrentUnmemorizedWord()) }
                 .asObservable()
-            let initTranslationSourceLanguage = userSettingsUseCase.currentTranslationLocale
+            let initTranslationSourceLanguage = userSettingsUseCase.getCurrentTranslationLocale()
                 .map(\.source)
                 .map { Mutation.setSourceLanguage($0) }
                 .asObservable()
-            let initTranslationTargetLanguage = userSettingsUseCase.currentTranslationLocale
+            let initTranslationTargetLanguage = userSettingsUseCase.getCurrentTranslationLocale()
                 .map(\.target)
                 .map { Mutation.setTargetLanguage($0) }
                 .asObservable()

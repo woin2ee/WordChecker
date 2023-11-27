@@ -12,9 +12,13 @@ import RxSwift
 
 public final class GoogleDriveUseCaseFake: ExternalStoreUseCaseProtocol {
 
+    let scheduler: SchedulerType
+
     public var _hasSigned: Bool = false
 
-    public init() {}
+    public init(scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .userInitiated)) {
+        self.scheduler = scheduler
+    }
 
     public func signInWithAuthorization(presenting: Domain.PresentingConfiguration) -> RxSwift.Single<Void> {
         _hasSigned = true
@@ -41,7 +45,7 @@ public final class GoogleDriveUseCaseFake: ExternalStoreUseCaseProtocol {
 
                 return Disposables.create()
             }
-            .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .userInitiated))
+            .subscribe(on: scheduler)
         }
 
         if _hasSigned {
@@ -68,7 +72,7 @@ public final class GoogleDriveUseCaseFake: ExternalStoreUseCaseProtocol {
 
                 return Disposables.create()
             }
-            .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .userInitiated))
+            .subscribe(on: scheduler)
         }
 
         if _hasSigned {

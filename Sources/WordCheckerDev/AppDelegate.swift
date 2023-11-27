@@ -25,7 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         initDIContainerForDev()
-        initUserSettingsIfFirstLaunch()
         NetworkMonitor.start()
 
         return true
@@ -65,19 +64,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension AppDelegate {
-
-    func initUserSettingsIfFirstLaunch() {
-        let userSettingsUseCase: UserSettingsUseCaseProtocol = DIContainer.shared.resolver.resolve()
-
-        userSettingsUseCase.currentUserSettings
-            .mapToVoid()
-            .catch { _ in
-                userSettingsUseCase.initUserSettings()
-                    .mapToVoid()
-            }
-            .subscribe()
-            .dispose()
-    }
 
     func initDIContainerForDev() {
         DIContainer.shared.assembler.apply(assemblies: [

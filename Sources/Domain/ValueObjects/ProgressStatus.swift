@@ -14,4 +14,6 @@ public enum ProgressStatus {
 
     case complete
 
+    case noTask
+
 }

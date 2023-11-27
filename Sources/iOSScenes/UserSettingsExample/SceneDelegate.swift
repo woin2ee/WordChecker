@@ -19,15 +19,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = .init(windowScene: windowScene)
         window?.makeKeyAndVisible()
 
-        let userSettingsUseCase: UserSettingsUseCaseFake = .init()
-        _ = userSettingsUseCase.initUserSettings()
-
         let viewController: UserSettingsViewController = .init()
-        let viewModel: UserSettingsViewModel = .init(
-            userSettingsUseCase: userSettingsUseCase,
-            googleDriveUseCase: GoogleDriveUseCaseFake()
+        let reactor: UserSettingsReactor = .init(
+            userSettingsUseCase: UserSettingsUseCaseFake(),
+            googleDriveUseCase: GoogleDriveUseCaseFake(),
+            globalAction: .shared
         )
-        viewController.viewModel = viewModel
+        viewController.reactor = reactor
 
         let navigationController: UINavigationController = .init(rootViewController: viewController)
         navigationController.tabBarItem = .init(title: "Settings", image: .init(systemName: "gearshape"), tag: 0)

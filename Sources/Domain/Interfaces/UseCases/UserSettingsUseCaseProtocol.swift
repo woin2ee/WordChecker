@@ -12,14 +12,10 @@ import RxRelay
 
 public protocol UserSettingsUseCaseProtocol {
 
-    var currentUserSettingsRelay: BehaviorRelay<UserSettings?> { get }
-
     func updateTranslationLocale(source sourceLocale: TranslationLanguage, target targetLocale: TranslationLanguage) -> Single<Void>
 
-    var currentTranslationLocale: Single<(source: TranslationLanguage, target: TranslationLanguage)> { get }
+    func getCurrentTranslationLocale() -> Single<(source: TranslationLanguage, target: TranslationLanguage)>
 
-    func initUserSettings() -> Single<UserSettings>
-
-    var currentUserSettings: Single<UserSettings> { get }
+    func getCurrentUserSettings() -> Single<UserSettings>
 
 }
