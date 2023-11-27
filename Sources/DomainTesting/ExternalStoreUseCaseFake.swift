@@ -41,6 +41,7 @@ public final class GoogleDriveUseCaseFake: ExternalStoreUseCaseProtocol {
 
                 return Disposables.create()
             }
+            .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .userInitiated))
         }
 
         if _hasSigned {
@@ -67,6 +68,7 @@ public final class GoogleDriveUseCaseFake: ExternalStoreUseCaseProtocol {
 
                 return Disposables.create()
             }
+            .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .userInitiated))
         }
 
         if _hasSigned {
