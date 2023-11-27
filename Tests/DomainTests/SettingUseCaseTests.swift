@@ -30,18 +30,13 @@ final class SettingUseCaseTests: XCTestCase {
     }
 
     func testSetToOtherTranslationLocale() throws {
-        // Given
-        _ = try sut.initUserSettings()
-            .toBlocking()
-            .single()
-
         // Act1
         do {
             try sut.updateTranslationLocale(source: .english, target: .korean)
                 .toBlocking()
                 .single()
 
-            let currentTranslationLocale = try sut.currentTranslationLocale
+            let currentTranslationLocale = try sut.getCurrentTranslationLocale()
                 .toBlocking()
                 .single()
 
@@ -55,7 +50,7 @@ final class SettingUseCaseTests: XCTestCase {
                 .toBlocking()
                 .single()
 
-            let currentTranslationLocale = try sut.currentTranslationLocale
+            let currentTranslationLocale = try sut.getCurrentTranslationLocale()
                 .toBlocking()
                 .single()
 

@@ -25,7 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         initDIContainer()
-        initUserSettingsIfFirstLaunch()
         restoreGoogleSignInState()
         NetworkMonitor.start()
 
@@ -66,19 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension AppDelegate {
-
-    func initUserSettingsIfFirstLaunch() {
-        let userSettingsUseCase: UserSettingsUseCaseProtocol = DIContainer.shared.resolver.resolve()
-
-        userSettingsUseCase.currentUserSettings
-            .mapToVoid()
-            .catch { _ in
-                userSettingsUseCase.initUserSettings()
-                    .mapToVoid()
-            }
-            .subscribe()
-            .dispose()
-    }
 
     func restoreGoogleSignInState() {
         let googleDriveUseCase: ExternalStoreUseCaseProtocol = DIContainer.shared.resolver.resolve()
