@@ -24,8 +24,6 @@ public protocol UserSettingsViewControllerDelegate: AnyObject {
 
 public final class UserSettingsViewController: RxBaseViewController {
 
-    let userSettingsCellID = "USER_SETTINGS_CELL"
-
     var viewModel: UserSettingsViewModel!
 
     var settingsTableViewDataSource: UITableViewDiffableDataSource<UserSettingsSection, UserSettingsItemModel>!
@@ -34,7 +32,8 @@ public final class UserSettingsViewController: RxBaseViewController {
 
     lazy var settingsTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
         $0.backgroundColor = .systemGroupedBackground
-        $0.register(UITableViewCell.self, forCellReuseIdentifier: userSettingsCellID)
+        $0.register(ChangeLanguageCell.self, forCellReuseIdentifier: ChangeLanguageCell.reusableIdentifier)
+        $0.register(ButtonCell.self, forCellReuseIdentifier: ButtonCell.reusableIdentifier)
     }
 
     public override func viewDidLoad() {
@@ -49,30 +48,20 @@ public final class UserSettingsViewController: RxBaseViewController {
 
     func setupDataSource() {
         self.settingsTableViewDataSource = .init(tableView: settingsTableView) { tableView, indexPath, item in
-            let cell = tableView.dequeueReusableCell(withIdentifier: self.userSettingsCellID, for: indexPath)
-
-            cell.accessoryType = .none
-
-            var config: UIListContentConfiguration
-
             switch item.settingType {
             case .changeSourceLanguage, .changeTargetLanguage:
-                config = .valueCell()
-                config.secondaryText = item.value?.localizedString
-
-                cell.accessoryType = .disclosureIndicator
+                let cell = tableView.dequeueReusableCell(ChangeLanguageCell.self, for: indexPath)
+                cell.bind(model: .init(title: item.primaryText, value: item.value?.localizedString))
+                return cell
             case .googleDriveUpload, .googleDriveDownload:
-                config = .cell()
-                config.textProperties.color = .systemBlue
+                let cell = tableView.dequeueReusableCell(ButtonCell.self, for: indexPath)
+                cell.bind(model: .init(title: item.primaryText, textColor: .systemBlue))
+                return cell
             case .googleDriveSignOut:
-                config = .cell()
-                config.textProperties.color = .systemRed
+                let cell = tableView.dequeueReusableCell(ButtonCell.self, for: indexPath)
+                cell.bind(model: .init(title: item.primaryText, textColor: .systemRed))
+                return cell
             }
-
-            config.text = item.primaryText
-
-            cell.contentConfiguration = config
-            return cell
         }
     }
 

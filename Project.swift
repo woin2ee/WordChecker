@@ -244,6 +244,17 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
+            name: "UserSettingsExample",
+            product: .app,
+            infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
+            sourcesPrefix: "iOSScenes",
+            dependencies: [
+                .target(name: "UserSettings"),
+                .target(name: "DomainTesting"),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
             name: "LanguageSetting",
             sourcesPrefix: "iOSScenes",
             resourceOptions: [.additional("Resources/iOSSupport/**")],
