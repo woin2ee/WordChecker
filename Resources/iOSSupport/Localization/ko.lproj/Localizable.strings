@@ -51,7 +51,7 @@ google_drive_download = "구글 드라이브에서 데이터 다운로드";
 google_drive_download_successfully = "구글 드라이브에서 다운로드 성공";
 
 google_drive_logout = "구글 드라이브 로그아웃";
-signed_out_of_google_drive = "구글 드라이브에서 로그아웃되었습니다.";
+signed_out_of_google_drive_successfully = "구글 드라이브에서 로그아웃되었습니다.";
 
 synchronize_to_google_drive = "구글 드라이브에 동기화 합니다.";
 

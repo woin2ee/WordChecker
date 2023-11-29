@@ -1,5 +1,5 @@
 //
-//  UserSettingsSection.swift
+//  UserSettingsSectionIdentifier.swift
 //  iOSCore
 //
 //  Created by Jaewon Yun on 2023/10/03.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum UserSettingsSection: Hashable, Sendable {
+enum UserSettingsSectionIdentifier: Hashable, Sendable {
 
     case changeLanguage
 
