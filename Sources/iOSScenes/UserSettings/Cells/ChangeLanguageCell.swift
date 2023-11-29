@@ -11,7 +11,7 @@ import UIKit
 
 final class ChangeLanguageCell: UITableViewCell, ReusableCell {
 
-    struct CellModel {
+    struct Model {
         let title: String
         let value: String?
     }
@@ -26,7 +26,7 @@ final class ChangeLanguageCell: UITableViewCell, ReusableCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func bind(model: CellModel) {
+    func bind(model: Model) {
         var config: UIListContentConfiguration = .valueCell()
         config.text = model.title
         config.secondaryText = model.value

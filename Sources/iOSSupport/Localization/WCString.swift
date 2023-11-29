@@ -41,7 +41,7 @@ public struct WCString {
     public static let google_drive_download = NSLocalizedString("google_drive_download", bundle: Bundle.module, comment: "")
     public static let google_drive_download_successfully = NSLocalizedString("google_drive_download_successfully", bundle: Bundle.module, comment: "")
     public static let google_drive_logout = NSLocalizedString("google_drive_logout", bundle: Bundle.module, comment: "")
-    public static let signed_out_of_google_drive = NSLocalizedString("signed_out_of_google_drive", bundle: Bundle.module, comment: "")
+    public static let signed_out_of_google_drive_successfully = NSLocalizedString("signed_out_of_google_drive_successfully", bundle: Bundle.module, comment: "")
 
     public static let synchronize_to_google_drive = NSLocalizedString("synchronize_to_google_drive", bundle: Bundle.module, comment: "")
 
