@@ -56,3 +56,7 @@ signed_out_of_google_drive_successfully = "Signed out of Google Drive successful
 synchronize_to_google_drive = "Synchronize to Google Drive.";
 
 please_check_your_network_connection = "Please check your network connection.";
+
+daily_reminder = "Daily Reminder";
+time = "Time";
+notifications = "Notifications";

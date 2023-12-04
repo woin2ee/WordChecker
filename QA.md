@@ -1,5 +1,8 @@
 #Version
-1.0.0 (build version: 13)
+1.2.1
+
+##Common
+- Localization 적용 확인
 
 ##WordCheking
 

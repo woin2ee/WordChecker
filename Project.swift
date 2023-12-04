@@ -280,6 +280,34 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
+            name: "PushNotificationSettings",
+            sourcesPrefix: "iOSScenes",
+            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            dependencies: [
+                .target(name: "iOSSupport"),
+                .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.rxCocoa),
+                .external(name: ExternalDependencyName.rxUtilityDynamic),
+                .external(name: ExternalDependencyName.reactorKit),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
+            ],
+            hasTests: true,
+            additionalTestDependencies: [
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
+            name: "PushNotificationSettingsExample",
+            product: .app,
+            infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
+            sourcesPrefix: "iOSScenes",
+            dependencies: [
+                .target(name: "PushNotificationSettings"),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
             name: "iPhoneDriver",
             dependencies: [
                 .target(name: "iOSSupport"),
