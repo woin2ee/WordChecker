@@ -1,0 +1,18 @@
+{
+  "configurations" : [
+
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "3F3E981FC1A96E4F891CA1D4",
+        "name" : "PushNotificationSettingsTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -66,4 +66,8 @@ public struct WCString {
 
     public static let please_check_your_network_connection = NSLocalizedString("please_check_your_network_connection", bundle: Bundle.module, comment: "")
 
+    public static let daily_reminder = NSLocalizedString("daily_reminder", bundle: Bundle.module, comment: "")
+    public static let time = NSLocalizedString("time", bundle: Bundle.module, comment: "")
+    public static let notifications = NSLocalizedString("notifications", bundle: Bundle.module, comment: "")
+
 }

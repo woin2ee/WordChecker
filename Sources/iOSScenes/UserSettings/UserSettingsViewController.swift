@@ -52,8 +52,8 @@ public final class UserSettingsViewController: RxBaseViewController, View {
     public weak var delegate: UserSettingsViewControllerDelegate?
 
     lazy var settingsTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
-        $0.register(ChangeLanguageCell.self, forCellReuseIdentifier: ChangeLanguageCell.reusableIdentifier)
-        $0.register(ButtonCell.self, forCellReuseIdentifier: ButtonCell.reusableIdentifier)
+        $0.register(ChangeLanguageCell.self)
+        $0.register(ButtonCell.self)
     }
 
     public override func loadView() {

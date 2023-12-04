@@ -56,3 +56,7 @@ signed_out_of_google_drive_successfully = "구글 드라이브에서 로그아�
 synchronize_to_google_drive = "구글 드라이브에 동기화 합니다.";
 
 please_check_your_network_connection = "네트워크 연결 상태를 확인해 주세요.";
+
+daily_reminder = "매일 알림";
+time = "시간";
+notifications = "알림";

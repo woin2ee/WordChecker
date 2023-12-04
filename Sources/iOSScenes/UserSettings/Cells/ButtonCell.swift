@@ -12,7 +12,7 @@ import UIKit
 /// 버튼 역할을 하기 위한 Cell 클래스 입니다.
 ///
 /// 버튼 가이드라인에 따른 텍스트 색상을 사용하세요.
-final class ButtonCell: UITableViewCell, ReusableCell {
+final class ButtonCell: UITableViewCell, ReusableIdentifying {
 
     struct Model {
         let title: String
