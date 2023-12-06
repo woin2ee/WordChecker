@@ -23,10 +23,12 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
                 .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.swinjectExtension),
+                .external(name: ExternalDependencyName.then),
             ],
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "DataDriverTesting"),
+                .target(name: "TestsSupport"),
                 .external(name: ExternalDependencyName.rxBlocking),
             ],
             appendSchemeTo: &schemes
@@ -360,6 +362,7 @@ func targets() -> [Target] {
         + Target.module(
             name: "TestsSupport",
             dependencies: [
+                .target(name: "Domain"),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxTest),
             ],

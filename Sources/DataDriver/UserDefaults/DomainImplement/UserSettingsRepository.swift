@@ -45,4 +45,14 @@ final class UserSettingsRepository: UserSettingsRepositoryProtocol {
         }
     }
 
+    func updateLatestDailyReminderTime(_ time: DateComponents) throws {
+        let result = userDefaults.setCodable(time, forKey: UserDefaultsKey.dailyReminderTime)
+        try result.get()
+    }
+
+    func getLatestDailyReminderTime() throws -> DateComponents {
+        let result = userDefaults.object(DateComponents.self, forKey: UserDefaultsKey.dailyReminderTime)
+        return try result.get()
+    }
+
 }
