@@ -8,15 +8,22 @@
 
 import Swinject
 import SwinjectExtension
+import UserNotifications
 
 final class UserSettingsUseCaseAssembly: Assembly {
 
     func assemble(container: Container) {
         container.register(UserSettingsUseCaseProtocol.self) { resolver in
             let userSettingsRepository: UserSettingsRepositoryProtocol = resolver.resolve()
-            return UserSettingsUseCase.init(userSettingsRepository: userSettingsRepository)
+
+            return UserSettingsUseCase.init(
+                userSettingsRepository: userSettingsRepository,
+                notificationCenter: UNUserNotificationCenter.current()
+            )
         }
         .inObjectScope(.container)
     }
 
 }
+
+extension UNUserNotificationCenter: UserNotificationCenter {}

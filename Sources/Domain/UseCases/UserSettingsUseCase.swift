@@ -10,13 +10,28 @@ import Foundation
 import RxSwift
 import RxRelay
 import RxUtility
+import Then
+import UserNotifications
+import Utility
+
+protocol UserNotificationCenter {
+    func add(_ request: UNNotificationRequest) async throws
+    func removePendingNotificationRequests(withIdentifiers identifiers: [String])
+}
 
 public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 
-    let userSettingsRepository: UserSettingsRepositoryProtocol
+    let dailyReminderNotificationID: String = "DailyReminder"
 
-    public init(userSettingsRepository: UserSettingsRepositoryProtocol) {
+    let userSettingsRepository: UserSettingsRepositoryProtocol
+    let notificationCenter: UserNotificationCenter
+
+    init(
+        userSettingsRepository: UserSettingsRepositoryProtocol,
+        notificationCenter: UserNotificationCenter
+    ) {
         self.userSettingsRepository = userSettingsRepository
+        self.notificationCenter = notificationCenter
 
         initUserSettingsIfNoUserSettings()
             .subscribe()
@@ -43,6 +58,50 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 
     public func getCurrentUserSettings() -> Single<UserSettings> {
         return userSettingsRepository.getUserSettings()
+    }
+
+    public func setDailyReminder(at time: DateComponents) -> Single<Void> {
+        let content: UNMutableNotificationContent = .init().then {
+            // TODO: Content 설정
+            $0.title = "Title"
+        }
+        let trigger: UNCalendarNotificationTrigger = .init(dateMatching: time, repeats: true)
+        let request: UNNotificationRequest = .init(
+            identifier: self.dailyReminderNotificationID,
+            content: content,
+            trigger: trigger
+        )
+
+        do {
+            try userSettingsRepository.updateLatestDailyReminderTime(time)
+        } catch {
+            // TODO: 예외 상황 로그 추가
+        }
+
+        return .create { observer in
+            Task {
+                try await self.notificationCenter.add(request)
+                observer(.success(()))
+            } catch: { error in
+                observer(.failure(error))
+            }
+
+            return Disposables.create()
+        }
+    }
+
+    public func removeDailyReminder() {
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [dailyReminderNotificationID])
+    }
+
+    public func updateDailyReminerTime(to time: DateComponents) -> Single<Void> {
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [dailyReminderNotificationID])
+
+        return self.setDailyReminder(at: time)
+    }
+
+    public func getLatestDailyReminderTime() throws -> DateComponents {
+        return try userSettingsRepository.getLatestDailyReminderTime()
     }
 
     func initUserSettingsIfNoUserSettings() -> RxSwift.Single<Void> {
@@ -78,4 +137,8 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
             }
     }
 
+}
+
+enum UserSettingsUseCaseError: Error {
+    case notAddedDailyReminderNotification
 }
