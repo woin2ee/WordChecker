@@ -7,6 +7,7 @@
 
 @testable import PushNotificationSettings
 
+import DomainTesting
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -19,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
 
         let viewController: PushNotificationSettingsViewController = .init()
-        let reactor: PushNotificationSettingsReactor = .init()
+        let reactor: PushNotificationSettingsReactor = .init(userSettingsUseCase: UserSettingsUseCaseFake())
         viewController.reactor = reactor
 
         let navigationController: UINavigationController = .init(rootViewController: viewController)

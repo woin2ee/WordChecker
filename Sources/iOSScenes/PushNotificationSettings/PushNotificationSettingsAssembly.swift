@@ -14,8 +14,8 @@ import Then
 public final class PushNotificationSettingsAssembly: Assembly {
 
     public func assemble(container: Container) {
-        container.register(PushNotificationSettingsReactor.self) { _ in
-            return .init()
+        container.register(PushNotificationSettingsReactor.self) { resolver in
+            return .init(userSettingsUseCase: resolver.resolve())
         }
 
         container.register(PushNotificationSettingsViewController.self) { resolver in

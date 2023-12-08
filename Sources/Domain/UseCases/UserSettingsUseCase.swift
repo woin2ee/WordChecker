@@ -17,6 +17,7 @@ import Utility
 protocol UserNotificationCenter {
     func add(_ request: UNNotificationRequest) async throws
     func removePendingNotificationRequests(withIdentifiers identifiers: [String])
+    func pendingNotificationRequests() async -> [UNNotificationRequest]
 }
 
 public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
@@ -94,6 +95,24 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [dailyReminderNotificationID])
     }
 
+    public func getDailyReminder() -> Single<UNNotificationRequest> {
+        return .create { observer in
+            Task {
+                guard let dailyReminder = await self.notificationCenter.pendingNotificationRequests()
+                    .filter({ $0.identifier == self.dailyReminderNotificationID })
+                    .first
+                else {
+                    observer(.failure(UserSettingsUseCaseError.notSetDailyReminder))
+                    return
+                }
+
+                observer(.success(dailyReminder))
+            }
+
+            return Disposables.create()
+        }
+    }
+
     public func updateDailyReminerTime(to time: DateComponents) -> Single<Void> {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [dailyReminderNotificationID])
 
@@ -140,5 +159,5 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 }
 
 enum UserSettingsUseCaseError: Error {
-    case notAddedDailyReminderNotification
+    case notSetDailyReminder
 }
