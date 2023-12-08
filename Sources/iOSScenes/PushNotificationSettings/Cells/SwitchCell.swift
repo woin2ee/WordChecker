@@ -7,8 +7,6 @@
 //
 
 import iOSSupport
-import RxSwift
-import Then
 import UIKit
 
 final class SwitchCell: RxBaseReusableCell {
@@ -18,9 +16,6 @@ final class SwitchCell: RxBaseReusableCell {
         let isOn: Bool
     }
 
-    let leadingLabel: UILabel = .init().then {
-        $0.adjustsFontForContentSizeCategory = true
-    }
     let trailingSwitch: UISwitch = .init()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
