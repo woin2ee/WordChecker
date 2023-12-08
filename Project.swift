@@ -296,6 +296,7 @@ func targets() -> [Target] {
             ],
             hasTests: true,
             additionalTestDependencies: [
+                .external(name: ExternalDependencyName.rxBlocking),
             ],
             appendSchemeTo: &schemes
         )
@@ -306,6 +307,7 @@ func targets() -> [Target] {
             sourcesPrefix: "iOSScenes",
             dependencies: [
                 .target(name: "PushNotificationSettings"),
+                .target(name: "DomainTesting"),
             ],
             appendSchemeTo: &schemes
         )

@@ -6,6 +6,7 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
+import Domain
 import Foundation
 import ReactorKit
 
@@ -34,18 +35,40 @@ public final class PushNotificationSettingsReactor: Reactor {
         reminderTime: .init(hour: 9, minute: 0)
     )
 
-    init() {
+    let userSettingsUseCase: UserSettingsUseCaseProtocol
 
+    init(userSettingsUseCase: UserSettingsUseCaseProtocol) {
+        self.userSettingsUseCase = userSettingsUseCase
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            return .never()
+            let latestTime = try? userSettingsUseCase.getLatestDailyReminderTime()
+
+            let setReminderTimeSequence: Observable<Mutation> = latestTime != nil
+            ? .just(.setReminderTime(latestTime!))
+            : .empty()
+
+            let getDailyReminderSequence = userSettingsUseCase.getDailyReminder()
+                .asObservable()
+                .catch { _ in return .empty() }
+                .map { _ in Mutation.enableDailyReminder }
+
+            return .merge([
+                getDailyReminderSequence,
+                setReminderTimeSequence,
+            ])
+
         case .onDailyReminder:
-            return .just(.enableDailyReminder)
+            return userSettingsUseCase.setDailyReminder(at: self.currentState.reminderTime)
+                .asObservable()
+                .map { Mutation.enableDailyReminder }
+
         case .offDailyReminder:
+            userSettingsUseCase.removeDailyReminder()
             return .just(.disableDailyReminder)
+
         case .changeReminderTime(let date):
             let hourAndMinute = Calendar.current.dateComponents([.hour, .minute], from: date)
 
