@@ -63,7 +63,7 @@ public final class UserSettingsViewController: RxBaseViewController, View {
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemGroupedBackground
-        applyDefualtSnapshot()
+        applyDefaultSnapshot()
     }
 
     public override func viewWillAppear(_ animated: Bool) {
@@ -71,7 +71,7 @@ public final class UserSettingsViewController: RxBaseViewController, View {
         setupNavigationBar()
     }
 
-    func applyDefualtSnapshot() {
+    func applyDefaultSnapshot() {
         var snapshot: NSDiffableDataSourceSnapshot<UserSettingsSectionIdentifier, UserSettingsItemIdentifier> = .init()
         snapshot.appendSections([.changeLanguage, .googleDriveSync])
 
