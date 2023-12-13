@@ -157,7 +157,7 @@ extension WordSearchResultsController: UISearchResultsUpdating {
 
 extension WordSearchResultsController: WordDetailViewControllerDelegate {
 
-    func didFinishInteraction() {
+    func willFinishInteraction() {
         self.presentingViewController?.tabBarController?.dismiss(animated: true)
     }
 
