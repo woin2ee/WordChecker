@@ -1,5 +1,5 @@
 //
-//  ChangeLanguageCell.swift
+//  DisclosureIndicatorCell.swift
 //  UserSettings
 //
 //  Created by Jaewon Yun on 11/27/23.
@@ -9,7 +9,7 @@
 import iOSSupport
 import UIKit
 
-final class ChangeLanguageCell: UITableViewCell, ReusableIdentifying {
+final class DisclosureIndicatorCell: UITableViewCell, ReusableIdentifying {
 
     struct Model {
         let title: String

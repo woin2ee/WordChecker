@@ -9,6 +9,7 @@ import DataDriver
 import Domain
 import GoogleSignIn
 import LanguageSetting
+import PushNotificationSettings
 import RxSwift
 import Swinject
 import SwinjectDIContainer
@@ -75,6 +76,7 @@ extension AppDelegate {
             WordAdditionAssembly(),
             UserSettingsAssembly(),
             LanguageSettingAssembly(),
+            PushNotificationSettingsAssembly(),
         ])
     }
 

@@ -322,6 +322,7 @@ func targets() -> [Target] {
                 .target(name: "WordDetail"),
                 .target(name: "UserSettings"),
                 .target(name: "LanguageSetting"),
+                .target(name: "PushNotificationSettings"),
                 .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.swinjectDIContainer),
                 .external(name: ExternalDependencyName.sfSafeSymbols),

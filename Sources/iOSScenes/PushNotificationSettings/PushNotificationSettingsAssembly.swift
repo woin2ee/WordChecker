@@ -13,6 +13,8 @@ import Then
 
 public final class PushNotificationSettingsAssembly: Assembly {
 
+    public init() {}
+
     public func assemble(container: Container) {
         container.register(PushNotificationSettingsReactor.self) { resolver in
             return .init(userSettingsUseCase: resolver.resolve())

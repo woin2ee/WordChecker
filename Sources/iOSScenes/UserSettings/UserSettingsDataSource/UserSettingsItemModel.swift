@@ -1,5 +1,5 @@
 //
-//  UserSettingsItem.swift
+//  UserSettingsItemModel.swift
 //  UserSettings
 //
 //  Created by Jaewon Yun on 11/28/23.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum UserSettingsItem {
-    case changeLanguage(ChangeLanguageCell.Model)
+enum UserSettingsItemModel {
+    case disclosureIndicator(DisclosureIndicatorCell.Model)
     case button(ButtonCell.Model)
 }

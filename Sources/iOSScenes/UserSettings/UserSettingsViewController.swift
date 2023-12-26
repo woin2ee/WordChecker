@@ -20,26 +20,29 @@ public protocol UserSettingsViewControllerDelegate: AnyObject {
 
     func didTapTargetLanguageSettingRow(currentSettingLocale: TranslationLanguage)
 
+    func didTapNotificationsSettingRow()
+
 }
 
 public final class UserSettingsViewController: RxBaseViewController, View {
 
-    private(set) var dataSourceModel: [UserSettingsItemIdentifier: UserSettingsItem] = [
-        .changeSourceLanguage: .changeLanguage(.init(title: WCString.source_language, value: nil)),
-        .changeTargetLanguage: .changeLanguage(.init(title: WCString.translation_language, value: nil)),
+    private(set) var dataSourceModel: [UserSettingsItemIdentifier: UserSettingsItemModel] = [
+        .changeSourceLanguage: .disclosureIndicator(.init(title: WCString.source_language, value: nil)),
+        .changeTargetLanguage: .disclosureIndicator(.init(title: WCString.translation_language, value: nil)),
+        .notifications: .disclosureIndicator(.init(title: WCString.notifications, value: nil)),
         .googleDriveUpload: .button(.init(title: WCString.google_drive_upload, textColor: .systemBlue)),
         .googleDriveDownload: .button(.init(title: WCString.google_drive_download, textColor: .systemBlue)),
         .googleDriveSignOut: .button(.init(title: WCString.google_drive_logout, textColor: .systemRed)),
     ]
 
     lazy var settingsTableViewDataSource: UITableViewDiffableDataSource<UserSettingsSectionIdentifier, UserSettingsItemIdentifier> = .init(tableView: settingsTableView) { tableView, indexPath, id in
-        guard let item = self.dataSourceModel[id] else {
+        guard let itemModel = self.dataSourceModel[id] else {
             preconditionFailure("dataSourceModel 에 해당 \(id) 를 가진 Item 이 없습니다.")
         }
 
-        switch item {
-        case .changeLanguage(let model):
-            let cell = tableView.dequeueReusableCell(ChangeLanguageCell.self, for: indexPath)
+        switch itemModel {
+        case .disclosureIndicator(let model):
+            let cell = tableView.dequeueReusableCell(DisclosureIndicatorCell.self, for: indexPath)
             cell.bind(model: model)
             return cell
         case .button(let model):
@@ -52,7 +55,7 @@ public final class UserSettingsViewController: RxBaseViewController, View {
     public weak var delegate: UserSettingsViewControllerDelegate?
 
     lazy var settingsTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
-        $0.register(ChangeLanguageCell.self)
+        $0.register(DisclosureIndicatorCell.self)
         $0.register(ButtonCell.self)
     }
 
@@ -73,11 +76,16 @@ public final class UserSettingsViewController: RxBaseViewController, View {
 
     func applyDefaultSnapshot() {
         var snapshot: NSDiffableDataSourceSnapshot<UserSettingsSectionIdentifier, UserSettingsItemIdentifier> = .init()
-        snapshot.appendSections([.changeLanguage, .googleDriveSync])
+        snapshot.appendSections([.changeLanguage, .notifications, .googleDriveSync])
 
         snapshot.appendItems(
             [.changeSourceLanguage, .changeTargetLanguage],
             toSection: .changeLanguage
+        )
+
+        snapshot.appendItems(
+            [.notifications],
+            toSection: .notifications
         )
 
         snapshot.appendItems(
@@ -134,6 +142,13 @@ public final class UserSettingsViewController: RxBaseViewController, View {
             })
             .disposed(by: self.disposeBag)
 
+        itemSelectedEvent
+            .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .notifications }
+            .emit(with: self, onNext: { owner, _ in
+                owner.delegate?.didTapNotificationsSettingRow()
+            })
+            .disposed(by: self.disposeBag)
+
         self.rx.sentMessage(#selector(viewDidLoad))
             .map { _ in Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
@@ -173,7 +188,7 @@ public final class UserSettingsViewController: RxBaseViewController, View {
             .distinctUntilChanged()
             .asDriverOnErrorJustComplete()
             .drive(with: self, onNext: { owner, translationSourceLanguage in
-                owner.dataSourceModel[.changeSourceLanguage] = .changeLanguage(.init(title: WCString.source_language, value: translationSourceLanguage.localizedString))
+                owner.dataSourceModel[.changeSourceLanguage] = .disclosureIndicator(.init(title: WCString.source_language, value: translationSourceLanguage.localizedString))
 
                 var snapshot = owner.settingsTableViewDataSource.snapshot()
                 snapshot.reconfigureItems([.changeSourceLanguage])
@@ -186,7 +201,7 @@ public final class UserSettingsViewController: RxBaseViewController, View {
             .distinctUntilChanged()
             .asDriverOnErrorJustComplete()
             .drive(with: self, onNext: { owner, translationTargetLanguage in
-                owner.dataSourceModel[.changeTargetLanguage] = .changeLanguage(.init(title: WCString.translation_language, value: translationTargetLanguage.localizedString))
+                owner.dataSourceModel[.changeTargetLanguage] = .disclosureIndicator(.init(title: WCString.translation_language, value: translationTargetLanguage.localizedString))
 
                 var snapshot = owner.settingsTableViewDataSource.snapshot()
                 snapshot.reconfigureItems([.changeTargetLanguage])
