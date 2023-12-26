@@ -296,6 +296,7 @@ func targets() -> [Target] {
             ],
             hasTests: true,
             additionalTestDependencies: [
+                .target(name: "DomainTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
             ],
             appendSchemeTo: &schemes
