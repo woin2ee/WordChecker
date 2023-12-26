@@ -20,6 +20,7 @@ public final class UserSettingsUseCaseFake: UserSettingsUseCaseProtocol {
         translationTargetLocale: .korean
     )
 
+    public var _authorizationStatus: UNAuthorizationStatus = .notDetermined
     public var _dailyReminder: UNNotificationRequest?
     public var dailyReminderIsRemoved: Bool = true
 
@@ -43,6 +44,10 @@ public final class UserSettingsUseCaseFake: UserSettingsUseCaseProtocol {
     }
 
     public func setDailyReminder(at time: DateComponents) -> RxSwift.Single<Void> {
+        if _authorizationStatus != .authorized {
+            return .error(UserSettingsUseCaseError.noNotificationAuthorization)
+        }
+
         dailyReminderIsRemoved = false
 
         let trigger: UNCalendarNotificationTrigger = .init(dateMatching: time, repeats: true)
@@ -66,22 +71,22 @@ public final class UserSettingsUseCaseFake: UserSettingsUseCaseProtocol {
         return .just(dailyReminder)
     }
 
-    public func updateDailyReminerTime(to time: DateComponents) -> RxSwift.Single<Void> {
-        if dailyReminderIsRemoved {
-            return .error(UserSettingsUseCaseError.notSetDailyReminder)
-        }
-
-        let trigger: UNCalendarNotificationTrigger = .init(dateMatching: time, repeats: true)
-        _dailyReminder = .init(identifier: "Test", content: .init(), trigger: trigger)
-        return .just(())
-    }
-
     public func getLatestDailyReminderTime() throws -> DateComponents {
         guard let trigger = _dailyReminder?.trigger as? UNCalendarNotificationTrigger else {
             throw UserSettingsUseCaseError.notSetDailyReminder
         }
 
         return trigger.dateComponents
+    }
+
+    /// Test - 인증 상태를 `authorized` 로 설정하고 true 를 방출합니다.
+    public func requestNotificationAuthorization(with options: UNAuthorizationOptions) -> RxSwift.Single<Bool> {
+        _authorizationStatus = .authorized
+        return .just(true)
+    }
+
+    public func getNotificationAuthorizationStatus() -> RxSwift.Single<UNAuthorizationStatus> {
+        return .just(_authorizationStatus)
     }
 
 }

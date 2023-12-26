@@ -16,17 +16,13 @@ import XCTest
 final class UserSettingsUseCaseTests: XCTestCase {
 
     var sut: UserSettingsUseCaseProtocol!
-    var notificationCenterFake: UNUserNotificationCenterFake!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
 
-        let userSettingsRepository: UserSettingsRepositoryProtocol = UserSettingsRepositoryFake()
-        notificationCenterFake = .init()
-
         sut = UserSettingsUseCase.init(
-            userSettingsRepository: userSettingsRepository,
-            notificationCenter: notificationCenterFake
+            userSettingsRepository: UserSettingsRepositoryFake(),
+            notificationCenter: UNUserNotificationCenterFake()
         )
     }
 
@@ -34,7 +30,6 @@ final class UserSettingsUseCaseTests: XCTestCase {
         try super.tearDownWithError()
 
         sut = nil
-        notificationCenterFake = nil
     }
 
     func testSetToOtherTranslationLocale() throws {
@@ -67,27 +62,81 @@ final class UserSettingsUseCaseTests: XCTestCase {
         }
     }
 
+    func test_setDailyReminder_whenNoAuthorized() {
+        // Given
+        let time: DateComponents = .init(hour: 11, minute: 11)
+
+        // When
+        do {
+            try sut.setDailyReminder(at: time)
+                .toBlocking()
+                .single()
+
+            XCTFail("에러 발생하지 않음")
+        }
+
+        // Then
+        catch {
+            XCTAssertEqual(error as? UserSettingsUseCaseError, UserSettingsUseCaseError.noNotificationAuthorization)
+        }
+    }
+
+    func test_setDailyReminder_whenAuthorized() throws {
+        // Given
+        let isAuthorized = try sut.requestNotificationAuthorization(with: .alert)
+            .toBlocking()
+            .single()
+        XCTAssertTrue(isAuthorized)
+
+        let time: DateComponents = .init(hour: 11, minute: 11)
+
+        // When
+        try sut.setDailyReminder(at: time)
+            .toBlocking()
+            .single()
+
+        // Then
+        let dailyReminder = try sut.getDailyReminder()
+            .toBlocking()
+            .single()
+
+        XCTAssertEqual((dailyReminder.trigger as? UNCalendarNotificationTrigger)?.dateComponents, time)
+    }
+
     func test_getLatestDailyReminderTime_whenNeverSetDailyReminder() {
         XCTAssertThrowsError(try sut.getLatestDailyReminderTime())
     }
 
     func test_removeDailyReminder() throws {
         // Given
+        let isAuthorized = try sut.requestNotificationAuthorization(with: .alert)
+            .toBlocking()
+            .single()
+        XCTAssertTrue(isAuthorized)
+
         let time: DateComponents = .init(hour: 11, minute: 11)
         try sut.setDailyReminder(at: time)
             .toBlocking()
             .single()
-        XCTAssertEqual(notificationCenterFake._pendingNotifications.count, 1)
 
         // When
         sut.removeDailyReminder()
 
         // Then
-        XCTAssertEqual(notificationCenterFake._pendingNotifications.count, 0)
+        XCTAssertThrowsError(
+            try sut.getDailyReminder()
+                .toBlocking()
+                .single()
+        )
     }
 
     func test_getLatestDailyReminderTime_afterTurnOffDailyReminder() throws {
         // Given
+        let isAuthorized = try sut.requestNotificationAuthorization(with: .alert)
+            .toBlocking()
+            .single()
+        XCTAssertTrue(isAuthorized)
+
         let time: DateComponents = .init(hour: 11, minute: 11)
         try sut.setDailyReminder(at: time)
             .toBlocking()
@@ -103,6 +152,11 @@ final class UserSettingsUseCaseTests: XCTestCase {
 
     func test_updateDailyReminerTime() throws {
         // Given
+        let isAuthorized = try sut.requestNotificationAuthorization(with: .alert)
+            .toBlocking()
+            .single()
+        XCTAssertTrue(isAuthorized)
+
         let time: DateComponents = .init(hour: 11, minute: 11)
         try sut.setDailyReminder(at: time)
             .toBlocking()
@@ -110,13 +164,18 @@ final class UserSettingsUseCaseTests: XCTestCase {
 
         // When
         let newTime: DateComponents = .init(hour: 12, minute: 12)
-        try sut.updateDailyReminerTime(to: newTime)
+        try sut.setDailyReminder(at: newTime)
             .toBlocking()
             .single()
 
         // Then
         let latestTime = try sut.getLatestDailyReminderTime()
         XCTAssertEqual(latestTime, newTime)
+
+        let dailyReminder = try sut.getDailyReminder()
+            .toBlocking()
+            .single()
+        XCTAssertEqual((dailyReminder.trigger as? UNCalendarNotificationTrigger)?.dateComponents, newTime)
     }
 
 }

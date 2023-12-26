@@ -18,10 +18,13 @@ protocol UserNotificationCenter {
     func add(_ request: UNNotificationRequest) async throws
     func removePendingNotificationRequests(withIdentifiers identifiers: [String])
     func pendingNotificationRequests() async -> [UNNotificationRequest]
+    func requestAuthorization(options: UNAuthorizationOptions) async throws -> Bool
+    func notificationSettings() async -> UNNotificationSettings
 }
 
 public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 
+    /// Notification request 의 고유 ID
     let dailyReminderNotificationID: String = "DailyReminder"
 
     let userSettingsRepository: UserSettingsRepositoryProtocol
@@ -61,27 +64,51 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
         return userSettingsRepository.getUserSettings()
     }
 
-    public func setDailyReminder(at time: DateComponents) -> Single<Void> {
-        let content: UNMutableNotificationContent = .init().then {
-            // TODO: Content 설정
-            $0.title = "Title"
-        }
-        let trigger: UNCalendarNotificationTrigger = .init(dateMatching: time, repeats: true)
-        let request: UNNotificationRequest = .init(
-            identifier: self.dailyReminderNotificationID,
-            content: content,
-            trigger: trigger
-        )
-
-        do {
-            try userSettingsRepository.updateLatestDailyReminderTime(time)
-        } catch {
-            // TODO: 예외 상황 로그 추가
-        }
-
+    public func requestNotificationAuthorization(with options: UNAuthorizationOptions) -> Single<Bool> {
         return .create { observer in
             Task {
-                try await self.notificationCenter.add(request)
+                let hasAuthorization = try await self.notificationCenter.requestAuthorization(options: options)
+                observer(.success(hasAuthorization))
+            } catch: { error in
+                observer(.failure(error))
+            }
+
+            return Disposables.create()
+        }
+    }
+
+    public func getNotificationAuthorizationStatus() -> Single<UNAuthorizationStatus> {
+        return .create { observer in
+            Task {
+                let notificationSettings = await self.notificationCenter.notificationSettings()
+                observer(.success(notificationSettings.authorizationStatus))
+            }
+
+            return Disposables.create()
+        }
+    }
+
+    public func setDailyReminder(at time: DateComponents) -> Single<Void> {
+        let setDailyReminderSequence: Single<Void> = .create { observer in
+            let content: UNMutableNotificationContent = .init().then {
+                // TODO: Content 설정
+                $0.title = "Title"
+            }
+            let trigger: UNCalendarNotificationTrigger = .init(dateMatching: time, repeats: true)
+            let notificationRequest: UNNotificationRequest = .init(
+                identifier: self.dailyReminderNotificationID,
+                content: content,
+                trigger: trigger
+            )
+
+            do {
+                try self.userSettingsRepository.updateLatestDailyReminderTime(time)
+            } catch {
+                // TODO: 예외 상황 로그 추가
+            }
+
+            Task {
+                try await self.notificationCenter.add(notificationRequest)
                 observer(.success(()))
             } catch: { error in
                 observer(.failure(error))
@@ -89,6 +116,15 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 
             return Disposables.create()
         }
+
+        return self.getNotificationAuthorizationStatus()
+            .flatMap { authorizationStatus in
+                if authorizationStatus == .authorized {
+                    return setDailyReminderSequence
+                } else {
+                    return .error(UserSettingsUseCaseError.noNotificationAuthorization)
+                }
+            }
     }
 
     public func removeDailyReminder() {
@@ -111,12 +147,6 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 
             return Disposables.create()
         }
-    }
-
-    public func updateDailyReminerTime(to time: DateComponents) -> Single<Void> {
-        notificationCenter.removePendingNotificationRequests(withIdentifiers: [dailyReminderNotificationID])
-
-        return self.setDailyReminder(at: time)
     }
 
     public func getLatestDailyReminderTime() throws -> DateComponents {
@@ -160,4 +190,5 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 
 enum UserSettingsUseCaseError: Error {
     case notSetDailyReminder
+    case noNotificationAuthorization
 }
