@@ -3,6 +3,10 @@ import ReactorKit
 import Then
 import UIKit
 
+public protocol PushNotificationSettingsDelegate: AnyObject {
+    func willPopView()
+}
+
 public final class PushNotificationSettingsViewController: RxBaseViewController, View {
 
     enum SectionIdentifier {
@@ -24,6 +28,8 @@ public final class PushNotificationSettingsViewController: RxBaseViewController,
         $0.font = .preferredFont(forTextStyle: .footnote)
         $0.textColor = .secondaryLabel
     }
+
+    public weak var delegate: PushNotificationSettingsDelegate?
 
     lazy var dataSource: UITableViewDiffableDataSource<SectionIdentifier, ItemIdentifier> = .init(tableView: rootTableView) { [weak self] tableView, indexPath, itemIdentifier in
         guard let self = self else { return nil }
@@ -80,6 +86,14 @@ public final class PushNotificationSettingsViewController: RxBaseViewController,
         setupNavigationBar()
     }
 
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if self.isMovingFromParent {
+            delegate?.willPopView()
+        }
+    }
+
     func initDataSource() {
         var snapshot = dataSource.snapshot()
         snapshot.appendSections([.dailyReminder])
@@ -89,6 +103,7 @@ public final class PushNotificationSettingsViewController: RxBaseViewController,
 
     func setupNavigationBar() {
         self.navigationItem.title = WCString.notifications
+        self.navigationItem.largeTitleDisplayMode = .never
     }
 
     public func bind(reactor: PushNotificationSettingsReactor) {
