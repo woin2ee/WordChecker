@@ -60,12 +60,12 @@ public final class UserSettingsUseCaseFake: UserSettingsUseCaseProtocol {
     }
 
     public func getDailyReminder() -> RxSwift.Single<UNNotificationRequest> {
-        if dailyReminderIsRemoved {
-            return .error(UserSettingsUseCaseError.notSetDailyReminder)
-        }
-
-        guard let dailyReminder = _dailyReminder else {
-            return .error(UserSettingsUseCaseError.notSetDailyReminder)
+        guard
+            _authorizationStatus == .authorized,
+            dailyReminderIsRemoved == false,
+            let dailyReminder = _dailyReminder
+        else {
+            return .error(UserSettingsUseCaseError.noPendingDailyReminder)
         }
 
         return .just(dailyReminder)
@@ -73,7 +73,7 @@ public final class UserSettingsUseCaseFake: UserSettingsUseCaseProtocol {
 
     public func getLatestDailyReminderTime() throws -> DateComponents {
         guard let trigger = _dailyReminder?.trigger as? UNCalendarNotificationTrigger else {
-            throw UserSettingsUseCaseError.notSetDailyReminder
+            throw UserSettingsUseCaseError.noPendingDailyReminder
         }
 
         return trigger.dateComponents

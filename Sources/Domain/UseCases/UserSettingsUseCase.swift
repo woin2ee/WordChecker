@@ -25,7 +25,7 @@ protocol UserNotificationCenter {
 public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 
     /// Notification request 의 고유 ID
-    let dailyReminderNotificationID: String = "DailyReminder"
+    let DAILY_REMINDER_NOTIFICATION_ID: String = "DailyReminder"
 
     let userSettingsRepository: UserSettingsRepositoryProtocol
     let notificationCenter: UserNotificationCenter
@@ -96,7 +96,7 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
             }
             let trigger: UNCalendarNotificationTrigger = .init(dateMatching: time, repeats: true)
             let notificationRequest: UNNotificationRequest = .init(
-                identifier: self.dailyReminderNotificationID,
+                identifier: self.DAILY_REMINDER_NOTIFICATION_ID,
                 content: content,
                 trigger: trigger
             )
@@ -128,17 +128,17 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
     }
 
     public func removeDailyReminder() {
-        notificationCenter.removePendingNotificationRequests(withIdentifiers: [dailyReminderNotificationID])
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [DAILY_REMINDER_NOTIFICATION_ID])
     }
 
     public func getDailyReminder() -> Single<UNNotificationRequest> {
         return .create { observer in
             Task {
                 guard let dailyReminder = await self.notificationCenter.pendingNotificationRequests()
-                    .filter({ $0.identifier == self.dailyReminderNotificationID })
+                    .filter({ $0.identifier == self.DAILY_REMINDER_NOTIFICATION_ID })
                     .first
                 else {
-                    observer(.failure(UserSettingsUseCaseError.notSetDailyReminder))
+                    observer(.failure(UserSettingsUseCaseError.noPendingDailyReminder))
                     return
                 }
 
@@ -189,6 +189,6 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 }
 
 enum UserSettingsUseCaseError: Error {
-    case notSetDailyReminder
+    case noPendingDailyReminder
     case noNotificationAuthorization
 }
