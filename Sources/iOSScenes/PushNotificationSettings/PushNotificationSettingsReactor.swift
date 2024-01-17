@@ -13,9 +13,8 @@ import ReactorKit
 public final class PushNotificationSettingsReactor: Reactor {
 
     public enum Action {
-        case viewDidLoad
-        case onDailyReminder
-        case offDailyReminder
+        case reactorNeedsUpdate
+        case tapDailyReminderSwitch
         case changeReminderTime(Date)
     }
 
@@ -23,11 +22,15 @@ public final class PushNotificationSettingsReactor: Reactor {
         case enableDailyReminder
         case disableDailyReminder
         case setReminderTime(DateComponents)
+        case showNeedAuthAlert
+        case showMoveToAuthSettingAlert
     }
 
     public struct State {
         var isOnDailyReminder: Bool
         var reminderTime: DateComponents
+        @Pulse var needAuthAlert: Void?
+        @Pulse var moveToAuthSettingAlert: Void?
     }
 
     public let initialState: State = .init(
@@ -43,40 +46,63 @@ public final class PushNotificationSettingsReactor: Reactor {
 
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
+        case .reactorNeedsUpdate:
             let latestTime = try? userSettingsUseCase.getLatestDailyReminderTime()
 
             let setReminderTimeSequence: Observable<Mutation> = latestTime != nil
             ? .just(.setReminderTime(latestTime!))
             : .empty()
 
-            let getDailyReminderSequence = userSettingsUseCase.getDailyReminder()
+            let enableDailyReminderSequence = userSettingsUseCase.getDailyReminder()
                 .asObservable()
                 .catch { _ in return .empty() }
                 .map { _ in Mutation.enableDailyReminder }
 
             return .merge([
-                getDailyReminderSequence,
+                enableDailyReminderSequence,
                 setReminderTimeSequence,
             ])
 
-        case .onDailyReminder:
-            return userSettingsUseCase.setDailyReminder(at: self.currentState.reminderTime)
-                .asObservable()
-                .map { Mutation.enableDailyReminder }
+        case .tapDailyReminderSwitch:
+            /// 현재 `DailyReminder` 가 ON 상태이면 OFF 로, OFF 상태이면 ON 으로 변경하는 `Mutation` 을 반환합니다.
+            func toggleDailyReminder() -> Mutation {
+                if currentState.isOnDailyReminder {
+                    return .disableDailyReminder
+                } else {
+                    return .enableDailyReminder
+                }
+            }
 
-        case .offDailyReminder:
-            userSettingsUseCase.removeDailyReminder()
-            return .just(.disableDailyReminder)
+            return userSettingsUseCase.getNotificationAuthorizationStatus()
+                .asObservable()
+                .flatMap { status -> Observable<Mutation> in
+                    switch status {
+                    case .notDetermined:
+                        return self.userSettingsUseCase.requestNotificationAuthorization(with: [.alert, .sound])
+                            .asObservable()
+                            .flatMap { hasAuthorization -> Observable<Mutation> in
+                                if hasAuthorization {
+                                    return .just(toggleDailyReminder())
+                                } else {
+                                    return .merge([
+                                        .just(.disableDailyReminder),
+                                        .just(.showNeedAuthAlert),
+                                    ])
+                                }
+                            }
+                    case .authorized:
+                        return .just(toggleDailyReminder())
+                    default:
+                        return .merge([
+                            .just(.disableDailyReminder),
+                            .just(.showMoveToAuthSettingAlert),
+                        ])
+                    }
+                }
 
         case .changeReminderTime(let date):
             let hourAndMinute = Calendar.current.dateComponents([.hour, .minute], from: date)
-
-            guard let hour = hourAndMinute.hour, let minute = hourAndMinute.minute else {
-                preconditionFailure("Not included [hour, minute] component in Date.")
-            }
-
-            return .just(.setReminderTime(.init(hour: hour, minute: minute)))
+            return .just(.setReminderTime(hourAndMinute))
         }
     }
 
@@ -90,6 +116,10 @@ public final class PushNotificationSettingsReactor: Reactor {
             state.isOnDailyReminder = false
         case .setReminderTime(let dateComponents):
             state.reminderTime = dateComponents
+        case .showNeedAuthAlert:
+            state.needAuthAlert = ()
+        case .showMoveToAuthSettingAlert:
+            state.moveToAuthSettingAlert = ()
         }
 
         return state

@@ -21,10 +21,13 @@ public final class UserSettingsUseCaseFake: UserSettingsUseCaseProtocol {
     )
 
     public var _authorizationStatus: UNAuthorizationStatus = .notDetermined
+    public var expectedAuthorizationStatus: UNAuthorizationStatus = .notDetermined
     public var _dailyReminder: UNNotificationRequest?
     public var dailyReminderIsRemoved: Bool = true
 
-    public init() {}
+    public init(expectedAuthorizationStatus: UNAuthorizationStatus) {
+        self.expectedAuthorizationStatus = expectedAuthorizationStatus
+    }
 
     public func updateTranslationLocale(source sourceLocale: Domain.TranslationLanguage, target targetLocale: Domain.TranslationLanguage) -> RxSwift.Single<Void> {
         currentUserSettings.translationSourceLocale = sourceLocale
@@ -79,10 +82,15 @@ public final class UserSettingsUseCaseFake: UserSettingsUseCaseProtocol {
         return trigger.dateComponents
     }
 
-    /// Test - 인증 상태를 `authorized` 로 설정하고 true 를 방출합니다.
+    /// Test - 현재 인증 상태를 미리 설정한 예상 인증 상태(`expectedAuthorizationStatus`)로 설정하고 `UNAuthorizationOptions.authorized` 일때만 true 를 방출합니다.
     public func requestNotificationAuthorization(with options: UNAuthorizationOptions) -> RxSwift.Single<Bool> {
-        _authorizationStatus = .authorized
-        return .just(true)
+        _authorizationStatus = expectedAuthorizationStatus
+
+        if _authorizationStatus == .authorized {
+            return .just(true)
+        }
+
+        return .just(false)
     }
 
     public func getNotificationAuthorizationStatus() -> RxSwift.Single<UNAuthorizationStatus> {
