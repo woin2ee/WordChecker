@@ -34,7 +34,7 @@ public protocol UserSettingsUseCaseProtocol {
     func removeDailyReminder()
 
     /// 설정되어 있는 매일 알림을 방출하는 시퀀스를 반환합니다.
-    /// - Returns: 설정된 매일 알림이 있는 경우 알림 객체를 반환합니다. 설정된 매일 알림이 없는 경우 `error` 이벤트를 방출합니다.
+    /// - Returns: 설정된 매일 알림이 있는 경우 알림 객체를 반환합니다. 설정된 매일 알림이 없거나 알림이 꺼져있는 경우 `error` 이벤트를 방출합니다.
     func getDailyReminder() -> Single<UNNotificationRequest>
 
     /// 마지막으로 설정한 매일 알림의 시간을 반환합니다.
