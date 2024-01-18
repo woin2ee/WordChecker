@@ -8,6 +8,7 @@
 
 import Domain
 import Foundation
+import iOSSupport
 import ReactorKit
 
 public final class PushNotificationSettingsReactor: Reactor {
@@ -39,9 +40,19 @@ public final class PushNotificationSettingsReactor: Reactor {
     )
 
     let userSettingsUseCase: UserSettingsUseCaseProtocol
+    let globalAction: GlobalAction
 
-    init(userSettingsUseCase: UserSettingsUseCaseProtocol) {
+    init(userSettingsUseCase: UserSettingsUseCaseProtocol, globalAction: GlobalAction) {
         self.userSettingsUseCase = userSettingsUseCase
+        self.globalAction = globalAction
+    }
+
+    public func transform(action: Observable<Action>) -> Observable<Action> {
+        return .merge([
+            action,
+            globalAction.sceneWillEnterForeground
+                .map { Action.reactorNeedsUpdate },
+        ])
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
@@ -53,48 +64,39 @@ public final class PushNotificationSettingsReactor: Reactor {
             ? .just(.setReminderTime(latestTime!))
             : .empty()
 
-            let enableDailyReminderSequence = userSettingsUseCase.getDailyReminder()
+            let setDailyReminderSequence = userSettingsUseCase.getDailyReminder()
                 .asObservable()
-                .catch { _ in return .empty() }
                 .map { _ in Mutation.enableDailyReminder }
+                .catch { _ in self.removeDailyReminder() }
 
             return .merge([
-                enableDailyReminderSequence,
+                setDailyReminderSequence,
                 setReminderTimeSequence,
             ])
 
         case .tapDailyReminderSwitch:
-            /// 현재 `DailyReminder` 가 ON 상태이면 OFF 로, OFF 상태이면 ON 으로 변경하는 `Mutation` 을 반환합니다.
-            func toggleDailyReminder() -> Mutation {
-                if currentState.isOnDailyReminder {
-                    return .disableDailyReminder
-                } else {
-                    return .enableDailyReminder
-                }
-            }
-
             return userSettingsUseCase.getNotificationAuthorizationStatus()
                 .asObservable()
                 .flatMap { status -> Observable<Mutation> in
                     switch status {
-                    case .notDetermined:
+                    case .notDetermined: // 권한이 결정되어 있지 않은 경우(대부분 첫 알림 설정)
                         return self.userSettingsUseCase.requestNotificationAuthorization(with: [.alert, .sound])
                             .asObservable()
                             .flatMap { hasAuthorization -> Observable<Mutation> in
                                 if hasAuthorization {
-                                    return .just(toggleDailyReminder())
+                                    return self.toggleDailyReminder()
                                 } else {
                                     return .merge([
-                                        .just(.disableDailyReminder),
+                                        self.removeDailyReminder(),
                                         .just(.showNeedAuthAlert),
                                     ])
                                 }
                             }
-                    case .authorized:
-                        return .just(toggleDailyReminder())
-                    default:
+                    case .authorized: // 알림 권한 승인
+                        return self.toggleDailyReminder()
+                    default: // 알림 권한 거부
                         return .merge([
-                            .just(.disableDailyReminder),
+                            self.removeDailyReminder(),
                             .just(.showMoveToAuthSettingAlert),
                         ])
                     }
@@ -102,7 +104,9 @@ public final class PushNotificationSettingsReactor: Reactor {
 
         case .changeReminderTime(let date):
             let hourAndMinute = Calendar.current.dateComponents([.hour, .minute], from: date)
-            return .just(.setReminderTime(hourAndMinute))
+            return userSettingsUseCase.setDailyReminder(at: hourAndMinute)
+                .asObservable()
+                .map { Mutation.setReminderTime(hourAndMinute) }
         }
     }
 
@@ -123,6 +127,35 @@ public final class PushNotificationSettingsReactor: Reactor {
         }
 
         return state
+    }
+
+}
+
+// MARK: - Helpers
+
+extension PushNotificationSettingsReactor {
+
+    /// 매일 알림을 설정하고 `Mutation Sequence` 를 반환합니다.
+    func setDailyReminder() -> Observable<Mutation> {
+        return userSettingsUseCase.setDailyReminder(at: self.currentState.reminderTime)
+            .asObservable()
+            .map { Mutation.enableDailyReminder }
+            .catchAndReturn(.disableDailyReminder)
+    }
+
+    /// 매일 알림을 삭제하고 `Mutation Sequence` 를 반환합니다.
+    func removeDailyReminder() -> Observable<Mutation> {
+        userSettingsUseCase.removeDailyReminder()
+        return .just(.disableDailyReminder)
+    }
+
+    /// 현재 설정되어 있는 매일 알림이 없으면 설정하고, 설정되어 있는 매일 알림이 있으면 삭제합니다.
+    func toggleDailyReminder() -> Observable<Mutation> {
+        if currentState.isOnDailyReminder {
+            return removeDailyReminder()
+        } else {
+            return setDailyReminder()
+        }
     }
 
 }

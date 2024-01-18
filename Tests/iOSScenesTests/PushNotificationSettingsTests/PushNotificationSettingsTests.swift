@@ -11,7 +11,10 @@ final class PushNotificationSettingsTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
 
-        sut = .init(userSettingsUseCase: UserSettingsUseCaseFake(expectedAuthorizationStatus: .authorized))
+        sut = .init(
+            userSettingsUseCase: UserSettingsUseCaseFake(expectedAuthorizationStatus: .authorized),
+            globalAction: .shared
+        )
     }
 
     override func tearDownWithError() throws {
@@ -33,7 +36,7 @@ final class PushNotificationSettingsTests: XCTestCase {
         // when authorized
         do {
             // Given
-            sut = .init(userSettingsUseCase: userSettingsUseCase)
+            sut = .init(userSettingsUseCase: userSettingsUseCase, globalAction: .shared)
 
             // When
             sut.action.onNext(.reactorNeedsUpdate)
@@ -50,7 +53,7 @@ final class PushNotificationSettingsTests: XCTestCase {
             _ = try userSettingsUseCase.requestNotificationAuthorization(with: [.alert, .sound])
                 .toBlocking()
                 .single()
-            sut = .init(userSettingsUseCase: userSettingsUseCase)
+            sut = .init(userSettingsUseCase: userSettingsUseCase, globalAction: .shared)
 
             // When
             sut.action.onNext(.reactorNeedsUpdate)
@@ -94,7 +97,7 @@ final class PushNotificationSettingsTests: XCTestCase {
         _ = try userSettingsUseCase.requestNotificationAuthorization(with: [.alert, .sound])
             .toBlocking()
             .single()
-        sut = .init(userSettingsUseCase: userSettingsUseCase)
+        sut = .init(userSettingsUseCase: userSettingsUseCase, globalAction: .shared)
 
         XCTAssertEqual(sut.currentState.isOnDailyReminder, false)
         XCTAssertNil(sut.currentState.moveToAuthSettingAlert)
@@ -110,7 +113,7 @@ final class PushNotificationSettingsTests: XCTestCase {
     func test_turnOnOffDailyReminder_whenNotDetermined() throws {
         // Given
         let userSettingsUseCase: UserSettingsUseCaseFake = .init(expectedAuthorizationStatus: .notDetermined)
-        sut = .init(userSettingsUseCase: userSettingsUseCase)
+        sut = .init(userSettingsUseCase: userSettingsUseCase, globalAction: .shared)
 
         XCTAssertEqual(sut.currentState.isOnDailyReminder, false)
         XCTAssertNil(sut.currentState.needAuthAlert)
@@ -134,6 +137,29 @@ final class PushNotificationSettingsTests: XCTestCase {
 
         // Then
         XCTAssertEqual(sut.currentState.reminderTime, DateComponents(hour: 11, minute: 22))
+    }
+
+    func test_sceneWillEnterForeground_whenAuthorizationChangesToDenied() throws {
+        // Given
+        let userSettingsUseCase: UserSettingsUseCaseFake = .init(expectedAuthorizationStatus: .authorized)
+        _ = try userSettingsUseCase.requestNotificationAuthorization(with: [.alert, .sound])
+            .toBlocking()
+            .single()
+        try userSettingsUseCase.setDailyReminder(at: .init(hour: 11, minute: 22))
+            .toBlocking()
+            .single()
+        sut = .init(userSettingsUseCase: userSettingsUseCase, globalAction: .shared)
+        sut.action.onNext(.reactorNeedsUpdate)
+
+        XCTAssertEqual(sut.currentState.isOnDailyReminder, true)
+
+        // When
+        userSettingsUseCase._authorizationStatus = .denied
+        sut.globalAction.sceneWillEnterForeground.accept(())
+
+        // Then
+        XCTAssertEqual(sut.currentState.isOnDailyReminder, false)
+        XCTAssertNotNil(sut.currentState.$needAuthAlert)
     }
 
 }

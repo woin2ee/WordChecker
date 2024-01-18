@@ -15,3 +15,5 @@ spanish = "스페인어";
 italian = "이탈리아어";
 german = "독일어";
 russian = "러시아어";
+
+daily_reminder = "매일 알림";

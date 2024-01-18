@@ -15,3 +15,5 @@ spanish = "Spanish";
 italian = "Italian";
 german = "German";
 russian = "Russian";
+
+daily_reminder = "Daily Reminder";

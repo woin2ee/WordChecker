@@ -91,8 +91,8 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
     public func setDailyReminder(at time: DateComponents) -> Single<Void> {
         let setDailyReminderSequence: Single<Void> = .create { observer in
             let content: UNMutableNotificationContent = .init().then {
-                // TODO: Content 설정
-                $0.title = "Title"
+                $0.body = DomainString.daily_reminder
+                $0.sound = .default
             }
             let trigger: UNCalendarNotificationTrigger = .init(dateMatching: time, repeats: true)
             let notificationRequest: UNNotificationRequest = .init(

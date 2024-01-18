@@ -69,5 +69,7 @@ public struct WCString {
     public static let daily_reminder = NSLocalizedString("daily_reminder", bundle: Bundle.module, comment: "")
     public static let time = NSLocalizedString("time", bundle: Bundle.module, comment: "")
     public static let notifications = NSLocalizedString("notifications", bundle: Bundle.module, comment: "")
+    public static let allow_notifications_is_required = NSLocalizedString("allow_notifications_is_required", bundle: Bundle.module, comment: "")
+    public static let dailyReminderFooter = NSLocalizedString("dailyReminderFooter", bundle: Bundle.module, comment: "")
 
 }

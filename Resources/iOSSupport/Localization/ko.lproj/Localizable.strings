@@ -60,3 +60,5 @@ please_check_your_network_connection = "네트워크 연결 상태를 확인해 
 daily_reminder = "매일 알림";
 time = "시간";
 notifications = "알림";
+allow_notifications_is_required = "알림 허용이 필요합니다.";
+dailyReminderFooter = "설정한 시각에 매일 푸시 알림을 보냅니다.";

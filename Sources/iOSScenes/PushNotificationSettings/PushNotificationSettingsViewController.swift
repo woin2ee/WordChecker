@@ -16,17 +16,10 @@ public final class PushNotificationSettingsViewController: RxBaseViewController,
     enum ItemIdentifier {
         case dailyReminderSwitch
         case dailyReminderTimeSetter
-        case dailyReminderFooter
     }
 
     lazy var rootTableView: PushNotificationSettingsView = .init(frame: .zero, style: .insetGrouped).then {
         $0.delegate = self
-    }
-
-    let footerLabel: PaddingLabel = .init(padding: .init(top: 8, left: 20, bottom: 8, right: 20)).then {
-        $0.text = "Test footer."
-        $0.font = .preferredFont(forTextStyle: .footnote)
-        $0.textColor = .secondaryLabel
     }
 
     public weak var delegate: PushNotificationSettingsDelegate?
@@ -37,16 +30,18 @@ public final class PushNotificationSettingsViewController: RxBaseViewController,
 
         switch itemIdentifier {
         case .dailyReminderSwitch:
-            let cell = tableView.dequeueReusableCell(SwitchCell.self, for: indexPath)
+            let cell = tableView.dequeueReusableCell(ManualSwitchCell.self, for: indexPath)
+            cell.prepareForReuse()
             cell.bind(model: .init(title: WCString.daily_reminder, isOn: reactor.currentState.isOnDailyReminder))
             // Bind to Reactor.Action
-            cell.trailingSwitch.rx.isOn
-                .map { $0 ? Reactor.Action.onDailyReminder : Reactor.Action.offDailyReminder }
+            cell.wrappingButton.rx.tap
+                .map { _ in Reactor.Action.tapDailyReminderSwitch }
                 .bind(to: reactor.action)
                 .disposed(by: cell.disposeBag)
             return cell
         case .dailyReminderTimeSetter:
             let cell = tableView.dequeueReusableCell(DatePickerCell.self, for: indexPath)
+            cell.prepareForReuse()
             cell.trailingDatePicker.datePickerMode = .time
 
             guard let date = Calendar.current.date(from: reactor.currentState.reminderTime) else {
@@ -60,10 +55,10 @@ public final class PushNotificationSettingsViewController: RxBaseViewController,
                 .bind(to: reactor.action)
                 .disposed(by: cell.disposeBag)
             return cell
-        case .dailyReminderFooter:
-            return nil
         }
     }
+
+    private var isViewAppeared: Bool = false
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -84,6 +79,11 @@ public final class PushNotificationSettingsViewController: RxBaseViewController,
         self.view.backgroundColor = .systemGroupedBackground
 
         setupNavigationBar()
+    }
+
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        isViewAppeared = true
     }
 
     public override func viewWillDisappear(_ animated: Bool) {
@@ -109,7 +109,7 @@ public final class PushNotificationSettingsViewController: RxBaseViewController,
     public func bind(reactor: PushNotificationSettingsReactor) {
         // Action
         self.rx.sentMessage(#selector(viewDidLoad))
-            .map { _ in Reactor.Action.viewDidLoad }
+            .map { _ in Reactor.Action.reactorNeedsUpdate }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
 
@@ -121,13 +121,24 @@ public final class PushNotificationSettingsViewController: RxBaseViewController,
             .drive(with: self, onNext: { owner, isOnDailyReminder in
                 var snapshot = owner.dataSource.snapshot()
 
+                /// `isViewAppeared` 프로퍼티에 따라 애니메이션 적용 여부를 판단하여 Snapshot 을 적용합니다.
+                func applySnapshot() {
+                    if owner.isViewAppeared {
+                        owner.dataSource.apply(snapshot)
+                    } else {
+                        owner.dataSource.apply(snapshot, animatingDifferences: false)
+                    }
+                }
+
                 if isOnDailyReminder {
                     snapshot.appendItems([.dailyReminderTimeSetter], toSection: .dailyReminder)
                 } else {
                     snapshot.deleteItems([.dailyReminderTimeSetter])
                 }
+                applySnapshot()
 
-                owner.dataSource.apply(snapshot)
+                snapshot.reconfigureItems([.dailyReminderSwitch])
+                applySnapshot()
             })
             .disposed(by: self.disposeBag)
 
@@ -145,6 +156,20 @@ public final class PushNotificationSettingsViewController: RxBaseViewController,
                 owner.dataSource.apply(snapshot)
             })
             .disposed(by: self.disposeBag)
+
+        reactor.pulse(\.$needAuthAlert)
+            .asDriverOnErrorJustComplete()
+            .drive(with: self) { owner, _ in
+                owner.presentOKAlert(title: WCString.notice, message: WCString.allow_notifications_is_required)
+            }
+            .disposed(by: self.disposeBag)
+
+        reactor.pulse(\.$moveToAuthSettingAlert)
+            .asDriverOnErrorJustComplete()
+            .drive(with: self) { owner, _ in
+                owner.presentOKAlert(title: WCString.notice, message: WCString.allow_notifications_is_required)
+            }
+            .disposed(by: self.disposeBag)
     }
 
 }
@@ -156,11 +181,11 @@ extension PushNotificationSettingsViewController: UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return footerLabel
+        return rootTableView.footerLabel
     }
 
     public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return footerLabel.intrinsicContentSize.height
+        return rootTableView.footerLabel.intrinsicContentSize.height
     }
 
 }

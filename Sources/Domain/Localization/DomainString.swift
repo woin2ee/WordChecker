@@ -22,4 +22,6 @@ struct DomainString {
     static let german = NSLocalizedString("german", bundle: Bundle.module, comment: "")
     static let russian = NSLocalizedString("russian", bundle: Bundle.module, comment: "")
 
+    static let daily_reminder = NSLocalizedString("daily_reminder", bundle: Bundle.module, comment: "")
+
 }

@@ -26,4 +26,7 @@ public final class GlobalAction {
 
     public var didResetWordList: PublishRelay<Void> = .init()
 
+    public var sceneWillEnterForeground: PublishRelay<Void> = .init()
+    public var sceneDidBecomeActive: PublishRelay<Void> = .init()
+
 }
