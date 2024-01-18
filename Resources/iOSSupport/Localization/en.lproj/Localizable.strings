@@ -60,3 +60,5 @@ please_check_your_network_connection = "Please check your network connection.";
 daily_reminder = "Daily Reminder";
 time = "Time";
 notifications = "Notifications";
+allow_notifications_is_required = "Allow notifications is required.";
+dailyReminderFooter = "Sends a daily push notification at the time you set.";

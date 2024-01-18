@@ -5,6 +5,7 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
+import iOSSupport
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -12,6 +13,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     var appCoordinator: AppCoordinator?
+
+    let globalAction: GlobalAction = .shared
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -23,6 +26,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         appCoordinator = .init(rootTabBarController: rootTabBarController)
         appCoordinator?.start()
+    }
+
+    func sceneWillEnterForeground(_ scene: UIScene) {
+        globalAction.sceneWillEnterForeground.accept(())
+    }
+
+    func sceneDidBecomeActive(_ scene: UIScene) {
+        globalAction.sceneDidBecomeActive.accept(())
     }
 
 }
