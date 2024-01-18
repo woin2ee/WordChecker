@@ -16,9 +16,7 @@ final class DatePickerCell: RxBaseReusableCell {
         let date: Date
     }
 
-    let trailingDatePicker: UIDatePicker = .init().then {
-        $0.minuteInterval = 5
-    }
+    let trailingDatePicker: UIDatePicker = .init()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
