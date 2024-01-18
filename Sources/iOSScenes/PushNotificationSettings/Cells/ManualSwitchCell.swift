@@ -7,7 +7,6 @@
 //
 
 import iOSSupport
-import SnapKit
 import UIKit
 
 final class ManualSwitchCell: RxBaseReusableCell {
@@ -18,44 +17,27 @@ final class ManualSwitchCell: RxBaseReusableCell {
     }
 
     let leadingLabel: UILabel = .init()
-    let trailingSwitch: UISwitch = .init().then {
-        $0.isUserInteractionEnabled = false
-    }
+    let trailingSwitch: UISwitch = .init()
     let wrappingButton: UIButton = .init()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+        trailingSwitch.addSubview(wrappingButton)
+        wrappingButton.frame = trailingSwitch.bounds
+
+        self.accessoryView = trailingSwitch
         self.selectionStyle = .none
-        setUpSubviews()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setUpSubviews() {
-        self.contentView.addSubview(leadingLabel)
-        self.contentView.addSubview(trailingSwitch)
-        self.contentView.addSubview(wrappingButton)
-
-        leadingLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(20)
-            make.centerY.equalToSuperview()
-        }
-
-        trailingSwitch.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(20)
-            make.centerY.equalToSuperview()
-        }
-
-        wrappingButton.snp.makeConstraints { make in
-            make.edges.equalTo(trailingSwitch).inset(-4)
-        }
-    }
-
     func bind(model: Model) {
-        leadingLabel.text = model.title
+        var config: UIListContentConfiguration = .cell()
+        config.text = model.title
+        self.contentConfiguration = config
         trailingSwitch.setOn(model.isOn, animated: true)
     }
 
