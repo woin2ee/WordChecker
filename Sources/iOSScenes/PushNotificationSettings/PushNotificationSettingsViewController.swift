@@ -43,6 +43,7 @@ public final class PushNotificationSettingsViewController: RxBaseViewController,
             let cell = tableView.dequeueReusableCell(DatePickerCell.self, for: indexPath)
             cell.prepareForReuse()
             cell.trailingDatePicker.datePickerMode = .time
+            cell.trailingDatePicker.minuteInterval = 5
 
             guard let date = Calendar.current.date(from: reactor.currentState.reminderTime) else {
                 preconditionFailure("Failed to create Date instance with DateComponents.")
