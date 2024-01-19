@@ -20,7 +20,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
 
         let viewController: PushNotificationSettingsViewController = .init()
-        let reactor: PushNotificationSettingsReactor = .init(userSettingsUseCase: UserSettingsUseCaseFake())
+        let reactor: PushNotificationSettingsReactor = .init(
+            userSettingsUseCase: UserSettingsUseCaseFake(expectedAuthorizationStatus: .authorized),
+            globalAction: .shared
+        )
         viewController.reactor = reactor
 
         let navigationController: UINavigationController = .init(rootViewController: viewController)
