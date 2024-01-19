@@ -33,7 +33,7 @@ final class WordDetailCoordinator: Coordinator {
 
 extension WordDetailCoordinator: WordDetailViewControllerDelegate {
 
-    func didFinishInteraction() {
+    func willFinishInteraction() {
         navigationController.dismiss(animated: true)
         parentCoordinator?.childCoordinators.removeAll(where: { $0 === self })
     }

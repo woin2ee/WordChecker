@@ -59,13 +59,13 @@ public final class WordCheckingReactor: Reactor {
         switch action {
         case .viewDidLoad:
             let initUnmemorizedWordList = wordUseCase.randomizeUnmemorizedWordList()
-                .map { Mutation.setCurrentWord(self.wordUseCase.currentUnmemorizedWord) }
+                .map { Mutation.setCurrentWord(self.wordUseCase.getCurrentUnmemorizedWord()) }
                 .asObservable()
-            let initTranslationSourceLanguage = userSettingsUseCase.currentTranslationLocale
+            let initTranslationSourceLanguage = userSettingsUseCase.getCurrentTranslationLocale()
                 .map(\.source)
                 .map { Mutation.setSourceLanguage($0) }
                 .asObservable()
-            let initTranslationTargetLanguage = userSettingsUseCase.currentTranslationLocale
+            let initTranslationTargetLanguage = userSettingsUseCase.getCurrentTranslationLocale()
                 .map(\.target)
                 .map { Mutation.setTargetLanguage($0) }
                 .asObservable()
@@ -81,27 +81,27 @@ public final class WordCheckingReactor: Reactor {
             return wordUseCase.addNewWord(newWord)
                 .asObservable()
                 .map {
-                    return Mutation.setCurrentWord(self.wordUseCase.currentUnmemorizedWord)
+                    return Mutation.setCurrentWord(self.wordUseCase.getCurrentUnmemorizedWord())
                 }
 
         case .updateToNextWord:
             return wordUseCase.updateToNextWord()
                 .map {
-                    return Mutation.setCurrentWord(self.wordUseCase.currentUnmemorizedWord)
+                    return Mutation.setCurrentWord(self.wordUseCase.getCurrentUnmemorizedWord())
                 }
                 .asObservable()
 
         case .updateToPreviousWord:
             return wordUseCase.updateToPreviousWord()
                 .map {
-                    return Mutation.setCurrentWord(self.wordUseCase.currentUnmemorizedWord)
+                    return Mutation.setCurrentWord(self.wordUseCase.getCurrentUnmemorizedWord())
                 }
                 .asObservable()
 
         case .shuffleWordList:
             return wordUseCase.randomizeUnmemorizedWordList()
                 .map {
-                    return Mutation.setCurrentWord(self.wordUseCase.currentUnmemorizedWord)
+                    return Mutation.setCurrentWord(self.wordUseCase.getCurrentUnmemorizedWord())
                 }
                 .asObservable()
 
@@ -112,7 +112,7 @@ public final class WordCheckingReactor: Reactor {
 
             return wordUseCase.deleteWord(by: uuid)
                 .map {
-                    return Mutation.setCurrentWord(self.wordUseCase.currentUnmemorizedWord)
+                    return Mutation.setCurrentWord(self.wordUseCase.getCurrentUnmemorizedWord())
                 }
                 .asObservable()
 
@@ -123,7 +123,7 @@ public final class WordCheckingReactor: Reactor {
 
             return wordUseCase.markCurrentWordAsMemorized(uuid: uuid)
                 .map {
-                    return Mutation.setCurrentWord(self.wordUseCase.currentUnmemorizedWord)
+                    return Mutation.setCurrentWord(self.wordUseCase.getCurrentUnmemorizedWord())
                 }
                 .asObservable()
         }
@@ -137,12 +137,12 @@ public final class WordCheckingReactor: Reactor {
             globalAction.didSetTargetLanguage
                 .map(Mutation.setTargetLanguage),
             globalAction.didEditWord
-                .map { _ in Mutation.setCurrentWord(self.wordUseCase.currentUnmemorizedWord) },
+                .map { _ in Mutation.setCurrentWord(self.wordUseCase.getCurrentUnmemorizedWord()) },
             globalAction.didDeleteWord
                 .filter { $0.uuid == self.currentState.currentWord?.uuid }
-                .map { _ in Mutation.setCurrentWord(self.wordUseCase.currentUnmemorizedWord) },
+                .map { _ in Mutation.setCurrentWord(self.wordUseCase.getCurrentUnmemorizedWord()) },
             globalAction.didResetWordList
-                .map { _ in Mutation.setCurrentWord(self.wordUseCase.currentUnmemorizedWord) },
+                .map { _ in Mutation.setCurrentWord(self.wordUseCase.getCurrentUnmemorizedWord()) },
         ])
     }
 

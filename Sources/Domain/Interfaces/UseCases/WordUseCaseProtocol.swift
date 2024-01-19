@@ -31,6 +31,6 @@ public protocol WordUseCaseProtocol {
 
     func markCurrentWordAsMemorized(uuid: UUID)
 
-    var currentUnmemorizedWord: Word? { get }
+    func getCurrentUnmemorizedWord() -> Word?
 
 }

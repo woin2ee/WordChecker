@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "8F663F64-D2ED-466D-B509-5E41EF98731F",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "0D0A048C4E8A1F30CBB8F2BE",
+        "name" : "FoundationExtensionTests"
+      }
+    }
+  ],
+  "version" : 1
+}

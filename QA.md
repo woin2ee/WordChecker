@@ -1,5 +1,8 @@
 #Version
-1.0.0 (build version: 13)
+1.3.0
+
+##Common
+- Localization 적용 확인
 
 ##WordCheking
 
@@ -26,3 +29,4 @@
 
 - Source language / Translation language 변경 정상 적용
 - 구글 드라이브 로그인 여부에 따라 로그아웃 버튼 표시
+- 매일 알림 켜고 시간 설정한 뒤 홈화면에서 알림 제대로 오는지 확인

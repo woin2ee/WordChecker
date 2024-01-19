@@ -34,7 +34,7 @@ public final class LanguageSettingViewModel: ViewModelType {
     public func transform(input: Input) -> Output {
         let selectableLocales = Driver.just(TranslationLanguage.allCases)
 
-        let currentTranslationLocale = userSettingsUseCase.currentTranslationLocale
+        let currentTranslationLocale = userSettingsUseCase.getCurrentTranslationLocale()
             .asSignalOnErrorJustComplete()
 
         let didSelectCell = input.selectCell

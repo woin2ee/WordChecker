@@ -108,7 +108,7 @@ extension WordSearchResultsController {
                 let editedWord = self.searchedList[indexPath.row]
                 guard let index = self.reactor?.currentState.wordList.firstIndex(of: editedWord) else { return }
                 self.reactor?.action.onNext(.editWord(newWord, index))
-                self.updateSearchedList(with: currentSearchBarText) // FIXME: 동기화 문제 발생 가능성
+                self.updateSearchedList(with: currentSearchBarText)
             }
             alertController.addAction(cancelAction)
             alertController.addAction(completeAction)
@@ -157,7 +157,7 @@ extension WordSearchResultsController: UISearchResultsUpdating {
 
 extension WordSearchResultsController: WordDetailViewControllerDelegate {
 
-    func didFinishInteraction() {
+    func willFinishInteraction() {
         self.presentingViewController?.tabBarController?.dismiss(animated: true)
     }
 

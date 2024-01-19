@@ -15,7 +15,7 @@ import Utility
 
 public protocol WordDetailViewControllerDelegate: AnyObject {
 
-    func didFinishInteraction()
+    func willFinishInteraction()
 
 }
 
@@ -102,10 +102,10 @@ public final class WordDetailViewController: RxBaseViewController {
             .drive(with: self) { owner, _ in
                 if owner.reactor!.currentState.hasChanges {
                     owner.presentDismissActionSheet {
-                        owner.delegate?.didFinishInteraction()
+                        owner.delegate?.willFinishInteraction()
                     }
                 } else {
-                    owner.delegate?.didFinishInteraction()
+                    owner.delegate?.willFinishInteraction()
                 }
             }
             .disposed(by: self.disposeBag)
@@ -125,7 +125,7 @@ extension WordDetailViewController: View {
             .disposed(by: self.disposeBag)
 
         doneBarButton.rx.tap
-            .doOnNext { [weak self] _ in self?.delegate?.didFinishInteraction() }
+            .doOnNext { [weak self] _ in self?.delegate?.willFinishInteraction() }
             .map { Reactor.Action.doneEditing }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
@@ -181,12 +181,12 @@ extension WordDetailViewController: UIAdaptivePresentationControllerDelegate {
 
     public func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
         self.presentDismissActionSheet {
-            self.delegate?.didFinishInteraction()
+            self.delegate?.willFinishInteraction()
         }
     }
 
     public func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
-        delegate?.didFinishInteraction()
+        delegate?.willFinishInteraction()
     }
 
 }

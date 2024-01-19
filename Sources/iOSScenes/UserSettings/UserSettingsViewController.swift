@@ -8,9 +8,9 @@
 
 import Domain
 import iOSSupport
+import ReactorKit
 import RxSwift
 import RxUtility
-import SnapKit
 import Then
 import UIKit
 
@@ -20,174 +20,203 @@ public protocol UserSettingsViewControllerDelegate: AnyObject {
 
     func didTapTargetLanguageSettingRow(currentSettingLocale: TranslationLanguage)
 
+    func didTapNotificationsSettingRow()
+
 }
 
-public final class UserSettingsViewController: RxBaseViewController {
+public final class UserSettingsViewController: RxBaseViewController, View {
 
-    let userSettingsCellID = "USER_SETTINGS_CELL"
+    private(set) var dataSourceModel: [UserSettingsItemIdentifier: UserSettingsItemModel] = [
+        .changeSourceLanguage: .disclosureIndicator(.init(title: WCString.source_language, value: nil)),
+        .changeTargetLanguage: .disclosureIndicator(.init(title: WCString.translation_language, value: nil)),
+        .notifications: .disclosureIndicator(.init(title: WCString.notifications, value: nil)),
+        .googleDriveUpload: .button(.init(title: WCString.google_drive_upload, textColor: .systemBlue)),
+        .googleDriveDownload: .button(.init(title: WCString.google_drive_download, textColor: .systemBlue)),
+        .googleDriveSignOut: .button(.init(title: WCString.google_drive_logout, textColor: .systemRed)),
+    ]
 
-    var viewModel: UserSettingsViewModel!
+    lazy var settingsTableViewDataSource: UITableViewDiffableDataSource<UserSettingsSectionIdentifier, UserSettingsItemIdentifier> = .init(tableView: settingsTableView) { tableView, indexPath, id in
+        guard let itemModel = self.dataSourceModel[id] else {
+            preconditionFailure("dataSourceModel 에 해당 \(id) 를 가진 Item 이 없습니다.")
+        }
 
-    var settingsTableViewDataSource: UITableViewDiffableDataSource<UserSettingsSection, UserSettingsItemModel>!
-
-    public weak var delegate: UserSettingsViewControllerDelegate?
-
-    lazy var settingsTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
-        $0.backgroundColor = .systemGroupedBackground
-        $0.register(UITableViewCell.self, forCellReuseIdentifier: userSettingsCellID)
-    }
-
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setupDataSource()
-        applyDefualtSnapshot()
-        setupSubviews()
-        setupNavigationBar()
-        bindViewModel()
-    }
-
-    func setupDataSource() {
-        self.settingsTableViewDataSource = .init(tableView: settingsTableView) { tableView, indexPath, item in
-            let cell = tableView.dequeueReusableCell(withIdentifier: self.userSettingsCellID, for: indexPath)
-
-            cell.accessoryType = .none
-
-            var config: UIListContentConfiguration
-
-            switch item.settingType {
-            case .changeSourceLanguage, .changeTargetLanguage:
-                config = .valueCell()
-                config.secondaryText = item.value?.localizedString
-
-                cell.accessoryType = .disclosureIndicator
-            case .googleDriveUpload, .googleDriveDownload:
-                config = .cell()
-                config.textProperties.color = .systemBlue
-            case .googleDriveSignOut:
-                config = .cell()
-                config.textProperties.color = .systemRed
-            }
-
-            config.text = item.primaryText
-
-            cell.contentConfiguration = config
+        switch itemModel {
+        case .disclosureIndicator(let model):
+            let cell = tableView.dequeueReusableCell(DisclosureIndicatorCell.self, for: indexPath)
+            cell.bind(model: model)
+            return cell
+        case .button(let model):
+            let cell = tableView.dequeueReusableCell(ButtonCell.self, for: indexPath)
+            cell.bind(model: model)
             return cell
         }
     }
 
-    func applyDefualtSnapshot() {
-        var snapshot: NSDiffableDataSourceSnapshot<UserSettingsSection, UserSettingsItemModel> = .init()
+    public weak var delegate: UserSettingsViewControllerDelegate?
 
-        snapshot.appendSections([.changeLanguage])
-        snapshot.appendItems([
-            .init(settingType: .changeSourceLanguage),
-            .init(settingType: .changeTargetLanguage),
-        ])
+    lazy var settingsTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
+        $0.register(DisclosureIndicatorCell.self)
+        $0.register(ButtonCell.self)
+    }
 
-        snapshot.appendSections([.googleDriveSync])
-        snapshot.appendItems([
-            .init(settingType: .googleDriveUpload),
-            .init(settingType: .googleDriveDownload),
-        ])
+    public override func loadView() {
+        self.view = settingsTableView
+    }
 
-        settingsTableViewDataSource.applySnapshotUsingReloadData(snapshot)
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = .systemGroupedBackground
+        applyDefaultSnapshot()
+    }
+
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupNavigationBar()
+    }
+
+    func applyDefaultSnapshot() {
+        var snapshot: NSDiffableDataSourceSnapshot<UserSettingsSectionIdentifier, UserSettingsItemIdentifier> = .init()
+        snapshot.appendSections([.changeLanguage, .notifications, .googleDriveSync])
+
+        snapshot.appendItems(
+            [.changeSourceLanguage, .changeTargetLanguage],
+            toSection: .changeLanguage
+        )
+
+        snapshot.appendItems(
+            [.notifications],
+            toSection: .notifications
+        )
+
+        snapshot.appendItems(
+            [.googleDriveUpload, .googleDriveDownload],
+            toSection: .googleDriveSync
+        )
+
+        settingsTableViewDataSource.apply(snapshot)
+    }
+
+    func setupNavigationBar() {
+        self.navigationItem.title = WCString.settings
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.sizeToFit()
     }
 
     // swiftlint:disable:next function_body_length
-    func bindViewModel() {
+    public func bind(reactor: UserSettingsReactor) {
+        // Action
         let itemSelectedEvent = settingsTableView.rx.itemSelected.asSignal()
             .doOnNext { [weak self] in self?.settingsTableView.deselectRow(at: $0, animated: true) }
 
-        let input: UserSettingsViewModel.Input = .init(
-            uploadTrigger: itemSelectedEvent
-                .filter({ $0.section == 1 && $0.row == 0 })
-                .mapToVoid(),
-            downloadTrigger: itemSelectedEvent
-                .filter({ $0.section == 1 && $0.row == 1 })
-                .mapToVoid(),
-            signOut: itemSelectedEvent
-                .filter({ $0.section == 2 && $0.row == 0 })
-                .mapToVoid(),
-            presentingConfiguration: .just(.init(window: self))
-        )
-        let output = viewModel.transform(input: input)
+        let presentingWindow: PresentingConfiguration = .init(window: self)
 
         itemSelectedEvent
-            .filter({ $0.section == 0 && $0.row == 0 })
-            .mapToVoid()
-            .withLatestFrom(output.currentTranslationSourceLanguage)
-            .emit(with: self, onNext: { owner, translationSourceLanguage in
-                owner.delegate?.didTapSourceLanguageSettingRow(currentSettingLocale: translationSourceLanguage)
-            })
-            .disposed(by: disposeBag)
+            .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .googleDriveUpload }
+            .map { _ in Reactor.Action.uploadData(presentingWindow) }
+            .emit(to: reactor.action)
+            .disposed(by: self.disposeBag)
 
         itemSelectedEvent
-            .filter({ $0.section == 0 && $0.row == 1 })
-            .mapToVoid()
-            .withLatestFrom(output.currentTranslationTargetLanguage)
-            .emit(with: self, onNext: { owner, translationTargetLanguage in
-                owner.delegate?.didTapTargetLanguageSettingRow(currentSettingLocale: translationTargetLanguage)
+            .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .googleDriveDownload }
+            .map { _ in Reactor.Action.downloadData(presentingWindow) }
+            .emit(to: reactor.action)
+            .disposed(by: self.disposeBag)
+
+        itemSelectedEvent
+            .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .googleDriveSignOut }
+            .map { _ in Reactor.Action.signOut }
+            .emit(to: reactor.action)
+            .disposed(by: self.disposeBag)
+
+        itemSelectedEvent
+            .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .changeSourceLanguage }
+            .emit(with: self, onNext: { owner, _ in
+                owner.delegate?.didTapSourceLanguageSettingRow(currentSettingLocale: reactor.currentState.sourceLanguage)
             })
-            .disposed(by: disposeBag)
+            .disposed(by: self.disposeBag)
 
-        output.currentTranslationSourceLanguage
-            .drive(with: self, onNext: { owner, translationSourceLanguage in
-                var snapshot = owner.settingsTableViewDataSource.snapshot()
-                let originItems = snapshot.itemIdentifiers(inSection: .changeLanguage)
-
-                guard let targetIndex = originItems.firstIndex(where: { $0.settingType == .changeSourceLanguage }) else {
-                    return
-                }
-
-                var newItems = originItems
-                newItems[targetIndex].value = translationSourceLanguage
-
-                snapshot.deleteItems(originItems)
-                snapshot.appendItems(newItems, toSection: .changeLanguage)
-
-                owner.settingsTableViewDataSource.apply(snapshot, animatingDifferences: false)
+        itemSelectedEvent
+            .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .changeTargetLanguage }
+            .emit(with: self, onNext: { owner, _ in
+                owner.delegate?.didTapTargetLanguageSettingRow(currentSettingLocale: reactor.currentState.targetLanguage)
             })
-            .disposed(by: disposeBag)
+            .disposed(by: self.disposeBag)
 
-        output.currentTranslationTargetLanguage
-            .drive(with: self, onNext: { owner, translationTargetLanguage in
-                var snapshot = owner.settingsTableViewDataSource.snapshot()
-                let originItems = snapshot.itemIdentifiers(inSection: .changeLanguage)
-
-                guard let targetIndex = originItems.firstIndex(where: { $0.settingType == .changeTargetLanguage }) else {
-                    return
-                }
-
-                var newItems = originItems
-                newItems[targetIndex].value = translationTargetLanguage
-
-                snapshot.deleteItems(originItems)
-                snapshot.appendItems(newItems, toSection: .changeLanguage)
-
-                owner.settingsTableViewDataSource.apply(snapshot, animatingDifferences: false)
+        itemSelectedEvent
+            .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .notifications }
+            .emit(with: self, onNext: { owner, _ in
+                owner.delegate?.didTapNotificationsSettingRow()
             })
-            .disposed(by: disposeBag)
+            .disposed(by: self.disposeBag)
 
-        output.hasSigned
+        self.rx.sentMessage(#selector(viewDidLoad))
+            .map { _ in Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+
+        // State
+        reactor.state
+            .map(\.hasSigned)
+            .distinctUntilChanged()
+            .asDriverOnErrorJustComplete()
             .drive(with: self, onNext: { owner, hasSigned in
                 var snapshot = owner.settingsTableViewDataSource.snapshot()
-                snapshot.deleteSections([.signOut])
 
                 if hasSigned {
-                    snapshot.appendSections([.signOut])
-                    snapshot.appendItems([
-                        .init(settingType: .googleDriveSignOut)
-                    ])
+                    snapshot.insertSections([.signOut], afterSection: .googleDriveSync)
+                    snapshot.appendItems(
+                        [.googleDriveSignOut],
+                        toSection: .signOut
+                    )
+                } else {
+                    snapshot.deleteSections([.signOut])
                 }
 
                 owner.settingsTableViewDataSource.apply(snapshot)
             })
-            .disposed(by: disposeBag)
+            .disposed(by: self.disposeBag)
 
-        output.uploadStatus
-            .emit(with: self, onNext: { owner, status in
+        reactor.pulse(\.$showSignOutAlert)
+            .asDriverOnErrorJustComplete()
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentOKAlert(title: WCString.notice, message: WCString.signed_out_of_google_drive_successfully)
+            })
+            .disposed(by: self.disposeBag)
+
+        reactor.state
+            .map(\.sourceLanguage)
+            .distinctUntilChanged()
+            .asDriverOnErrorJustComplete()
+            .drive(with: self, onNext: { owner, translationSourceLanguage in
+                owner.dataSourceModel[.changeSourceLanguage] = .disclosureIndicator(.init(title: WCString.source_language, value: translationSourceLanguage.localizedString))
+
+                var snapshot = owner.settingsTableViewDataSource.snapshot()
+                snapshot.reconfigureItems([.changeSourceLanguage])
+                owner.settingsTableViewDataSource.apply(snapshot)
+            })
+            .disposed(by: self.disposeBag)
+
+        reactor.state
+            .map(\.targetLanguage)
+            .distinctUntilChanged()
+            .asDriverOnErrorJustComplete()
+            .drive(with: self, onNext: { owner, translationTargetLanguage in
+                owner.dataSourceModel[.changeTargetLanguage] = .disclosureIndicator(.init(title: WCString.translation_language, value: translationTargetLanguage.localizedString))
+
+                var snapshot = owner.settingsTableViewDataSource.snapshot()
+                snapshot.reconfigureItems([.changeTargetLanguage])
+                owner.settingsTableViewDataSource.apply(snapshot)
+            })
+            .disposed(by: self.disposeBag)
+
+        reactor.state
+            .map(\.uploadStatus)
+            .distinctUntilChanged()
+            .asDriverOnErrorJustComplete()
+            .drive(with: self, onNext: { owner, status in
                 switch status {
+                case .noTask:
+                    break
                 case .inProgress:
                     ActivityIndicatorViewController.shared.startAnimating(on: self)
                 case .complete:
@@ -195,11 +224,16 @@ public final class UserSettingsViewController: RxBaseViewController {
                     owner.presentOKAlert(title: WCString.notice, message: WCString.google_drive_upload_successfully)
                 }
             })
-            .disposed(by: disposeBag)
+            .disposed(by: self.disposeBag)
 
-        output.downloadStatus
-            .emit(with: self, onNext: { owner, status in
+        reactor.state
+            .map(\.downloadStatus)
+            .distinctUntilChanged()
+            .asDriverOnErrorJustComplete()
+            .drive(with: self, onNext: { owner, status in
                 switch status {
+                case .noTask:
+                    break
                 case .inProgress:
                     ActivityIndicatorViewController.shared.startAnimating(on: self)
                 case .complete:
@@ -207,26 +241,7 @@ public final class UserSettingsViewController: RxBaseViewController {
                     owner.presentOKAlert(title: WCString.notice, message: WCString.google_drive_download_successfully)
                 }
             })
-            .disposed(by: disposeBag)
-
-        output.signOut
-            .emit(with: self, onNext: { owner, _ in
-                owner.presentOKAlert(title: WCString.notice, message: WCString.signed_out_of_google_drive)
-            })
-            .disposed(by: disposeBag)
-    }
-
-    func setupSubviews() {
-        self.view.addSubview(settingsTableView)
-
-        settingsTableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-    }
-
-    func setupNavigationBar() {
-        self.navigationItem.title = WCString.settings
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+            .disposed(by: self.disposeBag)
     }
 
 }
