@@ -92,6 +92,12 @@ final class WordListViewController: RxBaseViewController, WordListViewController
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationItem.hidesSearchBarWhenScrolling = true
+        self.tabBarController?.delegate = self
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.tabBarController?.delegate = nil
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -243,6 +249,16 @@ extension WordListViewController: UISearchControllerDelegate {
     func willDismissSearchController(_ searchController: UISearchController) {
         UIView.animate(withDuration: 0.4) {
             searchController.view.backgroundColor = .clear
+        }
+    }
+
+}
+
+extension WordListViewController: UITabBarControllerDelegate {
+
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if viewController == self.navigationController {
+            wordListTableView.scrollToRow(at: .init(row: 0, section: 0), at: .bottom, animated: true)
         }
     }
 
