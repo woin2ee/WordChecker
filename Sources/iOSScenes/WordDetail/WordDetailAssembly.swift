@@ -27,10 +27,10 @@ public final class WordDetailAssembly: Assembly {
             )
         }
 
-        container.register(WordDetailViewController.self) { (resolver, uuid: UUID) in
+        container.register(WordDetailViewControllerProtocol.self) { (resolver, uuid: UUID) in
             let reactor: WordDetailReactor = resolver.resolve(argument: uuid)
 
-            return .init().then {
+            return WordDetailViewController.init().then {
                 $0.reactor = reactor
             }
         }

@@ -21,11 +21,15 @@ public protocol WordListViewControllerDelegate: AnyObject {
 
 }
 
-public final class WordListViewController: RxBaseViewController {
+public protocol WordListViewControllerProtocol: UIViewController {
+    var delegate: WordListViewControllerDelegate? { get set }
+}
+
+final class WordListViewController: RxBaseViewController, WordListViewControllerProtocol {
 
     var cellReuseIdentifier: String = "WORD_LIST_CELL"
 
-    public weak var delegate: WordListViewControllerDelegate?
+    weak var delegate: WordListViewControllerDelegate?
 
     lazy var wordListTableView: UITableView = {
         let tableView: UITableView = .init()
@@ -72,25 +76,25 @@ public final class WordListViewController: RxBaseViewController {
 
     // MARK: - Life cycle
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         setupSubviews()
         setupNavigationBar()
     }
 
-    public override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         self.reactor?.action.onNext(.refreshWordListByCurrentType)
     }
 
-    public override func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationItem.hidesSearchBarWhenScrolling = true
     }
 
-    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         wordListTableView.frame = .init(origin: .zero, size: size)
     }
@@ -127,7 +131,7 @@ public final class WordListViewController: RxBaseViewController {
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
 
-    public override func bindAction() {
+    override func bindAction() {
         addWordButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
@@ -142,7 +146,7 @@ public final class WordListViewController: RxBaseViewController {
 
 extension WordListViewController: View {
 
-    public func bind(reactor: WordListReactor) {
+    func bind(reactor: WordListReactor) {
         // Action
 
         // State
@@ -164,11 +168,11 @@ extension WordListViewController: View {
 
 extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
 
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.reactor!.currentState.wordList.count
     }
 
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath)
 
         var config: UIListContentConfiguration = .cell()
@@ -186,7 +190,7 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
 
-    public func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction: UIContextualAction = .init(style: .destructive, title: WCString.delete) { [weak self] _, _, completionHandler in
             self?.reactor?.action.onNext(.deleteWord(indexPath.row))
             completionHandler(true)
@@ -220,7 +224,7 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
         return .init(actions: [deleteAction, editAction])
     }
 
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let uuid: UUID = self.reactor!.currentState.wordList[indexPath.row].uuid
         delegate?.didTapWordRow(with: uuid)
         tableView.deselectRow(at: indexPath, animated: true)
@@ -232,11 +236,11 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension WordListViewController: UISearchControllerDelegate {
 
-    public func willPresentSearchController(_ searchController: UISearchController) {
+    func willPresentSearchController(_ searchController: UISearchController) {
         searchController.view.backgroundColor = .systemBackground
     }
 
-    public func willDismissSearchController(_ searchController: UISearchController) {
+    func willDismissSearchController(_ searchController: UISearchController) {
         UIView.animate(withDuration: 0.4) {
             searchController.view.backgroundColor = .clear
         }

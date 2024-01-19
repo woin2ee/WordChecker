@@ -19,12 +19,16 @@ public protocol WordDetailViewControllerDelegate: AnyObject {
 
 }
 
+public protocol WordDetailViewControllerProtocol: UIViewController {
+    var delegate: WordDetailViewControllerDelegate? { get set }
+}
+
 /// 상세 보기 화면
 ///
 /// Resolve arguments: (uuid: UUID)
-public final class WordDetailViewController: RxBaseViewController {
+final class WordDetailViewController: RxBaseViewController, WordDetailViewControllerProtocol {
 
-    public weak var delegate: WordDetailViewControllerDelegate?
+    weak var delegate: WordDetailViewControllerDelegate?
 
     // MARK: - UI Objects Declaration
 
@@ -65,7 +69,7 @@ public final class WordDetailViewController: RxBaseViewController {
 
     let cancelBarButton: UIBarButtonItem = .init(systemItem: .cancel)
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         self.navigationController?.presentationController?.delegate = self
@@ -96,7 +100,7 @@ public final class WordDetailViewController: RxBaseViewController {
         self.navigationItem.leftBarButtonItem = cancelBarButton
     }
 
-    public override func bindAction() {
+    override func bindAction() {
         cancelBarButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
@@ -117,7 +121,7 @@ public final class WordDetailViewController: RxBaseViewController {
 
 extension WordDetailViewController: View {
 
-    public func bind(reactor: WordDetailReactor) {
+    func bind(reactor: WordDetailReactor) {
         // Action
         self.rx.sentMessage(#selector(self.viewDidLoad))
             .map { _ in Reactor.Action.viewDidLoad }
@@ -179,13 +183,13 @@ extension WordDetailViewController: View {
 
 extension WordDetailViewController: UIAdaptivePresentationControllerDelegate {
 
-    public func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
+    func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
         self.presentDismissActionSheet {
             self.delegate?.willFinishInteraction()
         }
     }
 
-    public func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
+    func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
         delegate?.willFinishInteraction()
     }
 

@@ -11,15 +11,15 @@ import Foundation
 import iOSSupport
 import ReactorKit
 
-public final class PushNotificationSettingsReactor: Reactor {
+final class PushNotificationSettingsReactor: Reactor {
 
-    public enum Action {
+    enum Action {
         case reactorNeedsUpdate
         case tapDailyReminderSwitch
         case changeReminderTime(Date)
     }
 
-    public enum Mutation {
+    enum Mutation {
         case enableDailyReminder
         case disableDailyReminder
         case setReminderTime(DateComponents)
@@ -27,14 +27,14 @@ public final class PushNotificationSettingsReactor: Reactor {
         case showMoveToAuthSettingAlert
     }
 
-    public struct State {
+    struct State {
         var isOnDailyReminder: Bool
         var reminderTime: DateComponents
         @Pulse var needAuthAlert: Void?
         @Pulse var moveToAuthSettingAlert: Void?
     }
 
-    public let initialState: State = .init(
+    let initialState: State = .init(
         isOnDailyReminder: false,
         reminderTime: .init(hour: 9, minute: 0)
     )
@@ -47,7 +47,7 @@ public final class PushNotificationSettingsReactor: Reactor {
         self.globalAction = globalAction
     }
 
-    public func transform(action: Observable<Action>) -> Observable<Action> {
+    func transform(action: Observable<Action>) -> Observable<Action> {
         return .merge([
             action,
             globalAction.sceneWillEnterForeground
@@ -55,7 +55,7 @@ public final class PushNotificationSettingsReactor: Reactor {
         ])
     }
 
-    public func mutate(action: Action) -> Observable<Mutation> {
+    func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .reactorNeedsUpdate:
             let latestTime = try? userSettingsUseCase.getLatestDailyReminderTime()
@@ -110,7 +110,7 @@ public final class PushNotificationSettingsReactor: Reactor {
         }
     }
 
-    public func reduce(state: State, mutation: Mutation) -> State {
+    func reduce(state: State, mutation: Mutation) -> State {
         var state = state
 
         switch mutation {
@@ -136,7 +136,7 @@ public final class PushNotificationSettingsReactor: Reactor {
 extension PushNotificationSettingsReactor {
 
     /// 매일 알림을 설정하고 `Mutation Sequence` 를 반환합니다.
-    func setDailyReminder() -> Observable<Mutation> {
+    private func setDailyReminder() -> Observable<Mutation> {
         return userSettingsUseCase.setDailyReminder(at: self.currentState.reminderTime)
             .asObservable()
             .map { Mutation.enableDailyReminder }
@@ -144,13 +144,13 @@ extension PushNotificationSettingsReactor {
     }
 
     /// 매일 알림을 삭제하고 `Mutation Sequence` 를 반환합니다.
-    func removeDailyReminder() -> Observable<Mutation> {
+    private func removeDailyReminder() -> Observable<Mutation> {
         userSettingsUseCase.removeDailyReminder()
         return .just(.disableDailyReminder)
     }
 
     /// 현재 설정되어 있는 매일 알림이 없으면 설정하고, 설정되어 있는 매일 알림이 있으면 삭제합니다.
-    func toggleDailyReminder() -> Observable<Mutation> {
+    private func toggleDailyReminder() -> Observable<Mutation> {
         if currentState.isOnDailyReminder {
             return removeDailyReminder()
         } else {

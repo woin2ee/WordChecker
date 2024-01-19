@@ -26,7 +26,7 @@ final class UserSettingsCoordinator: Coordinator {
     }
 
     func start() {
-        let viewController: UserSettingsViewController = DIContainer.shared.resolver.resolve()
+        let viewController: UserSettingsViewControllerProtocol = DIContainer.shared.resolver.resolve()
         viewController.delegate = self
         navigationController.setViewControllers([viewController], animated: false)
     }

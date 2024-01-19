@@ -7,7 +7,11 @@ public protocol PushNotificationSettingsDelegate: AnyObject {
     func willPopView()
 }
 
-public final class PushNotificationSettingsViewController: RxBaseViewController, View {
+public protocol PushNotificationSettingsViewControllerProtocol: UIViewController {
+    var delegate: PushNotificationSettingsDelegate? { get set }
+}
+
+final class PushNotificationSettingsViewController: RxBaseViewController, View, PushNotificationSettingsViewControllerProtocol {
 
     enum SectionIdentifier {
         case dailyReminder
@@ -22,7 +26,7 @@ public final class PushNotificationSettingsViewController: RxBaseViewController,
         $0.delegate = self
     }
 
-    public weak var delegate: PushNotificationSettingsDelegate?
+    weak var delegate: PushNotificationSettingsDelegate?
 
     lazy var dataSource: UITableViewDiffableDataSource<SectionIdentifier, ItemIdentifier> = .init(tableView: rootTableView) { [weak self] tableView, indexPath, itemIdentifier in
         guard let self = self else { return nil }
@@ -70,11 +74,11 @@ public final class PushNotificationSettingsViewController: RxBaseViewController,
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override func loadView() {
+    override func loadView() {
         self.view = rootTableView
     }
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         self.view.backgroundColor = .systemGroupedBackground
@@ -82,12 +86,12 @@ public final class PushNotificationSettingsViewController: RxBaseViewController,
         setupNavigationBar()
     }
 
-    public override func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         isViewAppeared = true
     }
 
-    public override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         if self.isMovingFromParent {
@@ -107,7 +111,7 @@ public final class PushNotificationSettingsViewController: RxBaseViewController,
         self.navigationItem.largeTitleDisplayMode = .never
     }
 
-    public func bind(reactor: PushNotificationSettingsReactor) {
+    func bind(reactor: PushNotificationSettingsReactor) {
         // Action
         self.rx.sentMessage(#selector(viewDidLoad))
             .map { _ in Reactor.Action.reactorNeedsUpdate }
@@ -177,15 +181,15 @@ public final class PushNotificationSettingsViewController: RxBaseViewController,
 
 extension PushNotificationSettingsViewController: UITableViewDelegate {
 
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
-    public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return rootTableView.footerLabel
     }
 
-    public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return rootTableView.footerLabel.intrinsicContentSize.height
     }
 

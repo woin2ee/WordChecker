@@ -20,10 +20,10 @@ public final class PushNotificationSettingsAssembly: Assembly {
             return .init(userSettingsUseCase: resolver.resolve(), globalAction: .shared)
         }
 
-        container.register(PushNotificationSettingsViewController.self) { resolver in
+        container.register(PushNotificationSettingsViewControllerProtocol.self) { resolver in
             let reactor: PushNotificationSettingsReactor = resolver.resolve()
 
-            return .init().then {
+            return PushNotificationSettingsViewController.init().then {
                 $0.reactor = reactor
             }
         }

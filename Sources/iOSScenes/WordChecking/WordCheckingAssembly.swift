@@ -27,10 +27,10 @@ public final class WordCheckingAssembly: Assembly {
             )
         }
 
-        container.register(WordCheckingViewController.self) { resolver in
+        container.register(WordCheckingViewControllerProtocol.self) { resolver in
             let reactor: WordCheckingReactor = resolver.resolve()
 
-            return .init().then {
+            return WordCheckingViewController.init().then {
                 $0.reactor = reactor
             }
         }
