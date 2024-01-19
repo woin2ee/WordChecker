@@ -51,8 +51,14 @@ google_drive_download = "Download data from Google Drive";
 google_drive_download_successfully = "Successfully downloading from Google Drive";
 
 google_drive_logout = "Google Drive Logout";
-signed_out_of_google_drive = "Signed out of Google Drive.";
+signed_out_of_google_drive_successfully = "Signed out of Google Drive successfully";
 
 synchronize_to_google_drive = "Synchronize to Google Drive.";
 
 please_check_your_network_connection = "Please check your network connection.";
+
+daily_reminder = "Daily Reminder";
+time = "Time";
+notifications = "Notifications";
+allow_notifications_is_required = "Allow notifications is required.";
+dailyReminderFooter = "Sends a daily push notification at the time you set.";

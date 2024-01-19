@@ -164,6 +164,20 @@
         "identifier" : "AA3329E574FC503FF669CE7B",
         "name" : "WordListTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "0D0A048C4E8A1F30CBB8F2BE",
+        "name" : "FoundationExtensionTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "3F3E981FC1A96E4F891CA1D4",
+        "name" : "PushNotificationSettingsTests"
+      }
     }
   ],
   "version" : 1

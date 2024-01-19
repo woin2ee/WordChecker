@@ -49,4 +49,11 @@ extension UserSettingsCoordinator: UserSettingsViewControllerDelegate {
         coordinator.start(with: LanguageSettingViewModel.SettingsDirection.targetLanguage, currentSettingLocale)
     }
 
+    func didTapNotificationsSettingRow() {
+        let coordinator: PushNotificationSettingsCoordinator = .init(navigationController: navigationController)
+        coordinator.parentCoordinator = self
+        childCoordinators.append(coordinator)
+        coordinator.start()
+    }
+
 }

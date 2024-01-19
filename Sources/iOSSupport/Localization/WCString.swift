@@ -41,7 +41,7 @@ public struct WCString {
     public static let google_drive_download = NSLocalizedString("google_drive_download", bundle: Bundle.module, comment: "")
     public static let google_drive_download_successfully = NSLocalizedString("google_drive_download_successfully", bundle: Bundle.module, comment: "")
     public static let google_drive_logout = NSLocalizedString("google_drive_logout", bundle: Bundle.module, comment: "")
-    public static let signed_out_of_google_drive = NSLocalizedString("signed_out_of_google_drive", bundle: Bundle.module, comment: "")
+    public static let signed_out_of_google_drive_successfully = NSLocalizedString("signed_out_of_google_drive_successfully", bundle: Bundle.module, comment: "")
 
     public static let synchronize_to_google_drive = NSLocalizedString("synchronize_to_google_drive", bundle: Bundle.module, comment: "")
 
@@ -65,5 +65,11 @@ public struct WCString {
     }
 
     public static let please_check_your_network_connection = NSLocalizedString("please_check_your_network_connection", bundle: Bundle.module, comment: "")
+
+    public static let daily_reminder = NSLocalizedString("daily_reminder", bundle: Bundle.module, comment: "")
+    public static let time = NSLocalizedString("time", bundle: Bundle.module, comment: "")
+    public static let notifications = NSLocalizedString("notifications", bundle: Bundle.module, comment: "")
+    public static let allow_notifications_is_required = NSLocalizedString("allow_notifications_is_required", bundle: Bundle.module, comment: "")
+    public static let dailyReminderFooter = NSLocalizedString("dailyReminderFooter", bundle: Bundle.module, comment: "")
 
 }

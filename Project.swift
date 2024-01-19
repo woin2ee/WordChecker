@@ -23,10 +23,12 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
                 .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.swinjectExtension),
+                .external(name: ExternalDependencyName.then),
             ],
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "DataDriverTesting"),
+                .target(name: "TestsSupport"),
                 .external(name: ExternalDependencyName.rxBlocking),
             ],
             appendSchemeTo: &schemes
@@ -38,6 +40,11 @@ func targets() -> [Target] {
                 .target(name: "DataDriverTesting"),
             ],
             appendSchemeTo: &disposedSchemes
+        )
+        + Target.module(
+            name: "FoundationExtension",
+            hasTests: true,
+            appendSchemeTo: &schemes
         )
         + Target.module(
             name: "Utility",
@@ -193,6 +200,7 @@ func targets() -> [Target] {
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "iOSSupport"),
+                .target(name: "FoundationExtension"),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxCocoa),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
@@ -238,6 +246,17 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
+            name: "UserSettingsExample",
+            product: .app,
+            infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
+            sourcesPrefix: "iOSScenes",
+            dependencies: [
+                .target(name: "UserSettings"),
+                .target(name: "DomainTesting"),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
             name: "LanguageSetting",
             sourcesPrefix: "iOSScenes",
             resourceOptions: [.additional("Resources/iOSSupport/**")],
@@ -263,6 +282,37 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
+            name: "PushNotificationSettings",
+            sourcesPrefix: "iOSScenes",
+            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            dependencies: [
+                .target(name: "iOSSupport"),
+                .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.rxCocoa),
+                .external(name: ExternalDependencyName.rxUtilityDynamic),
+                .external(name: ExternalDependencyName.reactorKit),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
+            ],
+            hasTests: true,
+            additionalTestDependencies: [
+                .target(name: "DomainTesting"),
+                .external(name: ExternalDependencyName.rxBlocking),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
+            name: "PushNotificationSettingsExample",
+            product: .app,
+            infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
+            sourcesPrefix: "iOSScenes",
+            dependencies: [
+                .target(name: "PushNotificationSettings"),
+                .target(name: "DomainTesting"),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
             name: "iPhoneDriver",
             dependencies: [
                 .target(name: "iOSSupport"),
@@ -272,6 +322,7 @@ func targets() -> [Target] {
                 .target(name: "WordDetail"),
                 .target(name: "UserSettings"),
                 .target(name: "LanguageSetting"),
+                .target(name: "PushNotificationSettings"),
                 .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.swinjectDIContainer),
                 .external(name: ExternalDependencyName.sfSafeSymbols),
@@ -315,6 +366,7 @@ func targets() -> [Target] {
         + Target.module(
             name: "TestsSupport",
             dependencies: [
+                .target(name: "Domain"),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxTest),
             ],
@@ -398,6 +450,7 @@ let project: Project = .init(
         "TestPlans/",
         "Scripts/",
         ".gitignore",
+        "Project.swift",
     ],
     resourceSynthesizers: []
 )

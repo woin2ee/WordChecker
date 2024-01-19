@@ -15,6 +15,8 @@ enum UserDefaultsKey: UserDefaultsKeyProtocol, CaseIterable {
 
     case translationTargetLocale
 
+    case dailyReminderTime
+
     /// 테스트용 Key 입니다.
     case test
 
