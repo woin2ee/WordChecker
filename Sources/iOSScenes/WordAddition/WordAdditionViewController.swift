@@ -19,11 +19,15 @@ public protocol WordAdditionViewControllerDelegate: AnyObject {
 
 }
 
-public final class WordAdditionViewController: RxBaseViewController {
+public protocol WordAdditionViewControllerProtocol: UIViewController {
+    var delegate: WordAdditionViewControllerDelegate? { get set }
+}
+
+final class WordAdditionViewController: RxBaseViewController, WordAdditionViewControllerProtocol {
 
     var viewModel: WordAdditionViewModel!
 
-    public weak var delegate: WordAdditionViewControllerDelegate?
+    weak var delegate: WordAdditionViewControllerDelegate?
 
     let wordTextField: UITextField = .init().then {
         $0.placeholder = WCString.word
@@ -36,7 +40,7 @@ public final class WordAdditionViewController: RxBaseViewController {
         $0.style = .done
     }
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         self.isModalInPresentation = true
@@ -46,7 +50,7 @@ public final class WordAdditionViewController: RxBaseViewController {
         bindViewModel()
     }
 
-    public override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         wordTextField.becomeFirstResponder()

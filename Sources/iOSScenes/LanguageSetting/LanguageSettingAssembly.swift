@@ -16,11 +16,11 @@ public final class LanguageSettingAssembly: Assembly {
     public init() {}
 
     public func assemble(container: Container) {
-        container.register(LanguageSettingViewController.self) { resolver, settingsDirection, currentSettingLocale in
+        container.register(LanguageSettingViewControllerProtocol.self) { resolver, settingsDirection, currentSettingLocale in
             let userSettingsUseCase: UserSettingsUseCaseProtocol = resolver.resolve()
             let viewModel: LanguageSettingViewModel = .init(userSettingsUseCase: userSettingsUseCase, settingsDirection: settingsDirection, currentSettingLocale: currentSettingLocale)
 
-            return .init().then {
+            return LanguageSettingViewController.init().then {
                 $0.viewModel = viewModel
             }
         }

@@ -24,7 +24,7 @@ final class PushNotificationSettingsCoordinator: Coordinator {
     }
 
     func start() {
-        let viewController: PushNotificationSettingsViewController = DIContainer.shared.resolver.resolve()
+        let viewController: PushNotificationSettingsViewControllerProtocol = DIContainer.shared.resolver.resolve()
         viewController.delegate = self
         navigationController.pushViewController(viewController, animated: true)
     }

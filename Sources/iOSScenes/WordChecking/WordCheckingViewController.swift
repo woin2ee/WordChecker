@@ -17,7 +17,9 @@ import UIKit
 import Utility
 import WebKit
 
-public final class WordCheckingViewController: RxBaseViewController, View {
+public protocol WordCheckingViewControllerProtocol: UIViewController {}
+
+final class WordCheckingViewController: RxBaseViewController, View, WordCheckingViewControllerProtocol {
 
     let rootView: WordCheckingView = .init()
 
@@ -31,11 +33,11 @@ public final class WordCheckingViewController: RxBaseViewController, View {
         $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.moreButton
     }
 
-    public override func loadView() {
+    override func loadView() {
         self.view = rootView
     }
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         setupNavigationBar()
@@ -43,7 +45,7 @@ public final class WordCheckingViewController: RxBaseViewController, View {
         self.setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
     }
 
-    public override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
+    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
         return [.left, .right]
     }
 
@@ -81,7 +83,7 @@ public final class WordCheckingViewController: RxBaseViewController, View {
         moreButton.menu = .init(children: [menuGroup, deleteMenu])
     }
 
-    public func bind(reactor: WordCheckingReactor) {
+    func bind(reactor: WordCheckingReactor) {
         // Action
         [
             self.rx.sentMessage(#selector(self.viewDidLoad))
