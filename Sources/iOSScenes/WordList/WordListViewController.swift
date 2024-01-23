@@ -130,6 +130,7 @@ final class WordListViewController: RxBaseViewController, WordListViewController
         }
         let searchController: UISearchController = .init(searchResultsController: searchResultsController)
 
+        searchController.obscuresBackgroundDuringPresentation = true
         searchController.searchResultsUpdater = searchResultsController
         searchController.delegate = self
 
