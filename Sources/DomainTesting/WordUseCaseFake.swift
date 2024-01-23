@@ -53,8 +53,8 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
         _unmemorizedWordList.replaceWord(where: uuid, with: newWord)
     }
 
-    public func randomizeUnmemorizedWordList() {
-        _unmemorizedWordList.randomizeList(with: getUnmemorizedWordList())
+    public func shuffleUnmemorizedWordList() {
+        _unmemorizedWordList.shuffle(with: getUnmemorizedWordList())
     }
 
     public func updateToNextWord() {

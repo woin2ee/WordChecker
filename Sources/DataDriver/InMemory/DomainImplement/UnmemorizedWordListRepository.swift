@@ -45,7 +45,7 @@ final class UnmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol
         unmemorizedWordList[targetIndex] = newWord
     }
 
-    func randomizeList(with unmemorizedList: [Domain.Word]) {
+    func shuffle(with unmemorizedList: [Domain.Word]) {
         var newList: CircularLinkedList<Domain.Word> = .init(unmemorizedList.shuffled())
         if let oldCurrentWord = unmemorizedWordList.current,
            let newCurrentWord = newList.current,

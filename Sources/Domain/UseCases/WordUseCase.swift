@@ -69,9 +69,9 @@ final class WordUseCase: WordUseCaseProtocol {
         wordRepository.save(updateTarget)
     }
 
-    func randomizeUnmemorizedWordList() {
+    func shuffleUnmemorizedWordList() {
         let unmemorizedList = wordRepository.getUnmemorizedList()
-        unmemorizedWordListRepository.randomizeList(with: unmemorizedList)
+        unmemorizedWordListRepository.shuffle(with: unmemorizedList)
     }
 
     func updateToNextWord() {
