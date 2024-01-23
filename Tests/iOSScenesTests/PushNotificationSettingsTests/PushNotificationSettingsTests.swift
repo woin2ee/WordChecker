@@ -12,7 +12,7 @@ final class PushNotificationSettingsTests: XCTestCase {
         try super.setUpWithError()
 
         sut = .init(
-            userSettingsUseCase: UserSettingsUseCaseFake(expectedAuthorizationStatus: .authorized),
+            userSettingsUseCase: UserSettingsUseCaseMock(expectedAuthorizationStatus: .authorized),
             globalAction: .shared
         )
     }
@@ -25,7 +25,7 @@ final class PushNotificationSettingsTests: XCTestCase {
 
     func test_reactorNeedsUpdate_whenDailyReminderIsSet() throws {
         // Common Given: DailyReminder 설정
-        let userSettingsUseCase: UserSettingsUseCaseFake = .init(expectedAuthorizationStatus: .authorized)
+        let userSettingsUseCase: UserSettingsUseCaseMock = .init(expectedAuthorizationStatus: .authorized)
         _ = try userSettingsUseCase.requestNotificationAuthorization(with: [.alert, .sound])
             .toBlocking()
             .single()
@@ -93,7 +93,7 @@ final class PushNotificationSettingsTests: XCTestCase {
 
     func test_turnOnOffDailyReminder_whenNotAuthorized() throws {
         // Given
-        let userSettingsUseCase: UserSettingsUseCaseFake = .init(expectedAuthorizationStatus: .denied)
+        let userSettingsUseCase: UserSettingsUseCaseMock = .init(expectedAuthorizationStatus: .denied)
         _ = try userSettingsUseCase.requestNotificationAuthorization(with: [.alert, .sound])
             .toBlocking()
             .single()
@@ -112,7 +112,7 @@ final class PushNotificationSettingsTests: XCTestCase {
 
     func test_turnOnOffDailyReminder_whenNotDetermined() throws {
         // Given
-        let userSettingsUseCase: UserSettingsUseCaseFake = .init(expectedAuthorizationStatus: .notDetermined)
+        let userSettingsUseCase: UserSettingsUseCaseMock = .init(expectedAuthorizationStatus: .notDetermined)
         sut = .init(userSettingsUseCase: userSettingsUseCase, globalAction: .shared)
 
         XCTAssertEqual(sut.currentState.isOnDailyReminder, false)
@@ -141,7 +141,7 @@ final class PushNotificationSettingsTests: XCTestCase {
 
     func test_sceneWillEnterForeground_whenAuthorizationChangesToDenied() throws {
         // Given
-        let userSettingsUseCase: UserSettingsUseCaseFake = .init(expectedAuthorizationStatus: .authorized)
+        let userSettingsUseCase: UserSettingsUseCaseMock = .init(expectedAuthorizationStatus: .authorized)
         _ = try userSettingsUseCase.requestNotificationAuthorization(with: [.alert, .sound])
             .toBlocking()
             .single()

@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let viewController: WordCheckingViewController = .init()
         viewController.reactor = WordCheckingReactor(
             wordUseCase: WordRxUseCaseFake(),
-            userSettingsUseCase: UserSettingsUseCaseFake(),
+            userSettingsUseCase: UserSettingsUseCaseMock(),
             globalAction: .shared
         )
 
