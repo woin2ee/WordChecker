@@ -18,12 +18,10 @@ final class UserSettingsUseCaseAssembly: Assembly {
 
             return UserSettingsUseCase.init(
                 userSettingsRepository: userSettingsRepository,
-                notificationCenter: UNUserNotificationCenter.current()
+                notificationRepository: UNUserNotificationCenter.current()
             )
         }
         .inObjectScope(.container)
     }
 
 }
-
-extension UNUserNotificationCenter: UserNotificationCenter {}
