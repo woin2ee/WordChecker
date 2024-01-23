@@ -30,7 +30,7 @@ public final class GoogleDriveUseCase: ExternalStoreUseCaseProtocol {
     }
 
     public func signInWithAuthorization(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
-        if hasSigned {
+        if hasSigned, googleDriveRepository.isGrantedAppDataScope {
             return .just(())
         }
 
