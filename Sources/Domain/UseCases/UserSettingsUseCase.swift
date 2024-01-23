@@ -14,28 +14,20 @@ import Then
 import UserNotifications
 import Utility
 
-protocol UserNotificationCenter {
-    func add(_ request: UNNotificationRequest) async throws
-    func removePendingNotificationRequests(withIdentifiers identifiers: [String])
-    func pendingNotificationRequests() async -> [UNNotificationRequest]
-    func requestAuthorization(options: UNAuthorizationOptions) async throws -> Bool
-    func notificationSettings() async -> UNNotificationSettings
-}
-
 public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 
     /// Notification request 의 고유 ID
     let DAILY_REMINDER_NOTIFICATION_ID: String = "DailyReminder"
 
     let userSettingsRepository: UserSettingsRepositoryProtocol
-    let notificationCenter: UserNotificationCenter
+    let notificationRepository: UserNotificationRepositoryProtocol
 
     init(
         userSettingsRepository: UserSettingsRepositoryProtocol,
-        notificationCenter: UserNotificationCenter
+        notificationRepository: UserNotificationRepositoryProtocol
     ) {
         self.userSettingsRepository = userSettingsRepository
-        self.notificationCenter = notificationCenter
+        self.notificationRepository = notificationRepository
 
         initUserSettingsIfNoUserSettings()
             .subscribe()
@@ -67,7 +59,7 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
     public func requestNotificationAuthorization(with options: UNAuthorizationOptions) -> Single<Bool> {
         return .create { observer in
             Task {
-                let hasAuthorization = try await self.notificationCenter.requestAuthorization(options: options)
+                let hasAuthorization = try await self.notificationRepository.requestAuthorization(options: options)
                 observer(.success(hasAuthorization))
             } catch: { error in
                 observer(.failure(error))
@@ -80,7 +72,7 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
     public func getNotificationAuthorizationStatus() -> Single<UNAuthorizationStatus> {
         return .create { observer in
             Task {
-                let notificationSettings = await self.notificationCenter.notificationSettings()
+                let notificationSettings = await self.notificationRepository.notificationSettings()
                 observer(.success(notificationSettings.authorizationStatus))
             }
 
@@ -108,7 +100,7 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
             }
 
             Task {
-                try await self.notificationCenter.add(notificationRequest)
+                try await self.notificationRepository.add(notificationRequest)
                 observer(.success(()))
             } catch: { error in
                 observer(.failure(error))
@@ -128,13 +120,13 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
     }
 
     public func removeDailyReminder() {
-        notificationCenter.removePendingNotificationRequests(withIdentifiers: [DAILY_REMINDER_NOTIFICATION_ID])
+        notificationRepository.removePendingNotificationRequests(withIdentifiers: [DAILY_REMINDER_NOTIFICATION_ID])
     }
 
     public func getDailyReminder() -> Single<UNNotificationRequest> {
         return .create { observer in
             Task {
-                guard let dailyReminder = await self.notificationCenter.pendingNotificationRequests()
+                guard let dailyReminder = await self.notificationRepository.pendingNotificationRequests()
                     .filter({ $0.identifier == self.DAILY_REMINDER_NOTIFICATION_ID })
                     .first
                 else {
