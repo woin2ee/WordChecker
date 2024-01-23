@@ -17,4 +17,4 @@ german = "독일어";
 russian = "러시아어";
 
 daily_reminder = "매일 알림";
-"daily_reminder_body_message_%d" = "외우지 못한단어가 %d개 있습니다.";
+"daily_reminder_body_message_%d" = "외우지 못한 단어가 %d개 있습니다.";
