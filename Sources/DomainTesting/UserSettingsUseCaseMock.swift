@@ -1,5 +1,5 @@
 //
-//  UserSettingsUseCaseFake.swift
+//  UserSettingsUseCaseMock.swift
 //  Testing
 //
 //  Created by Jaewon Yun on 2023/09/19.
@@ -13,7 +13,9 @@ import RxSwift
 import RxRelay
 import UserNotifications
 
-public final class UserSettingsUseCaseFake: UserSettingsUseCaseProtocol {
+public final class UserSettingsUseCaseMock: UserSettingsUseCaseProtocol {
+
+    public var resetDailyReminderCallCount: Int = 0
 
     public var currentUserSettings: Domain.UserSettings = .init(
         translationSourceLocale: .english,
@@ -56,6 +58,22 @@ public final class UserSettingsUseCaseFake: UserSettingsUseCaseProtocol {
         let trigger: UNCalendarNotificationTrigger = .init(dateMatching: time, repeats: true)
         _dailyReminder = .init(identifier: "Test", content: .init(), trigger: trigger)
         return .just(())
+    }
+
+    public func resetDailyReminder() -> RxSwift.Completable {
+        resetDailyReminderCallCount += 1
+
+        guard
+            _authorizationStatus == .authorized,
+            dailyReminderIsRemoved == false,
+            let dailyReminder = _dailyReminder,
+            let date = (dailyReminder.trigger as? UNCalendarNotificationTrigger)?.dateComponents
+        else {
+            return .error(UserSettingsUseCaseError.noPendingDailyReminder)
+        }
+
+        return setDailyReminder(at: date)
+            .asCompletable()
     }
 
     public func removeDailyReminder() {

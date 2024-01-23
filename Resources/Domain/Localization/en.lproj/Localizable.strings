@@ -17,3 +17,4 @@ german = "German";
 russian = "Russian";
 
 daily_reminder = "Daily Reminder";
+"daily_reminder_body_message_%d" = "%d words were not memorized.";

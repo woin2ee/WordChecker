@@ -6,18 +6,18 @@
 //
 
 import Foundation
+import RxSwift
 
 final class WordUseCase: WordUseCaseProtocol {
 
     let wordRepository: WordRepositoryProtocol
     let unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol
+    let userSettingsUseCase: UserSettingsUseCaseProtocol
 
-    init(
-        wordRepository: WordRepositoryProtocol,
-        unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol
-    ) {
+    init(wordRepository: WordRepositoryProtocol, unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol, userSettingsUseCase: UserSettingsUseCaseProtocol) {
         self.wordRepository = wordRepository
         self.unmemorizedWordListRepository = unmemorizedWordListRepository
+        self.userSettingsUseCase = userSettingsUseCase
     }
 
     func addNewWord(_ word: Word) {
@@ -27,11 +27,17 @@ final class WordUseCase: WordUseCaseProtocol {
 
         unmemorizedWordListRepository.addWord(word)
         wordRepository.save(word)
+
+        _ = userSettingsUseCase.resetDailyReminder()
+            .subscribe()
     }
 
     func deleteWord(by uuid: UUID) {
         unmemorizedWordListRepository.deleteWord(by: uuid)
         wordRepository.delete(by: uuid)
+
+        _ = userSettingsUseCase.resetDailyReminder()
+            .subscribe()
     }
 
     func getWordList() -> [Word] {

@@ -21,13 +21,16 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 
     let userSettingsRepository: UserSettingsRepositoryProtocol
     let notificationRepository: UserNotificationRepositoryProtocol
+    let wordRepository: WordRepositoryProtocol
 
     init(
         userSettingsRepository: UserSettingsRepositoryProtocol,
-        notificationRepository: UserNotificationRepositoryProtocol
+        notificationRepository: UserNotificationRepositoryProtocol,
+        wordRepository: WordRepositoryProtocol
     ) {
         self.userSettingsRepository = userSettingsRepository
         self.notificationRepository = notificationRepository
+        self.wordRepository = wordRepository
 
         initUserSettingsIfNoUserSettings()
             .subscribe()
@@ -82,8 +85,11 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 
     public func setDailyReminder(at time: DateComponents) -> Single<Void> {
         let setDailyReminderSequence: Single<Void> = .create { observer in
+            let unmemorizedWordCount = self.wordRepository.getUnmemorizedList().count
+
             let content: UNMutableNotificationContent = .init().then {
-                $0.body = DomainString.daily_reminder
+                $0.title = DomainString.daily_reminder
+                $0.body = DomainString.daily_reminder_body_message(unmemorizedWordCount: unmemorizedWordCount)
                 $0.sound = .default
             }
             let trigger: UNCalendarNotificationTrigger = .init(dateMatching: time, repeats: true)
@@ -108,6 +114,7 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 
             return Disposables.create()
         }
+            .subscribe(on: ConcurrentMainScheduler.instance)
 
         return self.getNotificationAuthorizationStatus()
             .flatMap { authorizationStatus in
@@ -117,6 +124,14 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
                     return .error(UserSettingsUseCaseError.noNotificationAuthorization)
                 }
             }
+    }
+
+    public func resetDailyReminder() -> RxSwift.Completable {
+        return getDailyReminder()
+            .map { ($0.trigger as? UNCalendarNotificationTrigger)?.dateComponents }
+            .unwrapOrThrow()
+            .flatMap { return self.setDailyReminder(at: $0) }
+            .asCompletable()
     }
 
     public func removeDailyReminder() {

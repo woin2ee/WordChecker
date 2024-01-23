@@ -22,7 +22,8 @@ final class UserSettingsUseCaseTests: XCTestCase {
 
         sut = UserSettingsUseCase.init(
             userSettingsRepository: UserSettingsRepositoryFake(),
-            notificationCenter: UNUserNotificationCenterFake()
+            notificationRepository: UNUserNotificationCenterFake(),
+            wordRepository: WordRepositoryFake()
         )
     }
 

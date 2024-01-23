@@ -18,7 +18,8 @@ final class UserSettingsUseCaseAssembly: Assembly {
 
             return UserSettingsUseCase.init(
                 userSettingsRepository: userSettingsRepository,
-                notificationRepository: UNUserNotificationCenter.current()
+                notificationRepository: UNUserNotificationCenter.current(),
+                wordRepository: resolver.resolve()
             )
         }
         .inObjectScope(.container)
