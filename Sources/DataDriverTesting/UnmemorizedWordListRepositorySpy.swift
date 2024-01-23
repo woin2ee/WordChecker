@@ -40,7 +40,7 @@ public final class UnmemorizedWordListRepositorySpy: UnmemorizedWordListReposito
         }
     }
 
-    public func randomizeList(with unmemorizedList: [Domain.Word]) {
+    public func shuffle(with unmemorizedList: [Domain.Word]) {
         let oldCurrentElement = _storedWords.current
 
         _storedWords = .init(unmemorizedList)

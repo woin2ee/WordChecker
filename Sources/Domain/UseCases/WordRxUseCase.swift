@@ -90,7 +90,7 @@ public final class WordRxUseCase: WordRxUseCaseProtocol {
 
     public func randomizeUnmemorizedWordList() -> RxSwift.Single<Void> {
         return .create { single in
-            self.wordUseCase.randomizeUnmemorizedWordList()
+            self.wordUseCase.shuffleUnmemorizedWordList()
 
             single(.success(()))
 

@@ -123,7 +123,7 @@ public final class GoogleDriveUseCase: ExternalStoreUseCaseProtocol {
                         .doOnSuccess { wordList in
                             self.wordRepository.reset(to: wordList)
                             let unmemorizedList = self.wordRepository.getUnmemorizedList()
-                            self.unmemorizedWordListRepository.randomizeList(with: unmemorizedList)
+                            self.unmemorizedWordListRepository.shuffle(with: unmemorizedList)
                         }
                         .subscribe(
                             onSuccess: { _ in

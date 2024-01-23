@@ -142,7 +142,7 @@ final class WordUseCaseTests: XCTestCase {
         XCTAssertEqual(sut.getWord(by: updateTarget.uuid)?.memorizedState, .memorizing)
     }
 
-    func test_randomizeUnmemorizedWordListWhenOnly1Element() {
+    func test_shuffleUnmemorizedWordListWhenOnly1Element() {
         // Arrange
         let testWord = unmemorizedWordList[0]
 
@@ -151,18 +151,18 @@ final class WordUseCaseTests: XCTestCase {
         }
 
         // Act
-        sut.randomizeUnmemorizedWordList()
+        sut.shuffleUnmemorizedWordList()
 
         // Assert
         XCTAssertEqual(sut.getCurrentUnmemorizedWord(), testWord)
     }
 
-    func test_randomizeUnmemorizedWordListWhenMoreThen2Element() {
+    func test_shuffleUnmemorizedWordListWhenMoreThen2Element() {
         // Arrange
         let oldCurrentWord = sut.getCurrentUnmemorizedWord()
 
         // Act
-        sut.randomizeUnmemorizedWordList()
+        sut.shuffleUnmemorizedWordList()
 
         // Assert
         XCTAssertNotEqual(sut.getCurrentUnmemorizedWord(), oldCurrentWord)
