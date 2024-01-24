@@ -12,7 +12,7 @@ final class PushNotificationSettingsTests: XCTestCase {
         try super.setUpWithError()
 
         sut = .init(
-            userSettingsUseCase: UserSettingsUseCaseMock(expectedAuthorizationStatus: .authorized),
+            notificationsUseCase: NotificationsUseCaseMock(expectedAuthorizationStatus: .authorized),
             globalAction: .shared
         )
     }
@@ -25,18 +25,18 @@ final class PushNotificationSettingsTests: XCTestCase {
 
     func test_reactorNeedsUpdate_whenDailyReminderIsSet() throws {
         // Common Given: DailyReminder 설정
-        let userSettingsUseCase: UserSettingsUseCaseMock = .init(expectedAuthorizationStatus: .authorized)
-        _ = try userSettingsUseCase.requestNotificationAuthorization(with: [.alert, .sound])
+        let notificationsUseCase: NotificationsUseCaseMock = .init(expectedAuthorizationStatus: .authorized)
+        _ = try notificationsUseCase.requestNotificationAuthorization(with: [.alert, .sound])
             .toBlocking()
             .single()
-        try userSettingsUseCase.setDailyReminder(at: .init(hour: 11, minute: 22))
+        try notificationsUseCase.setDailyReminder(at: .init(hour: 11, minute: 22))
             .toBlocking()
             .single()
 
         // when authorized
         do {
             // Given
-            sut = .init(userSettingsUseCase: userSettingsUseCase, globalAction: .shared)
+            sut = .init(notificationsUseCase: notificationsUseCase, globalAction: .shared)
 
             // When
             sut.action.onNext(.reactorNeedsUpdate)
@@ -49,11 +49,11 @@ final class PushNotificationSettingsTests: XCTestCase {
         // when not authorized
         do {
             // Given: 알림 거부 설정
-            userSettingsUseCase.expectedAuthorizationStatus = .denied
-            _ = try userSettingsUseCase.requestNotificationAuthorization(with: [.alert, .sound])
+            notificationsUseCase.expectedAuthorizationStatus = .denied
+            _ = try notificationsUseCase.requestNotificationAuthorization(with: [.alert, .sound])
                 .toBlocking()
                 .single()
-            sut = .init(userSettingsUseCase: userSettingsUseCase, globalAction: .shared)
+            sut = .init(notificationsUseCase: notificationsUseCase, globalAction: .shared)
 
             // When
             sut.action.onNext(.reactorNeedsUpdate)
@@ -93,11 +93,11 @@ final class PushNotificationSettingsTests: XCTestCase {
 
     func test_turnOnOffDailyReminder_whenNotAuthorized() throws {
         // Given
-        let userSettingsUseCase: UserSettingsUseCaseMock = .init(expectedAuthorizationStatus: .denied)
-        _ = try userSettingsUseCase.requestNotificationAuthorization(with: [.alert, .sound])
+        let notificationsUseCase: NotificationsUseCaseMock = .init(expectedAuthorizationStatus: .denied)
+        _ = try notificationsUseCase.requestNotificationAuthorization(with: [.alert, .sound])
             .toBlocking()
             .single()
-        sut = .init(userSettingsUseCase: userSettingsUseCase, globalAction: .shared)
+        sut = .init(notificationsUseCase: notificationsUseCase, globalAction: .shared)
 
         XCTAssertEqual(sut.currentState.isOnDailyReminder, false)
         XCTAssertNil(sut.currentState.moveToAuthSettingAlert)
@@ -112,8 +112,8 @@ final class PushNotificationSettingsTests: XCTestCase {
 
     func test_turnOnOffDailyReminder_whenNotDetermined() throws {
         // Given
-        let userSettingsUseCase: UserSettingsUseCaseMock = .init(expectedAuthorizationStatus: .notDetermined)
-        sut = .init(userSettingsUseCase: userSettingsUseCase, globalAction: .shared)
+        let notificationsUseCase: NotificationsUseCaseMock = .init(expectedAuthorizationStatus: .notDetermined)
+        sut = .init(notificationsUseCase: notificationsUseCase, globalAction: .shared)
 
         XCTAssertEqual(sut.currentState.isOnDailyReminder, false)
         XCTAssertNil(sut.currentState.needAuthAlert)
@@ -141,20 +141,20 @@ final class PushNotificationSettingsTests: XCTestCase {
 
     func test_sceneWillEnterForeground_whenAuthorizationChangesToDenied() throws {
         // Given
-        let userSettingsUseCase: UserSettingsUseCaseMock = .init(expectedAuthorizationStatus: .authorized)
-        _ = try userSettingsUseCase.requestNotificationAuthorization(with: [.alert, .sound])
+        let notificationsUseCase: NotificationsUseCaseMock = .init(expectedAuthorizationStatus: .authorized)
+        _ = try notificationsUseCase.requestNotificationAuthorization(with: [.alert, .sound])
             .toBlocking()
             .single()
-        try userSettingsUseCase.setDailyReminder(at: .init(hour: 11, minute: 22))
+        try notificationsUseCase.setDailyReminder(at: .init(hour: 11, minute: 22))
             .toBlocking()
             .single()
-        sut = .init(userSettingsUseCase: userSettingsUseCase, globalAction: .shared)
+        sut = .init(notificationsUseCase: notificationsUseCase, globalAction: .shared)
         sut.action.onNext(.reactorNeedsUpdate)
 
         XCTAssertEqual(sut.currentState.isOnDailyReminder, true)
 
         // When
-        userSettingsUseCase._authorizationStatus = .denied
+        notificationsUseCase._authorizationStatus = .denied
         sut.globalAction.sceneWillEnterForeground.accept(())
 
         // Then

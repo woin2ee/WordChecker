@@ -19,7 +19,7 @@ final class WordCheckingReactorTests: XCTestCase {
         try super.setUpWithError()
 
         let wordUseCase: WordRxUseCaseFake = .init()
-        let userSettingsUseCase: UserSettingsUseCaseMock = .init(expectedAuthorizationStatus: .authorized)
+        let userSettingsUseCase: UserSettingsUseCaseFake = .init()
 
         sut = .init(
             wordUseCase: wordUseCase,

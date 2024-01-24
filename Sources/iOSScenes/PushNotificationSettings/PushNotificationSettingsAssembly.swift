@@ -17,7 +17,7 @@ public final class PushNotificationSettingsAssembly: Assembly {
 
     public func assemble(container: Container) {
         container.register(PushNotificationSettingsReactor.self) { resolver in
-            return .init(userSettingsUseCase: resolver.resolve(), globalAction: .shared)
+            return .init(notificationsUseCase: resolver.resolve(), globalAction: .shared)
         }
 
         container.register(PushNotificationSettingsViewControllerProtocol.self) { resolver in

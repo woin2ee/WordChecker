@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let viewController: PushNotificationSettingsViewController = .init()
         let reactor: PushNotificationSettingsReactor = .init(
-            userSettingsUseCase: UserSettingsUseCaseMock(expectedAuthorizationStatus: .authorized),
+            userSettingsUseCase: UserSettingsUseCaseFake(expectedAuthorizationStatus: .authorized),
             globalAction: .shared
         )
         viewController.reactor = reactor

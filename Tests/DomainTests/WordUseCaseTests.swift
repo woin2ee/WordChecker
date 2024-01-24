@@ -32,7 +32,7 @@ final class WordUseCaseTests: XCTestCase {
         .init(word: "E"),
     ]
 
-    let userSettingsUseCase = UserSettingsUseCaseMock(expectedAuthorizationStatus: .authorized)
+    let notificationsUseCase = NotificationsUseCaseMock(expectedAuthorizationStatus: .authorized)
 
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -40,7 +40,7 @@ final class WordUseCaseTests: XCTestCase {
         sut = WordUseCase.init(
             wordRepository: makePreparedWordRepository(),
             unmemorizedWordListRepository: makePreparedUnmemorizedWordListRepository(),
-            userSettingsUseCase: userSettingsUseCase
+            notificationsUseCase: notificationsUseCase
         )
     }
 
@@ -62,7 +62,7 @@ final class WordUseCaseTests: XCTestCase {
 
         // Assert
         XCTAssertEqual(sut.getWord(by: testUUID), testWord)
-        XCTAssertEqual(userSettingsUseCase.resetDailyReminderCallCount, 1)
+        XCTAssertEqual(notificationsUseCase.resetDailyReminderCallCount, 1)
     }
 
     func test_deleteUnmemorizedWord() {
@@ -77,7 +77,7 @@ final class WordUseCaseTests: XCTestCase {
         // Assert
         XCTAssertNil(sut.getWord(by: deleteTarget.uuid))
         XCTAssertFalse(sut.getUnmemorizedWordList().contains(where: { $0.uuid == deleteTarget.uuid }))
-        XCTAssertEqual(userSettingsUseCase.resetDailyReminderCallCount, 1)
+        XCTAssertEqual(notificationsUseCase.resetDailyReminderCallCount, 1)
     }
 
     func test_deleteMemorizedWord() {
@@ -92,7 +92,7 @@ final class WordUseCaseTests: XCTestCase {
         // Assert
         XCTAssertNil(sut.getWord(by: deleteTarget.uuid))
         XCTAssertFalse(sut.getMemorizedWordList().contains(where: { $0.uuid == deleteTarget.uuid }))
-        XCTAssertEqual(userSettingsUseCase.resetDailyReminderCallCount, 1)
+        XCTAssertEqual(notificationsUseCase.resetDailyReminderCallCount, 1)
     }
 
     func test_getWordList() {
