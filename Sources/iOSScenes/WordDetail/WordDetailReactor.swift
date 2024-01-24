@@ -40,12 +40,12 @@ final class WordDetailReactor: Reactor {
     private(set) var originWord: String?
 
     let globalAction: GlobalAction
-    let wordUseCase: WordRxUseCaseProtocol
+    let wordUseCase: WordUseCaseProtocol
 
     init(
         uuid: UUID,
         globalAction: GlobalAction,
-        wordUseCase: WordRxUseCaseProtocol
+        wordUseCase: WordUseCaseProtocol
     ) {
         self.uuid = uuid
         self.globalAction = globalAction

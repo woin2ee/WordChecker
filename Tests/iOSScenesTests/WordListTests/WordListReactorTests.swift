@@ -19,7 +19,7 @@ final class WordListReactorTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
 
-        let wordUseCase: WordRxUseCaseFake = .init()
+        let wordUseCase: WordUseCaseFake = .init()
 
         // Prepare word list (memorizing: 2개, memorized: 3개)
         try wordUseCase.addNewWord(.init(word: "1")).toBlocking().single()

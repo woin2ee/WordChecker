@@ -17,7 +17,7 @@ public final class WordCheckingAssembly: Assembly {
 
     public func assemble(container: Container) {
         container.register(WordCheckingReactor.self) { resolver in
-            let wordUseCase: WordRxUseCaseProtocol = resolver.resolve()
+            let wordUseCase: WordUseCaseProtocol = resolver.resolve()
             let userSettingsUseCase: UserSettingsUseCaseProtocol = resolver.resolve()
 
             return WordCheckingReactor.init(

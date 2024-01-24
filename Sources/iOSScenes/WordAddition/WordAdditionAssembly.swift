@@ -16,7 +16,7 @@ public final class WordAdditionAssembly: Assembly {
 
     public func assemble(container: Container) {
         container.register(WordAdditionViewControllerProtocol.self) { resolver in
-            let wordUseCase: WordRxUseCaseProtocol = resolver.resolve()
+            let wordUseCase: WordUseCaseProtocol = resolver.resolve()
             let viewModel: WordAdditionViewModel = .init(wordUseCase: wordUseCase)
 
             return WordAdditionViewController.init().then {

@@ -15,7 +15,6 @@ public final class DomainAssembly: Assembly {
     public func assemble(container: Container) {
         let assemblies: [Assembly] = [
             WordUseCaseAssembly(),
-            WordRxUseCaseAssembly(),
             UserSettingsUseCaseAssembly(),
             ExternalStoreUseCaseAssembly(),
             NotificationsUseCaseAssembly(),

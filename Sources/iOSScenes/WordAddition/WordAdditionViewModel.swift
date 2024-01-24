@@ -15,9 +15,9 @@ import RxUtility
 
 final class WordAdditionViewModel: ViewModelType {
 
-    let wordUseCase: WordRxUseCaseProtocol
+    let wordUseCase: WordUseCaseProtocol
 
-    init(wordUseCase: WordRxUseCaseProtocol) {
+    init(wordUseCase: WordUseCaseProtocol) {
         self.wordUseCase = wordUseCase
     }
 

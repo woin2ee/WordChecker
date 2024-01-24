@@ -18,7 +18,7 @@ public final class WordDetailAssembly: Assembly {
 
     public func assemble(container: Container) {
         container.register(WordDetailReactor.self) { resolver, uuid in
-            let wordUseCase: WordRxUseCaseProtocol = resolver.resolve()
+            let wordUseCase: WordUseCaseProtocol = resolver.resolve()
 
             return WordDetailReactor.init(
                 uuid: uuid,
