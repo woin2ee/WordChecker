@@ -20,7 +20,8 @@ final class ExternalStoreUseCaseAssembly: Assembly {
             return GoogleDriveUseCase.init(
                 wordRepository: wordRepository,
                 googleDriveRepository: googleDriveRepository,
-                unmemorizedWordListRepository: unmemorizedWordListRepository
+                unmemorizedWordListRepository: unmemorizedWordListRepository,
+                userSettingsUseCase: resolver.resolve()
             )
         }
         .inObjectScope(.container)

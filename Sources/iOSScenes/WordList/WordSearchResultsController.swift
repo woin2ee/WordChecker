@@ -24,7 +24,7 @@ final class WordSearchResultsController: UITableViewController, View {
 
     let cellReuseIdentifier = "WORD_SEARCH_RESULT_CELL"
 
-    public weak var delegate: WordSearchResultsControllerDelegate?
+    weak var delegate: WordSearchResultsControllerDelegate?
 
     private var searchedList: [Word] = [] {
         didSet {

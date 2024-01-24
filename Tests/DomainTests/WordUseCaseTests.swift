@@ -9,6 +9,7 @@
 @testable import Utility
 
 import DataDriverTesting
+import DomainTesting
 import XCTest
 
 final class WordUseCaseTests: XCTestCase {
@@ -31,12 +32,15 @@ final class WordUseCaseTests: XCTestCase {
         .init(word: "E"),
     ]
 
+    let userSettingsUseCase = UserSettingsUseCaseMock(expectedAuthorizationStatus: .authorized)
+
     override func setUpWithError() throws {
         try super.setUpWithError()
 
         sut = WordUseCase.init(
             wordRepository: makePreparedWordRepository(),
-            unmemorizedWordListRepository: makePreparedUnmemorizedWordListRepository()
+            unmemorizedWordListRepository: makePreparedUnmemorizedWordListRepository(),
+            userSettingsUseCase: userSettingsUseCase
         )
     }
 
@@ -58,6 +62,7 @@ final class WordUseCaseTests: XCTestCase {
 
         // Assert
         XCTAssertEqual(sut.getWord(by: testUUID), testWord)
+        XCTAssertEqual(userSettingsUseCase.resetDailyReminderCallCount, 1)
     }
 
     func test_deleteUnmemorizedWord() {
@@ -72,6 +77,7 @@ final class WordUseCaseTests: XCTestCase {
         // Assert
         XCTAssertNil(sut.getWord(by: deleteTarget.uuid))
         XCTAssertFalse(sut.getUnmemorizedWordList().contains(where: { $0.uuid == deleteTarget.uuid }))
+        XCTAssertEqual(userSettingsUseCase.resetDailyReminderCallCount, 1)
     }
 
     func test_deleteMemorizedWord() {
@@ -86,6 +92,7 @@ final class WordUseCaseTests: XCTestCase {
         // Assert
         XCTAssertNil(sut.getWord(by: deleteTarget.uuid))
         XCTAssertFalse(sut.getMemorizedWordList().contains(where: { $0.uuid == deleteTarget.uuid }))
+        XCTAssertEqual(userSettingsUseCase.resetDailyReminderCallCount, 1)
     }
 
     func test_getWordList() {
@@ -142,7 +149,7 @@ final class WordUseCaseTests: XCTestCase {
         XCTAssertEqual(sut.getWord(by: updateTarget.uuid)?.memorizedState, .memorizing)
     }
 
-    func test_randomizeUnmemorizedWordListWhenOnly1Element() {
+    func test_shuffleUnmemorizedWordListWhenOnly1Element() {
         // Arrange
         let testWord = unmemorizedWordList[0]
 
@@ -151,18 +158,18 @@ final class WordUseCaseTests: XCTestCase {
         }
 
         // Act
-        sut.randomizeUnmemorizedWordList()
+        sut.shuffleUnmemorizedWordList()
 
         // Assert
         XCTAssertEqual(sut.getCurrentUnmemorizedWord(), testWord)
     }
 
-    func test_randomizeUnmemorizedWordListWhenMoreThen2Element() {
+    func test_shuffleUnmemorizedWordListWhenMoreThen2Element() {
         // Arrange
         let oldCurrentWord = sut.getCurrentUnmemorizedWord()
 
         // Act
-        sut.randomizeUnmemorizedWordList()
+        sut.shuffleUnmemorizedWordList()
 
         // Assert
         XCTAssertNotEqual(sut.getCurrentUnmemorizedWord(), oldCurrentWord)

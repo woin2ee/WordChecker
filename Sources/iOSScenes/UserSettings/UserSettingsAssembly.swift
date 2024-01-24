@@ -24,8 +24,8 @@ public final class UserSettingsAssembly: Assembly {
             )
         }
 
-        container.register(UserSettingsViewController.self) { resolver in
-            return .init().then {
+        container.register(UserSettingsViewControllerProtocol.self) { resolver in
+            return UserSettingsViewController.init().then {
                 $0.reactor = resolver.resolve()
             }
         }

@@ -24,7 +24,11 @@ public protocol UserSettingsViewControllerDelegate: AnyObject {
 
 }
 
-public final class UserSettingsViewController: RxBaseViewController, View {
+public protocol UserSettingsViewControllerProtocol: UIViewController {
+    var delegate: UserSettingsViewControllerDelegate? { get set }
+}
+
+final class UserSettingsViewController: RxBaseViewController, View, UserSettingsViewControllerProtocol {
 
     private(set) var dataSourceModel: [UserSettingsItemIdentifier: UserSettingsItemModel] = [
         .changeSourceLanguage: .disclosureIndicator(.init(title: WCString.source_language, value: nil)),
@@ -52,24 +56,24 @@ public final class UserSettingsViewController: RxBaseViewController, View {
         }
     }
 
-    public weak var delegate: UserSettingsViewControllerDelegate?
+    weak var delegate: UserSettingsViewControllerDelegate?
 
     lazy var settingsTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
         $0.register(DisclosureIndicatorCell.self)
         $0.register(ButtonCell.self)
     }
 
-    public override func loadView() {
+    override func loadView() {
         self.view = settingsTableView
     }
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemGroupedBackground
         applyDefaultSnapshot()
     }
 
-    public override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationBar()
     }
@@ -103,7 +107,7 @@ public final class UserSettingsViewController: RxBaseViewController, View {
     }
 
     // swiftlint:disable:next function_body_length
-    public func bind(reactor: UserSettingsReactor) {
+    func bind(reactor: UserSettingsReactor) {
         // Action
         let itemSelectedEvent = settingsTableView.rx.itemSelected.asSignal()
             .doOnNext { [weak self] in self?.settingsTableView.deselectRow(at: $0, animated: true) }

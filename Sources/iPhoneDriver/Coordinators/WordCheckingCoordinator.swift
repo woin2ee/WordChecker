@@ -24,7 +24,7 @@ final class WordCheckingCoordinator: Coordinator {
     }
 
     func start() {
-        let viewController: WordCheckingViewController = DIContainer.shared.resolver.resolve()
+        let viewController: WordCheckingViewControllerProtocol = DIContainer.shared.resolver.resolve()
         navigationController.setViewControllers([viewController], animated: false)
     }
 

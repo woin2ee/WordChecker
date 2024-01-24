@@ -11,9 +11,9 @@ import Foundation
 import iOSSupport
 import ReactorKit
 
-public final class WordDetailReactor: Reactor {
+final class WordDetailReactor: Reactor {
 
-    public enum Action {
+    enum Action {
         case viewDidLoad
         case beginEditing
         case doneEditing
@@ -21,17 +21,17 @@ public final class WordDetailReactor: Reactor {
         case changeMemorizedState(MemorizedState)
     }
 
-    public enum Mutation {
+    enum Mutation {
         case updateWord(Word)
         case markAsEditing
     }
 
-    public struct State {
+    struct State {
         var word: Word
         var hasChanges: Bool
     }
 
-    public var initialState: State = State(word: .empty, hasChanges: false)
+    var initialState: State = State(word: .empty, hasChanges: false)
 
     /// 현재 보여지고 있는 단어의 UUID 입니다.
     let uuid: UUID
@@ -52,7 +52,7 @@ public final class WordDetailReactor: Reactor {
         self.wordUseCase = wordUseCase
     }
 
-    public func mutate(action: Action) -> Observable<Mutation> {
+    func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
             return wordUseCase.getWord(by: uuid)
@@ -88,7 +88,7 @@ public final class WordDetailReactor: Reactor {
         }
     }
 
-    public func reduce(state: State, mutation: Mutation) -> State {
+    func reduce(state: State, mutation: Mutation) -> State {
         var state = state
 
         switch mutation {

@@ -10,16 +10,16 @@ import Domain
 import iOSSupport
 import ReactorKit
 
-public final class UserSettingsReactor: Reactor {
+final class UserSettingsReactor: Reactor {
 
-    public enum Action {
+    enum Action {
         case viewDidLoad
         case uploadData(PresentingConfiguration)
         case downloadData(PresentingConfiguration)
         case signOut
     }
 
-    public enum Mutation {
+    enum Mutation {
         case setSourceLanguage(TranslationLanguage)
         case setTargetLanguage(TranslationLanguage)
         case signIn
@@ -28,7 +28,7 @@ public final class UserSettingsReactor: Reactor {
         case setDownloadStatus(ProgressStatus)
     }
 
-    public struct State {
+    struct State {
         @Pulse var showSignOutAlert: Void?
         var sourceLanguage: TranslationLanguage
         var targetLanguage: TranslationLanguage
@@ -37,7 +37,7 @@ public final class UserSettingsReactor: Reactor {
         var downloadStatus: ProgressStatus
     }
 
-    public var initialState: State = .init(
+    var initialState: State = .init(
         sourceLanguage: .english,
         targetLanguage: .korean,
         hasSigned: false,
@@ -59,7 +59,7 @@ public final class UserSettingsReactor: Reactor {
         self.globalAction = globalAction
     }
 
-    public func mutate(action: Action) -> Observable<Mutation> {
+    func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
             let setCurrentLanguageSequence = userSettingsUseCase.getCurrentTranslationLocale()
@@ -110,7 +110,7 @@ public final class UserSettingsReactor: Reactor {
         }
     }
 
-    public func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
         return .merge([
             mutation,
             globalAction.didSetSourceLanguage
@@ -120,7 +120,7 @@ public final class UserSettingsReactor: Reactor {
         ])
     }
 
-    public func reduce(state: State, mutation: Mutation) -> State {
+    func reduce(state: State, mutation: Mutation) -> State {
         var state = state
 
         switch mutation {
