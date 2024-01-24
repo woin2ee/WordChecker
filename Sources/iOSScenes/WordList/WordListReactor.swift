@@ -34,9 +34,9 @@ final class WordListReactor: Reactor {
     var initialState: State = State(listType: .all, wordList: [])
 
     let globalAction: GlobalAction
-    let wordUseCase: WordRxUseCaseProtocol
+    let wordUseCase: WordUseCaseProtocol
 
-    init(globalAction: GlobalAction, wordUseCase: WordRxUseCaseProtocol) {
+    init(globalAction: GlobalAction, wordUseCase: WordUseCaseProtocol) {
         self.globalAction = globalAction
         self.wordUseCase = wordUseCase
     }

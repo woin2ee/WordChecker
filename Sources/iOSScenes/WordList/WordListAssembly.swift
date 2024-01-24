@@ -17,7 +17,7 @@ public final class WordListAssembly: Assembly {
 
     public func assemble(container: Container) {
         container.register(WordListReactor.self) { resolver in
-            let wordUseCase: WordRxUseCaseProtocol = resolver.resolve()
+            let wordUseCase: WordUseCaseProtocol = resolver.resolve()
 
             return .init(globalAction: .shared, wordUseCase: wordUseCase)
         }

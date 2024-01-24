@@ -18,7 +18,7 @@ final class WordCheckingReactorTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
 
-        let wordUseCase: WordRxUseCaseFake = .init()
+        let wordUseCase: WordUseCaseFake = .init()
         let userSettingsUseCase: UserSettingsUseCaseFake = .init()
 
         sut = .init(
