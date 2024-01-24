@@ -12,12 +12,12 @@ final class WordUseCase: WordUseCaseProtocol {
 
     let wordRepository: WordRepositoryProtocol
     let unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol
-    let userSettingsUseCase: UserSettingsUseCaseProtocol
+    let notificationsUseCase: NotificationsUseCaseProtocol
 
-    init(wordRepository: WordRepositoryProtocol, unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol, userSettingsUseCase: UserSettingsUseCaseProtocol) {
+    init(wordRepository: WordRepositoryProtocol, unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol, notificationsUseCase: NotificationsUseCaseProtocol) {
         self.wordRepository = wordRepository
         self.unmemorizedWordListRepository = unmemorizedWordListRepository
-        self.userSettingsUseCase = userSettingsUseCase
+        self.notificationsUseCase = notificationsUseCase
     }
 
     func addNewWord(_ word: Word) {
@@ -28,7 +28,7 @@ final class WordUseCase: WordUseCaseProtocol {
         unmemorizedWordListRepository.addWord(word)
         wordRepository.save(word)
 
-        _ = userSettingsUseCase.resetDailyReminder()
+        _ = notificationsUseCase.resetDailyReminder()
             .subscribe()
     }
 
@@ -36,7 +36,7 @@ final class WordUseCase: WordUseCaseProtocol {
         unmemorizedWordListRepository.deleteWord(by: uuid)
         wordRepository.delete(by: uuid)
 
-        _ = userSettingsUseCase.resetDailyReminder()
+        _ = notificationsUseCase.resetDailyReminder()
             .subscribe()
     }
 

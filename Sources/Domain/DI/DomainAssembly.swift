@@ -18,6 +18,7 @@ public final class DomainAssembly: Assembly {
             WordRxUseCaseAssembly(),
             UserSettingsUseCaseAssembly(),
             ExternalStoreUseCaseAssembly(),
+            NotificationsUseCaseAssembly(),
         ]
 
         assemblies.forEach { assembly in

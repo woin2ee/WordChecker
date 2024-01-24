@@ -21,7 +21,7 @@ final class ExternalStoreUseCaseAssembly: Assembly {
                 wordRepository: wordRepository,
                 googleDriveRepository: googleDriveRepository,
                 unmemorizedWordListRepository: unmemorizedWordListRepository,
-                userSettingsUseCase: resolver.resolve()
+                notificationsUseCase: resolver.resolve()
             )
         }
         .inObjectScope(.container)

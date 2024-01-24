@@ -15,18 +15,13 @@ public final class GoogleDriveUseCase: ExternalStoreUseCaseProtocol {
     let wordRepository: WordRepositoryProtocol
     let googleDriveRepository: GoogleDriveRepositoryProtocol
     let unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol
-    let userSettingsUseCase: UserSettingsUseCaseProtocol
+    let notificationsUseCase: NotificationsUseCaseProtocol
 
-    public init(
-        wordRepository: WordRepositoryProtocol,
-        googleDriveRepository: GoogleDriveRepositoryProtocol,
-        unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol,
-        userSettingsUseCase: UserSettingsUseCaseProtocol
-    ) {
+    init(wordRepository: WordRepositoryProtocol, googleDriveRepository: GoogleDriveRepositoryProtocol, unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol, notificationsUseCase: NotificationsUseCaseProtocol) {
         self.wordRepository = wordRepository
         self.googleDriveRepository = googleDriveRepository
         self.unmemorizedWordListRepository = unmemorizedWordListRepository
-        self.userSettingsUseCase = userSettingsUseCase
+        self.notificationsUseCase = notificationsUseCase
     }
 
     public func signInWithAuthorization(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
@@ -127,7 +122,7 @@ public final class GoogleDriveUseCase: ExternalStoreUseCaseProtocol {
                             self.wordRepository.reset(to: wordList)
                             let unmemorizedList = self.wordRepository.getUnmemorizedList()
                             self.unmemorizedWordListRepository.shuffle(with: unmemorizedList)
-                            _ = self.userSettingsUseCase.resetDailyReminder()
+                            _ = self.notificationsUseCase.resetDailyReminder()
                                         .subscribe()
                         }
                         .subscribe(

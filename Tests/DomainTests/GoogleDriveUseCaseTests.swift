@@ -6,10 +6,10 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
+@testable import Domain
 @testable import Utility
 
 import DataDriverTesting
-import Domain
 import DomainTesting
 import RxBlocking
 import XCTest
@@ -18,7 +18,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
 
     var sut: ExternalStoreUseCaseProtocol!
 
-    let userSettingsUseCase = UserSettingsUseCaseMock(expectedAuthorizationStatus: .authorized)
+    let notificationsUseCase = NotificationsUseCaseMock(expectedAuthorizationStatus: .authorized)
 
     override func tearDownWithError() throws {
         try super.tearDownWithError()
@@ -36,7 +36,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
             unmemorizedWordListRepository: UnmemorizedWordListRepositorySpy(),
-            userSettingsUseCase: userSettingsUseCase
+            notificationsUseCase: notificationsUseCase
         )
 
         let presentingConfig: PresentingConfiguration = .init(window: UIViewController())
@@ -62,7 +62,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
             unmemorizedWordListRepository: UnmemorizedWordListRepositorySpy(),
-            userSettingsUseCase: userSettingsUseCase
+            notificationsUseCase: notificationsUseCase
         )
 
         let presentingConfig: PresentingConfiguration = .init(window: UIViewController())
@@ -91,7 +91,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
             unmemorizedWordListRepository: unmemorizedWordListRepository,
-            userSettingsUseCase: userSettingsUseCase
+            notificationsUseCase: notificationsUseCase
         )
 
         let presentingConfig: PresentingConfiguration = .init(window: UIViewController())
@@ -105,7 +105,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         XCTAssertEqual(elements, [.inProgress, .complete])
         XCTAssertEqual(wordRepository._wordList, driveData)
         XCTAssertEqual(Set(unmemorizedWordListRepository._storedWords.elements), Set(driveData).filter({ $0.memorizedState == .memorizing }))
-        XCTAssertEqual(userSettingsUseCase.resetDailyReminderCallCount, 1)
+        XCTAssertEqual(notificationsUseCase.resetDailyReminderCallCount, 1)
     }
 
     func test_downloadWhenNeedSyncToDriveAfterSignIn() throws {
@@ -124,7 +124,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
             wordRepository: wordRepository,
             googleDriveRepository: googleDriveRepository,
             unmemorizedWordListRepository: unmemorizedWordListRepository,
-            userSettingsUseCase: userSettingsUseCase
+            notificationsUseCase: notificationsUseCase
         )
 
         // When
@@ -136,7 +136,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         XCTAssertEqual(elements, [.inProgress, .complete])
         XCTAssertEqual(wordRepository._wordList, driveData)
         XCTAssertEqual(Set(unmemorizedWordListRepository._storedWords.elements), Set(driveData).filter({ $0.memorizedState == .memorizing }))
-        XCTAssertEqual(userSettingsUseCase.resetDailyReminderCallCount, 1)
+        XCTAssertEqual(notificationsUseCase.resetDailyReminderCallCount, 1)
     }
 
 }

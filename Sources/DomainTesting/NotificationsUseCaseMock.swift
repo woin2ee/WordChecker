@@ -1,27 +1,20 @@
 //
-//  UserSettingsUseCaseMock.swift
-//  Testing
+//  NotificationsUseCaseMock.swift
+//  DomainTesting
 //
-//  Created by Jaewon Yun on 2023/09/19.
-//  Copyright © 2023 woin2ee. All rights reserved.
+//  Created by Jaewon Yun on 1/24/24.
+//  Copyright © 2024 woin2ee. All rights reserved.
 //
 
 @testable import Domain
 
 import Foundation
 import RxSwift
-import RxRelay
 import UserNotifications
 
-public final class UserSettingsUseCaseMock: UserSettingsUseCaseProtocol {
+public final class NotificationsUseCaseMock: NotificationsUseCaseProtocol {
 
     public var resetDailyReminderCallCount: Int = 0
-
-    public var currentUserSettings: Domain.UserSettings = .init(
-        translationSourceLocale: .english,
-        translationTargetLocale: .korean
-    )
-
     public var _authorizationStatus: UNAuthorizationStatus = .notDetermined
     public var expectedAuthorizationStatus: UNAuthorizationStatus = .notDetermined
     public var _dailyReminder: UNNotificationRequest?
@@ -29,23 +22,6 @@ public final class UserSettingsUseCaseMock: UserSettingsUseCaseProtocol {
 
     public init(expectedAuthorizationStatus: UNAuthorizationStatus) {
         self.expectedAuthorizationStatus = expectedAuthorizationStatus
-    }
-
-    public func updateTranslationLocale(source sourceLocale: Domain.TranslationLanguage, target targetLocale: Domain.TranslationLanguage) -> RxSwift.Single<Void> {
-        currentUserSettings.translationSourceLocale = sourceLocale
-        currentUserSettings.translationTargetLocale = targetLocale
-
-        return .just(())
-    }
-
-    public func getCurrentTranslationLocale() -> RxSwift.Single<(source: Domain.TranslationLanguage, target: Domain.TranslationLanguage)> {
-        return .just((
-            source: currentUserSettings.translationSourceLocale,
-            target: currentUserSettings.translationTargetLocale))
-    }
-
-    public func getCurrentUserSettings() -> RxSwift.Single<Domain.UserSettings> {
-        return .just(currentUserSettings)
     }
 
     public func setDailyReminder(at time: DateComponents) -> RxSwift.Single<Void> {
