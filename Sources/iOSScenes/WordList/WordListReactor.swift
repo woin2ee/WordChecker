@@ -11,9 +11,9 @@ import Foundation
 import iOSSupport
 import ReactorKit
 
-public final class WordListReactor: Reactor {
+final class WordListReactor: Reactor {
 
-    public enum Action {
+    enum Action {
         case viewDidLoad
         case deleteWord(IndexPath.Index)
         case editWord(String, IndexPath.Index)
@@ -21,17 +21,17 @@ public final class WordListReactor: Reactor {
         case refreshWordListByCurrentType
     }
 
-    public enum Mutation {
+    enum Mutation {
         case changeListType(ListType)
         case updateWordList([Word])
     }
 
-    public struct State {
+    struct State {
         var listType: ListType
         var wordList: [Word]
     }
 
-    public var initialState: State = State(listType: .all, wordList: [])
+    var initialState: State = State(listType: .all, wordList: [])
 
     let globalAction: GlobalAction
     let wordUseCase: WordRxUseCaseProtocol
@@ -41,7 +41,7 @@ public final class WordListReactor: Reactor {
         self.wordUseCase = wordUseCase
     }
 
-    public func mutate(action: Action) -> Observable<Mutation> {
+    func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
             return updateWordList(by: self.currentState.listType)
@@ -72,7 +72,7 @@ public final class WordListReactor: Reactor {
         }
     }
 
-    public func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
         return .merge([
             mutation,
             globalAction.didEditWord
@@ -82,7 +82,7 @@ public final class WordListReactor: Reactor {
         ])
     }
 
-    public func reduce(state: State, mutation: Mutation) -> State {
+    func reduce(state: State, mutation: Mutation) -> State {
         var state = state
 
         switch mutation {
@@ -121,7 +121,7 @@ public final class WordListReactor: Reactor {
 
 extension WordListReactor {
 
-    public enum ListType {
+    enum ListType {
 
         case all
 

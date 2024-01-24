@@ -24,7 +24,7 @@ final class WordAdditionCoordinator: Coordinator {
     }
 
     func start() {
-        let viewController: WordAdditionViewController = DIContainer.shared.resolver.resolve()
+        let viewController: WordAdditionViewControllerProtocol = DIContainer.shared.resolver.resolve()
         viewController.delegate = self
         navigationController.setViewControllers([viewController], animated: true)
     }

@@ -23,7 +23,7 @@ public protocol WordUseCaseProtocol {
 
     func updateWord(by uuid: UUID, to newWord: Word)
 
-    func randomizeUnmemorizedWordList()
+    func shuffleUnmemorizedWordList()
 
     func updateToNextWord()
 

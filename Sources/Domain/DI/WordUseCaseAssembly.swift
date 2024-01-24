@@ -18,7 +18,8 @@ final class WordUseCaseAssembly: Assembly {
 
             return WordUseCase.init(
                 wordRepository: wordRepository,
-                unmemorizedWordListRepository: unmemorizedWordListRepository
+                unmemorizedWordListRepository: unmemorizedWordListRepository,
+                userSettingsUseCase: resolver.resolve()
             )
         }
         .inObjectScope(.container)

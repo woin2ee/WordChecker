@@ -30,6 +30,11 @@ public protocol UserSettingsUseCaseProtocol {
     /// 지정한 시각에 매일 알림을 설정합니다.
     func setDailyReminder(at time: DateComponents) -> Single<Void>
 
+    /// 현재 단어 갯수를 적용하여 알림 내용을 다시 설정합니다.
+    ///
+    /// 매일 알림이 설정되어 있지 않거나 정상적으로 알림을 다시 설정하지 못했을 경우 Error 를 방출합니다.
+    func resetDailyReminder() -> Completable
+
     /// 설정된 매일 알림을 삭제합니다.
     func removeDailyReminder()
 

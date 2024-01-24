@@ -22,10 +22,10 @@ public final class WordListAssembly: Assembly {
             return .init(globalAction: .shared, wordUseCase: wordUseCase)
         }
 
-        container.register(WordListViewController.self) { resolver in
+        container.register(WordListViewControllerProtocol.self) { resolver in
             let reactor: WordListReactor = resolver.resolve()
 
-            return .init().then {
+            return WordListViewController.init().then {
                 $0.reactor = reactor
             }
         }

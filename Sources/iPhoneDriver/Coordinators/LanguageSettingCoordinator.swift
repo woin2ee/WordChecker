@@ -24,7 +24,7 @@ final class LanguageSettingCoordinator: Coordinator {
     }
 
     func start<Arg1, Arg2>(with arguments: Arg1, _ arg2: Arg2) {
-        let viewController: LanguageSettingViewController = DIContainer.shared.resolver.resolve(arguments: arguments, arg2)
+        let viewController: LanguageSettingViewControllerProtocol = DIContainer.shared.resolver.resolve(arguments: arguments, arg2)
         viewController.delegate = self
         navigationController.pushViewController(viewController, animated: true)
     }

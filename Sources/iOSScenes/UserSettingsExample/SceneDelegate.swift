@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let viewController: UserSettingsViewController = .init()
         let reactor: UserSettingsReactor = .init(
-            userSettingsUseCase: UserSettingsUseCaseFake(),
+            userSettingsUseCase: UserSettingsUseCaseMock(),
             googleDriveUseCase: GoogleDriveUseCaseFake(),
             globalAction: .shared
         )

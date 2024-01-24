@@ -19,7 +19,7 @@ public protocol UnmemorizedWordListRepositoryProtocol {
 
     func replaceWord(where uuid: UUID, with newWord: Word)
 
-    func randomizeList(with unmemorizedList: [Word])
+    func shuffle(with unmemorizedList: [Word])
 
     func contains(where predicate: (Word) -> Bool) -> Bool
 

@@ -24,7 +24,7 @@ final class WordListCoordinator: Coordinator {
     }
 
     func start() {
-        let viewController: WordListViewController = DIContainer.shared.resolver.resolve()
+        let viewController: WordListViewControllerProtocol = DIContainer.shared.resolver.resolve()
         viewController.delegate = self
         navigationController.setViewControllers([viewController], animated: false)
     }

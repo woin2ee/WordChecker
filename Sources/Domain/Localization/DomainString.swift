@@ -23,5 +23,9 @@ struct DomainString {
     static let russian = NSLocalizedString("russian", bundle: Bundle.module, comment: "")
 
     static let daily_reminder = NSLocalizedString("daily_reminder", bundle: Bundle.module, comment: "")
+    static func daily_reminder_body_message(unmemorizedWordCount: Int) -> String {
+        let localizedString = NSLocalizedString("daily_reminder_body_message_%d", bundle: Bundle.module, comment: "")
+        return .init(format: localizedString, arguments: [unmemorizedWordCount])
+    }
 
 }

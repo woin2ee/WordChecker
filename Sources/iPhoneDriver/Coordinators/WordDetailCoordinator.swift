@@ -24,7 +24,7 @@ final class WordDetailCoordinator: Coordinator {
     }
 
     func start<Arg1>(with argument: Arg1) {
-        let viewController: WordDetailViewController = DIContainer.shared.resolver.resolve(argument: argument)
+        let viewController: WordDetailViewControllerProtocol = DIContainer.shared.resolver.resolve(argument: argument)
         viewController.delegate = self
         navigationController.setViewControllers([viewController], animated: false)
     }

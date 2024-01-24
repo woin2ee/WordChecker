@@ -55,7 +55,7 @@ public final class WordRxUseCaseFake: WordRxUseCaseProtocol {
     }
 
     public func randomizeUnmemorizedWordList() -> RxSwift.Single<Void> {
-        wordUseCaseFake.randomizeUnmemorizedWordList()
+        wordUseCaseFake.shuffleUnmemorizedWordList()
         return .just(())
     }
 

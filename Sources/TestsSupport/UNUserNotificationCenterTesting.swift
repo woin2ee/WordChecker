@@ -11,7 +11,7 @@
 import Foundation
 import UserNotifications
 
-public final class UNUserNotificationCenterFake: UserNotificationCenter {
+public final class UNUserNotificationCenterFake: UserNotificationRepositoryProtocol {
 
     public var _authorizationStatus: UNAuthorizationStatus = .notDetermined
     public var _pendingNotifications: [UNNotificationRequest] = []
