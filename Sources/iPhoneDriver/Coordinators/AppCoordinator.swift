@@ -8,6 +8,7 @@
 
 import iOSSupport
 import SFSafeSymbols
+import RxSwift
 import Then
 import UIKit
 
@@ -19,6 +20,8 @@ import UIKit
 /// 후에 iPhone / iPad 둘 다 지원할 경우 `ViewController` 를 공유하며 `Coordinator` 객체만 따로 작성하여 모듈로 분리가 가능합니다.
 final class AppCoordinator: Coordinator {
 
+    let disposeBag: DisposeBag = .init()
+
     weak var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
 
@@ -26,6 +29,8 @@ final class AppCoordinator: Coordinator {
 
     init(rootTabBarController: UITabBarController) {
         self.rootTabBarController = rootTabBarController
+
+        bindTabBarControllerDelegate()
     }
 
     func start() {
@@ -75,6 +80,15 @@ final class AppCoordinator: Coordinator {
         let userSettingsCoordinator: UserSettingsCoordinator = .init(navigationController: userSettingsNC)
         childCoordinators.append(userSettingsCoordinator)
         userSettingsCoordinator.start()
+    }
+
+    func bindTabBarControllerDelegate() {
+        self.rootTabBarController.rx.didSelect
+            .asSignal()
+            .emit { _ in
+                UISelectionFeedbackGenerator().selectionChanged()
+            }
+            .disposed(by: disposeBag)
     }
 
 }
