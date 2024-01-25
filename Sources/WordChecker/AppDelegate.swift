@@ -7,6 +7,7 @@
 
 import DataDriver
 import Domain
+import GeneralSettings
 import GoogleSignIn
 import LanguageSetting
 import PushNotificationSettings
@@ -86,6 +87,7 @@ extension AppDelegate {
             UserSettingsAssembly(),
             LanguageSettingAssembly(),
             PushNotificationSettingsAssembly(),
+            GeneralSettingsAssembly(),
         ])
     }
 

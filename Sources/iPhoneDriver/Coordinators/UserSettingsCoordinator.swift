@@ -56,4 +56,11 @@ extension UserSettingsCoordinator: UserSettingsViewControllerDelegate {
         coordinator.start()
     }
 
+    func didTapGeneralSettingsRow() {
+        let coordinator: GeneralSettingsCoordinator = .init(navigationController: navigationController)
+        coordinator.parentCoordinator = self
+        childCoordinators.append(coordinator)
+        coordinator.start()
+    }
+
 }
