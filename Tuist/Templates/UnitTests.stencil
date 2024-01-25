@@ -4,6 +4,18 @@ import XCTest
 
 final class {{ name }}Tests: XCTestCase {
 
+    var sut: <#Code#>!
+
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        sut
+    }
+
+    override func tearDownWithError() throws {
+        try super.tearDownWithError()
+        sut = nil
+    }
+    
     func test_example() {
         // Given
         

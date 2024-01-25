@@ -1,0 +1,21 @@
+import iOSSupport
+import ReactorKit
+import UIKit
+
+public protocol {{ name }}ViewControllerDelegate: AnyObject {
+
+}
+
+public protocol {{ name }}ViewControllerProtocol: UIViewController {
+    var delegate: {{ name }}ViewControllerDelegate? { get set }
+}
+
+final class {{ name }}ViewController: RxBaseViewController, View, {{ name }}ViewControllerProtocol {
+
+    weak var delegate: {{ name }}ViewControllerDelegate?
+
+    func bind(reactor: {{ name }}Reactor) {
+
+    }
+
+}
