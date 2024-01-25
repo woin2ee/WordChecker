@@ -28,7 +28,7 @@ final class PushNotificationSettingsViewController: RxBaseViewController, View, 
 
     weak var delegate: PushNotificationSettingsDelegate?
 
-    lazy var dataSource: UITableViewDiffableDataSource<SectionIdentifier, ItemIdentifier> = .init(tableView: rootTableView) { [weak self] tableView, indexPath, itemIdentifier in
+    lazy var dataSource: UITableViewDiffableDataSource<SectionIdentifier, ItemIdentifier> = .init(tableView: rootTableView) { [weak self] tableView, indexPath, itemIdentifier -> UITableViewCell? in
         guard let self = self else { return nil }
         guard let reactor = self.reactor else { return nil }
 
@@ -39,6 +39,7 @@ final class PushNotificationSettingsViewController: RxBaseViewController, View, 
             cell.bind(model: .init(title: WCString.daily_reminder, isOn: reactor.currentState.isOnDailyReminder))
             // Bind to Reactor.Action
             cell.wrappingButton.rx.tap
+                .doOnNext { UIImpactFeedbackGenerator(style: .light).impactOccurred() }
                 .map { _ in Reactor.Action.tapDailyReminderSwitch }
                 .bind(to: reactor.action)
                 .disposed(by: cell.disposeBag)
@@ -62,6 +63,9 @@ final class PushNotificationSettingsViewController: RxBaseViewController, View, 
             return cell
         }
     }
+        .then {
+            $0.defaultRowAnimation = .fade
+        }
 
     private var isViewAppeared: Bool = false
 
