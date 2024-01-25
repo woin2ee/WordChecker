@@ -29,8 +29,6 @@ final class AppCoordinator: Coordinator {
 
     init(rootTabBarController: UITabBarController) {
         self.rootTabBarController = rootTabBarController
-
-        bindTabBarControllerDelegate()
     }
 
     func start() {
@@ -80,15 +78,6 @@ final class AppCoordinator: Coordinator {
         let userSettingsCoordinator: UserSettingsCoordinator = .init(navigationController: userSettingsNC)
         childCoordinators.append(userSettingsCoordinator)
         userSettingsCoordinator.start()
-    }
-
-    func bindTabBarControllerDelegate() {
-        self.rootTabBarController.rx.didSelect
-            .asSignal()
-            .emit { _ in
-                UISelectionFeedbackGenerator().selectionChanged()
-            }
-            .disposed(by: disposeBag)
     }
 
 }
