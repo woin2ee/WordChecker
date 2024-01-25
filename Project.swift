@@ -314,6 +314,26 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
+            name: "GeneralSettings",
+            sourcesPrefix: "iOSScenes",
+            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            dependencies: [
+                .target(name: "iOSSupport"),
+                .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.rxCocoa),
+                .external(name: ExternalDependencyName.rxUtilityDynamic),
+                .external(name: ExternalDependencyName.reactorKit),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
+            ],
+            hasTests: true,
+            additionalTestDependencies: [
+                .target(name: "DomainTesting"),
+                .external(name: ExternalDependencyName.rxBlocking),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
             name: "iPhoneDriver",
             dependencies: [
                 .target(name: "iOSSupport"),
@@ -324,6 +344,7 @@ func targets() -> [Target] {
                 .target(name: "UserSettings"),
                 .target(name: "LanguageSetting"),
                 .target(name: "PushNotificationSettings"),
+                .target(name: "GeneralSettings"),
                 .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.swinjectDIContainer),
                 .external(name: ExternalDependencyName.sfSafeSymbols),

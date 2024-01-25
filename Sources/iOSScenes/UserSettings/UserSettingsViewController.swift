@@ -22,6 +22,8 @@ public protocol UserSettingsViewControllerDelegate: AnyObject {
 
     func didTapNotificationsSettingRow()
 
+    func didTapGeneralSettingsRow()
+
 }
 
 public protocol UserSettingsViewControllerProtocol: UIViewController {
