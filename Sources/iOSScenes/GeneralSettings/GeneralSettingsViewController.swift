@@ -33,7 +33,7 @@ final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSe
     weak var delegate: GeneralSettingsViewControllerDelegate?
 
     lazy var rootView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
-        $0.registerCell(SwitchCell.self)
+        $0.registerCell(ManualSwitchCell.self)
         $0.registerHeaderFooterView(TextFooterView.self)
         $0.delegate = self
     }
@@ -46,12 +46,17 @@ final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSe
 
         switch item {
         case .hapticsOnOffSwitch:
-            let cell = tableView.dequeueReusableCell(SwitchCell.self, for: indexPath)
+            let cell = tableView.dequeueReusableCell(ManualSwitchCell.self, for: indexPath)
             cell.prepareForReuse()
             cell.bind(model: .init(title: WCString.haptics, isOn: reactor.currentState.hapticsIsOn))
             // Bind to Reactor.Action
-            cell.trailingSwitch.rx.isOn
-                .map(Reactor.Action.hapticsSwitchIsOn)
+            cell.wrappingButton.rx.tap
+                .doOnNext {
+                    if !reactor.currentState.hapticsIsOn {
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred() // forced occur
+                    }
+                }
+                .map { Reactor.Action.tapHapticsSwitch }
                 .bind(to: reactor.action)
                 .disposed(by: cell.disposeBag)
             return cell
@@ -89,6 +94,13 @@ final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSe
     }
 
     func bind(reactor: GeneralSettingsReactor) {
+        // Action
+        self.rx.sentMessage(#selector(viewDidLoad))
+            .map { _ in Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+
+        // State
         reactor.state
             .map(\.hapticsIsOn)
             .distinctUntilChanged()
@@ -103,6 +115,10 @@ final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSe
                 } else {
                     footerView.text = WCString.hapticsSettingsFooterTextWhenHapticsIsOff
                 }
+
+                var snapshot = owner.dataSource.snapshot()
+                snapshot.reconfigureItems([.hapticsOnOffSwitch])
+                owner.dataSource.apply(snapshot)
             }
             .disposed(by: self.disposeBag)
     }

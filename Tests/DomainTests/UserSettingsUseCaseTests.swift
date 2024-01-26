@@ -60,4 +60,43 @@ final class UserSettingsUseCaseTests: XCTestCase {
         }
     }
 
+    func test_onOffHaptics() throws {
+        // Given
+        let hapticsIsOn = try sut.getCurrentUserSettings()
+            .map(\.hapticsIsOn)
+            .toBlocking()
+            .single()
+        XCTAssertEqual(hapticsIsOn, true) // Default value
+
+        // Off
+        do {
+            // When
+            try sut.offHaptics()
+                .toBlocking()
+                .single()
+
+            // Then
+            let hapticsIsOn = try sut.getCurrentUserSettings()
+                .map(\.hapticsIsOn)
+                .toBlocking()
+                .single()
+            XCTAssertEqual(hapticsIsOn, false)
+        }
+
+        // On
+        do {
+            // When
+            try sut.onHaptics()
+                .toBlocking()
+                .single()
+
+            // Then
+            let hapticsIsOn = try sut.getCurrentUserSettings()
+                .map(\.hapticsIsOn)
+                .toBlocking()
+                .single()
+            XCTAssertEqual(hapticsIsOn, true)
+        }
+    }
+
 }

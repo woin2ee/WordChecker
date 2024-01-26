@@ -43,12 +43,12 @@ final class WordCheckingReactor: Reactor {
 
     let wordUseCase: WordUseCaseProtocol
     let userSettingsUseCase: UserSettingsUseCaseProtocol
-    let globalAction: GlobalAction
+    let globalAction: GlobalReactorAction
 
     init(
         wordUseCase: WordUseCaseProtocol,
         userSettingsUseCase: UserSettingsUseCaseProtocol,
-        globalAction: GlobalAction
+        globalAction: GlobalReactorAction
     ) {
         self.wordUseCase = wordUseCase
         self.userSettingsUseCase = userSettingsUseCase
@@ -160,10 +160,8 @@ final class WordCheckingReactor: Reactor {
         switch mutation {
         case .setCurrentWord(let currentWord):
             state.currentWord = currentWord
-
         case .setSourceLanguage(let translationSourceLanguage):
             state.translationSourceLanguage = translationSourceLanguage
-
         case .setTargetLanguage(let translationTargetLanguage):
             state.translationTargetLanguage = translationTargetLanguage
         }

@@ -16,8 +16,11 @@ public final class GeneralSettingsAssembly: Assembly {
     public init() {}
 
     public func assemble(container: Container) {
-        container.register(GeneralSettingsReactor.self) { _ in
-            return .init()
+        container.register(GeneralSettingsReactor.self) { resolver in
+            return .init(
+                userSettingsUseCase: resolver.resolve(),
+                globalState: .shared
+            )
         }
 
         container.register(GeneralSettingsViewControllerProtocol.self) { resolver in
