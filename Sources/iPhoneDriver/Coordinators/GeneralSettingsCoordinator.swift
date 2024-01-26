@@ -32,4 +32,9 @@ final class GeneralSettingsCoordinator: Coordinator {
 
 extension GeneralSettingsCoordinator: GeneralSettingsViewControllerDelegate {
 
+    func willPopView() {
+        navigationController.popViewController(animated: true)
+        parentCoordinator?.childCoordinators.removeAll(where: { $0 === self })
+    }
+
 }

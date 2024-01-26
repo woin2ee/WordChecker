@@ -62,3 +62,8 @@ time = "시간";
 notifications = "알림";
 allow_notifications_is_required = "알림 허용이 필요합니다.";
 dailyReminderFooter = "설정한 시각에 매일 푸시 알림을 보냅니다.";
+
+general = "일반";
+haptics = "진동";
+hapticsSettingsFooterTextWhenHapticsIsOn = "상호 작용에 대한 진동을 사용합니다.";
+hapticsSettingsFooterTextWhenHapticsIsOff = "상호 작용에 대한 진동을 사용하지 않습니다.";

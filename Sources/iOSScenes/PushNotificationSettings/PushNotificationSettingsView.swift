@@ -21,8 +21,8 @@ final class PushNotificationSettingsView: UITableView {
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
 
-        self.register(ManualSwitchCell.self)
-        self.register(DatePickerCell.self)
+        self.registerCell(ManualSwitchCell.self)
+        self.registerCell(DatePickerCell.self)
     }
 
     required init?(coder: NSCoder) {

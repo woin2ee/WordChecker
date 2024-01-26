@@ -8,10 +8,12 @@
 
 import iOSSupport
 import ReactorKit
+import RxUtility
+import Then
 import UIKit
 
 public protocol GeneralSettingsViewControllerDelegate: AnyObject {
-
+    func willPopView()
 }
 
 public protocol GeneralSettingsViewControllerProtocol: UIViewController {
@@ -20,10 +22,111 @@ public protocol GeneralSettingsViewControllerProtocol: UIViewController {
 
 final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSettingsViewControllerProtocol {
 
+    enum SectionIdentifier: Int {
+        case hapticsSettings = 0
+    }
+
+    enum ItemIdentifier {
+        case hapticsOnOffSwitch
+    }
+
     weak var delegate: GeneralSettingsViewControllerDelegate?
 
-    func bind(reactor: GeneralSettingsReactor) {
+    lazy var rootView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
+        $0.registerCell(SwitchCell.self)
+        $0.registerHeaderFooterView(TextFooterView.self)
+        $0.delegate = self
+    }
 
+    lazy var dataSource: UITableViewDiffableDataSource<SectionIdentifier, ItemIdentifier> = .init(tableView: rootView) { [weak self] tableView, indexPath, item -> UITableViewCell? in
+        guard let self = self else { return nil }
+        guard let reactor = self.reactor else {
+            preconditionFailure("Not assigned reactor of \(self).")
+        }
+
+        switch item {
+        case .hapticsOnOffSwitch:
+            let cell = tableView.dequeueReusableCell(SwitchCell.self, for: indexPath)
+            cell.prepareForReuse()
+            cell.bind(model: .init(title: WCString.haptics, isOn: reactor.currentState.hapticsIsOn))
+            // Bind to Reactor.Action
+            cell.trailingSwitch.rx.isOn
+                .map(Reactor.Action.hapticsSwitchIsOn)
+                .bind(to: reactor.action)
+                .disposed(by: cell.disposeBag)
+            return cell
+        }
+    }
+
+    override func loadView() {
+        self.view = rootView
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.view.backgroundColor = .systemGroupedBackground
+
+        self.navigationItem.title = WCString.general
+        self.navigationItem.largeTitleDisplayMode = .never
+
+        applyInitialSnapshot()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if self.isMovingFromParent {
+            delegate?.willPopView()
+        }
+    }
+
+    func applyInitialSnapshot() {
+        var snapshot = dataSource.snapshot()
+        snapshot.appendSections([.hapticsSettings])
+        snapshot.appendItems([.hapticsOnOffSwitch], toSection: .hapticsSettings)
+        dataSource.applySnapshotUsingReloadData(snapshot)
+    }
+
+    func bind(reactor: GeneralSettingsReactor) {
+        reactor.state
+            .map(\.hapticsIsOn)
+            .distinctUntilChanged()
+            .asDriverOnErrorJustComplete()
+            .drive(with: self) { owner, _ in
+                guard let footerView = owner.rootView.footerView(forSection: SectionIdentifier.hapticsSettings.rawValue) as? TextFooterView else {
+                    return
+                }
+
+                if reactor.currentState.hapticsIsOn {
+                    footerView.text = WCString.hapticsSettingsFooterTextWhenHapticsIsOn
+                } else {
+                    footerView.text = WCString.hapticsSettingsFooterTextWhenHapticsIsOff
+                }
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+}
+
+extension GeneralSettingsViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard let reactor = self.reactor else {
+            preconditionFailure("Not assigned reactor of \(self).")
+        }
+
+        if section == SectionIdentifier.hapticsSettings.rawValue {
+            let footerView = tableView.dequeueReusableHeaderFooterView(TextFooterView.self)
+            if reactor.currentState.hapticsIsOn {
+                footerView.text = WCString.hapticsSettingsFooterTextWhenHapticsIsOn
+            } else {
+                footerView.text = WCString.hapticsSettingsFooterTextWhenHapticsIsOff
+            }
+            return footerView
+        }
+
+        return nil
     }
 
 }
