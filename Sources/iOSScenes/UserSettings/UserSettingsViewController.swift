@@ -36,6 +36,7 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
         .changeSourceLanguage: .disclosureIndicator(.init(title: WCString.source_language, value: nil)),
         .changeTargetLanguage: .disclosureIndicator(.init(title: WCString.translation_language, value: nil)),
         .notifications: .disclosureIndicator(.init(title: WCString.notifications, value: nil)),
+        .general: .disclosureIndicator(.init(title: WCString.general, value: nil)),
         .googleDriveUpload: .button(.init(title: WCString.google_drive_upload, textColor: .systemBlue)),
         .googleDriveDownload: .button(.init(title: WCString.google_drive_download, textColor: .systemBlue)),
         .googleDriveSignOut: .button(.init(title: WCString.google_drive_logout, textColor: .systemRed)),
@@ -61,8 +62,8 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
     weak var delegate: UserSettingsViewControllerDelegate?
 
     lazy var settingsTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
-        $0.register(DisclosureIndicatorCell.self)
-        $0.register(ButtonCell.self)
+        $0.registerCell(DisclosureIndicatorCell.self)
+        $0.registerCell(ButtonCell.self)
     }
 
     override func loadView() {
@@ -90,7 +91,7 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
         )
 
         snapshot.appendItems(
-            [.notifications],
+            [.general, .notifications],
             toSection: .notifications
         )
 
@@ -108,31 +109,13 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
         self.navigationController?.navigationBar.sizeToFit()
     }
 
-    // swiftlint:disable:next function_body_length
-    func bind(reactor: UserSettingsReactor) {
-        // Action
+    override func bindAction() {
+        guard let reactor = self.reactor else {
+            preconditionFailure("After initialization, reactor is not assigned.")
+        }
+
         let itemSelectedEvent = settingsTableView.rx.itemSelected.asSignal()
             .doOnNext { [weak self] in self?.settingsTableView.deselectRow(at: $0, animated: true) }
-
-        let presentingWindow: PresentingConfiguration = .init(window: self)
-
-        itemSelectedEvent
-            .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .googleDriveUpload }
-            .map { _ in Reactor.Action.uploadData(presentingWindow) }
-            .emit(to: reactor.action)
-            .disposed(by: self.disposeBag)
-
-        itemSelectedEvent
-            .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .googleDriveDownload }
-            .map { _ in Reactor.Action.downloadData(presentingWindow) }
-            .emit(to: reactor.action)
-            .disposed(by: self.disposeBag)
-
-        itemSelectedEvent
-            .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .googleDriveSignOut }
-            .map { _ in Reactor.Action.signOut }
-            .emit(to: reactor.action)
-            .disposed(by: self.disposeBag)
 
         itemSelectedEvent
             .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .changeSourceLanguage }
@@ -153,6 +136,39 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
             .emit(with: self, onNext: { owner, _ in
                 owner.delegate?.didTapNotificationsSettingRow()
             })
+            .disposed(by: self.disposeBag)
+
+        itemSelectedEvent
+            .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .general }
+            .emit(with: self) { owner, _ in
+                owner.delegate?.didTapGeneralSettingsRow()
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    // swiftlint:disable:next function_body_length
+    func bind(reactor: UserSettingsReactor) {
+        // Action
+        let itemSelectedEvent = settingsTableView.rx.itemSelected.asSignal()
+
+        let presentingWindow: PresentingConfiguration = .init(window: self)
+
+        itemSelectedEvent
+            .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .googleDriveUpload }
+            .map { _ in Reactor.Action.uploadData(presentingWindow) }
+            .emit(to: reactor.action)
+            .disposed(by: self.disposeBag)
+
+        itemSelectedEvent
+            .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .googleDriveDownload }
+            .map { _ in Reactor.Action.downloadData(presentingWindow) }
+            .emit(to: reactor.action)
+            .disposed(by: self.disposeBag)
+
+        itemSelectedEvent
+            .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .googleDriveSignOut }
+            .map { _ in Reactor.Action.signOut }
+            .emit(to: reactor.action)
             .disposed(by: self.disposeBag)
 
         self.rx.sentMessage(#selector(viewDidLoad))
