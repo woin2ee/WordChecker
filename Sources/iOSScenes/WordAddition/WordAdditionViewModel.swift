@@ -36,7 +36,7 @@ final class WordAdditionViewModel: ViewModelType {
                     .asSignalOnErrorJustComplete()
             }
             .doOnNext { _ in
-                GlobalAction.shared.didAddWord.accept(())
+                GlobalReactorAction.shared.didAddWord.accept(())
             }
 
         let wordTextIsNotEmpty = input.wordText.map(\.isNotEmpty)

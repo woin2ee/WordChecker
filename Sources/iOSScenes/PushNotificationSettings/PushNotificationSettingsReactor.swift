@@ -40,9 +40,9 @@ final class PushNotificationSettingsReactor: Reactor {
     )
 
     let notificationsUseCase: NotificationsUseCaseProtocol
-    let globalAction: GlobalAction
+    let globalAction: GlobalReactorAction
 
-    init(notificationsUseCase: NotificationsUseCaseProtocol, globalAction: GlobalAction) {
+    init(notificationsUseCase: NotificationsUseCaseProtocol, globalAction: GlobalReactorAction) {
         self.notificationsUseCase = notificationsUseCase
         self.globalAction = globalAction
     }

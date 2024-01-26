@@ -9,6 +9,7 @@ import DataDriver
 import Domain
 import GeneralSettings
 import GoogleSignIn
+import iOSSupport
 import LanguageSetting
 import PushNotificationSettings
 import RxSwift
@@ -27,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         initDIContainerForDev()
+        initGlobalState()
         NetworkMonitor.start()
 
         return true
@@ -80,6 +82,15 @@ extension AppDelegate {
             PushNotificationSettingsAssembly(),
             GeneralSettingsAssembly(),
         ])
+    }
+
+    func initGlobalState() {
+        let userSettingsUseCase: UserSettingsUseCaseProtocol = DIContainer.shared.resolver.resolve()
+        _ = userSettingsUseCase.getCurrentUserSettings()
+            .map(\.hapticsIsOn)
+            .doOnSuccess(GlobalState.shared.initialize)
+            .subscribe(on: ConcurrentMainScheduler.instance)
+            .subscribe()
     }
 
 }

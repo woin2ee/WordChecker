@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/google-api-objectivec-client-for-rest.git",
       "state" : {
-        "revision" : "40930b2c3add6234b8be1a780c08cf88b6a7a1f7",
-        "version" : "3.2.0"
+        "revision" : "bcb0439b37d16d39da6f62139d4009d09e7aef14",
+        "version" : "3.4.0"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-core.git",
       "state" : {
-        "revision" : "c569bec4d04da84030d94f376437bc4efda3686b",
-        "version" : "13.23.1"
+        "revision" : "a5e87a39cffdcc591f3203c11cfca68100d0b9a6",
+        "version" : "13.26.0"
       }
     },
     {
@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-swift.git",
       "state" : {
-        "revision" : "fd199ce07edb4db69e862f74151b95602aad3b43",
-        "version" : "10.44.0"
+        "revision" : "eafdd3720a8cc750bdd38bf776082d2c8cf743fc",
+        "version" : "10.46.0"
       }
     }
   ],

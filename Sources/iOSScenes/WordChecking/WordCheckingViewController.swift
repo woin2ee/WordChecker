@@ -94,10 +94,10 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
                 }
                 .map { Reactor.Action.addWord($0) },
             rootView.nextButton.rx.tap
-                .doOnNext { UIImpactFeedbackGenerator(style: .light).impactOccurred(intensity: 0.7) }
+                .doOnNext { HapticGenerator.shared.impactOccurred(style: .light, intensity: 0.7) }
                 .map { Reactor.Action.updateToNextWord },
             rootView.previousButton.rx.tap
-                .doOnNext { UIImpactFeedbackGenerator(style: .light).impactOccurred(intensity: 0.7) }
+                .doOnNext { HapticGenerator.shared.impactOccurred(style: .light, intensity: 0.7) }
                 .map { Reactor.Action.updateToPreviousWord },
         ]
             .forEach { action in

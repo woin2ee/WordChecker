@@ -12,6 +12,11 @@ import RxRelay
 import RxUtility
 import Utility
 
+enum UserSettingsUseCaseError: Error {
+    case noPendingDailyReminder
+    case noNotificationAuthorization
+}
+
 public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 
     let userSettingsRepository: UserSettingsRepositoryProtocol
@@ -48,6 +53,26 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
         return userSettingsRepository.getUserSettings()
     }
 
+    public func onHaptics() -> Single<Void> {
+        return userSettingsRepository.getUserSettings()
+            .map { currentSettings in
+                var newSettings = currentSettings
+                newSettings.hapticsIsOn = true
+                return newSettings
+            }
+            .flatMap { self.userSettingsRepository.saveUserSettings($0) }
+    }
+
+    public func offHaptics() -> Single<Void> {
+        return userSettingsRepository.getUserSettings()
+            .map { currentSettings in
+                var newSettings = currentSettings
+                newSettings.hapticsIsOn = false
+                return newSettings
+            }
+            .flatMap { self.userSettingsRepository.saveUserSettings($0) }
+    }
+
     func initUserSettingsIfNoUserSettings() -> RxSwift.Single<Void> {
         return userSettingsRepository.getUserSettings()
             .mapToVoid()
@@ -75,15 +100,10 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
                     translationTargetLocale = .english
                 }
 
-                let userSettings: UserSettings = .init(translationSourceLocale: .english, translationTargetLocale: translationTargetLocale) // FIXME: 처음에 Source Locale 설정 가능하게 (현재 .english 고정)
+                let userSettings: UserSettings = .init(translationSourceLocale: .english, translationTargetLocale: translationTargetLocale, hapticsIsOn: true) // FIXME: 처음에 Source Locale 설정 가능하게 (현재 .english 고정)
 
                 return self.userSettingsRepository.saveUserSettings(userSettings)
             }
     }
 
-}
-
-enum UserSettingsUseCaseError: Error {
-    case noPendingDailyReminder
-    case noNotificationAuthorization
 }

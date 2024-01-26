@@ -17,6 +17,8 @@ enum UserDefaultsKey: UserDefaultsKeyProtocol, CaseIterable {
 
     case dailyReminderTime
 
+    case hapticsIsOn
+
     /// 테스트용 Key 입니다.
     case test
 

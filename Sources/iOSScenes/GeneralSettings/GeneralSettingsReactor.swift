@@ -6,12 +6,15 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
+import Domain
+import iOSSupport
 import ReactorKit
 
 final class GeneralSettingsReactor: Reactor {
 
     enum Action {
-        case hapticsSwitchIsOn(Bool)
+        case viewDidLoad
+        case tapHapticsSwitch
     }
 
     enum Mutation {
@@ -23,12 +26,36 @@ final class GeneralSettingsReactor: Reactor {
         var hapticsIsOn: Bool
     }
 
-    var initialState: State = .init(hapticsIsOn: false)
+    var initialState: State = .init(hapticsIsOn: true)
+
+    let userSettingsUseCase: UserSettingsUseCaseProtocol
+    let globalState: GlobalState
+
+    init(userSettingsUseCase: UserSettingsUseCaseProtocol, globalState: GlobalState) {
+        self.userSettingsUseCase = userSettingsUseCase
+        self.globalState = globalState
+    }
 
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .hapticsSwitchIsOn(let hapticsSwitchIsOn):
-            return hapticsSwitchIsOn ? .just(.onHaptics) : .just(.offHaptics)
+        case .viewDidLoad:
+            return userSettingsUseCase.getCurrentUserSettings()
+                .asObservable()
+                .map(\.hapticsIsOn)
+                .map { $0 ? Mutation.onHaptics : Mutation.offHaptics }
+
+        case .tapHapticsSwitch:
+            if self.currentState.hapticsIsOn {
+                return userSettingsUseCase.offHaptics()
+                    .asObservable()
+                    .doOnNext { self.globalState.hapticsIsOn = false }
+                    .map { Mutation.offHaptics }
+            } else {
+                return userSettingsUseCase.onHaptics()
+                    .asObservable()
+                    .doOnNext { self.globalState.hapticsIsOn = true }
+                    .map { Mutation.onHaptics }
+            }
         }
     }
 

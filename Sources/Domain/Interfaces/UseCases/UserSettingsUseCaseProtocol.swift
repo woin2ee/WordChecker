@@ -17,4 +17,8 @@ public protocol UserSettingsUseCaseProtocol {
 
     func getCurrentUserSettings() -> Single<UserSettings>
 
+    func onHaptics() -> Single<Void>
+
+    func offHaptics() -> Single<Void>
+
 }
