@@ -22,6 +22,10 @@ let template = Template(
             templatePath: .relativeToCurrentFile("../Assembly.stencil")
         ),
         .file(
+            path: "Sources/iPhoneDriver/Coordinators/\(nameAttribute)Coordinator.swift",
+            templatePath: .relativeToCurrentFile("../iPhoneCoordinator.stencil")
+        ),
+        .file(
             path: "Tests/iOSScenesTests/\(nameAttribute)Tests/\(nameAttribute)Tests.swift",
             templatePath: .relativeToCurrentFile("../UnitTests.stencil")
         ),

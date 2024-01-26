@@ -3,7 +3,8 @@ import ReactorKit
 import UIKit
 
 public protocol {{ name }}ViewControllerDelegate: AnyObject {
-
+    // An example if you use navigation stack.
+    func willPopView()
 }
 
 public protocol {{ name }}ViewControllerProtocol: UIViewController {
