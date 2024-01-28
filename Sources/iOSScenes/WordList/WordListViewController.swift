@@ -258,7 +258,11 @@ extension WordListViewController: UISearchControllerDelegate {
 extension WordListViewController: UITabBarControllerDelegate {
 
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if viewController == self.navigationController {
+        guard viewController == self.navigationController else {
+            return
+        }
+
+        if wordListTableView.visibleCells.count != 0 {
             wordListTableView.scrollToRow(at: .init(row: 0, section: 0), at: .bottom, animated: true)
         }
     }
