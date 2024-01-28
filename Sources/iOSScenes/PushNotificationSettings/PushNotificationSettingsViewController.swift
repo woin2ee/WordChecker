@@ -190,11 +190,10 @@ extension PushNotificationSettingsViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return rootTableView.footerLabel
-    }
+        let footerView = tableView.dequeueReusableHeaderFooterView(TextFooterView.self)
+        footerView.text = WCString.dailyReminderFooter
 
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return rootTableView.footerLabel.intrinsicContentSize.height
+        return footerView
     }
 
 }
