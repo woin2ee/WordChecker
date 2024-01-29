@@ -27,7 +27,7 @@
 
 ##Settings
 
-- Source language / Translation language 변경 정상 적용
+- Source language / Translation language 변경시 번역 사이트에 정상 적용 확인
 - 구글 드라이브 로그인 여부에 따라 로그아웃 버튼 표시
 - 매일 알림 켜고 시간 설정한 뒤 홈화면에서 알림 제대로 오는지 확인
 - 매일 알림 설정 후 단어 추가/삭제/드라이브 다운로드 에 따라 알림 메세지에 단어 갯수 정상 표시 확인
