@@ -15,7 +15,8 @@ import UIKit
 
 public protocol LanguageSettingViewControllerDelegate: AnyObject {
 
-    func didSelectLanguageRow()
+    /// ViewController 가 Pop 해야될때 호출되는 Delegate method 입니다.
+    func viewMustPop()
 
 }
 
@@ -49,6 +50,14 @@ final class LanguageSettingViewController: RxBaseViewController, LanguageSetting
         bindViewModel()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        if self.isMovingFromParent {
+            delegate?.viewMustPop()
+        }
+    }
+
     func bindViewModel() {
         let input = LanguageSettingViewModel.Input.init(selectCell: languageSettingTableView.rx.itemSelected.asSignal())
         let output = viewModel.transform(input: input)
@@ -73,7 +82,7 @@ final class LanguageSettingViewController: RxBaseViewController, LanguageSetting
 
         output.didSelectCell
             .emit(with: self, onNext: { owner, _ in
-                owner.delegate?.didSelectLanguageRow()
+                owner.delegate?.viewMustPop()
             })
             .disposed(by: disposeBag)
     }
