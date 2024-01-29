@@ -33,7 +33,7 @@ final class LanguageSettingCoordinator: Coordinator {
 
 extension LanguageSettingCoordinator: LanguageSettingViewControllerDelegate {
 
-    func didSelectLanguageRow() {
+    func viewMustPop() {
         navigationController.popViewController(animated: true)
         parentCoordinator?.childCoordinators.removeAll(where: { $0 === self })
     }
