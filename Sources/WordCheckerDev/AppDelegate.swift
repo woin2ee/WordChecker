@@ -10,6 +10,7 @@ import Domain
 import GeneralSettings
 import GoogleSignIn
 import iOSSupport
+import iPhoneDriver
 import LanguageSetting
 import PushNotificationSettings
 import RxSwift
@@ -30,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         initDIContainerForDev()
         initGlobalState()
         NetworkMonitor.start()
+        UNUserNotificationCenter.current().delegate = self
 
         return true
     }
@@ -79,7 +81,7 @@ extension AppDelegate {
             WordAdditionAssembly(),
             UserSettingsAssembly(),
             LanguageSettingAssembly(),
-            PushNotificationSettingsAssembly(),
+            PushNotificationSettingsAssemblyDev(),
             GeneralSettingsAssembly(),
         ])
     }
@@ -91,6 +93,14 @@ extension AppDelegate {
             .doOnSuccess(GlobalState.shared.initialize)
             .subscribe(on: ConcurrentMainScheduler.instance)
             .subscribe()
+    }
+
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+        RootTabBarController.shared.selectedViewController = RootTabBarController.shared.wordCheckingNC
     }
 
 }
