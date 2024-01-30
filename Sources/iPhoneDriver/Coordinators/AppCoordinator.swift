@@ -8,7 +8,6 @@
 
 import iOSSupport
 import SFSafeSymbols
-import RxSwift
 import Then
 import UIKit
 
@@ -20,62 +19,25 @@ import UIKit
 /// 후에 iPhone / iPad 둘 다 지원할 경우 `ViewController` 를 공유하며 `Coordinator` 객체만 따로 작성하여 모듈로 분리가 가능합니다.
 final class AppCoordinator: Coordinator {
 
-    let disposeBag: DisposeBag = .init()
-
     weak var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
 
-    let rootTabBarController: UITabBarController
+    let rootTabBarController: RootTabBarController
 
-    init(rootTabBarController: UITabBarController) {
+    init(rootTabBarController: RootTabBarController) {
         self.rootTabBarController = rootTabBarController
     }
 
     func start() {
-        let symbolWeightConfig: UIImage.SymbolConfiguration = .init(weight: .bold)
-
-        let wordCheckingNC: UINavigationController = .init().then {
-            $0.tabBarItem = .init(
-                title: WCString.memorization,
-                image: .init(systemSymbol: .checkmarkDiamond),
-                selectedImage: .init(systemSymbol: .checkmarkDiamond, withConfiguration: symbolWeightConfig)
-            )
-        }
-
-        let wordListNC: UINavigationController = .init().then {
-            $0.tabBarItem = .init(
-                title: WCString.list,
-                image: .init(systemSymbol: .listBullet),
-                selectedImage: .init(systemSymbol: .listBullet, withConfiguration: symbolWeightConfig)
-            )
-        }
-
-        let userSettingsNC: UINavigationController = .init().then {
-            $0.tabBarItem = .init(
-                title: WCString.settings,
-                image: .init(systemSymbol: .gearshape),
-                selectedImage: .init(systemSymbol: .gearshape, withConfiguration: symbolWeightConfig)
-            )
-        }
-
-        let appearance = UITabBarAppearance()
-        appearance.configureWithOpaqueBackground()
-
-        rootTabBarController.tabBar.standardAppearance = appearance
-        rootTabBarController.tabBar.scrollEdgeAppearance = appearance
-
-        rootTabBarController.viewControllers = [wordCheckingNC, wordListNC, userSettingsNC]
-
-        // Start Coordinators
-        let wordCheckingCoordinator: WordCheckingCoordinator = .init(navigationController: wordCheckingNC)
+        let wordCheckingCoordinator: WordCheckingCoordinator = .init(navigationController: rootTabBarController.wordCheckingNC)
         childCoordinators.append(wordCheckingCoordinator)
         wordCheckingCoordinator.start()
 
-        let wordListCoordinator: WordListCoordinator = .init(navigationController: wordListNC)
+        let wordListCoordinator: WordListCoordinator = .init(navigationController: rootTabBarController.wordListNC)
         childCoordinators.append(wordListCoordinator)
         wordListCoordinator.start()
 
-        let userSettingsCoordinator: UserSettingsCoordinator = .init(navigationController: userSettingsNC)
+        let userSettingsCoordinator: UserSettingsCoordinator = .init(navigationController: rootTabBarController.userSettingsNC)
         childCoordinators.append(userSettingsCoordinator)
         userSettingsCoordinator.start()
     }
