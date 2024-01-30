@@ -15,9 +15,9 @@ import RxUtility
 
 final class WordAdditionViewModel: ViewModelType {
 
-    let wordUseCase: WordRxUseCaseProtocol
+    let wordUseCase: WordUseCaseProtocol
 
-    init(wordUseCase: WordRxUseCaseProtocol) {
+    init(wordUseCase: WordUseCaseProtocol) {
         self.wordUseCase = wordUseCase
     }
 
@@ -36,7 +36,7 @@ final class WordAdditionViewModel: ViewModelType {
                     .asSignalOnErrorJustComplete()
             }
             .doOnNext { _ in
-                GlobalAction.shared.didAddWord.accept(())
+                GlobalReactorAction.shared.didAddWord.accept(())
             }
 
         let wordTextIsNotEmpty = input.wordText.map(\.isNotEmpty)

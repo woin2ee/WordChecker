@@ -62,3 +62,8 @@ time = "Time";
 notifications = "Notifications";
 allow_notifications_is_required = "Allow notifications is required.";
 dailyReminderFooter = "Sends a daily push notification at the time you set.";
+
+general = "General";
+haptics = "Haptics";
+hapticsSettingsFooterTextWhenHapticsIsOn = "Enable haptics for interactions.";
+hapticsSettingsFooterTextWhenHapticsIsOff = "Disable haptics for interactions";

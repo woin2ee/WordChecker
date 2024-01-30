@@ -30,7 +30,8 @@ final class UserSettingsRepository: UserSettingsRepositoryProtocol {
             userDefaults.rx.setCodable(
                 userSettings.translationTargetLocale,
                 forKey: UserDefaultsKey.translationTargetLocale
-            )
+            ),
+            userDefaults.rx.setValue(userSettings.hapticsIsOn, forKey: UserDefaultsKey.hapticsIsOn)
         )
         .mapToVoid()
     }
@@ -38,10 +39,15 @@ final class UserSettingsRepository: UserSettingsRepositoryProtocol {
     func getUserSettings() -> RxSwift.Single<Domain.UserSettings> {
         return Single.zip(
             userDefaults.rx.object(TranslationLanguage.self, forKey: UserDefaultsKey.translationSourceLocale),
-            userDefaults.rx.object(TranslationLanguage.self, forKey: UserDefaultsKey.translationTargetLocale)
+            userDefaults.rx.object(TranslationLanguage.self, forKey: UserDefaultsKey.translationTargetLocale),
+            userDefaults.rx.bool(forKey: UserDefaultsKey.hapticsIsOn)
         )
-        .map { sourceLocale, targetLocale -> Domain.UserSettings in
-            return .init(translationSourceLocale: sourceLocale, translationTargetLocale: targetLocale)
+        .map { sourceLocale, targetLocale, hapticsIsOn -> Domain.UserSettings in
+            return .init(
+                translationSourceLocale: sourceLocale,
+                translationTargetLocale: targetLocale,
+                hapticsIsOn: hapticsIsOn
+            )
         }
     }
 
