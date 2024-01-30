@@ -336,6 +336,7 @@ func targets() -> [Target] {
         + Target.module(
             name: "iPhoneDriver",
             dependencies: [
+                .target(name: "DataDriver"),
                 .target(name: "iOSSupport"),
                 .target(name: "WordChecking"),
                 .target(name: "WordList"),
@@ -363,7 +364,6 @@ func targets() -> [Target] {
                 .additional("Resources/InfoPlist/Product/**"),
             ],
             dependencies: [
-                .target(name: "DataDriver"),
                 .target(name: "iPhoneDriver"),
             ],
             settings: .settings(),
@@ -379,7 +379,6 @@ func targets() -> [Target] {
                 .additional("Resources/InfoPlist/Dev/**"),
             ],
             dependencies: [
-                .target(name: "DataDriver"),
                 .target(name: "iPhoneDriver"),
             ],
             settings: .settings(),
