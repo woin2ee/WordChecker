@@ -10,7 +10,6 @@
 
 import DataDriverTesting
 import RxBlocking
-import TestsSupport
 import XCTest
 
 final class UserSettingsUseCaseTests: XCTestCase {
@@ -21,9 +20,7 @@ final class UserSettingsUseCaseTests: XCTestCase {
         try super.setUpWithError()
 
         sut = UserSettingsUseCase.init(
-            userSettingsRepository: UserSettingsRepositoryFake(),
-            notificationRepository: UNUserNotificationCenterFake(),
-            wordRepository: WordRepositoryFake()
+            userSettingsRepository: UserSettingsRepositoryFake()
         )
     }
 
@@ -63,120 +60,43 @@ final class UserSettingsUseCaseTests: XCTestCase {
         }
     }
 
-    func test_setDailyReminder_whenNoAuthorized() {
+    func test_onOffHaptics() throws {
         // Given
-        let time: DateComponents = .init(hour: 11, minute: 11)
+        let hapticsIsOn = try sut.getCurrentUserSettings()
+            .map(\.hapticsIsOn)
+            .toBlocking()
+            .single()
+        XCTAssertEqual(hapticsIsOn, true) // Default value
 
-        // When
+        // Off
         do {
-            try sut.setDailyReminder(at: time)
+            // When
+            try sut.offHaptics()
                 .toBlocking()
                 .single()
 
-            XCTFail("에러 발생하지 않음")
-        }
-
-        // Then
-        catch {
-            XCTAssertEqual(error as? UserSettingsUseCaseError, UserSettingsUseCaseError.noNotificationAuthorization)
-        }
-    }
-
-    func test_setDailyReminder_whenAuthorized() throws {
-        // Given
-        let isAuthorized = try sut.requestNotificationAuthorization(with: .alert)
-            .toBlocking()
-            .single()
-        XCTAssertTrue(isAuthorized)
-
-        let time: DateComponents = .init(hour: 11, minute: 11)
-
-        // When
-        try sut.setDailyReminder(at: time)
-            .toBlocking()
-            .single()
-
-        // Then
-        let dailyReminder = try sut.getDailyReminder()
-            .toBlocking()
-            .single()
-
-        XCTAssertEqual((dailyReminder.trigger as? UNCalendarNotificationTrigger)?.dateComponents, time)
-    }
-
-    func test_getLatestDailyReminderTime_whenNeverSetDailyReminder() {
-        XCTAssertThrowsError(try sut.getLatestDailyReminderTime())
-    }
-
-    func test_removeDailyReminder() throws {
-        // Given
-        let isAuthorized = try sut.requestNotificationAuthorization(with: .alert)
-            .toBlocking()
-            .single()
-        XCTAssertTrue(isAuthorized)
-
-        let time: DateComponents = .init(hour: 11, minute: 11)
-        try sut.setDailyReminder(at: time)
-            .toBlocking()
-            .single()
-
-        // When
-        sut.removeDailyReminder()
-
-        // Then
-        XCTAssertThrowsError(
-            try sut.getDailyReminder()
+            // Then
+            let hapticsIsOn = try sut.getCurrentUserSettings()
+                .map(\.hapticsIsOn)
                 .toBlocking()
                 .single()
-        )
-    }
+            XCTAssertEqual(hapticsIsOn, false)
+        }
 
-    func test_getLatestDailyReminderTime_afterTurnOffDailyReminder() throws {
-        // Given
-        let isAuthorized = try sut.requestNotificationAuthorization(with: .alert)
-            .toBlocking()
-            .single()
-        XCTAssertTrue(isAuthorized)
+        // On
+        do {
+            // When
+            try sut.onHaptics()
+                .toBlocking()
+                .single()
 
-        let time: DateComponents = .init(hour: 11, minute: 11)
-        try sut.setDailyReminder(at: time)
-            .toBlocking()
-            .single()
-        sut.removeDailyReminder()
-
-        // When
-        let latestTime = try sut.getLatestDailyReminderTime()
-
-        // Then
-        XCTAssertEqual(latestTime, time)
-    }
-
-    func test_updateDailyReminerTime() throws {
-        // Given
-        let isAuthorized = try sut.requestNotificationAuthorization(with: .alert)
-            .toBlocking()
-            .single()
-        XCTAssertTrue(isAuthorized)
-
-        let time: DateComponents = .init(hour: 11, minute: 11)
-        try sut.setDailyReminder(at: time)
-            .toBlocking()
-            .single()
-
-        // When
-        let newTime: DateComponents = .init(hour: 12, minute: 12)
-        try sut.setDailyReminder(at: newTime)
-            .toBlocking()
-            .single()
-
-        // Then
-        let latestTime = try sut.getLatestDailyReminderTime()
-        XCTAssertEqual(latestTime, newTime)
-
-        let dailyReminder = try sut.getDailyReminder()
-            .toBlocking()
-            .single()
-        XCTAssertEqual((dailyReminder.trigger as? UNCalendarNotificationTrigger)?.dateComponents, newTime)
+            // Then
+            let hapticsIsOn = try sut.getCurrentUserSettings()
+                .map(\.hapticsIsOn)
+                .toBlocking()
+                .single()
+            XCTAssertEqual(hapticsIsOn, true)
+        }
     }
 
 }

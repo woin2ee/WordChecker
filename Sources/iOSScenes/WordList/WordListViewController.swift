@@ -81,6 +81,7 @@ final class WordListViewController: RxBaseViewController, WordListViewController
 
         setupSubviews()
         setupNavigationBar()
+        bindTabBarControllerDelegate()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -92,12 +93,10 @@ final class WordListViewController: RxBaseViewController, WordListViewController
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationItem.hidesSearchBarWhenScrolling = true
-        self.tabBarController?.delegate = self
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        self.tabBarController?.delegate = nil
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -121,6 +120,17 @@ final class WordListViewController: RxBaseViewController, WordListViewController
         self.navigationItem.titleView = segmentedControl
         self.navigationItem.rightBarButtonItem = addWordButton
         setupSearchBar()
+    }
+
+    func bindTabBarControllerDelegate() {
+        self.tabBarController?.rx.didSelect
+            .asSignal()
+            .emit(with: self) { owner, selectedViewController in
+                if selectedViewController == self.navigationController {
+                    owner.wordListTableView.scrollToRow(at: .init(row: 0, section: 0), at: .bottom, animated: true)
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
 
     func setupSearchBar() {
@@ -250,20 +260,6 @@ extension WordListViewController: UISearchControllerDelegate {
     func willDismissSearchController(_ searchController: UISearchController) {
         UIView.animate(withDuration: 0.4) {
             searchController.view.backgroundColor = .clear
-        }
-    }
-
-}
-
-extension WordListViewController: UITabBarControllerDelegate {
-
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        guard viewController == self.navigationController else {
-            return
-        }
-
-        if wordListTableView.visibleCells.count != 0 {
-            wordListTableView.scrollToRow(at: .init(row: 0, section: 0), at: .bottom, animated: true)
         }
     }
 

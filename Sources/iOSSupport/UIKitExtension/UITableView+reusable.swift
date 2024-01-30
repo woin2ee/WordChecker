@@ -25,8 +25,22 @@ extension UITableView {
         return reusableCell
     }
 
-    public func register<Cell: UITableViewCell & ReusableIdentifying>(_ cellClass: Cell.Type) {
+    public func dequeueReusableHeaderFooterView<HeaderFoorterView: ReusableIdentifying>(_ type: HeaderFoorterView.Type) -> HeaderFoorterView {
+        let headerFooterView = self.dequeueReusableHeaderFooterView(withIdentifier: type.reuseIdentifier)
+
+        guard let reusableHeaderFooterView = headerFooterView as? HeaderFoorterView else {
+            preconditionFailure("Failed to dequeue header or footer view with '\(HeaderFoorterView.self)'type")
+        }
+
+        return reusableHeaderFooterView
+    }
+
+    public func registerCell<Cell: UITableViewCell & ReusableIdentifying>(_ cellClass: Cell.Type) {
         self.register(cellClass.self, forCellReuseIdentifier: Cell.reuseIdentifier)
+    }
+
+    public func registerHeaderFooterView<View: UITableViewHeaderFooterView & ReusableIdentifying>(_ headerFooterViewClass: View.Type) {
+        self.register(headerFooterViewClass.self, forHeaderFooterViewReuseIdentifier: View.reuseIdentifier)
     }
 
 }

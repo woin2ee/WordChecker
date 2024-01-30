@@ -72,4 +72,9 @@ public struct WCString {
     public static let allow_notifications_is_required = NSLocalizedString("allow_notifications_is_required", bundle: Bundle.module, comment: "")
     public static let dailyReminderFooter = NSLocalizedString("dailyReminderFooter", bundle: Bundle.module, comment: "")
 
+    public static let general = NSLocalizedString("general", bundle: Bundle.module, comment: "")
+    public static let haptics = NSLocalizedString("haptics", bundle: Bundle.module, comment: "")
+    public static let hapticsSettingsFooterTextWhenHapticsIsOn = NSLocalizedString("hapticsSettingsFooterTextWhenHapticsIsOn", bundle: Bundle.module, comment: "")
+    public static let hapticsSettingsFooterTextWhenHapticsIsOff = NSLocalizedString("hapticsSettingsFooterTextWhenHapticsIsOff", bundle: Bundle.module, comment: "")
+
 }

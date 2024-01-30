@@ -13,6 +13,7 @@ enum UserSettingsItemIdentifier {
     case changeTargetLanguage
 
     case notifications
+    case general
 
     case googleDriveUpload
     case googleDriveDownload

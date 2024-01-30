@@ -22,7 +22,7 @@ final class UserSettingsReactorTests: RxBaseTestCase {
         try super.setUpWithError()
 
         sut = .init(
-            userSettingsUseCase: UserSettingsUseCaseMock(expectedAuthorizationStatus: .authorized),
+            userSettingsUseCase: UserSettingsUseCaseFake(),
             googleDriveUseCase: GoogleDriveUseCaseFake(scheduler: testScheduler),
             globalAction: .shared
         )
@@ -108,7 +108,7 @@ final class UserSettingsReactorTests: RxBaseTestCase {
 
     func test_viewDidLoad() {
         // Given
-        let userSettingsUseCase: UserSettingsUseCaseMock = .init(expectedAuthorizationStatus: .authorized)
+        let userSettingsUseCase: UserSettingsUseCaseFake = .init()
         userSettingsUseCase.currentUserSettings = .init(translationSourceLocale: .german, translationTargetLocale: .italian)
         sut = .init(
             userSettingsUseCase: userSettingsUseCase,
