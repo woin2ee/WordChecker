@@ -126,7 +126,11 @@ final class WordListViewController: RxBaseViewController, WordListViewController
         self.tabBarController?.rx.didSelect
             .asSignal()
             .emit(with: self) { owner, selectedViewController in
-                if selectedViewController == self.navigationController {
+                guard selectedViewController == self.navigationController else {
+                    return
+                }
+
+                if owner.wordListTableView.visibleCells.count != 0 {
                     owner.wordListTableView.scrollToRow(at: .init(row: 0, section: 0), at: .bottom, animated: true)
                 }
             }
