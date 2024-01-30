@@ -75,3 +75,6 @@ Tuist/master.key
 
 ### info.plist
 Resources/InfoPlist/Info.plist
+
+### Using tests
+Tests/**/*.plist
