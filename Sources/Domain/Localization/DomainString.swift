@@ -27,5 +27,6 @@ struct DomainString {
         let localizedString = NSLocalizedString("daily_reminder_body_message_%d", bundle: Bundle.module, comment: "")
         return .init(format: localizedString, arguments: [unmemorizedWordCount])
     }
+    static let daily_reminder_body_message_when_no_words_to_memorize = NSLocalizedString("daily_reminder_body_message_when_no_words_to_memorize", bundle: Bundle.module, comment: "")
 
 }

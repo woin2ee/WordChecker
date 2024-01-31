@@ -59,17 +59,17 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
         let setDailyReminderSequence: Single<Void> = .create { observer in
             let unmemorizedWordCount = self.wordRepository.getUnmemorizedList().count
 
-            guard unmemorizedWordCount > 0 else {
-                self.removeDailyReminder()
-                observer(.failure(NotificationsUseCaseError.noWordsToMemorize))
-                return Disposables.create()
-            }
-
-            let content: UNMutableNotificationContent = .init().then {
+            var content: UNMutableNotificationContent = .init().then {
                 $0.title = DomainString.daily_reminder
-                $0.body = DomainString.daily_reminder_body_message(unmemorizedWordCount: unmemorizedWordCount)
                 $0.sound = .default
             }
+
+            if unmemorizedWordCount == 0 {
+                content.body = DomainString.daily_reminder_body_message_when_no_words_to_memorize
+            } else {
+                content.body = DomainString.daily_reminder_body_message(unmemorizedWordCount: unmemorizedWordCount)
+            }
+
             let trigger: UNCalendarNotificationTrigger = .init(dateMatching: time, repeats: true)
             let notificationRequest: UNNotificationRequest = .init(
                 identifier: self.DAILY_REMINDER_NOTIFICATION_ID,

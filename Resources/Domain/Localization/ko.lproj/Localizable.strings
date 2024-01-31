@@ -18,3 +18,4 @@ russian = "러시아어";
 
 daily_reminder = "매일 알림";
 "daily_reminder_body_message_%d" = "외우지 못한 단어가 %d개 있습니다.";
+daily_reminder_body_message_when_no_words_to_memorize = "모든 단어를 암기했습니다. 단어를 추가해주세요.";

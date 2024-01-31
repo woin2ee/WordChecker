@@ -83,12 +83,16 @@ final class NotificationsUseCaseTests: XCTestCase {
             userSettingsRepository: UserSettingsRepositoryFake()
         )
 
+        _ = try sut.requestNotificationAuthorization(with: .alert)
+            .toBlocking()
+            .single()
+
         // When
         let setDailyReminderSequence = sut.setDailyReminder(at: .init(hour: 11, minute: 11))
             .toBlocking()
 
         // Then
-        XCTAssertThrowsError(try setDailyReminderSequence.single())
+        XCTAssertNoThrow(try setDailyReminderSequence.single())
     }
 
     func test_setDailyReminder_whenNoWordsToMemorize() throws {
@@ -99,12 +103,16 @@ final class NotificationsUseCaseTests: XCTestCase {
             userSettingsRepository: UserSettingsRepositoryFake()
         )
 
+        _ = try sut.requestNotificationAuthorization(with: .alert)
+            .toBlocking()
+            .single()
+
         // When
         let setDailyReminderSequence = sut.setDailyReminder(at: .init(hour: 11, minute: 11))
             .toBlocking()
 
         // Then
-        XCTAssertThrowsError(try setDailyReminderSequence.single())
+        XCTAssertNoThrow(try setDailyReminderSequence.single())
     }
 
     func test_setDailyReminder_whenDailyReminderExistsAndAllWordsMemorized() throws {
@@ -125,6 +133,10 @@ final class NotificationsUseCaseTests: XCTestCase {
             .toBlocking()
             .single()
 
+        let originDailyReminder = try sut.getDailyReminder()
+            .toBlocking()
+            .single()
+
         wordRepository.save(.init(uuid: uuid, word: "Test", memorizedState: .memorized)) // All words memorized
 
         // When
@@ -132,9 +144,11 @@ final class NotificationsUseCaseTests: XCTestCase {
             .toBlocking()
 
         // Then
-        XCTAssertThrowsError(try setDailyReminderSequence.single())
-        XCTAssertThrowsError(try sut.getDailyReminder().toBlocking().single())
-
+        XCTAssertNoThrow(try setDailyReminderSequence.single())
+        let newDailyReminder = try sut.getDailyReminder()
+            .toBlocking()
+            .single()
+        XCTAssertNotEqual(originDailyReminder.content.body, newDailyReminder.content.body)
     }
 
     func test_getLatestDailyReminderTime_whenNeverSetDailyReminder() {
