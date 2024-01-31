@@ -105,7 +105,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         XCTAssertEqual(elements, [.inProgress, .complete])
         XCTAssertEqual(wordRepository._wordList, driveData)
         XCTAssertEqual(Set(unmemorizedWordListRepository._storedWords.elements), Set(driveData).filter({ $0.memorizedState == .memorizing }))
-        XCTAssertEqual(notificationsUseCase.resetDailyReminderCallCount, 1)
+        XCTAssertEqual(notificationsUseCase.updateDailyReminderCallCount, 1)
     }
 
     func test_downloadWhenNeedSyncToDriveAfterSignIn() throws {
@@ -136,7 +136,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         XCTAssertEqual(elements, [.inProgress, .complete])
         XCTAssertEqual(wordRepository._wordList, driveData)
         XCTAssertEqual(Set(unmemorizedWordListRepository._storedWords.elements), Set(driveData).filter({ $0.memorizedState == .memorizing }))
-        XCTAssertEqual(notificationsUseCase.resetDailyReminderCallCount, 1)
+        XCTAssertEqual(notificationsUseCase.updateDailyReminderCallCount, 1)
     }
 
 }

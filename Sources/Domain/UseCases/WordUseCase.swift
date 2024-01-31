@@ -30,7 +30,7 @@ public final class WordUseCase: WordUseCaseProtocol {
             self.unmemorizedWordListRepository.addWord(word)
             self.wordRepository.save(word)
 
-            _ = self.notificationsUseCase.resetDailyReminder()
+            _ = self.notificationsUseCase.updateDailyReminder()
                 .subscribe()
 
             single(.success(()))
@@ -44,7 +44,7 @@ public final class WordUseCase: WordUseCaseProtocol {
             self.unmemorizedWordListRepository.deleteWord(by: uuid)
             self.wordRepository.delete(by: uuid)
 
-            _ = self.notificationsUseCase.resetDailyReminder()
+            _ = self.notificationsUseCase.updateDailyReminder()
                 .subscribe()
 
             single(.success(()))

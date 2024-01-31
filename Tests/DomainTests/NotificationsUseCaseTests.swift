@@ -238,4 +238,40 @@ final class NotificationsUseCaseTests: XCTestCase {
         XCTAssertEqual((dailyReminder.trigger as? UNCalendarNotificationTrigger)?.dateComponents, newTime)
     }
 
+    func test_updateDailyReminder() throws {
+        // Given
+        let wordRepository = WordRepositoryFake(sampleData: [Word(uuid: .init(), word: "Test1", memorizedState: .memorizing)])
+        sut = NotificationsUseCase.init(
+            notificationRepository: UNUserNotificationCenterFake(),
+            wordRepository: wordRepository,
+            userSettingsRepository: UserSettingsRepositoryFake()
+        )
+
+        _ = try sut.requestNotificationAuthorization(with: .alert) // Authorization
+            .toBlocking()
+            .single()
+
+        try sut.setDailyReminder(at: .init(hour: 11, minute: 11)) // Prepare daily reminder
+            .toBlocking()
+            .single()
+
+        let originDailyReminder = try sut.getDailyReminder()
+            .toBlocking()
+            .single()
+
+        // When
+        wordRepository.save(.init(word: "Test2", memorizedState: .memorizing)) // Add word
+
+        _ = try sut.updateDailyReminder()
+            .toBlocking()
+            .first()
+
+        // Then
+        let newDailyReminder = try sut.getDailyReminder()
+            .toBlocking()
+            .single()
+
+        XCTAssertNotEqual(originDailyReminder.content.body, newDailyReminder.content.body)
+    }
+
 }

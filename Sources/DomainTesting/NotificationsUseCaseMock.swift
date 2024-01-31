@@ -14,7 +14,7 @@ import UserNotifications
 
 public final class NotificationsUseCaseMock: NotificationsUseCaseProtocol {
 
-    public var resetDailyReminderCallCount: Int = 0
+    public var updateDailyReminderCallCount: Int = 0
     public var _authorizationStatus: UNAuthorizationStatus = .notDetermined
     public var expectedAuthorizationStatus: UNAuthorizationStatus = .notDetermined
     public var _dailyReminder: UNNotificationRequest?
@@ -36,8 +36,8 @@ public final class NotificationsUseCaseMock: NotificationsUseCaseProtocol {
         return .just(())
     }
 
-    public func resetDailyReminder() -> RxSwift.Completable {
-        resetDailyReminderCallCount += 1
+    public func updateDailyReminder() -> RxSwift.Completable {
+        updateDailyReminderCallCount += 1
 
         guard
             _authorizationStatus == .authorized,

@@ -65,7 +65,7 @@ final class WordUseCaseTests: XCTestCase {
 
         // Assert
         XCTAssertEqual(try sut.getWord(by: testUUID).toBlocking().single(), testWord)
-        XCTAssertEqual(notificationsUseCase.resetDailyReminderCallCount, 1)
+        XCTAssertEqual(notificationsUseCase.updateDailyReminderCallCount, 1)
     }
 
     func test_deleteUnmemorizedWord() throws {
@@ -82,7 +82,7 @@ final class WordUseCaseTests: XCTestCase {
         // Assert
         XCTAssertThrowsError(try sut.getWord(by: deleteTarget.uuid).toBlocking().single())
         XCTAssertFalse(try sut.getUnmemorizedWordList().toBlocking().single().contains(where: { $0.uuid == deleteTarget.uuid }))
-        XCTAssertEqual(notificationsUseCase.resetDailyReminderCallCount, 1)
+        XCTAssertEqual(notificationsUseCase.updateDailyReminderCallCount, 1)
     }
 
     func test_deleteMemorizedWord() throws {
@@ -99,7 +99,7 @@ final class WordUseCaseTests: XCTestCase {
         // Assert
         XCTAssertThrowsError(try sut.getWord(by: deleteTarget.uuid).toBlocking().single())
         XCTAssertFalse(try sut.getMemorizedWordList().toBlocking().single().contains(where: { $0.uuid == deleteTarget.uuid }))
-        XCTAssertEqual(notificationsUseCase.resetDailyReminderCallCount, 1)
+        XCTAssertEqual(notificationsUseCase.updateDailyReminderCallCount, 1)
     }
 
     func test_getWordList() throws {
