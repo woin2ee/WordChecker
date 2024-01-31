@@ -25,10 +25,10 @@ public protocol NotificationsUseCaseProtocol {
     /// - Returns: 알림을 정상적으로 설정한 경우 Success 요소를 방출하는 시퀀스를 반환합니다. 어떠한 이유로 알림을 지정하지 못한 경우 Error 를 방출하는 시퀀스를 반환합니다.
     func setDailyReminder(at time: DateComponents) -> Single<Void>
 
-    /// 현재 단어 갯수를 적용하여 알림 내용을 다시 설정합니다.
+    /// 현재 단어 갯수를 적용하여 알림 내용을 최신화합니다.
     ///
-    /// 매일 알림이 설정되어 있지 않거나 정상적으로 알림을 다시 설정하지 못했을 경우 Error 를 방출합니다.
-    func resetDailyReminder() -> Completable
+    /// 매일 알림이 설정되어 있지 않거나 정상적으로 알림을 최신화하지 못했을 경우 Error 를 방출합니다.
+    func updateDailyReminder() -> Completable
 
     /// 설정된 매일 알림을 삭제합니다.
     func removeDailyReminder()

@@ -122,7 +122,7 @@ public final class GoogleDriveUseCase: ExternalStoreUseCaseProtocol {
                             self.wordRepository.reset(to: wordList)
                             let unmemorizedList = self.wordRepository.getUnmemorizedList()
                             self.unmemorizedWordListRepository.shuffle(with: unmemorizedList)
-                            _ = self.notificationsUseCase.resetDailyReminder()
+                            _ = self.notificationsUseCase.updateDailyReminder()
                                         .subscribe()
                         }
                         .subscribe(

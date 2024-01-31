@@ -104,7 +104,7 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
             }
     }
 
-    public func resetDailyReminder() -> RxSwift.Completable {
+    public func updateDailyReminder() -> RxSwift.Completable {
         return getDailyReminder()
             .map { ($0.trigger as? UNCalendarNotificationTrigger)?.dateComponents }
             .unwrapOrThrow()
