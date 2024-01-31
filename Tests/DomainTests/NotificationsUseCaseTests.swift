@@ -17,15 +17,6 @@ final class NotificationsUseCaseTests: XCTestCase {
 
     var sut: NotificationsUseCaseProtocol!
 
-    override func setUpWithError() throws {
-        try super.setUpWithError()
-        sut = NotificationsUseCase.init(
-            notificationRepository: UNUserNotificationCenterFake(),
-            wordRepository: WordRepositoryFake(),
-            userSettingsRepository: UserSettingsRepositoryFake()
-        )
-    }
-
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         sut = nil
@@ -33,6 +24,12 @@ final class NotificationsUseCaseTests: XCTestCase {
 
     func test_setDailyReminder_whenNoAuthorized() {
         // Given
+        sut = NotificationsUseCase.init(
+            notificationRepository: UNUserNotificationCenterFake(),
+            wordRepository: WordRepositoryFake(sampleData: [Word(word: "Test", memorizedState: .memorizing)]),
+            userSettingsRepository: UserSettingsRepositoryFake()
+        )
+
         let time: DateComponents = .init(hour: 11, minute: 11)
 
         // When
@@ -52,6 +49,12 @@ final class NotificationsUseCaseTests: XCTestCase {
 
     func test_setDailyReminder_whenAuthorized() throws {
         // Given
+        sut = NotificationsUseCase.init(
+            notificationRepository: UNUserNotificationCenterFake(),
+            wordRepository: WordRepositoryFake(sampleData: [Word(word: "Test", memorizedState: .memorizing)]),
+            userSettingsRepository: UserSettingsRepositoryFake()
+        )
+
         let isAuthorized = try sut.requestNotificationAuthorization(with: .alert)
             .toBlocking()
             .single()
@@ -72,12 +75,88 @@ final class NotificationsUseCaseTests: XCTestCase {
         XCTAssertEqual((dailyReminder.trigger as? UNCalendarNotificationTrigger)?.dateComponents, time)
     }
 
+    func test_setDailyReminder_whenJustNoWords() throws {
+        // Given
+        sut = NotificationsUseCase.init(
+            notificationRepository: UNUserNotificationCenterFake(),
+            wordRepository: WordRepositoryFake(sampleData: []),
+            userSettingsRepository: UserSettingsRepositoryFake()
+        )
+
+        // When
+        let setDailyReminderSequence = sut.setDailyReminder(at: .init(hour: 11, minute: 11))
+            .toBlocking()
+
+        // Then
+        XCTAssertThrowsError(try setDailyReminderSequence.single())
+    }
+
+    func test_setDailyReminder_whenNoWordsToMemorize() throws {
+        // Given
+        sut = NotificationsUseCase.init(
+            notificationRepository: UNUserNotificationCenterFake(),
+            wordRepository: WordRepositoryFake(sampleData: [Word(word: "Test", memorizedState: .memorized)]),
+            userSettingsRepository: UserSettingsRepositoryFake()
+        )
+
+        // When
+        let setDailyReminderSequence = sut.setDailyReminder(at: .init(hour: 11, minute: 11))
+            .toBlocking()
+
+        // Then
+        XCTAssertThrowsError(try setDailyReminderSequence.single())
+    }
+
+    func test_setDailyReminder_whenDailyReminderExistsAndAllWordsMemorized() throws {
+        // Given
+        let uuid: UUID = .init()
+        let wordRepository = WordRepositoryFake(sampleData: [Word(uuid: uuid, word: "Test", memorizedState: .memorizing)])
+        sut = NotificationsUseCase.init(
+            notificationRepository: UNUserNotificationCenterFake(),
+            wordRepository: wordRepository,
+            userSettingsRepository: UserSettingsRepositoryFake()
+        )
+
+        _ = try sut.requestNotificationAuthorization(with: .alert) // Authorization
+            .toBlocking()
+            .single()
+
+        try sut.setDailyReminder(at: .init(hour: 11, minute: 11)) // Prepare daily reminder
+            .toBlocking()
+            .single()
+
+        wordRepository.save(.init(uuid: uuid, word: "Test", memorizedState: .memorized)) // All words memorized
+
+        // When
+        let setDailyReminderSequence = sut.setDailyReminder(at: .init(hour: 11, minute: 11))
+            .toBlocking()
+
+        // Then
+        XCTAssertThrowsError(try setDailyReminderSequence.single())
+        XCTAssertThrowsError(try sut.getDailyReminder().toBlocking().single())
+
+    }
+
     func test_getLatestDailyReminderTime_whenNeverSetDailyReminder() {
+        // Given
+        sut = NotificationsUseCase.init(
+            notificationRepository: UNUserNotificationCenterFake(),
+            wordRepository: WordRepositoryFake(),
+            userSettingsRepository: UserSettingsRepositoryFake()
+        )
+
+        // Then
         XCTAssertThrowsError(try sut.getLatestDailyReminderTime())
     }
 
     func test_removeDailyReminder() throws {
         // Given
+        sut = NotificationsUseCase.init(
+            notificationRepository: UNUserNotificationCenterFake(),
+            wordRepository: WordRepositoryFake(sampleData: [Word(word: "Test", memorizedState: .memorizing)]),
+            userSettingsRepository: UserSettingsRepositoryFake()
+        )
+
         let isAuthorized = try sut.requestNotificationAuthorization(with: .alert)
             .toBlocking()
             .single()
@@ -101,6 +180,12 @@ final class NotificationsUseCaseTests: XCTestCase {
 
     func test_getLatestDailyReminderTime_afterTurnOffDailyReminder() throws {
         // Given
+        sut = NotificationsUseCase.init(
+            notificationRepository: UNUserNotificationCenterFake(),
+            wordRepository: WordRepositoryFake(sampleData: [Word(word: "Test", memorizedState: .memorizing)]),
+            userSettingsRepository: UserSettingsRepositoryFake()
+        )
+
         let isAuthorized = try sut.requestNotificationAuthorization(with: .alert)
             .toBlocking()
             .single()
@@ -121,6 +206,12 @@ final class NotificationsUseCaseTests: XCTestCase {
 
     func test_updateDailyReminerTime() throws {
         // Given
+        sut = NotificationsUseCase.init(
+            notificationRepository: UNUserNotificationCenterFake(),
+            wordRepository: WordRepositoryFake(sampleData: [Word(word: "Test", memorizedState: .memorizing)]),
+            userSettingsRepository: UserSettingsRepositoryFake()
+        )
+
         let isAuthorized = try sut.requestNotificationAuthorization(with: .alert)
             .toBlocking()
             .single()
