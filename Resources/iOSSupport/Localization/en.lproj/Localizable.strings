@@ -67,3 +67,8 @@ general = "General";
 haptics = "Haptics";
 hapticsSettingsFooterTextWhenHapticsIsOn = "Enable haptics for interactions.";
 hapticsSettingsFooterTextWhenHapticsIsOff = "Disable haptics for interactions";
+
+more_menu = "More menu";
+memorize_words = "Memorize words";
+next_word = "Next word";
+previous_word = "Previous word";

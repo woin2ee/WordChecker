@@ -67,3 +67,8 @@ general = "일반";
 haptics = "진동";
 hapticsSettingsFooterTextWhenHapticsIsOn = "상호 작용에 대한 진동을 사용합니다.";
 hapticsSettingsFooterTextWhenHapticsIsOff = "상호 작용에 대한 진동을 사용하지 않습니다.";
+
+more_menu = "메뉴 더보기";
+memorize_words = "단어 암기";
+next_word = "다음 단어";
+previous_word = "이전 단어";
