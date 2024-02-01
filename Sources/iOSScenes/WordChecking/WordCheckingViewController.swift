@@ -26,11 +26,13 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
     let addWordButton: UIBarButtonItem = .init().then {
         $0.image = .init(systemSymbol: .plusApp)
         $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.addWordButton
+        $0.accessibilityLabel = WCString.addWord
     }
 
-    let moreButton: UIBarButtonItem = .init().then {
+    let moreMenuButton: UIBarButtonItem = .init().then {
         $0.image = .init(systemSymbol: .ellipsisCircle)
         $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.moreButton
+        $0.accessibilityLabel = WCString.more_menu
     }
 
     override func loadView() {
@@ -50,13 +52,18 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
     }
 
     private func setupNavigationBar() {
+        self.navigationItem.titleView = UILabel.init().then {
+            $0.text = WCString.memorize_words
+            $0.textColor = .clear
+        }
+
         let appearance: UINavigationBarAppearance = .init()
         appearance.configureWithOpaqueBackground()
 
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
 
-        self.navigationItem.rightBarButtonItems = [moreButton, addWordButton]
+        self.navigationItem.rightBarButtonItems = [moreMenuButton, addWordButton]
 
         let menuGroup: UIMenu = .init(
             options: .displayInline,
@@ -80,7 +87,7 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
             handler: { [weak self] _ in self?.reactor?.action.onNext(.deleteCurrentWord) }
         )
 
-        moreButton.menu = .init(children: [menuGroup, deleteMenu])
+        moreMenuButton.menu = .init(children: [menuGroup, deleteMenu])
     }
 
     func bind(reactor: WordCheckingReactor) {
@@ -150,8 +157,26 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
                     owner.rootView.wordLabel.textColor = .systemGray2
                     owner.rootView.translateButton.isEnabled = false
                 }
+
+                owner.setAccessibilityLanguage()
             }
             .disposed(by: self.disposeBag)
+
+        reactor.state
+            .map(\.translationSourceLanguage)
+            .asDriverOnErrorJustComplete()
+            .drive(with: self) { owner, _ in
+                owner.setAccessibilityLanguage()
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    func setAccessibilityLanguage() {
+        if self.reactor?.currentState.currentWord == nil {
+            rootView.wordLabel.accessibilityLanguage = Locale.current.language.languageCode?.identifier
+        } else {
+            rootView.wordLabel.accessibilityLanguage = self.reactor?.currentState.translationSourceLanguage.bcp47tag
+        }
     }
 
     func presentAddWordAlert() -> Maybe<String> {

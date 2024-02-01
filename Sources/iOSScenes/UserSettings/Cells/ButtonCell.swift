@@ -19,6 +19,16 @@ final class ButtonCell: UITableViewCell, ReusableIdentifying {
         let textColor: UIColor
     }
 
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        self.accessibilityTraits = .button
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     func bind(model: Model) {
         var config: UIListContentConfiguration = .cell()
         config.text = model.title

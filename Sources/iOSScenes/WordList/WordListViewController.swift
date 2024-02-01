@@ -44,6 +44,7 @@ final class WordListViewController: RxBaseViewController, WordListViewController
         let button: UIBarButtonItem = .init(systemItem: .add)
         button.accessibilityIdentifier = AccessibilityIdentifier.WordList.addWordButton
         button.style = .done
+        button.accessibilityLabel = WCString.addWord
         return button
     }()
 
