@@ -8,6 +8,7 @@
 import DataDriver
 import Domain
 import iPhoneDriver
+import Infrastructure
 
 // Scenes
 import GeneralSettings
@@ -42,6 +43,7 @@ class AppDelegate: iPhoneAppDelegate {
             LanguageSettingAssembly(),
             PushNotificationSettingsAssemblyDev(),
             GeneralSettingsAssembly(),
+            InfrastructureAssembly(),
         ])
     }
 

@@ -67,9 +67,6 @@ func targets() -> [Target] {
                 .target(name: "Utility"),
                 .package(product: ExternalDependencyName.realm),
                 .package(product: ExternalDependencyName.realmSwift),
-                .package(product: ExternalDependencyName.googleAPIClientForRESTCore),
-                .package(product: ExternalDependencyName.googleAPIClientForREST_Drive),
-                .package(product: ExternalDependencyName.googleSignIn),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
                 .external(name: ExternalDependencyName.extendedUserDefaults),
@@ -87,6 +84,28 @@ func targets() -> [Target] {
             name: "DataDriverTesting",
             dependencies: [
                 .target(name: "Domain"),
+            ],
+            appendSchemeTo: &disposedSchemes
+        )
+        + Target.module(
+            name: "Infrastructure",
+            dependencies: [
+                .target(name: "Domain"),
+                .target(name: "Utility"),
+                .package(product: ExternalDependencyName.googleAPIClientForRESTCore),
+                .package(product: ExternalDependencyName.googleAPIClientForREST_Drive),
+                .package(product: ExternalDependencyName.googleSignIn),
+                .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.rxUtilityDynamic),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
+            name: "InfrastructureTesting",
+            dependencies: [
+                .target(name: "Infrastructure"),
             ],
             appendSchemeTo: &disposedSchemes
         )
@@ -346,6 +365,7 @@ func targets() -> [Target] {
                 .target(name: "LanguageSetting"),
                 .target(name: "PushNotificationSettings"),
                 .target(name: "GeneralSettings"),
+                .target(name: "Infrastructure"),
                 .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.swinjectDIContainer),
                 .external(name: ExternalDependencyName.sfSafeSymbols),
@@ -432,18 +452,15 @@ let project: Project = .init(
         .init(
             name: PROJECT_NAME,
             buildAction: .buildAction(targets: ["\(PROJECT_NAME)"]),
-            testAction: .testPlans([.relativeToRoot("TestPlans/WordChecker.xctestplan")]),
             runAction: .runAction(executable: "\(PROJECT_NAME)"),
             profileAction: .profileAction(executable: "\(PROJECT_NAME)")
         ),
         .init(
             name: "\(PROJECT_NAME)Dev",
-            testAction: .testPlans([.relativeToRoot("TestPlans/WordChecker.xctestplan")]),
             runAction: .runAction(executable: "\(PROJECT_NAME)Dev")
         ),
         .init(
             name: "\(PROJECT_NAME)Dev_InMemoryDB",
-            testAction: .testPlans([.relativeToRoot("TestPlans/WordChecker.xctestplan")]),
             runAction: .runAction(
                 executable: "\(PROJECT_NAME)Dev",
                 arguments: .init(launchArguments: [
@@ -453,7 +470,6 @@ let project: Project = .init(
         ),
         .init(
             name: "\(PROJECT_NAME)Dev_SampleDB",
-            testAction: .testPlans([.relativeToRoot("TestPlans/WordChecker.xctestplan")]),
             runAction: .runAction(
                 executable: "\(PROJECT_NAME)Dev",
                 arguments: .init(launchArguments: [
@@ -462,8 +478,8 @@ let project: Project = .init(
             )
         ),
         .init(
-            name: "\(PROJECT_NAME)IntergrationTests",
-            testAction: .testPlans([.relativeToRoot("TestPlans/WordCheckerIntergrationTests.xctestplan")])
+            name: "IntergrationTests",
+            testAction: .testPlans([.relativeToRoot("TestPlans/IntergrationTests.xctestplan")])
         ),
     ],
     additionalFiles: [

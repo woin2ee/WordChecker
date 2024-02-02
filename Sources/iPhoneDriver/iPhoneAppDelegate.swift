@@ -10,6 +10,7 @@ import DataDriver
 import Domain
 import GeneralSettings
 import GoogleSignIn
+import Infrastructure
 import iOSSupport
 import LanguageSetting
 import PushNotificationSettings
@@ -90,6 +91,7 @@ open class iPhoneAppDelegate: UIResponder, UIApplicationDelegate {
             LanguageSettingAssembly(),
             PushNotificationSettingsAssembly(),
             GeneralSettingsAssembly(),
+            InfrastructureAssembly(),
         ])
     }
 

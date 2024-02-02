@@ -1,5 +1,5 @@
 //
-//  GoogleDriveRepositoryFake.swift
+//  GoogleDriveServiceFake.swift
 //  Testing
 //
 //  Created by Jaewon Yun on 2023/09/22.
@@ -10,7 +10,7 @@ import Domain
 import Foundation
 import RxSwift
 
-public final class GoogleDriveRepositoryFake: GoogleDriveRepositoryProtocol {
+public final class GoogleDriveServiceFake: GoogleDriveService {
 
     public var _wordList: [Word] = []
 
@@ -74,7 +74,7 @@ public final class GoogleDriveRepositoryFake: GoogleDriveRepositoryProtocol {
         return .just(())
     }
 
-    public func requestAccess(presenting: Domain.PresentingConfiguration) -> RxSwift.Single<Void> {
+    public func requestAppDataScopeAccess(presenting: Domain.PresentingConfiguration) -> RxSwift.Single<Void> {
         if _hasSignIn == false {
             return .error(GoogleDriveRepositoryFakeError.noSignedIn)
         }

@@ -1,7 +1,7 @@
 {
   "configurations" : [
     {
-      "id" : "476B913C-6392-458D-BA50-1A523DA2070D",
+      "id" : "B071DD0E-FEBF-4848-9935-69B00075A2D2",
       "name" : "Configuration 1",
       "options" : {
 
@@ -22,8 +22,22 @@
     {
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "6A11BA59AA3F5D03369E7DB1",
-        "name" : "UserSettingsTests"
+        "identifier" : "DCCAE250A32485D11F075E3E",
+        "name" : "DataDriverTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "D6E847CEB3E1C72D665A8879",
+        "name" : "DomainTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "585092990423BB1A0834B60A",
+        "name" : "UtilityTests"
       }
     },
     {
@@ -31,6 +45,13 @@
         "containerPath" : "container:WordChecker.xcodeproj",
         "identifier" : "27FAB0A92E9F64A545C3337E",
         "name" : "LanguageSettingTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "6A11BA59AA3F5D03369E7DB1",
+        "name" : "UserSettingsTests"
       }
     },
     {
@@ -59,6 +80,27 @@
         "containerPath" : "container:WordChecker.xcodeproj",
         "identifier" : "AA3329E574FC503FF669CE7B",
         "name" : "WordListTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "0D0A048C4E8A1F30CBB8F2BE",
+        "name" : "FoundationExtensionTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "3F3E981FC1A96E4F891CA1D4",
+        "name" : "PushNotificationSettingsTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "83032F7A5B540DB966841901",
+        "name" : "GeneralSettingsTests"
       }
     }
   ],

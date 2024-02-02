@@ -30,12 +30,12 @@ final class GoogleDriveUseCaseTests: XCTestCase {
         // Given
         let wordRepository: WordRepositoryFake = .init(sampleData: testSampleWordList)
 
-        let googleDriveRepository: GoogleDriveRepositoryFake = .init()
+        let googleDriveService: GoogleDriveServiceFake = .init()
 
-        sut = GoogleDriveUseCase.init(
+        sut = ExternalStoreUseCase.init(
             wordRepository: wordRepository,
-            googleDriveRepository: googleDriveRepository,
             unmemorizedWordListRepository: UnmemorizedWordListRepositorySpy(),
+            googleDriveService: googleDriveService,
             notificationsUseCase: notificationsUseCase
         )
 
@@ -48,20 +48,20 @@ final class GoogleDriveUseCaseTests: XCTestCase {
 
         // Then
         XCTAssertEqual(elements, [.inProgress, .complete])
-        XCTAssertEqual(testSampleWordList, googleDriveRepository._wordList)
+        XCTAssertEqual(testSampleWordList, googleDriveService._wordList)
     }
 
     func test_uploadAfterSignInWithOutGrant() throws {
         // Given
         let wordRepository: WordRepositoryFake = .init(sampleData: testSampleWordList)
 
-        let googleDriveRepository: GoogleDriveRepositoryFake = .init()
-        googleDriveRepository._hasSignIn = true
+        let googleDriveService: GoogleDriveServiceFake = .init()
+        googleDriveService._hasSignIn = true
 
-        sut = GoogleDriveUseCase.init(
+        sut = ExternalStoreUseCase.init(
             wordRepository: wordRepository,
-            googleDriveRepository: googleDriveRepository,
             unmemorizedWordListRepository: UnmemorizedWordListRepositorySpy(),
+            googleDriveService: googleDriveService,
             notificationsUseCase: notificationsUseCase
         )
 
@@ -74,7 +74,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
 
         // Then
         XCTAssertEqual(elements, [.inProgress, .complete])
-        XCTAssertEqual(testSampleWordList, googleDriveRepository._wordList)
+        XCTAssertEqual(testSampleWordList, googleDriveService._wordList)
     }
 
     func test_downloadBeforeSignIn() throws {
@@ -83,14 +83,14 @@ final class GoogleDriveUseCaseTests: XCTestCase {
 
         let wordRepository: WordRepositoryFake = .init(sampleData: testSampleWordList)
 
-        let googleDriveRepository: GoogleDriveRepositoryFake = .init(sampleWordList: driveData)
+        let googleDriveService: GoogleDriveServiceFake = .init(sampleWordList: driveData)
 
         let unmemorizedWordListRepository: UnmemorizedWordListRepositorySpy = .init()
 
-        sut = GoogleDriveUseCase.init(
+        sut = ExternalStoreUseCase.init(
             wordRepository: wordRepository,
-            googleDriveRepository: googleDriveRepository,
             unmemorizedWordListRepository: unmemorizedWordListRepository,
+            googleDriveService: googleDriveService,
             notificationsUseCase: notificationsUseCase
         )
 
@@ -114,16 +114,16 @@ final class GoogleDriveUseCaseTests: XCTestCase {
 
         let wordRepository: WordRepositoryFake = .init(sampleData: testSampleWordList)
 
-        let googleDriveRepository: GoogleDriveRepositoryFake = .init(sampleWordList: driveData)
-        googleDriveRepository._hasSignIn = true
-        googleDriveRepository._isGrantedAppDataScope = true
+        let googleDriveService: GoogleDriveServiceFake = .init(sampleWordList: driveData)
+        googleDriveService._hasSignIn = true
+        googleDriveService._isGrantedAppDataScope = true
 
         let unmemorizedWordListRepository: UnmemorizedWordListRepositorySpy = .init()
 
-        sut = GoogleDriveUseCase.init(
+        sut = ExternalStoreUseCase.init(
             wordRepository: wordRepository,
-            googleDriveRepository: googleDriveRepository,
             unmemorizedWordListRepository: unmemorizedWordListRepository,
+            googleDriveService: googleDriveService,
             notificationsUseCase: notificationsUseCase
         )
 
