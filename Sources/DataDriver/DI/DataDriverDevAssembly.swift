@@ -17,7 +17,6 @@ public final class DataDriverDevAssembly: Assembly {
             UserSettingsRepositoryDevAssembly(),
             WordRepositoryDevAssembly(),
             UnmemorizedWordListRepositoryAssembly(),
-            GoogleDriveRepositoryAssembly(),
         ]
 
         assemblies.forEach { assembly in

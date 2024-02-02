@@ -1,11 +1,3 @@
-//
-//  GoogleDriveRepository.swift
-//  GoogleDrivePlatform
-//
-//  Created by Jaewon Yun on 2023/09/22.
-//  Copyright © 2023 woin2ee. All rights reserved.
-//
-
 import Domain
 import Foundation
 import GoogleSignIn
@@ -15,7 +7,30 @@ import RxSwift
 import UIKit
 import Utility
 
-final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
+enum GoogleDriveServiceError: Error {
+
+    /// 로그인 복구 실패
+    case failedRestorePreviousSignIn
+
+    /// 로그인 실패
+    case failedSignIn
+
+    /// 로그인 화면 제시가 불가능한 윈도우
+    case unSupportedWindow
+
+    case noClientID
+
+    case denyAccess
+
+    /// 로그인 되어있지 않음
+    case noSignedInUser
+
+    /// 구글 드라이브에 파일이 없음
+    case noFileInDrive
+
+}
+
+final class GoogleDriveService: Domain.GoogleDriveService {
 
     let gidSignIn: GIDSignIn
 
@@ -27,12 +42,12 @@ final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
 
     func signInWithAppDataScope(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
         guard let presentingViewController = presenting.window as? UIViewController else {
-            return .error(GoogleDriveRepositoryError.unSupportedWindow)
+            return .error(GoogleDriveServiceError.unSupportedWindow)
         }
 
         guard let clientID = Bundle.main.object(forInfoDictionaryKey: "GIDClientID") as? String else {
             assertionFailure("ClientID is missing from info.plist")
-            return .error(GoogleDriveRepositoryError.noClientID)
+            return .error(GoogleDriveServiceError.noClientID)
         }
 
         let config: GIDConfiguration = .init(clientID: clientID)
@@ -45,7 +60,7 @@ final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
                 additionalScopes: [ScopeCode.appData]
             ) { user, error in
                 if error != nil || user == nil {
-                    result(.failure(GoogleDriveRepositoryError.failedSignIn))
+                    result(.failure(GoogleDriveServiceError.failedSignIn))
                 } else {
                     result(.success(()))
                 }
@@ -67,7 +82,7 @@ final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
         return .create { result in
             self.gidSignIn.restorePreviousSignIn { user, error in
                 if error != nil || user == nil {
-                    result(.failure(GoogleDriveRepositoryError.failedRestorePreviousSignIn))
+                    result(.failure(GoogleDriveServiceError.failedRestorePreviousSignIn))
                 } else {
                     result(.success(()))
                 }
@@ -77,15 +92,15 @@ final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
         }
     }
 
-    func requestAccess(presenting: PresentingConfiguration) -> Single<Void> {
+    func requestAppDataScopeAccess(presenting: PresentingConfiguration) -> Single<Void> {
         guard let presentingViewController = presenting.window as? UIViewController else {
-            return .error(GoogleDriveRepositoryError.unSupportedWindow)
+            return .error(GoogleDriveServiceError.unSupportedWindow)
         }
 
         return .create { result in
             self.gidSignIn.addScopes([ScopeCode.appData], presenting: presentingViewController) { user, error in
                 if error != nil || user == nil {
-                    result(.failure(GoogleDriveRepositoryError.denyAccess))
+                    result(.failure(GoogleDriveServiceError.denyAccess))
                 } else {
                     result(.success(()))
                 }
@@ -106,7 +121,7 @@ final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
 
     func uploadWordList(_ wordList: [Domain.Word]) -> RxSwift.Single<Void> {
         guard let currentUser = gidSignIn.currentUser else {
-            return .error(GoogleDriveRepositoryError.noSignedInUser)
+            return .error(GoogleDriveServiceError.noSignedInUser)
         }
 
         guard let data = try? JSONEncoder().encode(wordList) else {
@@ -135,7 +150,7 @@ final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
 
     func downloadWordList() -> RxSwift.Single<[Domain.Word]> {
         guard let currentUser = gidSignIn.currentUser else {
-            return .error(GoogleDriveRepositoryError.noSignedInUser)
+            return .error(GoogleDriveServiceError.noSignedInUser)
         }
 
         return .create { result in
@@ -143,7 +158,7 @@ final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
                 let fileList = try await self.backupFiles
 
                 guard let backupFileID = fileList.files?.first?.identifier else {
-                    result(.failure(GoogleDriveRepositoryError.noFileInDrive))
+                    result(.failure(GoogleDriveServiceError.noFileInDrive))
                     return
                 }
 
@@ -161,7 +176,7 @@ final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
 
     private func deleteBackupFiles() -> Completable {
         guard let currentUser = gidSignIn.currentUser else {
-            return .error(GoogleDriveRepositoryError.noSignedInUser)
+            return .error(GoogleDriveServiceError.noSignedInUser)
         }
 
         return .create { observer in
@@ -190,7 +205,7 @@ final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
     private var backupFiles: GTLRDrive_FileList {
         get async throws {
             guard let currentUser = gidSignIn.currentUser else {
-                throw GoogleDriveRepositoryError.noSignedInUser
+                throw GoogleDriveServiceError.noSignedInUser
             }
 
             let filesListQuery: GTLRDriveQuery_FilesList = .query()
@@ -200,23 +215,5 @@ final class GoogleDriveRepository: GoogleDriveRepositoryProtocol {
             return try await GoogleDriveAPI(user: currentUser).filesList(query: filesListQuery)
         }
     }
-
-}
-
-enum GoogleDriveRepositoryError: Error {
-
-    case failedRestorePreviousSignIn
-
-    case failedSignIn
-
-    case unSupportedWindow
-
-    case noClientID
-
-    case denyAccess
-
-    case noSignedInUser
-
-    case noFileInDrive
 
 }

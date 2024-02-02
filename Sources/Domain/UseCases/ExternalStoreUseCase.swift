@@ -10,36 +10,38 @@ import Foundation
 import RxSwift
 import RxUtility
 
-public final class GoogleDriveUseCase: ExternalStoreUseCaseProtocol {
+public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
 
     let wordRepository: WordRepositoryProtocol
-    let googleDriveRepository: GoogleDriveRepositoryProtocol
     let unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol
+
+    let googleDriveService: GoogleDriveService
+
     let notificationsUseCase: NotificationsUseCaseProtocol
 
-    init(wordRepository: WordRepositoryProtocol, googleDriveRepository: GoogleDriveRepositoryProtocol, unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol, notificationsUseCase: NotificationsUseCaseProtocol) {
+    init(wordRepository: WordRepositoryProtocol, unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol, googleDriveService: GoogleDriveService, notificationsUseCase: NotificationsUseCaseProtocol) {
         self.wordRepository = wordRepository
-        self.googleDriveRepository = googleDriveRepository
         self.unmemorizedWordListRepository = unmemorizedWordListRepository
+        self.googleDriveService = googleDriveService
         self.notificationsUseCase = notificationsUseCase
     }
 
     public func signInWithAuthorization(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
-        if hasSigned, googleDriveRepository.isGrantedAppDataScope {
+        if hasSigned, googleDriveService.isGrantedAppDataScope {
             return .just(())
         }
 
-        return googleDriveRepository.restorePreviousSignIn()
-            .flatMap { self.googleDriveRepository.requestAccess(presenting: presenting) }
-            .catch { _ in self.googleDriveRepository.signInWithAppDataScope(presenting: presenting) }
+        return googleDriveService.restorePreviousSignIn()
+            .flatMap { self.googleDriveService.requestAppDataScopeAccess(presenting: presenting) }
+            .catch { _ in self.googleDriveService.signInWithAppDataScope(presenting: presenting) }
     }
 
     public func signOut() {
-        googleDriveRepository.signOut()
+        googleDriveService.signOut()
     }
 
     public var hasSigned: Bool {
-        return googleDriveRepository.hasSigned
+        return googleDriveService.hasSigned
     }
 
     public func upload(presenting: PresentingConfiguration?) -> Observable<ProgressStatus> {
@@ -60,7 +62,7 @@ public final class GoogleDriveUseCase: ExternalStoreUseCaseProtocol {
 
                     let wordList = self.wordRepository.getAll()
 
-                    let disposable = self.googleDriveRepository.uploadWordList(wordList)
+                    let disposable = self.googleDriveService.uploadWordList(wordList)
                         .subscribe(
                             onSuccess: { _ in
                                 observer.onNext(.complete)
@@ -76,7 +78,7 @@ public final class GoogleDriveUseCase: ExternalStoreUseCaseProtocol {
                 }
             }
 
-            if self.hasSigned, self.googleDriveRepository.isGrantedAppDataScope {
+            if self.hasSigned, self.googleDriveService.isGrantedAppDataScope {
                 doUpload(authorizationStatus: .success(()))
                 return Disposables.create(disposables)
             }
@@ -87,7 +89,7 @@ public final class GoogleDriveUseCase: ExternalStoreUseCaseProtocol {
             }
 
             if self.hasSigned {
-                let disposable = self.googleDriveRepository.requestAccess(presenting: presenting)
+                let disposable = self.googleDriveService.requestAppDataScopeAccess(presenting: presenting)
                     .subscribe(doUpload(authorizationStatus:))
                 disposables.append(disposable)
                 return Disposables.create(disposables)
@@ -116,7 +118,7 @@ public final class GoogleDriveUseCase: ExternalStoreUseCaseProtocol {
                 case .success:
                     observer.onNext(.inProgress)
 
-                    let disposable = self.googleDriveRepository.downloadWordList()
+                    let disposable = self.googleDriveService.downloadWordList()
                         .observe(on: MainScheduler.instance)
                         .doOnSuccess { wordList in
                             self.wordRepository.reset(to: wordList)
@@ -140,7 +142,7 @@ public final class GoogleDriveUseCase: ExternalStoreUseCaseProtocol {
                 }
             }
 
-            if self.hasSigned, self.googleDriveRepository.isGrantedAppDataScope {
+            if self.hasSigned, self.googleDriveService.isGrantedAppDataScope {
                 doDownload(authorizationStatus: .success(()))
                 return Disposables.create(disposables)
             }
@@ -151,7 +153,7 @@ public final class GoogleDriveUseCase: ExternalStoreUseCaseProtocol {
             }
 
             if self.hasSigned {
-                let disposable = self.googleDriveRepository.requestAccess(presenting: presenting)
+                let disposable = self.googleDriveService.requestAppDataScopeAccess(presenting: presenting)
                     .subscribe(doDownload(authorizationStatus:))
                 disposables.append(disposable)
                 return Disposables.create(disposables)
@@ -165,7 +167,7 @@ public final class GoogleDriveUseCase: ExternalStoreUseCaseProtocol {
     }
 
     public func restoreSignIn() -> Observable<Void> {
-        return googleDriveRepository.restorePreviousSignIn()
+        return googleDriveService.restorePreviousSignIn()
             .asObservable()
     }
 
