@@ -30,6 +30,7 @@ func targets() -> [Target] {
                 .target(name: "DataDriverTesting"),
                 .target(name: "TestsSupport"),
                 .target(name: "DomainTesting"),
+                .target(name: "InfrastructureTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
             ],
             appendSchemeTo: &schemes
