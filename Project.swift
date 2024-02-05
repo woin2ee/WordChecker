@@ -283,6 +283,7 @@ func targets() -> [Target] {
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "iOSSupport"),
+                .target(name: "FoundationExtension"),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxCocoa),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
@@ -292,6 +293,7 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.toast),
                 .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.swinjectExtension),
+                .package(product: ExternalDependencyName.swiftCollections),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -445,6 +447,7 @@ let project: Project = .init(
         .package(url: "https://github.com/realm/realm-swift.git", from: "10.42.0"),
         .package(url: "https://github.com/google/GoogleSignIn-iOS", from: "6.0.0"),
         .package(url: "https://github.com/google/google-api-objectivec-client-for-rest.git", from: "3.0.0"),
+        .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.0"),
     ],
     settings: .settings(),
     targets: targets(),

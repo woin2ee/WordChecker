@@ -16,12 +16,15 @@ public final class LanguageSettingAssembly: Assembly {
     public init() {}
 
     public func assemble(container: Container) {
-        container.register(LanguageSettingViewControllerProtocol.self) { resolver, settingsDirection, currentSettingLocale in
-            let userSettingsUseCase: UserSettingsUseCaseProtocol = resolver.resolve()
-            let viewModel: LanguageSettingViewModel = .init(userSettingsUseCase: userSettingsUseCase, settingsDirection: settingsDirection, currentSettingLocale: currentSettingLocale)
+        container.register(LanguageSettingViewControllerProtocol.self) { resolver, translationDirection in
+            let reactor: LanguageSettingReactor = .init(
+                translationDirection: translationDirection,
+                userSettingsUseCase: resolver.resolve(),
+                globalAction: .shared
+            )
 
             return LanguageSettingViewController.init().then {
-                $0.viewModel = viewModel
+                $0.reactor = reactor
             }
         }
     }

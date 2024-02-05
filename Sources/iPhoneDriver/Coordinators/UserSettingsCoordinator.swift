@@ -35,18 +35,18 @@ final class UserSettingsCoordinator: Coordinator {
 
 extension UserSettingsCoordinator: UserSettingsViewControllerDelegate {
 
-    func didTapSourceLanguageSettingRow(currentSettingLocale: TranslationLanguage) {
+    func didTapSourceLanguageSettingRow() {
         let coordinator: LanguageSettingCoordinator = .init(navigationController: navigationController)
         coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)
-        coordinator.start(with: LanguageSettingViewModel.SettingsDirection.sourceLanguage, currentSettingLocale)
+        coordinator.start(with: TranslationDirection.sourceLanguage)
     }
 
-    func didTapTargetLanguageSettingRow(currentSettingLocale: TranslationLanguage) {
+    func didTapTargetLanguageSettingRow() {
         let coordinator: LanguageSettingCoordinator = .init(navigationController: navigationController)
         coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)
-        coordinator.start(with: LanguageSettingViewModel.SettingsDirection.targetLanguage, currentSettingLocale)
+        coordinator.start(with: TranslationDirection.targetLanguage)
     }
 
     func didTapNotificationsSettingRow() {
