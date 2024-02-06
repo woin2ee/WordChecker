@@ -36,16 +36,16 @@ final class WordRepository: WordRepositoryProtocol {
         }
     }
 
-    func getAll() -> [Domain.Word] {
+    func getAllWords() -> [Domain.Word] {
         return findAll()
             .map { $0.toDomain() }
     }
 
-    func get(by uuid: UUID) -> Domain.Word? {
+    func getWord(by uuid: UUID) -> Domain.Word? {
         return find(by: uuid)?.toDomain() ?? nil
     }
 
-    func delete(by uuid: UUID) {
+    func deleteWord(by uuid: UUID) {
         guard let object = find(by: uuid) else {
             return
         }

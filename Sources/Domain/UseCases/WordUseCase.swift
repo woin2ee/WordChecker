@@ -42,7 +42,7 @@ public final class WordUseCase: WordUseCaseProtocol {
     public func deleteWord(by uuid: UUID) -> RxSwift.Single<Void> {
         return .create { single in
             self.unmemorizedWordListRepository.deleteWord(by: uuid)
-            self.wordRepository.delete(by: uuid)
+            self.wordRepository.deleteWord(by: uuid)
 
             _ = self.notificationsUseCase.updateDailyReminder()
                 .subscribe()
@@ -55,7 +55,7 @@ public final class WordUseCase: WordUseCaseProtocol {
 
     public func getWordList() -> RxSwift.Single<[Word]> {
         return .create { single in
-            let wordList = self.wordRepository.getAll()
+            let wordList = self.wordRepository.getAllWords()
             single(.success(wordList))
 
             return Disposables.create()
@@ -82,7 +82,7 @@ public final class WordUseCase: WordUseCaseProtocol {
 
     public func getWord(by uuid: UUID) -> RxSwift.Single<Word> {
         return .create { single in
-            if let word = self.wordRepository.get(by: uuid) {
+            if let word = self.wordRepository.getWord(by: uuid) {
                 single(.success(word))
             } else {
                 single(.failure(WordUseCaseError.invalidUUID(uuid)))
@@ -150,7 +150,7 @@ public final class WordUseCase: WordUseCaseProtocol {
 
     public func markCurrentWordAsMemorized(uuid: UUID) -> RxSwift.Single<Void> {
         return .create { single in
-            guard let currentWord = self.wordRepository.get(by: uuid) else {
+            guard let currentWord = self.wordRepository.getWord(by: uuid) else {
                 single(.failure(WordUseCaseError.invalidUUID(uuid)))
                 return Disposables.create()
             }
