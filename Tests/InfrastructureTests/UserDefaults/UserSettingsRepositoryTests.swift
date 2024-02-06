@@ -6,7 +6,7 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-@testable import DataDriver
+@testable import Infrastructure
 
 import Domain
 import ExtendedUserDefaults

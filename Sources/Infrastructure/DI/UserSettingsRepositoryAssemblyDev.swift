@@ -1,5 +1,5 @@
 //
-//  UserSettingsRepositoryDevAssembly.swift
+//  UserSettingsRepositoryAssemblyDev.swift
 //  WordCheckerDev
 //
 //  Created by Jaewon Yun on 2023/09/21.
@@ -12,7 +12,7 @@ import Foundation
 import Swinject
 import Utility
 
-final class UserSettingsRepositoryDevAssembly: Assembly {
+final class UserSettingsRepositoryAssemblyDev: Assembly {
 
     func assemble(container: Container) {
         container.register(UserSettingsRepositoryProtocol.self) { _ in

@@ -22,13 +22,6 @@
     {
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "DCCAE250A32485D11F075E3E",
-        "name" : "DataDriverTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:WordChecker.xcodeproj",
         "identifier" : "D6E847CEB3E1C72D665A8879",
         "name" : "DomainTests"
       }
@@ -101,6 +94,13 @@
         "containerPath" : "container:WordChecker.xcodeproj",
         "identifier" : "83032F7A5B540DB966841901",
         "name" : "GeneralSettingsTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "7C78BC2C06BF23C70DEE14AE",
+        "name" : "InfrastructureTests"
       }
     }
   ],

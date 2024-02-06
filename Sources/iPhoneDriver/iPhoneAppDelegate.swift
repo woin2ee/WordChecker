@@ -6,7 +6,6 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
-import DataDriver
 import Domain
 import GeneralSettings
 import GoogleSignIn
@@ -82,7 +81,7 @@ open class iPhoneAppDelegate: UIResponder, UIApplicationDelegate {
     open func initDIContainer() {
         DIContainer.shared.assembler.apply(assemblies: [
             DomainAssembly(),
-            DataDriverAssembly(),
+            InfrastructureAssembly(),
             WordCheckingAssembly(),
             WordListAssembly(),
             WordDetailAssembly(),
