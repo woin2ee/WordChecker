@@ -16,7 +16,7 @@ public final class WordRepositoryFake: WordRepositoryProtocol {
         _wordList = sampleData
     }
 
-    public func get(by uuid: UUID) -> Domain.Word? {
+    public func getWord(by uuid: UUID) -> Domain.Word? {
         return _wordList.first(where: { $0.uuid == uuid })
     }
 
@@ -28,11 +28,11 @@ public final class WordRepositoryFake: WordRepositoryProtocol {
         }
     }
 
-    public func getAll() -> [Domain.Word] {
+    public func getAllWords() -> [Domain.Word] {
         return _wordList
     }
 
-    public func delete(by uuid: UUID) {
+    public func deleteWord(by uuid: UUID) {
         if let index = _wordList.firstIndex(where: { $0.uuid == uuid }) {
             _wordList.remove(at: index)
         }

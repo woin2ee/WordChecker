@@ -13,16 +13,17 @@ public protocol WordRepositoryProtocol {
     /// - Parameter word: 저장할 단어
     func save(_ word: Word)
 
-    func getAll() -> [Word]
+    func getAllWords() -> [Word]
 
-    func get(by uuid: UUID) -> Word?
+    func getWord(by uuid: UUID) -> Word?
 
-    func delete(by uuid: UUID)
+    func deleteWord(by uuid: UUID)
 
     func getUnmemorizedList() -> [Word]
 
     func getMemorizedList() -> [Word]
 
+    /// 모든 단어를 지우고 새로운 `wordList` 를 저장합니다.
     func reset(to wordList: [Word])
 
 }

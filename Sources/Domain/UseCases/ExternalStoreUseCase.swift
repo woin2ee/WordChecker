@@ -60,7 +60,7 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
                 case .success:
                     observer.onNext(.inProgress)
 
-                    let wordList = self.wordRepository.getAll()
+                    let wordList = self.wordRepository.getAllWords()
 
                     let disposable = self.googleDriveService.uploadWordList(wordList)
                         .subscribe(
