@@ -25,7 +25,7 @@ final class NotificationsUseCaseTests: XCTestCase {
     func test_setDailyReminder_whenNoAuthorized() {
         // Given
         sut = NotificationsUseCase.init(
-            notificationRepository: LocalNotificationServiceFake(),
+            localNotificationService: LocalNotificationServiceFake(),
             wordRepository: WordRepositoryFake(sampleData: [Word(word: "Test", memorizedState: .memorizing)]),
             userSettingsRepository: UserSettingsRepositoryFake()
         )
@@ -50,7 +50,7 @@ final class NotificationsUseCaseTests: XCTestCase {
     func test_setDailyReminder_whenAuthorized() throws {
         // Given
         sut = NotificationsUseCase.init(
-            notificationRepository: LocalNotificationServiceFake(),
+            localNotificationService: LocalNotificationServiceFake(),
             wordRepository: WordRepositoryFake(sampleData: [Word(word: "Test", memorizedState: .memorizing)]),
             userSettingsRepository: UserSettingsRepositoryFake()
         )
@@ -78,7 +78,7 @@ final class NotificationsUseCaseTests: XCTestCase {
     func test_setDailyReminder_whenJustNoWords() throws {
         // Given
         sut = NotificationsUseCase.init(
-            notificationRepository: LocalNotificationServiceFake(),
+            localNotificationService: LocalNotificationServiceFake(),
             wordRepository: WordRepositoryFake(sampleData: []),
             userSettingsRepository: UserSettingsRepositoryFake()
         )
@@ -98,7 +98,7 @@ final class NotificationsUseCaseTests: XCTestCase {
     func test_setDailyReminder_whenNoWordsToMemorize() throws {
         // Given
         sut = NotificationsUseCase.init(
-            notificationRepository: LocalNotificationServiceFake(),
+            localNotificationService: LocalNotificationServiceFake(),
             wordRepository: WordRepositoryFake(sampleData: [Word(word: "Test", memorizedState: .memorized)]),
             userSettingsRepository: UserSettingsRepositoryFake()
         )
@@ -120,7 +120,7 @@ final class NotificationsUseCaseTests: XCTestCase {
         let uuid: UUID = .init()
         let wordRepository = WordRepositoryFake(sampleData: [Word(uuid: uuid, word: "Test", memorizedState: .memorizing)])
         sut = NotificationsUseCase.init(
-            notificationRepository: LocalNotificationServiceFake(),
+            localNotificationService: LocalNotificationServiceFake(),
             wordRepository: wordRepository,
             userSettingsRepository: UserSettingsRepositoryFake()
         )
@@ -154,7 +154,7 @@ final class NotificationsUseCaseTests: XCTestCase {
     func test_getLatestDailyReminderTime_whenNeverSetDailyReminder() {
         // Given
         sut = NotificationsUseCase.init(
-            notificationRepository: LocalNotificationServiceFake(),
+            localNotificationService: LocalNotificationServiceFake(),
             wordRepository: WordRepositoryFake(),
             userSettingsRepository: UserSettingsRepositoryFake()
         )
@@ -166,7 +166,7 @@ final class NotificationsUseCaseTests: XCTestCase {
     func test_removeDailyReminder() throws {
         // Given
         sut = NotificationsUseCase.init(
-            notificationRepository: LocalNotificationServiceFake(),
+            localNotificationService: LocalNotificationServiceFake(),
             wordRepository: WordRepositoryFake(sampleData: [Word(word: "Test", memorizedState: .memorizing)]),
             userSettingsRepository: UserSettingsRepositoryFake()
         )
@@ -195,7 +195,7 @@ final class NotificationsUseCaseTests: XCTestCase {
     func test_getLatestDailyReminderTime_afterTurnOffDailyReminder() throws {
         // Given
         sut = NotificationsUseCase.init(
-            notificationRepository: LocalNotificationServiceFake(),
+            localNotificationService: LocalNotificationServiceFake(),
             wordRepository: WordRepositoryFake(sampleData: [Word(word: "Test", memorizedState: .memorizing)]),
             userSettingsRepository: UserSettingsRepositoryFake()
         )
@@ -221,7 +221,7 @@ final class NotificationsUseCaseTests: XCTestCase {
     func test_updateDailyReminerTime() throws {
         // Given
         sut = NotificationsUseCase.init(
-            notificationRepository: LocalNotificationServiceFake(),
+            localNotificationService: LocalNotificationServiceFake(),
             wordRepository: WordRepositoryFake(sampleData: [Word(word: "Test", memorizedState: .memorizing)]),
             userSettingsRepository: UserSettingsRepositoryFake()
         )
@@ -256,7 +256,7 @@ final class NotificationsUseCaseTests: XCTestCase {
         // Given
         let wordRepository = WordRepositoryFake(sampleData: [Word(uuid: .init(), word: "Test1", memorizedState: .memorizing)])
         sut = NotificationsUseCase.init(
-            notificationRepository: LocalNotificationServiceFake(),
+            localNotificationService: LocalNotificationServiceFake(),
             wordRepository: wordRepository,
             userSettingsRepository: UserSettingsRepositoryFake()
         )

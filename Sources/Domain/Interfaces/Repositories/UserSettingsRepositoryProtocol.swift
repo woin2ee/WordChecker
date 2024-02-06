@@ -15,8 +15,4 @@ public protocol UserSettingsRepositoryProtocol {
 
     func getUserSettings() -> Single<UserSettings>
 
-    func updateLatestDailyReminderTime(_ time: DateComponents) throws
-
-    func getLatestDailyReminderTime() throws -> DateComponents
-
 }

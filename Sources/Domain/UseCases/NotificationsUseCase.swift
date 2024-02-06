@@ -21,12 +21,12 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
     /// Notification request 의 고유 ID
     let DAILY_REMINDER_NOTIFICATION_ID: String = "DailyReminder"
 
-    let notificationRepository: LocalNotificationService
+    let localNotificationService: LocalNotificationService
     let wordRepository: WordRepositoryProtocol
     let userSettingsRepository: UserSettingsRepositoryProtocol
 
-    init(notificationRepository: LocalNotificationService, wordRepository: WordRepositoryProtocol, userSettingsRepository: UserSettingsRepositoryProtocol) {
-        self.notificationRepository = notificationRepository
+    init(localNotificationService: LocalNotificationService, wordRepository: WordRepositoryProtocol, userSettingsRepository: UserSettingsRepositoryProtocol) {
+        self.localNotificationService = localNotificationService
         self.wordRepository = wordRepository
         self.userSettingsRepository = userSettingsRepository
     }
@@ -34,7 +34,7 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
     public func requestNotificationAuthorization(with options: UNAuthorizationOptions) -> Single<Bool> {
         return .create { observer in
             Task {
-                let hasAuthorization = try await self.notificationRepository.requestAuthorization(options: options)
+                let hasAuthorization = try await self.localNotificationService.requestAuthorization(options: options)
                 observer(.success(hasAuthorization))
             } catch: { error in
                 observer(.failure(error))
@@ -47,7 +47,7 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
     public func getNotificationAuthorizationStatus() -> Single<UNAuthorizationStatus> {
         return .create { observer in
             Task {
-                let notificationSettings = await self.notificationRepository.notificationSettings()
+                let notificationSettings = await self.localNotificationService.notificationSettings()
                 observer(.success(notificationSettings.authorizationStatus))
             }
 
@@ -78,13 +78,13 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
             )
 
             do {
-                try self.userSettingsRepository.updateLatestDailyReminderTime(time)
+                try self.localNotificationService.saveLatestDailyReminderTime(time)
             } catch {
                 // TODO: 예외 상황 로그 추가
             }
 
             Task {
-                try await self.notificationRepository.add(notificationRequest)
+                try await self.localNotificationService.add(notificationRequest)
                 observer(.success(()))
             } catch: { error in
                 observer(.failure(error))
@@ -113,13 +113,13 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
     }
 
     public func removeDailyReminder() {
-        notificationRepository.removePendingNotificationRequests(withIdentifiers: [DAILY_REMINDER_NOTIFICATION_ID])
+        localNotificationService.removePendingNotificationRequests(withIdentifiers: [DAILY_REMINDER_NOTIFICATION_ID])
     }
 
     public func getDailyReminder() -> Single<UNNotificationRequest> {
         return .create { observer in
             Task {
-                guard let dailyReminder = await self.notificationRepository.pendingNotificationRequests()
+                guard let dailyReminder = await self.localNotificationService.pendingNotificationRequests()
                     .filter({ $0.identifier == self.DAILY_REMINDER_NOTIFICATION_ID })
                     .first
                 else {
@@ -135,7 +135,7 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
     }
 
     public func getLatestDailyReminderTime() throws -> DateComponents {
-        return try userSettingsRepository.getLatestDailyReminderTime()
+        return try localNotificationService.getLatestDailyReminderTime()
     }
 
 }

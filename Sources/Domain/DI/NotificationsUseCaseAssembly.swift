@@ -15,7 +15,7 @@ final class NotificationsUseCaseAssembly: Assembly {
     func assemble(container: Container) {
         container.register(NotificationsUseCaseProtocol.self) { resolver in
             return NotificationsUseCase.init(
-                notificationRepository: resolver.resolve(),
+                localNotificationService: resolver.resolve(),
                 wordRepository: resolver.resolve(),
                 userSettingsRepository: resolver.resolve()
             )

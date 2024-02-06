@@ -6,7 +6,10 @@ final class LocalNotificationServiceAssembly: Assembly {
 
     func assemble(container: Container) {
         container.register(Domain.LocalNotificationService.self) { _ in
-            return UserNotifications.UNUserNotificationCenter.current()
+            return LocalNotificationService.init(
+                userDefaults: .standard,
+                userNotificationCenter: .current()
+            )
         }
         .inObjectScope(.container)
     }
