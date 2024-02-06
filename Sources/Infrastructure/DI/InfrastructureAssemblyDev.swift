@@ -10,6 +10,7 @@ public final class InfrastructureAssemblyDev: Assembly {
             UserSettingsRepositoryAssemblyDev(),
             WordRepositoryAssemblyDev(),
             UnmemorizedWordListRepositoryAssembly(),
+            LocalNotificationServiceAssembly(),
         ]
 
         assemblies.forEach { assembly in
