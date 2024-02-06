@@ -15,6 +15,7 @@ public final class LocalNotificationServiceFake: LocalNotificationService {
 
     public var _authorizationStatus: UNAuthorizationStatus = .notDetermined
     public var _pendingNotifications: [UNNotificationRequest] = []
+    public var _latestDailyReminderTime: DateComponents?
 
     public init() {
 
@@ -48,6 +49,18 @@ public final class LocalNotificationServiceFake: LocalNotificationService {
         let coder: NotificationSettingsCoder = .init()
         coder.authorizationStatus = _authorizationStatus
         return UNNotificationSettings(coder: coder)!
+    }
+
+    public func saveLatestDailyReminderTime(_ time: DateComponents) throws {
+        _latestDailyReminderTime = time
+    }
+
+    public func getLatestDailyReminderTime() throws -> DateComponents {
+        guard let latestDailyReminderTime = _latestDailyReminderTime else {
+            throw UserSettingsRepositoryError.notSavedLatestDailyReminderTime
+        }
+
+        return latestDailyReminderTime
     }
 
 }

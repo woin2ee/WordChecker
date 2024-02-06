@@ -21,8 +21,6 @@ public final class UserSettingsRepositoryFake: UserSettingsRepositoryProtocol {
 
     public var _userSettings: UserSettings?
 
-    public var _latestDailyReminderTime: DateComponents?
-
     public init() {}
 
     public func saveUserSettings(_ userSettings: Domain.UserSettings) -> RxSwift.Single<Void> {
@@ -43,18 +41,6 @@ public final class UserSettingsRepositoryFake: UserSettingsRepositoryProtocol {
 
             return Disposables.create()
         }
-    }
-
-    public func updateLatestDailyReminderTime(_ time: DateComponents) throws {
-        _latestDailyReminderTime = time
-    }
-
-    public func getLatestDailyReminderTime() throws -> DateComponents {
-        guard let latestDailyReminderTime = _latestDailyReminderTime else {
-            throw UserSettingsRepositoryError.notSavedLatestDailyReminderTime
-        }
-
-        return latestDailyReminderTime
     }
 
 }
