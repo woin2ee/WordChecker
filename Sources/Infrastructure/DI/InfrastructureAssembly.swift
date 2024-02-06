@@ -7,6 +7,9 @@ public final class InfrastructureAssembly: Assembly {
     public func assemble(container: Container) {
         let assemblies: [Assembly] = [
             GoogleDriveServiceAssembly(),
+            UserSettingsRepositoryAssembly(),
+            WordRepositoryAssembly(),
+            UnmemorizedWordListRepositoryAssembly(),
         ]
 
         assemblies.forEach { assembly in

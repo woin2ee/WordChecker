@@ -8,7 +8,7 @@
 @testable import Domain
 @testable import Utility
 
-import DataDriverTesting
+import InfrastructureTesting
 import DomainTesting
 import RxBlocking
 import XCTest

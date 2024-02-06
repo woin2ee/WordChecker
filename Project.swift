@@ -27,7 +27,6 @@ func targets() -> [Target] {
             ],
             hasTests: true,
             additionalTestDependencies: [
-                .target(name: "DataDriverTesting"),
                 .target(name: "TestsSupport"),
                 .target(name: "DomainTesting"),
                 .target(name: "InfrastructureTesting"),
@@ -39,7 +38,7 @@ func targets() -> [Target] {
             name: "DomainTesting",
             dependencies: [
                 .target(name: "Domain"),
-                .target(name: "DataDriverTesting"),
+                .target(name: "InfrastructureTesting"),
             ],
             appendSchemeTo: &disposedSchemes
         )
@@ -62,12 +61,15 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "DataDriver",
+            name: "Infrastructure",
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "Utility"),
                 .package(product: ExternalDependencyName.realm),
                 .package(product: ExternalDependencyName.realmSwift),
+                .package(product: ExternalDependencyName.googleAPIClientForRESTCore),
+                .package(product: ExternalDependencyName.googleAPIClientForREST_Drive),
+                .package(product: ExternalDependencyName.googleSignIn),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
                 .external(name: ExternalDependencyName.extendedUserDefaults),
@@ -82,31 +84,9 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "DataDriverTesting",
-            dependencies: [
-                .target(name: "Domain"),
-            ],
-            appendSchemeTo: &disposedSchemes
-        )
-        + Target.module(
-            name: "Infrastructure",
-            dependencies: [
-                .target(name: "Domain"),
-                .target(name: "Utility"),
-                .package(product: ExternalDependencyName.googleAPIClientForRESTCore),
-                .package(product: ExternalDependencyName.googleAPIClientForREST_Drive),
-                .package(product: ExternalDependencyName.googleSignIn),
-                .external(name: ExternalDependencyName.rxSwift),
-                .external(name: ExternalDependencyName.rxUtilityDynamic),
-                .external(name: ExternalDependencyName.swinject),
-                .external(name: ExternalDependencyName.swinjectExtension),
-            ],
-            appendSchemeTo: &schemes
-        )
-        + Target.module(
             name: "InfrastructureTesting",
             dependencies: [
-                .target(name: "Infrastructure"),
+                .target(name: "Domain"),
             ],
             appendSchemeTo: &disposedSchemes
         )
@@ -358,7 +338,6 @@ func targets() -> [Target] {
         + Target.module(
             name: "iPhoneDriver",
             dependencies: [
-                .target(name: "DataDriver"),
                 .target(name: "iOSSupport"),
                 .target(name: "WordChecking"),
                 .target(name: "WordList"),

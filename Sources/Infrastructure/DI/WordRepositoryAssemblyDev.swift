@@ -12,7 +12,7 @@ import RealmSwift
 import Swinject
 import Utility
 
-final class WordRepositoryDevAssembly: Assembly {
+final class WordRepositoryAssemblyDev: Assembly {
 
     func assemble(container: Container) {
         container.register(WordRepositoryProtocol.self) { _ in
@@ -45,7 +45,7 @@ final class WordRepositoryDevAssembly: Assembly {
         do {
             try realm.write {
                 sampleWords
-                    .map { DataDriver.Word.init(word: $0) }
+                    .map { Infrastructure.Word.init(word: $0) }
                     .forEach { realm.add($0) }
             }
         } catch {

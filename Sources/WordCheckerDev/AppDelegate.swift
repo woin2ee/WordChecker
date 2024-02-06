@@ -5,7 +5,6 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
-import DataDriver
 import Domain
 import iPhoneDriver
 import Infrastructure
@@ -34,7 +33,7 @@ class AppDelegate: iPhoneAppDelegate {
     override func initDIContainer() {
         DIContainer.shared.assembler.apply(assemblies: [
             DomainAssembly(),
-            DataDriverDevAssembly(),
+            InfrastructureAssemblyDev(),
             WordCheckingAssembly(),
             WordListAssembly(),
             WordDetailAssembly(),

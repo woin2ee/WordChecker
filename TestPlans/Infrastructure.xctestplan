@@ -15,8 +15,8 @@
     {
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "DCCAE250A32485D11F075E3E",
-        "name" : "DataDriverTests"
+        "identifier" : "7C78BC2C06BF23C70DEE14AE",
+        "name" : "InfrastructureTests"
       }
     }
   ],
