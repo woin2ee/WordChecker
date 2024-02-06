@@ -38,6 +38,8 @@ public protocol NotificationsUseCaseProtocol {
     func getDailyReminder() -> Single<UNNotificationRequest>
 
     /// 마지막으로 설정한 매일 알림의 시간을 반환합니다.
+    ///
+    /// - throws: 한 번도 매일 알림을 설정한 적이 없을 때 error를 던집니다.
     func getLatestDailyReminderTime() throws -> DateComponents
 
 }

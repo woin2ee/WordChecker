@@ -21,11 +21,11 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
     /// Notification request 의 고유 ID
     let DAILY_REMINDER_NOTIFICATION_ID: String = "DailyReminder"
 
-    let notificationRepository: UserNotificationRepositoryProtocol
+    let notificationRepository: LocalNotificationService
     let wordRepository: WordRepositoryProtocol
     let userSettingsRepository: UserSettingsRepositoryProtocol
 
-    init(notificationRepository: UserNotificationRepositoryProtocol, wordRepository: WordRepositoryProtocol, userSettingsRepository: UserSettingsRepositoryProtocol) {
+    init(notificationRepository: LocalNotificationService, wordRepository: WordRepositoryProtocol, userSettingsRepository: UserSettingsRepositoryProtocol) {
         self.notificationRepository = notificationRepository
         self.wordRepository = wordRepository
         self.userSettingsRepository = userSettingsRepository
