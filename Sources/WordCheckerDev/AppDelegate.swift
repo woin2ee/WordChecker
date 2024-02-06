@@ -42,7 +42,6 @@ class AppDelegate: iPhoneAppDelegate {
             LanguageSettingAssembly(),
             PushNotificationSettingsAssemblyDev(),
             GeneralSettingsAssembly(),
-            InfrastructureAssembly(),
         ])
     }
 

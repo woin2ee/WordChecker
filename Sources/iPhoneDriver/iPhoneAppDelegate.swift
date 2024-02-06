@@ -90,7 +90,6 @@ open class iPhoneAppDelegate: UIResponder, UIApplicationDelegate {
             LanguageSettingAssembly(),
             PushNotificationSettingsAssembly(),
             GeneralSettingsAssembly(),
-            InfrastructureAssembly(),
         ])
     }
 
