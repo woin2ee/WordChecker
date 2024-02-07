@@ -16,7 +16,8 @@ public final class UserSettingsUseCaseFake: UserSettingsUseCaseProtocol {
     public var currentUserSettings: Domain.UserSettings = .init(
         translationSourceLocale: .english,
         translationTargetLocale: .korean,
-        hapticsIsOn: true
+        hapticsIsOn: true,
+        themeStyle: .system
     )
 
     public init() {}
@@ -45,6 +46,11 @@ public final class UserSettingsUseCaseFake: UserSettingsUseCaseProtocol {
 
     public func offHaptics() -> RxSwift.Single<Void> {
         currentUserSettings.hapticsIsOn = false
+        return .just(())
+    }
+
+    public func updateThemeStyle(_ style: ThemeStyle) -> Single<Void> {
+        currentUserSettings.themeStyle = style
         return .just(())
     }
 

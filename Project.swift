@@ -102,8 +102,9 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.reactorKit),
                 .external(name: ExternalDependencyName.snapKit),
                 .external(name: ExternalDependencyName.then),
+                .package(product: ExternalDependencyName.swiftCollections),
             ],
-            appendSchemeTo: &disposedSchemes
+            appendSchemeTo: &schemes
         )
         + Target.module(
             name: "WordChecking",
@@ -274,7 +275,6 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.toast),
                 .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.swinjectExtension),
-                .package(product: ExternalDependencyName.swiftCollections),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -291,6 +291,7 @@ func targets() -> [Target] {
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "iOSSupport"),
+                .target(name: "FoundationExtension"),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxCocoa),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),

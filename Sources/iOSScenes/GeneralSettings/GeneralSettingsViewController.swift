@@ -14,6 +14,7 @@ import UIKit
 
 public protocol GeneralSettingsViewControllerDelegate: AnyObject {
     func willPopView()
+    func didTapThemeSetting()
 }
 
 public protocol GeneralSettingsViewControllerProtocol: UIViewController {
@@ -24,16 +25,19 @@ final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSe
 
     enum SectionIdentifier: Int {
         case hapticsSettings = 0
+        case themeSetting
     }
 
     enum ItemIdentifier {
         case hapticsOnOffSwitch
+        case themeSetting
     }
 
     weak var delegate: GeneralSettingsViewControllerDelegate?
 
     lazy var rootView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
         $0.registerCell(ManualSwitchCell.self)
+        $0.registerCell(DisclosureIndicatorCell.self)
         $0.registerHeaderFooterView(TextFooterView.self)
         $0.delegate = self
     }
@@ -59,6 +63,11 @@ final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSe
                 .map { Reactor.Action.tapHapticsSwitch }
                 .bind(to: reactor.action)
                 .disposed(by: cell.disposeBag)
+            return cell
+
+        case .themeSetting:
+            let cell = tableView.dequeueReusableCell(DisclosureIndicatorCell.self, for: indexPath)
+            cell.bind(model: .init(title: WCString.theme))
             return cell
         }
     }
@@ -88,9 +97,25 @@ final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSe
 
     func applyInitialSnapshot() {
         var snapshot = dataSource.snapshot()
-        snapshot.appendSections([.hapticsSettings])
+        snapshot.appendSections([
+            .hapticsSettings,
+            .themeSetting,
+        ])
         snapshot.appendItems([.hapticsOnOffSwitch], toSection: .hapticsSettings)
+        snapshot.appendItems([.themeSetting], toSection: .themeSetting)
         dataSource.applySnapshotUsingReloadData(snapshot)
+    }
+
+    override func bindAction() {
+        let itemSelectedEvent = rootView.rx.itemSelected.asSignal()
+            .doOnNext { [weak self] in self?.rootView.deselectRow(at: $0, animated: true) }
+
+        itemSelectedEvent
+            .filter { self.dataSource.itemIdentifier(for: $0) == .themeSetting }
+            .emit(with: self, onNext: { owner, _ in
+                owner.delegate?.didTapThemeSetting()
+            })
+            .disposed(by: self.disposeBag)
     }
 
     func bind(reactor: GeneralSettingsReactor) {

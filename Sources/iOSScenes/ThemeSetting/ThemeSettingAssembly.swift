@@ -7,8 +7,11 @@ public final class ThemeSettingAssembly: Assembly {
     public init() {}
 
     public func assemble(container: Container) {
-        container.register(ThemeSettingReactor.self) { _ in
-            return ThemeSettingReactor.init()
+        container.register(ThemeSettingReactor.self) { resolver in
+            return ThemeSettingReactor.init(
+                userSettingsUseCase: resolver.resolve(),
+                globalState: .shared
+            )
         }
 
         container.register(ThemeSettingViewControllerProtocol.self) { resolver in
