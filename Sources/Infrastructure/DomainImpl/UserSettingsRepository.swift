@@ -31,7 +31,8 @@ final class UserSettingsRepository: UserSettingsRepositoryProtocol {
                 userSettings.translationTargetLocale,
                 forKey: UserDefaultsKey.translationTargetLocale
             ),
-            userDefaults.rx.setValue(userSettings.hapticsIsOn, forKey: UserDefaultsKey.hapticsIsOn)
+            userDefaults.rx.setValue(userSettings.hapticsIsOn, forKey: UserDefaultsKey.hapticsIsOn),
+            userDefaults.rx.setCodable(userSettings.themeStyle, forKey: UserDefaultsKey.themeStyle)
         )
         .mapToVoid()
     }
@@ -40,13 +41,15 @@ final class UserSettingsRepository: UserSettingsRepositoryProtocol {
         return Single.zip(
             userDefaults.rx.object(TranslationLanguage.self, forKey: UserDefaultsKey.translationSourceLocale),
             userDefaults.rx.object(TranslationLanguage.self, forKey: UserDefaultsKey.translationTargetLocale),
-            userDefaults.rx.bool(forKey: UserDefaultsKey.hapticsIsOn)
+            userDefaults.rx.bool(forKey: UserDefaultsKey.hapticsIsOn),
+            userDefaults.rx.object(ThemeStyle.self, forKey: UserDefaultsKey.themeStyle)
         )
-        .map { sourceLocale, targetLocale, hapticsIsOn -> Domain.UserSettings in
+        .map { sourceLocale, targetLocale, hapticsIsOn, themeStyle -> Domain.UserSettings in
             return .init(
                 translationSourceLocale: sourceLocale,
                 translationTargetLocale: targetLocale,
-                hapticsIsOn: hapticsIsOn
+                hapticsIsOn: hapticsIsOn,
+                themeStyle: themeStyle
             )
         }
     }

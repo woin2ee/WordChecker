@@ -68,6 +68,11 @@ haptics = "Haptics";
 hapticsSettingsFooterTextWhenHapticsIsOn = "Enable haptics for interactions.";
 hapticsSettingsFooterTextWhenHapticsIsOff = "Disable haptics for interactions.";
 
+theme = "Theme";
+system_mode = "System mode";
+light_mode = "Light mode";
+dark_mode = "Dark mode";
+
 more_menu = "More menu";
 memorize_words = "Memorize words";
 next_word = "Next word";

@@ -37,4 +37,11 @@ extension GeneralSettingsCoordinator: GeneralSettingsViewControllerDelegate {
         parentCoordinator?.childCoordinators.removeAll(where: { $0 === self })
     }
 
+    func didTapThemeSetting() {
+        let coordinator: ThemeSettingCoordinator = .init(navigationController: navigationController)
+        coordinator.parentCoordinator = self
+        self.childCoordinators.append(coordinator)
+        coordinator.start()
+    }
+
 }

@@ -6,7 +6,7 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import Foundation
+import iOSSupport
 
 enum UserSettingsItemModel {
     case disclosureIndicator(DisclosureIndicatorCell.Model)

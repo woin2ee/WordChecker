@@ -19,6 +19,8 @@ enum UserDefaultsKey: UserDefaultsKeyProtocol, CaseIterable {
 
     case hapticsIsOn
 
+    case themeStyle
+
     /// 테스트용 Key 입니다.
     case test
 

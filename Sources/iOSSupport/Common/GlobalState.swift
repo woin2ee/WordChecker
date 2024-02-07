@@ -6,7 +6,9 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import RxSwift
+import RxRelay
 
 /// 앱의 전역 상태를 가지는 객체입니다.
 ///
@@ -19,9 +21,12 @@ public final class GlobalState {
 
     public var hapticsIsOn: Bool!
 
+    public var themeStyle: BehaviorRelay<UIUserInterfaceStyle>!
+
     /// 전역 상태를 초기화 합니다.
-    public func initialize(hapticsIsOn: Bool) {
+    public func initialize(hapticsIsOn: Bool, themeStyle: UIUserInterfaceStyle) {
         self.hapticsIsOn = hapticsIsOn
+        self.themeStyle = .init(value: themeStyle)
     }
 
 }

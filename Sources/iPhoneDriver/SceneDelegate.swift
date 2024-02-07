@@ -6,26 +6,28 @@
 //
 
 import iOSSupport
+import RxSwift
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+
+    let disposeBag: DisposeBag = .init()
 
     var window: UIWindow?
 
     var appCoordinator: AppCoordinator?
 
     let globalAction: GlobalReactorAction = .shared
+    let globalState: GlobalState = .shared
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = .init(windowScene: windowScene)
         window?.makeKeyAndVisible()
 
-        let rootTabBarController: RootTabBarController = .shared
-        window?.rootViewController = rootTabBarController
+        setRootViewController()
 
-        appCoordinator = .init(rootTabBarController: rootTabBarController)
-        appCoordinator?.start()
+        subscribeGlobalAction()
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
@@ -34,6 +36,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidBecomeActive(_ scene: UIScene) {
         globalAction.sceneDidBecomeActive.accept(())
+    }
+
+    func setRootViewController() {
+        let rootTabBarController: RootTabBarController = .shared
+        window?.rootViewController = rootTabBarController
+
+        appCoordinator = .init(rootTabBarController: rootTabBarController)
+        appCoordinator?.start()
+    }
+
+    func subscribeGlobalAction() {
+        globalState.themeStyle
+            .asDriver()
+            .drive(with: self) { owner, userInterfaceStyle in
+                owner.window?.overrideUserInterfaceStyle = userInterfaceStyle
+            }
+            .disposed(by: disposeBag)
     }
 
 }

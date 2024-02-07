@@ -1,24 +1,49 @@
+import Domain
+import iOSSupport
 import ReactorKit
+import UIKit
 
 final class ThemeSettingReactor: Reactor {
 
     enum Action {
-
+        case viewDidLoad
+        case selectStyle(UIUserInterfaceStyle)
     }
 
     enum Mutation {
-
+        case setStyle(UIUserInterfaceStyle)
     }
 
     struct State {
-
+        var selectedStyle: UIUserInterfaceStyle
     }
 
-    var initialState: State = .init()
+    var initialState: State = .init(selectedStyle: .unspecified)
+
+    let userSettingsUseCase: UserSettingsUseCaseProtocol
+    let globalState: GlobalState
+
+    init(userSettingsUseCase: UserSettingsUseCaseProtocol, globalState: GlobalState) {
+        self.userSettingsUseCase = userSettingsUseCase
+        self.globalState = globalState
+    }
 
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewDidLoad:
+            return userSettingsUseCase.getCurrentUserSettings()
+                .asObservable()
+                .map(\.themeStyle)
+                .map { $0.toUIKit() }
+                .map(Mutation.setStyle)
 
+        case .selectStyle(let selectedStyle):
+            return userSettingsUseCase.updateThemeStyle(selectedStyle.toDomain())
+                .asObservable()
+                .doOnNext {
+                    self.globalState.themeStyle.accept(selectedStyle)
+                }
+                .map { Mutation.setStyle(selectedStyle) }
         }
     }
 
@@ -26,7 +51,8 @@ final class ThemeSettingReactor: Reactor {
         var state = state
 
         switch mutation {
-
+        case .setStyle(let selectedStyle):
+            state.selectedStyle = selectedStyle
         }
 
         return state

@@ -13,6 +13,7 @@ import Infrastructure
 import GeneralSettings
 import LanguageSetting
 import PushNotificationSettings
+import ThemeSetting
 import UserSettings
 import WordAddition
 import WordChecking
@@ -42,6 +43,7 @@ class AppDelegate: iPhoneAppDelegate {
             LanguageSettingAssembly(),
             PushNotificationSettingsAssemblyDev(),
             GeneralSettingsAssembly(),
+            ThemeSettingAssembly(),
         ])
     }
 

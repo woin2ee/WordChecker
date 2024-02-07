@@ -100,10 +100,20 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
                     translationTargetLocale = .english
                 }
 
-                let userSettings: UserSettings = .init(translationSourceLocale: .english, translationTargetLocale: translationTargetLocale, hapticsIsOn: true) // FIXME: 처음에 Source Locale 설정 가능하게 (현재 .english 고정)
+                let initialUserSettings: UserSettings = .init(translationSourceLocale: .english, translationTargetLocale: translationTargetLocale, hapticsIsOn: true, themeStyle: .system) // FIXME: 처음에 Source Locale 설정 가능하게 (현재 .english 고정)
 
-                return self.userSettingsRepository.saveUserSettings(userSettings)
+                return self.userSettingsRepository.saveUserSettings(initialUserSettings)
             }
+    }
+
+    public func updateThemeStyle(_ style: ThemeStyle) -> Single<Void> {
+        return userSettingsRepository.getUserSettings()
+            .map { currentSettings in
+                var newSettings = currentSettings
+                newSettings.themeStyle = style
+                return newSettings
+            }
+            .flatMap { self.userSettingsRepository.saveUserSettings($0) }
     }
 
 }

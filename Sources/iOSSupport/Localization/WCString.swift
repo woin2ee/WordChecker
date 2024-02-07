@@ -77,6 +77,11 @@ public struct WCString {
     public static let hapticsSettingsFooterTextWhenHapticsIsOn = NSLocalizedString("hapticsSettingsFooterTextWhenHapticsIsOn", bundle: Bundle.module, comment: "")
     public static let hapticsSettingsFooterTextWhenHapticsIsOff = NSLocalizedString("hapticsSettingsFooterTextWhenHapticsIsOff", bundle: Bundle.module, comment: "")
 
+    public static let theme = NSLocalizedString("theme", bundle: Bundle.module, comment: "")
+    public static let system_mode = NSLocalizedString("system_mode", bundle: Bundle.module, comment: "")
+    public static let light_mode = NSLocalizedString("light_mode", bundle: Bundle.module, comment: "")
+    public static let dark_mode = NSLocalizedString("dark_mode", bundle: Bundle.module, comment: "")
+
     public static let more_menu = NSLocalizedString("more_menu", bundle: Bundle.module, comment: "")
     public static let memorize_words = NSLocalizedString("memorize_words", bundle: Bundle.module, comment: "")
     public static let previous_word = NSLocalizedString("previous_word", bundle: Bundle.module, comment: "")
