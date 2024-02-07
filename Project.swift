@@ -285,6 +285,29 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
+            name: "ThemeSetting",
+            sourcesPrefix: "iOSScenes",
+            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            dependencies: [
+                .target(name: "Domain"),
+                .target(name: "iOSSupport"),
+                .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.rxCocoa),
+                .external(name: ExternalDependencyName.rxUtilityDynamic),
+                .external(name: ExternalDependencyName.reactorKit),
+                .external(name: ExternalDependencyName.snapKit),
+                .external(name: ExternalDependencyName.then),
+                .external(name: ExternalDependencyName.swinject),
+                .external(name: ExternalDependencyName.swinjectExtension),
+            ],
+            hasTests: true,
+            additionalTestDependencies: [
+                .target(name: "DomainTesting"),
+                .external(name: ExternalDependencyName.rxBlocking),
+            ],
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
             name: "PushNotificationSettings",
             sourcesPrefix: "iOSScenes",
             resourceOptions: [.additional("Resources/iOSSupport/**")],
@@ -348,6 +371,7 @@ func targets() -> [Target] {
                 .target(name: "PushNotificationSettings"),
                 .target(name: "GeneralSettings"),
                 .target(name: "Infrastructure"),
+                .target(name: "ThemeSetting"),
                 .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.swinjectDIContainer),
                 .external(name: ExternalDependencyName.sfSafeSymbols),
