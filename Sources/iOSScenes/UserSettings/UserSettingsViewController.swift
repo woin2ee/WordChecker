@@ -110,10 +110,6 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
     }
 
     override func bindAction() {
-        guard let reactor = self.reactor else {
-            preconditionFailure("After initialization, reactor is not assigned.")
-        }
-
         let itemSelectedEvent = settingsTableView.rx.itemSelected.asSignal()
             .doOnNext { [weak self] in self?.settingsTableView.deselectRow(at: $0, animated: true) }
 
