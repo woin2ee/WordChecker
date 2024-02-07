@@ -9,7 +9,80 @@
     }
   ],
   "defaultOptions" : {
-
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "B4BE30DA5AD5643081B447FD",
+          "name" : "Domain"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "CD2AF62569B83816102BF626",
+          "name" : "iPhoneDriver"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "6B8A06E44F89AA1EB5104506",
+          "name" : "WordChecking"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "1BF09364F673D2C475B0C9EA",
+          "name" : "GeneralSettings"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "C1A5CC2E0361583D5A302E1A",
+          "name" : "UserSettings"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "52AB3A06A59BA6AD23EABE36",
+          "name" : "WordAddition"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "F975AF74E5C27AF887A93338",
+          "name" : "Infrastructure"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "AD10D6E8D0967613C6D7DEC3",
+          "name" : "FoundationExtension"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "EFD6E7F704DEBE077D4675CC",
+          "name" : "Utility"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "1956048C37ADEF25A98A85A7",
+          "name" : "iOSSupport"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "0AA90124845E361D3F14FDDC",
+          "name" : "WordList"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "BFB6594F0D36C797024DB8EB",
+          "name" : "WordDetail"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "AC9565E29F5863F1E551E56A",
+          "name" : "LanguageSetting"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "57EE31FA7723A52EF9B04DF0",
+          "name" : "PushNotificationSettings"
+        }
+      ]
+    }
   },
   "testTargets" : [
     {
