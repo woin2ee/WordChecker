@@ -21,10 +21,10 @@ final class {{ name }}Coordinator: Coordinator {
         viewController.delegate = self
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     /* If you want start to coordinator with arguments.
     func start<Arg1>(with argument: Arg1) {
-        
+
     }
     */
 
