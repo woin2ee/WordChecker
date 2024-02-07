@@ -11,7 +11,7 @@ import XCTest
 
 extension XCUIApplication {
 
-    func setLaunchArguments(_ arguments: [LaunchArguments]) {
+    func setLaunchArguments(_ arguments: [LaunchArgument.Arguments]) {
         self.launchArguments = arguments.map(\.rawValue)
     }
 

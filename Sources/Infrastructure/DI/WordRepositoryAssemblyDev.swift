@@ -16,14 +16,16 @@ final class WordRepositoryAssemblyDev: Assembly {
 
     func assemble(container: Container) {
         container.register(WordRepositoryProtocol.self) { _ in
-            let arguments = ProcessInfo.processInfo.arguments
-            // TODO: Insert [LaunchArguments 검증 code](상호배타적인것들)
-            if arguments.contains(LaunchArguments.useInMemoryDatabase.rawValue) {
+            LaunchArgument.verify()
+
+            if LaunchArgument.contains(.useInMemoryDatabase) {
                 return self.makeInMemoryWordRepository()
             }
-            if arguments.contains(LaunchArguments.sampledDatabase.rawValue) {
+
+            if LaunchArgument.contains(.sampledDatabase) {
                 return self.makeSampledWordRepository()
             }
+
             return self.makePersistenceWordRepository()
         }
         .inObjectScope(.container)
