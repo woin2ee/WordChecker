@@ -10,7 +10,6 @@ import iOSSupport
 import ReactorKit
 import SwinjectExtension
 import UIKit
-import WordDetail
 
 public protocol WordSearchResultsControllerDelegate: AnyObject {
 
