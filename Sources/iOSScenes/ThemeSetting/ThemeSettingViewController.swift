@@ -4,8 +4,7 @@ import OrderedCollections
 import ReactorKit
 import UIKit
 
-public protocol ThemeSettingViewControllerDelegate: AnyObject {
-    func willPopView()
+public protocol ThemeSettingViewControllerDelegate: AnyObject, ViewControllerDelegate {
 }
 
 public protocol ThemeSettingViewControllerProtocol: UIViewController {
@@ -71,11 +70,11 @@ final class ThemeSettingViewController: RxBaseViewController, View, ThemeSetting
         applyInitialSnapshotIfNoSections()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
 
         if self.isMovingFromParent {
-            delegate?.willPopView()
+            delegate?.viewControllerDidPop(self)
         }
     }
 

@@ -13,10 +13,7 @@ import SnapKit
 import Then
 import UIKit
 
-public protocol WordAdditionViewControllerDelegate: AnyObject {
-
-    func didFinishInteration()
-
+public protocol WordAdditionViewControllerDelegate: AnyObject, ViewControllerDelegate {
 }
 
 public protocol WordAdditionViewControllerProtocol: UIViewController {
@@ -90,19 +87,19 @@ final class WordAdditionViewController: RxBaseViewController, WordAdditionViewCo
         [
             output.saveComplete
                 .emit(with: self, onNext: { owner, _ in
-                    owner.delegate?.didFinishInteration()
+                    owner.delegate?.viewControllerMustBeDismissed(self)
                 }),
             output.wordTextIsNotEmpty
                 .drive(doneBarButton.rx.isEnabled),
             output.reconfirmDismiss
                 .emit(with: self, onNext: { owner, _ in
                     owner.presentDismissActionSheet {
-                        owner.delegate?.didFinishInteration()
+                        owner.delegate?.viewControllerMustBeDismissed(self)
                     }
                 }),
             output.dismissComplete
                 .emit(with: self, onNext: { owner, _ in
-                    owner.delegate?.didFinishInteration()
+                    owner.delegate?.viewControllerMustBeDismissed(self)
                 }),
         ]
             .forEach { $0.disposed(by: disposeBag) }

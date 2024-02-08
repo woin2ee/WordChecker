@@ -3,8 +3,7 @@ import ReactorKit
 import Then
 import UIKit
 
-public protocol PushNotificationSettingsDelegate: AnyObject {
-    func willPopView()
+public protocol PushNotificationSettingsDelegate: AnyObject, ViewControllerDelegate {
 }
 
 public protocol PushNotificationSettingsViewControllerProtocol: UIViewController {
@@ -96,11 +95,11 @@ class PushNotificationSettingsViewController: RxBaseViewController, View, PushNo
         isViewAppeared = true
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
 
         if self.isMovingFromParent {
-            delegate?.willPopView()
+            delegate?.viewControllerDidPop(self)
         }
     }
 

@@ -12,18 +12,9 @@ import SwinjectExtension
 import UIKit
 import WordChecking
 
-final class WordCheckingCoordinator: Coordinator {
+final class WordCheckingCoordinator: BasicCoordinator {
 
-    weak var parentCoordinator: Coordinator?
-    var childCoordinators: [Coordinator] = []
-
-    let navigationController: UINavigationController
-
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
-    }
-
-    func start() {
+    override func start() {
         let viewController: WordCheckingViewControllerProtocol = DIContainer.shared.resolver.resolve()
         navigationController.setViewControllers([viewController], animated: false)
     }

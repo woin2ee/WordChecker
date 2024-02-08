@@ -12,18 +12,9 @@ import SwinjectDIContainer
 import SwinjectExtension
 import UIKit
 
-final class LanguageSettingCoordinator: Coordinator {
+final class LanguageSettingCoordinator: BasicCoordinator {
 
-    weak var parentCoordinator: Coordinator?
-    var childCoordinators: [Coordinator] = []
-
-    let navigationController: UINavigationController
-
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
-    }
-
-    func start<Arg1>(with argument: Arg1) {
+    override func start<Arg1>(with argument: Arg1) {
         let viewController: LanguageSettingViewControllerProtocol = DIContainer.shared.resolver.resolve(argument: argument)
         viewController.delegate = self
         navigationController.pushViewController(viewController, animated: true)
@@ -32,10 +23,4 @@ final class LanguageSettingCoordinator: Coordinator {
 }
 
 extension LanguageSettingCoordinator: LanguageSettingViewControllerDelegate {
-
-    func viewMustPop() {
-        navigationController.popViewController(animated: true)
-        parentCoordinator?.childCoordinators.removeAll(where: { $0 === self })
-    }
-
 }

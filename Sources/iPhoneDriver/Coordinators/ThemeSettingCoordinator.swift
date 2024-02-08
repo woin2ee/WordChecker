@@ -4,18 +4,9 @@ import SwinjectExtension
 import UIKit
 import ThemeSetting
 
-final class ThemeSettingCoordinator: Coordinator {
+final class ThemeSettingCoordinator: BasicCoordinator {
 
-    weak var parentCoordinator: Coordinator?
-    var childCoordinators: [Coordinator] = []
-
-    let navigationController: UINavigationController
-
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
-    }
-
-    func start() {
+    override func start() {
         let viewController: ThemeSettingViewControllerProtocol = DIContainer.shared.resolver.resolve()
         viewController.delegate = self
         navigationController.pushViewController(viewController, animated: true)
@@ -24,10 +15,4 @@ final class ThemeSettingCoordinator: Coordinator {
 }
 
 extension ThemeSettingCoordinator: ThemeSettingViewControllerDelegate {
-
-    func willPopView() {
-        navigationController.popViewController(animated: true)
-        parentCoordinator?.childCoordinators.removeAll(where: { $0 === self })
-    }
-
 }
