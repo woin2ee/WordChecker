@@ -152,13 +152,3 @@ extension WordSearchResultsController: UISearchResultsUpdating {
     }
 
 }
-
-// MARK: - WordDetailViewControllerDelegate
-
-extension WordSearchResultsController: WordDetailViewControllerDelegate {
-
-    func willFinishInteraction() {
-        self.presentingViewController?.tabBarController?.dismiss(animated: true)
-    }
-
-}

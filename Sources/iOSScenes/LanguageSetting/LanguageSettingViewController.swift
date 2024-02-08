@@ -15,11 +15,7 @@ import RxSwift
 import Then
 import UIKit
 
-public protocol LanguageSettingViewControllerDelegate: AnyObject {
-
-    /// ViewController 가 Pop 해야될때 호출되는 Delegate method 입니다.
-    func viewMustPop()
-
+public protocol LanguageSettingViewControllerDelegate: AnyObject, ViewControllerDelegate {
 }
 
 public protocol LanguageSettingViewControllerProtocol: UIViewController {
@@ -99,7 +95,7 @@ final class LanguageSettingViewController: RxBaseViewController, LanguageSetting
         super.viewWillDisappear(animated)
 
         if self.isMovingFromParent {
-            delegate?.viewMustPop()
+            delegate?.viewControllerDidPop(self)
         }
     }
 

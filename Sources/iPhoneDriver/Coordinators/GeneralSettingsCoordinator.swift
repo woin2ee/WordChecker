@@ -11,18 +11,9 @@ import iOSSupport
 import UIKit
 import SwinjectDIContainer
 
-final class GeneralSettingsCoordinator: Coordinator {
+final class GeneralSettingsCoordinator: BasicCoordinator {
 
-    weak var parentCoordinator: iOSSupport.Coordinator?
-    var childCoordinators: [iOSSupport.Coordinator] = []
-
-    let navigationController: UINavigationController
-
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
-    }
-
-    func start() {
+    override func start() {
         let viewController: GeneralSettingsViewControllerProtocol = DIContainer.shared.resolver.resolve()
         viewController.delegate = self
         navigationController.pushViewController(viewController, animated: true)
@@ -31,11 +22,6 @@ final class GeneralSettingsCoordinator: Coordinator {
 }
 
 extension GeneralSettingsCoordinator: GeneralSettingsViewControllerDelegate {
-
-    func willPopView() {
-        navigationController.popViewController(animated: true)
-        parentCoordinator?.childCoordinators.removeAll(where: { $0 === self })
-    }
 
     func didTapThemeSetting() {
         let coordinator: ThemeSettingCoordinator = .init(navigationController: navigationController)

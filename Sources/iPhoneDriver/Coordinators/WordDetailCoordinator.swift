@@ -12,18 +12,9 @@ import SwinjectExtension
 import UIKit
 import WordDetail
 
-final class WordDetailCoordinator: Coordinator {
+final class WordDetailCoordinator: BasicCoordinator {
 
-    weak var parentCoordinator: Coordinator?
-    var childCoordinators: [Coordinator] = []
-
-    let navigationController: UINavigationController
-
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
-    }
-
-    func start<Arg1>(with argument: Arg1) {
+    override func start<Arg1>(with argument: Arg1) {
         let viewController: WordDetailViewControllerProtocol = DIContainer.shared.resolver.resolve(argument: argument)
         viewController.delegate = self
         navigationController.setViewControllers([viewController], animated: false)
@@ -32,10 +23,4 @@ final class WordDetailCoordinator: Coordinator {
 }
 
 extension WordDetailCoordinator: WordDetailViewControllerDelegate {
-
-    func willFinishInteraction() {
-        navigationController.dismiss(animated: true)
-        parentCoordinator?.childCoordinators.removeAll(where: { $0 === self })
-    }
-
 }

@@ -12,8 +12,7 @@ import RxUtility
 import Then
 import UIKit
 
-public protocol GeneralSettingsViewControllerDelegate: AnyObject {
-    func willPopView()
+public protocol GeneralSettingsViewControllerDelegate: AnyObject, ViewControllerDelegate {
     func didTapThemeSetting()
 }
 
@@ -87,11 +86,11 @@ final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSe
         applyInitialSnapshot()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
 
         if self.isMovingFromParent {
-            delegate?.willPopView()
+            delegate?.viewControllerDidPop(self)
         }
     }
 
