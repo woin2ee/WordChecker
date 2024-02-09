@@ -39,12 +39,12 @@ final class WordDetailReactor: Reactor {
     /// 편집되기 전 원래 단어입니다. viewDidLoad 가 호출될 때 초기화됩니다.
     private(set) var originWord: String?
 
-    let globalAction: GlobalReactorAction
+    let globalAction: GlobalAction
     let wordUseCase: WordUseCaseProtocol
 
     init(
         uuid: UUID,
-        globalAction: GlobalReactorAction,
+        globalAction: GlobalAction,
         wordUseCase: WordUseCaseProtocol
     ) {
         self.uuid = uuid

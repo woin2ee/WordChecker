@@ -43,12 +43,12 @@ final class WordCheckingReactor: Reactor {
 
     let wordUseCase: WordUseCaseProtocol
     let userSettingsUseCase: UserSettingsUseCaseProtocol
-    let globalAction: GlobalReactorAction
+    let globalAction: GlobalAction
 
     init(
         wordUseCase: WordUseCaseProtocol,
         userSettingsUseCase: UserSettingsUseCaseProtocol,
-        globalAction: GlobalReactorAction
+        globalAction: GlobalAction
     ) {
         self.wordUseCase = wordUseCase
         self.userSettingsUseCase = userSettingsUseCase
