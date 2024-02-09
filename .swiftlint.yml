@@ -21,5 +21,5 @@ included:
     - Tuist/ProjectDescriptionHelpers/Extensions/*.swift
 
 excluded:
-    - Tests/DataDriverTests/UserDefaults/UserSettingsRepositoryTests.swift.plist
-    - Tests/DataDriverTests/UserDefaults/WCUserDefaultsTests.swift.plist
+    - Tests/InfrastructureTests/UserDefaults/UserSettingsRepositoryTests.swift.plist
+    - Tests/InfrastructureTests/UserDefaults/WCUserDefaultsTests.swift.plist

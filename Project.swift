@@ -27,9 +27,9 @@ func targets() -> [Target] {
             ],
             hasTests: true,
             additionalTestDependencies: [
-                .target(name: "DataDriverTesting"),
                 .target(name: "TestsSupport"),
                 .target(name: "DomainTesting"),
+                .target(name: "InfrastructureTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
             ],
             appendSchemeTo: &schemes
@@ -38,7 +38,7 @@ func targets() -> [Target] {
             name: "DomainTesting",
             dependencies: [
                 .target(name: "Domain"),
-                .target(name: "DataDriverTesting"),
+                .target(name: "InfrastructureTesting"),
             ],
             appendSchemeTo: &disposedSchemes
         )
@@ -61,7 +61,7 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "DataDriver",
+            name: "Infrastructure",
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "Utility"),
@@ -84,7 +84,7 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "DataDriverTesting",
+            name: "InfrastructureTesting",
             dependencies: [
                 .target(name: "Domain"),
             ],
@@ -264,6 +264,7 @@ func targets() -> [Target] {
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "iOSSupport"),
+                .target(name: "FoundationExtension"),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxCocoa),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
@@ -273,6 +274,7 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.toast),
                 .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.swinjectExtension),
+                .package(product: ExternalDependencyName.swiftCollections),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -345,6 +347,7 @@ func targets() -> [Target] {
                 .target(name: "LanguageSetting"),
                 .target(name: "PushNotificationSettings"),
                 .target(name: "GeneralSettings"),
+                .target(name: "Infrastructure"),
                 .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.swinjectDIContainer),
                 .external(name: ExternalDependencyName.sfSafeSymbols),
@@ -363,7 +366,6 @@ func targets() -> [Target] {
                 .additional("Resources/InfoPlist/Product/**"),
             ],
             dependencies: [
-                .target(name: "DataDriver"),
                 .target(name: "iPhoneDriver"),
             ],
             settings: .settings(),
@@ -379,7 +381,6 @@ func targets() -> [Target] {
                 .additional("Resources/InfoPlist/Dev/**"),
             ],
             dependencies: [
-                .target(name: "DataDriver"),
                 .target(name: "iPhoneDriver"),
             ],
             settings: .settings(),
@@ -426,6 +427,7 @@ let project: Project = .init(
         .package(url: "https://github.com/realm/realm-swift.git", from: "10.42.0"),
         .package(url: "https://github.com/google/GoogleSignIn-iOS", from: "6.0.0"),
         .package(url: "https://github.com/google/google-api-objectivec-client-for-rest.git", from: "3.0.0"),
+        .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.0"),
     ],
     settings: .settings(),
     targets: targets(),
@@ -433,18 +435,15 @@ let project: Project = .init(
         .init(
             name: PROJECT_NAME,
             buildAction: .buildAction(targets: ["\(PROJECT_NAME)"]),
-            testAction: .testPlans([.relativeToRoot("TestPlans/WordChecker.xctestplan")]),
             runAction: .runAction(executable: "\(PROJECT_NAME)"),
             profileAction: .profileAction(executable: "\(PROJECT_NAME)")
         ),
         .init(
             name: "\(PROJECT_NAME)Dev",
-            testAction: .testPlans([.relativeToRoot("TestPlans/WordChecker.xctestplan")]),
             runAction: .runAction(executable: "\(PROJECT_NAME)Dev")
         ),
         .init(
             name: "\(PROJECT_NAME)Dev_InMemoryDB",
-            testAction: .testPlans([.relativeToRoot("TestPlans/WordChecker.xctestplan")]),
             runAction: .runAction(
                 executable: "\(PROJECT_NAME)Dev",
                 arguments: .init(launchArguments: [
@@ -454,7 +453,6 @@ let project: Project = .init(
         ),
         .init(
             name: "\(PROJECT_NAME)Dev_SampleDB",
-            testAction: .testPlans([.relativeToRoot("TestPlans/WordChecker.xctestplan")]),
             runAction: .runAction(
                 executable: "\(PROJECT_NAME)Dev",
                 arguments: .init(launchArguments: [
@@ -463,8 +461,8 @@ let project: Project = .init(
             )
         ),
         .init(
-            name: "\(PROJECT_NAME)IntergrationTests",
-            testAction: .testPlans([.relativeToRoot("TestPlans/WordCheckerIntergrationTests.xctestplan")])
+            name: "IntergrationTests",
+            testAction: .testPlans([.relativeToRoot("TestPlans/IntergrationTests.xctestplan")])
         ),
     ],
     additionalFiles: [

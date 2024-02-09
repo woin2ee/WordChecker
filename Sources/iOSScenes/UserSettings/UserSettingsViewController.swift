@@ -16,9 +16,9 @@ import UIKit
 
 public protocol UserSettingsViewControllerDelegate: AnyObject {
 
-    func didTapSourceLanguageSettingRow(currentSettingLocale: TranslationLanguage)
+    func didTapSourceLanguageSettingRow()
 
-    func didTapTargetLanguageSettingRow(currentSettingLocale: TranslationLanguage)
+    func didTapTargetLanguageSettingRow()
 
     func didTapNotificationsSettingRow()
 
@@ -120,14 +120,14 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
         itemSelectedEvent
             .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .changeSourceLanguage }
             .emit(with: self, onNext: { owner, _ in
-                owner.delegate?.didTapSourceLanguageSettingRow(currentSettingLocale: reactor.currentState.sourceLanguage)
+                owner.delegate?.didTapSourceLanguageSettingRow()
             })
             .disposed(by: self.disposeBag)
 
         itemSelectedEvent
             .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .changeTargetLanguage }
             .emit(with: self, onNext: { owner, _ in
-                owner.delegate?.didTapTargetLanguageSettingRow(currentSettingLocale: reactor.currentState.targetLanguage)
+                owner.delegate?.didTapTargetLanguageSettingRow()
             })
             .disposed(by: self.disposeBag)
 
