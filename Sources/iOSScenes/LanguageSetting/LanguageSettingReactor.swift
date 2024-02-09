@@ -32,12 +32,12 @@ final class LanguageSettingReactor: Reactor {
 
     let userSettingsUseCase: UserSettingsUseCaseProtocol
 
-    let globalAction: GlobalReactorAction
+    let globalAction: GlobalAction
 
     init(
         translationDirection: TranslationDirection,
         userSettingsUseCase: UserSettingsUseCaseProtocol,
-        globalAction: GlobalReactorAction
+        globalAction: GlobalAction
     ) {
         self.initialState = .init(translationDirection: translationDirection, selectedCell: .init())
         self.userSettingsUseCase = userSettingsUseCase

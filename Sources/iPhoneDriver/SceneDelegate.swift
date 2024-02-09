@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var appCoordinator: AppCoordinator?
 
-    let globalAction: GlobalReactorAction = .shared
+    let globalAction: GlobalAction = .shared
     let globalState: GlobalState = .shared
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
