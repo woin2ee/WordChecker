@@ -18,3 +18,4 @@ russian = "Russian";
 
 daily_reminder = "Daily Reminder";
 "daily_reminder_body_message_%d" = "%d words were not memorized.";
+daily_reminder_body_message_when_no_words_to_memorize = "Memorized all the words. Please add more.";

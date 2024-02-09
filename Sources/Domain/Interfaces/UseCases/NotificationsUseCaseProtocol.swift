@@ -21,12 +21,14 @@ public protocol NotificationsUseCaseProtocol {
     func getNotificationAuthorizationStatus() -> Single<UNAuthorizationStatus>
 
     /// 지정한 시각에 매일 알림을 설정합니다.
+    /// - Parameter time: 매일 알림을 지정할 시각
+    /// - Returns: 알림을 정상적으로 설정한 경우 Success 요소를 방출하는 시퀀스를 반환합니다. 어떠한 이유로 알림을 지정하지 못한 경우 Error 를 방출하는 시퀀스를 반환합니다.
     func setDailyReminder(at time: DateComponents) -> Single<Void>
 
-    /// 현재 단어 갯수를 적용하여 알림 내용을 다시 설정합니다.
+    /// 현재 단어 갯수를 적용하여 알림 내용을 최신화합니다.
     ///
-    /// 매일 알림이 설정되어 있지 않거나 정상적으로 알림을 다시 설정하지 못했을 경우 Error 를 방출합니다.
-    func resetDailyReminder() -> Completable
+    /// 매일 알림이 설정되어 있지 않거나 정상적으로 알림을 최신화하지 못했을 경우 Error 를 방출합니다.
+    func updateDailyReminder() -> Completable
 
     /// 설정된 매일 알림을 삭제합니다.
     func removeDailyReminder()
@@ -36,6 +38,8 @@ public protocol NotificationsUseCaseProtocol {
     func getDailyReminder() -> Single<UNNotificationRequest>
 
     /// 마지막으로 설정한 매일 알림의 시간을 반환합니다.
+    ///
+    /// - throws: 한 번도 매일 알림을 설정한 적이 없을 때 error를 던집니다.
     func getLatestDailyReminderTime() throws -> DateComponents
 
 }

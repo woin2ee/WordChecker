@@ -28,6 +28,7 @@ public enum TranslationLanguage: CaseIterable, Codable, Sendable {
 
     case russian
 
+    /// 현재 현지화된 언어로 번역한 명칭을 반환합니다.
     public var localizedString: String {
         switch self {
         case .korean:
@@ -48,6 +49,29 @@ public enum TranslationLanguage: CaseIterable, Codable, Sendable {
             DomainString.german
         case .russian:
             DomainString.russian
+        }
+    }
+
+    public var bcp47tag: String {
+        switch self {
+        case .korean:
+            "ko"
+        case .english:
+            "en"
+        case .japanese:
+            "ja"
+        case .chinese:
+            "zh"
+        case .french:
+            "fr"
+        case .spanish:
+            "es"
+        case .italian:
+            "it"
+        case .german:
+            "de"
+        case .russian:
+            "ru"
         }
     }
 

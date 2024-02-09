@@ -11,7 +11,7 @@ public protocol PushNotificationSettingsViewControllerProtocol: UIViewController
     var delegate: PushNotificationSettingsDelegate? { get set }
 }
 
-final class PushNotificationSettingsViewController: RxBaseViewController, View, PushNotificationSettingsViewControllerProtocol {
+class PushNotificationSettingsViewController: RxBaseViewController, View, PushNotificationSettingsViewControllerProtocol {
 
     enum SectionIdentifier {
         case dailyReminder
@@ -48,7 +48,7 @@ final class PushNotificationSettingsViewController: RxBaseViewController, View, 
             let cell = tableView.dequeueReusableCell(DatePickerCell.self, for: indexPath)
             cell.prepareForReuse()
             cell.trailingDatePicker.datePickerMode = .time
-            cell.trailingDatePicker.minuteInterval = 5
+            cell.trailingDatePicker.minuteInterval = self.dailyReminderDatePickerMinuteInterval
 
             guard let date = Calendar.current.date(from: reactor.currentState.reminderTime) else {
                 preconditionFailure("Failed to create Date instance with DateComponents.")
@@ -68,6 +68,7 @@ final class PushNotificationSettingsViewController: RxBaseViewController, View, 
         }
 
     private var isViewAppeared: Bool = false
+    var dailyReminderDatePickerMinuteInterval: Int { 5 }
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -190,11 +191,10 @@ extension PushNotificationSettingsViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return rootTableView.footerLabel
-    }
+        let footerView = tableView.dequeueReusableHeaderFooterView(TextFooterView.self)
+        footerView.text = WCString.dailyReminderFooter
 
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return rootTableView.footerLabel.intrinsicContentSize.height
+        return footerView
     }
 
 }

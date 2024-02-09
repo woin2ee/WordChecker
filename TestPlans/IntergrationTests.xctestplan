@@ -1,0 +1,181 @@
+{
+  "configurations" : [
+    {
+      "id" : "B071DD0E-FEBF-4848-9935-69B00075A2D2",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "B4BE30DA5AD5643081B447FD",
+          "name" : "Domain"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "CD2AF62569B83816102BF626",
+          "name" : "iPhoneDriver"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "6B8A06E44F89AA1EB5104506",
+          "name" : "WordChecking"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "1BF09364F673D2C475B0C9EA",
+          "name" : "GeneralSettings"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "C1A5CC2E0361583D5A302E1A",
+          "name" : "UserSettings"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "52AB3A06A59BA6AD23EABE36",
+          "name" : "WordAddition"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "F975AF74E5C27AF887A93338",
+          "name" : "Infrastructure"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "AD10D6E8D0967613C6D7DEC3",
+          "name" : "FoundationExtension"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "EFD6E7F704DEBE077D4675CC",
+          "name" : "Utility"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "1956048C37ADEF25A98A85A7",
+          "name" : "iOSSupport"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "0AA90124845E361D3F14FDDC",
+          "name" : "WordList"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "BFB6594F0D36C797024DB8EB",
+          "name" : "WordDetail"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "AC9565E29F5863F1E551E56A",
+          "name" : "LanguageSetting"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "57EE31FA7723A52EF9B04DF0",
+          "name" : "PushNotificationSettings"
+        }
+      ]
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "A768E0CF445E4B1F88AAA2B4",
+        "name" : "WordCheckerUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "D6E847CEB3E1C72D665A8879",
+        "name" : "DomainTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "585092990423BB1A0834B60A",
+        "name" : "UtilityTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "27FAB0A92E9F64A545C3337E",
+        "name" : "LanguageSettingTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "6A11BA59AA3F5D03369E7DB1",
+        "name" : "UserSettingsTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "295EABF20CB5D0D026D529FB",
+        "name" : "WordAdditionTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "8565189CBD668EEEB0D9A1F9",
+        "name" : "WordDetailTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "8C56DE0A6C766A25CAD972B0",
+        "name" : "WordCheckingTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "AA3329E574FC503FF669CE7B",
+        "name" : "WordListTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "0D0A048C4E8A1F30CBB8F2BE",
+        "name" : "FoundationExtensionTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "3F3E981FC1A96E4F891CA1D4",
+        "name" : "PushNotificationSettingsTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "83032F7A5B540DB966841901",
+        "name" : "GeneralSettingsTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "7C78BC2C06BF23C70DEE14AE",
+        "name" : "InfrastructureTests"
+      }
+    }
+  ],
+  "version" : 1
+}

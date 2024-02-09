@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = .init(windowScene: windowScene)
         window?.makeKeyAndVisible()
 
-        let rootTabBarController: UITabBarController = .init()
+        let rootTabBarController: RootTabBarController = .shared
         window?.rootViewController = rootTabBarController
 
         appCoordinator = .init(rootTabBarController: rootTabBarController)

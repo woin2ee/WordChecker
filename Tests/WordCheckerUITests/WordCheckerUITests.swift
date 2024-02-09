@@ -158,10 +158,12 @@ final class WordCheckerUITests: XCTestCase {
 
         app.tables.element.staticTexts[WCString.source_language].tap()
         app.tables.element.staticTexts[DomainString.russian].tap()
+        app.navigationBars.backButton.tap()
         app.tables.element.staticTexts[DomainString.russian].assertExistence()
 
         app.tables.element.staticTexts[WCString.translation_language].tap()
         app.tables.element.staticTexts[DomainString.italian].tap()
+        app.navigationBars.backButton.tap()
         app.tables.element.staticTexts[DomainString.italian].assertExistence()
     }
 

@@ -9,14 +9,13 @@
 import Foundation
 import Swinject
 import SwinjectExtension
-import UserNotifications
 
 final class NotificationsUseCaseAssembly: Assembly {
 
     func assemble(container: Container) {
         container.register(NotificationsUseCaseProtocol.self) { resolver in
             return NotificationsUseCase.init(
-                notificationRepository: UNUserNotificationCenter.current(),
+                localNotificationService: resolver.resolve(),
                 wordRepository: resolver.resolve(),
                 userSettingsRepository: resolver.resolve()
             )

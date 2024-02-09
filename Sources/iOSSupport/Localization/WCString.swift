@@ -77,4 +77,9 @@ public struct WCString {
     public static let hapticsSettingsFooterTextWhenHapticsIsOn = NSLocalizedString("hapticsSettingsFooterTextWhenHapticsIsOn", bundle: Bundle.module, comment: "")
     public static let hapticsSettingsFooterTextWhenHapticsIsOff = NSLocalizedString("hapticsSettingsFooterTextWhenHapticsIsOff", bundle: Bundle.module, comment: "")
 
+    public static let more_menu = NSLocalizedString("more_menu", bundle: Bundle.module, comment: "")
+    public static let memorize_words = NSLocalizedString("memorize_words", bundle: Bundle.module, comment: "")
+    public static let previous_word = NSLocalizedString("previous_word", bundle: Bundle.module, comment: "")
+    public static let next_word = NSLocalizedString("next_word", bundle: Bundle.module, comment: "")
+
 }

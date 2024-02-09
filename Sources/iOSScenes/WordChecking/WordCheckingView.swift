@@ -22,17 +22,34 @@ final class WordCheckingView: BaseView {
 
     lazy var previousButton: ChangeWordButton = .init().then {
         $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.previousButton
+        $0.accessibilityLabel = WCString.previous_word
     }
 
     let previousButtonSymbol: ChangeWordSymbol = .init(direction: .left)
 
     lazy var nextButton: ChangeWordButton = .init().then {
         $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.nextButton
+        $0.accessibilityLabel = WCString.next_word
     }
 
     let nextButtonSymbol: ChangeWordSymbol = .init(direction: .right)
 
     lazy var translateButton: BottomButton = .init(title: WCString.translate)
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        self.accessibilityElements = [
+            previousButton,
+            wordLabel,
+            nextButton,
+            translateButton,
+        ]
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func setupSubviews() {
         self.addSubview(previousButton)

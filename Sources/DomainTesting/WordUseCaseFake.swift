@@ -7,8 +7,8 @@
 
 @testable import Domain
 
-import DataDriverTesting
 import Foundation
+import InfrastructureTesting
 import RxSwift
 import RxUtility
 import Utility
