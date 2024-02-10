@@ -1,5 +1,5 @@
 //
-//  iPhoneAppDelegate.swift
+//  IPhoneAppDelegate.swift
 //  iPhoneDriver
 //
 //  Created by Jaewon Yun on 1/30/24.
@@ -9,7 +9,7 @@
 import Domain
 import GoogleSignIn
 import Infrastructure
-import iOSSupport
+import IOSSupport
 import RxSwift
 import UIKit
 import Utility
@@ -30,7 +30,7 @@ import Swinject
 import SwinjectDIContainer
 
 // swiftlint:disable type_name
-open class iPhoneAppDelegate: UIResponder, UIApplicationDelegate {
+open class IPhoneAppDelegate: UIResponder, UIApplicationDelegate {
 
     public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         initDIContainer()
@@ -111,7 +111,7 @@ open class iPhoneAppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
-extension iPhoneAppDelegate: UNUserNotificationCenterDelegate {
+extension IPhoneAppDelegate: UNUserNotificationCenterDelegate {
 
     public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         RootTabBarController.shared.selectedViewController = RootTabBarController.shared.wordCheckingNC

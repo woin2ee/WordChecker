@@ -6,7 +6,7 @@
 //
 
 import Domain
-import iPhoneDriver
+import IPhoneDriver
 import Infrastructure
 
 // Scenes
@@ -25,7 +25,7 @@ import Swinject
 import SwinjectDIContainer
 
 @main
-class AppDelegate: iPhoneAppDelegate {
+class AppDelegate: IPhoneAppDelegate {
 
     override func restoreGoogleSignInState() {
         // No restore for dev.

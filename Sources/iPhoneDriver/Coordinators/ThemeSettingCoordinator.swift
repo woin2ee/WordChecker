@@ -1,4 +1,4 @@
-import iOSSupport
+import IOSSupport
 import SwinjectDIContainer
 import SwinjectExtension
 import UIKit

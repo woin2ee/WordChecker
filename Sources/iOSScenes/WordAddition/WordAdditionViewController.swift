@@ -5,7 +5,7 @@
 //  Created by Jaewon Yun on 2023/09/09.
 //
 
-import iOSSupport
+import IOSSupport
 import RxSwift
 import RxCocoa
 import RxUtility

@@ -5,7 +5,7 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
-import iOSSupport
+import IOSSupport
 import RxSwift
 import UIKit
 

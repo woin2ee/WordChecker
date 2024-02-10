@@ -6,7 +6,7 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import iOSSupport
+import IOSSupport
 import SnapKit
 import Then
 import UIKit

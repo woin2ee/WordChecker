@@ -7,7 +7,7 @@
 //
 
 import GeneralSettings
-import iOSSupport
+import IOSSupport
 import UIKit
 import SwinjectDIContainer
 

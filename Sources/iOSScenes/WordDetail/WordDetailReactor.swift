@@ -8,7 +8,7 @@
 
 import Domain
 import Foundation
-import iOSSupport
+import IOSSupport
 import ReactorKit
 
 final class WordDetailReactor: Reactor {

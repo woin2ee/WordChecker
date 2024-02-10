@@ -9,7 +9,7 @@
 import Domain
 import Foundation
 import FoundationPlus
-import iOSSupport
+import IOSSupport
 import ReactorKit
 
 final class LanguageSettingReactor: Reactor {
