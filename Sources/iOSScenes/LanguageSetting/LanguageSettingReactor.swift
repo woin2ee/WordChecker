@@ -8,7 +8,7 @@
 
 import Domain
 import Foundation
-import FoundationExtension
+import FoundationPlus
 import iOSSupport
 import ReactorKit
 

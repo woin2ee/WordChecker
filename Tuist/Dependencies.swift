@@ -43,6 +43,9 @@ let dependencies = Dependencies(
         // ReactorKit
         .remote(url: "https://github.com/ReactorKit/ReactorKit.git",
                 requirement: .upToNextMajor(from: "3.0.0")),
+        // ReactorKit
+        .remote(url: "https://github.com/Woin2ee-Modules/FoundationPlus.git",
+                requirement: .upToNextMajor(from: "1.0.0")),
     ],
     platforms: [.iOS]
 )

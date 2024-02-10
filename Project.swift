@@ -42,11 +42,6 @@ func targets() -> [Target] {
             appendSchemeTo: &disposedSchemes
         )
         + Target.module(
-            name: "FoundationExtension",
-            hasTests: true,
-            appendSchemeTo: &schemes
-        )
-        + Target.module(
             name: "Utility",
             scripts: [
                 // 공동 작업자의 githook path 자동 세팅을 위함
@@ -94,7 +89,7 @@ func targets() -> [Target] {
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "Utility"),
-                .target(name: "FoundationExtension"),
+                .external(name: ExternalDependencyName.foundationPlus),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxCocoa),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
