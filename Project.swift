@@ -84,7 +84,7 @@ func targets() -> [Target] {
             appendSchemeTo: &disposedSchemes
         )
         + Target.module(
-            name: "iOSSupport",
+            name: "IOSSupport",
             resourceOptions: [.own],
             dependencies: [
                 .target(name: "Domain"),
@@ -106,10 +106,10 @@ func targets() -> [Target] {
         )
         + Target.module(
             name: "WordChecking",
-            sourcesPrefix: "iOSScenes",
-            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            sourcesPrefix: "IOSScenes",
+            resourceOptions: [.additional("Resources/IOSSupport/**")],
             dependencies: [
-                .target(name: "iOSSupport"),
+                .target(name: "IOSSupport"),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -123,7 +123,7 @@ func targets() -> [Target] {
             name: "WordCheckingExample",
             product: .app,
             infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
-            sourcesPrefix: "iOSScenes",
+            sourcesPrefix: "IOSScenes",
             dependencies: [
                 .target(name: "WordChecking"),
                 .target(name: "DomainTesting"),
@@ -132,10 +132,10 @@ func targets() -> [Target] {
         )
         + Target.module(
             name: "WordList",
-            sourcesPrefix: "iOSScenes",
-            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            sourcesPrefix: "IOSScenes",
+            resourceOptions: [.additional("Resources/IOSSupport/**")],
             dependencies: [
-                .target(name: "iOSSupport"),
+                .target(name: "IOSSupport"),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -147,10 +147,10 @@ func targets() -> [Target] {
         )
         + Target.module(
             name: "WordDetail",
-            sourcesPrefix: "iOSScenes",
-            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            sourcesPrefix: "IOSScenes",
+            resourceOptions: [.additional("Resources/IOSSupport/**")],
             dependencies: [
-                .target(name: "iOSSupport"),
+                .target(name: "IOSSupport"),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -162,10 +162,10 @@ func targets() -> [Target] {
         )
         + Target.module(
             name: "WordAddition",
-            sourcesPrefix: "iOSScenes",
-            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            sourcesPrefix: "IOSScenes",
+            resourceOptions: [.additional("Resources/IOSSupport/**")],
             dependencies: [
-                .target(name: "iOSSupport"),
+                .target(name: "IOSSupport"),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -177,10 +177,10 @@ func targets() -> [Target] {
         )
         + Target.module(
             name: "UserSettings",
-            sourcesPrefix: "iOSScenes",
-            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            sourcesPrefix: "IOSScenes",
+            resourceOptions: [.additional("Resources/IOSSupport/**")],
             dependencies: [
-                .target(name: "iOSSupport"),
+                .target(name: "IOSSupport"),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -195,7 +195,7 @@ func targets() -> [Target] {
             name: "UserSettingsExample",
             product: .app,
             infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
-            sourcesPrefix: "iOSScenes",
+            sourcesPrefix: "IOSScenes",
             dependencies: [
                 .target(name: "UserSettings"),
                 .target(name: "DomainTesting"),
@@ -204,10 +204,10 @@ func targets() -> [Target] {
         )
         + Target.module(
             name: "LanguageSetting",
-            sourcesPrefix: "iOSScenes",
-            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            sourcesPrefix: "IOSScenes",
+            resourceOptions: [.additional("Resources/IOSSupport/**")],
             dependencies: [
-                .target(name: "iOSSupport"),
+                .target(name: "IOSSupport"),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -219,10 +219,10 @@ func targets() -> [Target] {
         )
         + Target.module(
             name: "ThemeSetting",
-            sourcesPrefix: "iOSScenes",
-            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            sourcesPrefix: "IOSScenes",
+            resourceOptions: [.additional("Resources/IOSSupport/**")],
             dependencies: [
-                .target(name: "iOSSupport"),
+                .target(name: "IOSSupport"),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -233,10 +233,10 @@ func targets() -> [Target] {
         )
         + Target.module(
             name: "PushNotificationSettings",
-            sourcesPrefix: "iOSScenes",
-            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            sourcesPrefix: "IOSScenes",
+            resourceOptions: [.additional("Resources/IOSSupport/**")],
             dependencies: [
-                .target(name: "iOSSupport"),
+                .target(name: "IOSSupport"),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -249,7 +249,7 @@ func targets() -> [Target] {
             name: "PushNotificationSettingsExample",
             product: .app,
             infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
-            sourcesPrefix: "iOSScenes",
+            sourcesPrefix: "IOSScenes",
             dependencies: [
                 .target(name: "PushNotificationSettings"),
                 .target(name: "DomainTesting"),
@@ -258,10 +258,10 @@ func targets() -> [Target] {
         )
         + Target.module(
             name: "GeneralSettings",
-            sourcesPrefix: "iOSScenes",
-            resourceOptions: [.additional("Resources/iOSSupport/**")],
+            sourcesPrefix: "IOSScenes",
+            resourceOptions: [.additional("Resources/IOSSupport/**")],
             dependencies: [
-                .target(name: "iOSSupport"),
+                .target(name: "IOSSupport"),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -271,9 +271,9 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "iPhoneDriver",
+            name: "IPhoneDriver",
             dependencies: [
-                .target(name: "iOSSupport"),
+                .target(name: "IOSSupport"),
                 .target(name: "WordChecking"),
                 .target(name: "WordList"),
                 .target(name: "WordAddition"),
@@ -298,7 +298,7 @@ func targets() -> [Target] {
                 .additional("Resources/InfoPlist/Product/**"),
             ],
             dependencies: [
-                .target(name: "iPhoneDriver"),
+                .target(name: "IPhoneDriver"),
             ],
             settings: .settings(),
             appendSchemeTo: &schemes
@@ -313,7 +313,7 @@ func targets() -> [Target] {
                 .additional("Resources/InfoPlist/Dev/**"),
             ],
             dependencies: [
-                .target(name: "iPhoneDriver"),
+                .target(name: "IPhoneDriver"),
             ],
             settings: .settings(),
             appendSchemeTo: &schemes
@@ -338,7 +338,7 @@ func targets() -> [Target] {
                 sources: "Tests/\(PROJECT_NAME)UITests/**",
                 dependencies: [
                     .target(name: "\(PROJECT_NAME)Dev"),
-                    .target(name: "iOSSupport"),
+                    .target(name: "IOSSupport"),
                     .target(name: "Utility"),
                     .package(product: "Realm"),
                 ]

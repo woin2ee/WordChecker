@@ -6,7 +6,7 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
-import iOSSupport
+import IOSSupport
 import UIKit
 import Utility
 
@@ -15,8 +15,8 @@ import Utility
 /// - warning: Do not use instance of this class directly. Some methods in this class cause of fatal error.
 class BasicCoordinator: Coordinator {
 
-    weak var parentCoordinator: iOSSupport.Coordinator?
-    var childCoordinators: [iOSSupport.Coordinator] = []
+    weak var parentCoordinator: IOSSupport.Coordinator?
+    var childCoordinators: [IOSSupport.Coordinator] = []
 
     let navigationController: UINavigationController
 

@@ -8,7 +8,7 @@
 
 import Domain
 import FoundationPlus
-import iOSSupport
+import IOSSupport
 import OrderedCollections
 import ReactorKit
 import RxSwift

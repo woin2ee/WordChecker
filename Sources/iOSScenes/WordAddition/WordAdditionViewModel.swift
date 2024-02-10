@@ -8,7 +8,7 @@
 import Domain
 import Foundation
 import FoundationPlus
-import iOSSupport
+import IOSSupport
 import RxSwift
 import RxCocoa
 import RxUtility
