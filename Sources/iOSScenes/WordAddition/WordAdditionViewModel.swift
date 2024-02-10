@@ -7,7 +7,7 @@
 
 import Domain
 import Foundation
-import FoundationExtension
+import FoundationPlus
 import iOSSupport
 import RxSwift
 import RxCocoa
