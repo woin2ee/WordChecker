@@ -38,6 +38,8 @@ all = "전체";
 there_are_no_words = "단어가 없습니다.";
 quick_add_word = "빠른 단어 추가";
 "%@_added_successfully" = "[ %@ ] 추가 성공";
+already_added_word = "이미 추가된 단어입니다.";
+"%@_added_failed" = "[ %@ ] 단어 추가 실패";
 
 settings = "설정";
 languages = "언어";

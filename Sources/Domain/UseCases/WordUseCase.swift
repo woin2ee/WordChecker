@@ -27,6 +27,12 @@ public final class WordUseCase: WordUseCaseProtocol {
                 return Disposables.create()
             }
 
+            let allWords = self.wordRepository.getAllWords()
+            if allWords.contains(where: { $0.word.lowercased() == word.word.lowercased() }) {
+                single(.failure(WordUseCaseError.saveFailed(reason: .duplecatedWord(word: word.word))))
+                return Disposables.create()
+            }
+
             self.unmemorizedWordListRepository.addWord(word)
             self.wordRepository.save(word)
 
