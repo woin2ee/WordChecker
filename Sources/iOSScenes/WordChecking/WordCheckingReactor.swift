@@ -11,6 +11,17 @@ import Foundation
 import IOSSupport
 import ReactorKit
 
+enum WordCheckingReactorError: Error {
+
+    enum AddWordFailureReason {
+        case duplecatedWord(word: String)
+        case unknown(word: String)
+    }
+
+    case addWordFailed(reason: AddWordFailureReason)
+
+}
+
 final class WordCheckingReactor: Reactor {
 
     enum Action {
@@ -27,12 +38,14 @@ final class WordCheckingReactor: Reactor {
         case setCurrentWord(Word?)
         case setSourceLanguage(TranslationLanguage)
         case setTargetLanguage(TranslationLanguage)
+        case showAddCompleteToast(Result<String, WordCheckingReactorError>)
     }
 
     struct State {
         var currentWord: Word?
         var translationSourceLanguage: TranslationLanguage
         var translationTargetLanguage: TranslationLanguage
+        @Pulse var showAddCompleteToast: Result<String, WordCheckingReactorError>?
     }
 
     let initialState: State = State(
@@ -82,9 +95,23 @@ final class WordCheckingReactor: Reactor {
             let newWord: Word = .init(word: newWord)
             return wordUseCase.addNewWord(newWord)
                 .asObservable()
-                .flatMap { self.wordUseCase.getCurrentUnmemorizedWord() }
-                .map(Mutation.setCurrentWord)
-                .catchAndReturn(.setCurrentWord(nil))
+                .flatMap { _ in self.wordUseCase.getCurrentUnmemorizedWord() }
+                .flatMap { currentWord -> Observable<Mutation> in
+                    return .merge([
+                        .just(.setCurrentWord(currentWord)),
+                        .just(.showAddCompleteToast(.success(newWord.word))),
+                    ])
+                }
+                .catch { error in
+                    switch error {
+                    case WordUseCaseError.saveFailed(reason: .duplecatedWord):
+                        return .just(.showAddCompleteToast(.failure(.addWordFailed(reason: .duplecatedWord(word: newWord.word)))))
+                    case WordUseCaseError.noMemorizingWords:
+                        return .just(.setCurrentWord(nil))
+                    default:
+                        return .just(.showAddCompleteToast(.failure(.addWordFailed(reason: .unknown(word: newWord.word)))))
+                    }
+                }
 
         case .updateToNextWord:
             return wordUseCase.updateToNextWord()
@@ -164,6 +191,8 @@ final class WordCheckingReactor: Reactor {
             state.translationSourceLanguage = translationSourceLanguage
         case .setTargetLanguage(let translationTargetLanguage):
             state.translationTargetLanguage = translationTargetLanguage
+        case .showAddCompleteToast(let result):
+            state.showAddCompleteToast = result
         }
 
         return state

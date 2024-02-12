@@ -198,6 +198,25 @@ final class WordUseCaseTests: XCTestCase {
         XCTAssertNotEqual(try sut.getCurrentUnmemorizedWord().toBlocking().single(), oldCurrentWord)
     }
 
+    func test_addDuplecatedWord() throws {
+        // Given
+        let duplecatedWord = unmemorizedWordList[0]
+
+        // When
+        let addNewWord = sut.addNewWord(duplecatedWord)
+            .toBlocking()
+
+        // Then
+        XCTAssertThrowsError(try addNewWord.single()) { error in
+            switch error {
+            case WordUseCaseError.saveFailed(reason: .duplecatedWord):
+                break
+            default:
+                XCTFail()
+            }
+        }
+    }
+
 }
 
 // MARK: - Helpers

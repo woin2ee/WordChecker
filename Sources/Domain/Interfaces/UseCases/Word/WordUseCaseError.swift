@@ -16,6 +16,9 @@ public enum WordUseCaseError: Error {
         /// 저장하려는 단어가 이미 암기 완료 상태입니다.
         case wordStateInvalid
 
+        /// 저장하려는 단어가 중복 단어입니다.
+        case duplecatedWord(word: String)
+
     }
 
     /// `retrieveFailed` 에러가 발생한 이유입니다.
