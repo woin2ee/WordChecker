@@ -12,10 +12,6 @@ import RxSwift
 import RxUtility
 import UserNotifications
 
-enum NotificationsUseCaseError: Error {
-    case noWordsToMemorize
-}
-
 final class NotificationsUseCase: NotificationsUseCaseProtocol {
 
     /// Notification request 의 고유 ID

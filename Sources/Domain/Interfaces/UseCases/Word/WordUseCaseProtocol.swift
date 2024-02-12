@@ -11,6 +11,8 @@ import RxSwift
 public protocol WordUseCaseProtocol {
 
     /// 새 단어를 추가합니다.
+    ///
+    /// - Returns: 단어 추가에 성공하면 Next 이벤트를, 어떠한 이유로 인해 실패하면 `WordUseCaseError` 타입의 Error 이벤트를 방출하는 Sequence 를 반환합니다.
     func addNewWord(_ word: Word) -> Single<Void>
 
     /// 단어를 삭제합니다.

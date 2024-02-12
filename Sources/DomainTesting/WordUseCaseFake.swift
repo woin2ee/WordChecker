@@ -51,7 +51,7 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
 
     public func getWord(by uuid: UUID) -> Single<Domain.Word> {
         guard let word = _wordList.first(where: { $0.uuid == uuid }) else {
-            return .error(WordUseCaseError.invalidUUID(uuid))
+            return .error(WordUseCaseError.retrieveFailed(reason: .uuidInvaild(uuid: uuid)))
         }
         return .just(word)
     }
