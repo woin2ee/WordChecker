@@ -23,7 +23,7 @@ public final class WordUseCase: WordUseCaseProtocol {
     public func addNewWord(_ word: Word) -> RxSwift.Single<Void> {
         return .create { single in
             guard word.memorizedState != .memorized else {
-                single(.failure(WordUseCaseError.canNotSaveWord(reason: "Can only add word with a memorization state of `.memorizing`.")))
+                single(.failure(WordUseCaseError.saveFailed(reason: .wordStateInvalid)))
                 return Disposables.create()
             }
 
@@ -85,7 +85,7 @@ public final class WordUseCase: WordUseCaseProtocol {
             if let word = self.wordRepository.getWord(by: uuid) {
                 single(.success(word))
             } else {
-                single(.failure(WordUseCaseError.invalidUUID(uuid)))
+                single(.failure(WordUseCaseError.retrieveFailed(reason: .uuidInvaild(uuid: uuid))))
             }
 
             return Disposables.create()
@@ -151,7 +151,7 @@ public final class WordUseCase: WordUseCaseProtocol {
     public func markCurrentWordAsMemorized(uuid: UUID) -> RxSwift.Single<Void> {
         return .create { single in
             guard let currentWord = self.wordRepository.getWord(by: uuid) else {
-                single(.failure(WordUseCaseError.invalidUUID(uuid)))
+                single(.failure(WordUseCaseError.retrieveFailed(reason: .uuidInvaild(uuid: uuid))))
                 return Disposables.create()
             }
 
@@ -173,18 +173,5 @@ public final class WordUseCase: WordUseCaseProtocol {
 
         return .just(currentWord)
     }
-
-}
-
-enum WordUseCaseError: Error {
-
-    /// 해당되는 단어가 없는 UUID
-    case invalidUUID(UUID)
-
-    /// 단어를 저장할 수 없음
-    case canNotSaveWord(reason: String)
-
-    /// 현재 암기중인 단어가 없음
-    case noMemorizingWords
 
 }

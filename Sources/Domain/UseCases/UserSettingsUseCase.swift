@@ -12,11 +12,6 @@ import RxRelay
 import RxUtility
 import Utility
 
-enum UserSettingsUseCaseError: Error {
-    case noPendingDailyReminder
-    case noNotificationAuthorization
-}
-
 public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 
     let userSettingsRepository: UserSettingsRepositoryProtocol
