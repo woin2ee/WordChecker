@@ -64,7 +64,7 @@ final class WordCheckingReactorTests: XCTestCase {
         XCTAssertNil(sut.currentState.currentWord)
     }
 
-    func test_addDuplecatedWord() {
+    func test_addDuplicatedWord() {
         // Given
         sut.action.onNext(.addWord("testWord"))
 
