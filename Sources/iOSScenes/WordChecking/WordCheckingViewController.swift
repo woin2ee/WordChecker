@@ -181,7 +181,7 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
                     switch error {
                     case .addWordFailed(let reason):
                         switch reason {
-                        case .duplecatedWord:
+                        case .duplicatedWord:
                             owner.view.makeToast(WCString.already_added_word, duration: 2.0, position: .top)
                         case .unknown(let word):
                             owner.view.makeToast(WCString.word_added_failed(word: word), duration: 2.0, position: .top)

@@ -14,7 +14,7 @@ import ReactorKit
 enum WordCheckingReactorError: Error {
 
     enum AddWordFailureReason {
-        case duplecatedWord(word: String)
+        case duplicatedWord(word: String)
         case unknown(word: String)
     }
 
@@ -104,8 +104,8 @@ final class WordCheckingReactor: Reactor {
                 }
                 .catch { error in
                     switch error {
-                    case WordUseCaseError.saveFailed(reason: .duplecatedWord):
-                        return .just(.showAddCompleteToast(.failure(.addWordFailed(reason: .duplecatedWord(word: newWord.word)))))
+                    case WordUseCaseError.saveFailed(reason: .duplicatedWord):
+                        return .just(.showAddCompleteToast(.failure(.addWordFailed(reason: .duplicatedWord(word: newWord.word)))))
                     case WordUseCaseError.noMemorizingWords:
                         return .just(.setCurrentWord(nil))
                     default:

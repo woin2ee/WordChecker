@@ -17,7 +17,7 @@ public enum WordUseCaseError: Error {
         case wordStateInvalid
 
         /// 저장하려는 단어가 중복 단어입니다.
-        case duplecatedWord(word: String)
+        case duplicatedWord(word: String)
 
     }
 
