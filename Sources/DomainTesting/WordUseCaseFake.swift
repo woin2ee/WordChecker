@@ -15,6 +15,7 @@ import Utility
 
 public final class WordUseCaseFake: WordUseCaseProtocol {
 
+    /// Fake 객체 구현을 위해 사용한 인메모리 단어 저장소
     public var _wordList: [Domain.Word] = []
 
     public var _unmemorizedWordList: UnmemorizedWordListRepositorySpy = .init()
@@ -22,6 +23,10 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
     public init() {}
 
     public func addNewWord(_ word: Domain.Word) -> Single<Void> {
+        if _wordList.contains(where: { $0.word.lowercased() == word.word.lowercased() }) {
+            return .error(WordUseCaseError.saveFailed(reason: .duplicatedWord(word: word.word)))
+        }
+
         _wordList.append(word)
         _unmemorizedWordList.addWord(word)
         return .just(())
@@ -57,10 +62,33 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
     }
 
     public func updateWord(by uuid: UUID, to newWord: Domain.Word) -> Single<Void> {
-        if let index = _wordList.firstIndex(where: { $0.uuid == uuid }) {
-            _wordList[index] = newWord
+        guard let index = _wordList.firstIndex(where: { $0.uuid == uuid }) else {
+            return .error(WordUseCaseError.retrieveFailed(reason: .uuidInvaild(uuid: uuid)))
         }
-        _unmemorizedWordList.replaceWord(where: uuid, with: newWord)
+
+        if (newWord.word != _wordList[index].word) && _wordList.contains(where: { $0.word.lowercased() == newWord.word.lowercased() }) {
+            return .error(WordUseCaseError.saveFailed(reason: .duplicatedWord(word: newWord.word)))
+        }
+
+        let updateTarget: Word = .init(
+            uuid: uuid,
+            word: newWord.word,
+            memorizedState: newWord.memorizedState
+        )
+
+        if _unmemorizedWordList.contains(where: { $0.uuid == updateTarget.uuid }) {
+            switch updateTarget.memorizedState {
+            case .memorized:
+                _unmemorizedWordList.deleteWord(by: uuid)
+            case .memorizing:
+                _unmemorizedWordList.replaceWord(where: uuid, with: updateTarget)
+            }
+        } else if updateTarget.memorizedState == .memorizing {
+            _unmemorizedWordList.addWord(updateTarget)
+        }
+
+        _wordList[index] = updateTarget
+
         return .just(())
     }
 
@@ -95,6 +123,14 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
             return .error(WordUseCaseError.noMemorizingWords)
         }
         return .just(currentWord)
+    }
+
+    public func isWordDuplicated(_ word: String) -> Single<Bool> {
+        if _wordList.contains(where: { $0.word.lowercased() == word.lowercased() }) {
+            return .just(true)
+        } else {
+            return .just(false)
+        }
     }
 
 }

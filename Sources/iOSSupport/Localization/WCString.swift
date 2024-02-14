@@ -92,4 +92,5 @@ public struct WCString {
     public static let previous_word = NSLocalizedString("previous_word", bundle: Bundle.module, comment: "")
     public static let next_word = NSLocalizedString("next_word", bundle: Bundle.module, comment: "")
 
+    public static let duplicate_word = NSLocalizedString("duplicate_word", bundle: Bundle.module, comment: "")
 }

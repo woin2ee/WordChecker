@@ -17,21 +17,45 @@ final class WordDetailReactor: Reactor {
         case viewDidLoad
         case beginEditing
         case doneEditing
-        case editWord(String)
+
+        /// 현재 입력된 단어
+        case enteredWord(String)
+
         case changeMemorizedState(MemorizedState)
     }
 
     enum Mutation {
         case updateWord(Word)
         case markAsEditing
+
+        /// 현재 입력된 단어를 중복된 단어로 표시할지 결정하는 Mutation
+        case setDuplicated(Bool)
+
+        /// 현재 입력된 단어의 비어있음 상태를 결정하는 Mutation
+        case setEmpty(Bool)
     }
 
     struct State {
+
+        /// 현재 입력된 단어
         var word: Word
+
+        /// 현재 화면에서 변경사항이 발생했는지 여부를 나타내는 값
         var hasChanges: Bool
+
+        /// 입력되어 있는 단어가 중복된 단어인지 여부를 나타내는 값
+        var enteredWordIsDuplicated: Bool
+
+        /// 현재 입력된 단어가 비어있는지 여부를 나타내는 값
+        var enteredWordIsEmpty: Bool
     }
 
-    var initialState: State = State(word: .empty, hasChanges: false)
+    var initialState: State = State(
+        word: .empty,
+        hasChanges: false,
+        enteredWordIsDuplicated: false,
+        enteredWordIsEmpty: false // Detail 화면에서는 항상 초기 단어가 있으므로
+    )
 
     /// 현재 보여지고 있는 단어의 UUID 입니다.
     let uuid: UUID
@@ -73,10 +97,24 @@ final class WordDetailReactor: Reactor {
                 .asObservable()
                 .flatMap { _ -> Observable<Mutation> in return .empty() }
 
-        case .editWord(let word):
-            self.currentState.word.word = word
+        case .enteredWord(let enteredWord):
+            let setDuplicatedMutation = wordUseCase.isWordDuplicated(enteredWord)
+                .asObservable()
+                .map { [weak self] isWordDuplicated in
+                    if isWordDuplicated && (enteredWord != self?.originWord) { // 원래 단어와 달라야 중복이므로
+                        return Mutation.setDuplicated(true)
+                    } else {
+                        return Mutation.setDuplicated(false)
+                    }
+                }
 
-            return .just(.updateWord(self.currentState.word))
+            self.currentState.word.word = enteredWord
+
+            return .merge([
+                .just(.updateWord(self.currentState.word)),
+                setDuplicatedMutation,
+                .just(.setEmpty(enteredWord.isEmpty)),
+            ])
 
         case .changeMemorizedState(let state):
             self.currentState.word.memorizedState = state
@@ -96,6 +134,10 @@ final class WordDetailReactor: Reactor {
             state.word = word
         case .markAsEditing:
             state.hasChanges = true
+        case .setDuplicated(let enteredWordIsDuplicated):
+            state.enteredWordIsDuplicated = enteredWordIsDuplicated
+        case .setEmpty(let enteredWordIsEmpty):
+            state.enteredWordIsEmpty = enteredWordIsEmpty
         }
 
         return state

@@ -79,3 +79,5 @@ more_menu = "메뉴 더보기";
 memorize_words = "단어 암기";
 next_word = "다음 단어";
 previous_word = "이전 단어";
+
+duplicate_word = "중복 단어입니다.";

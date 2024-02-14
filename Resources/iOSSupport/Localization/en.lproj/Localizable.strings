@@ -80,3 +80,5 @@ more_menu = "More menu";
 memorize_words = "Memorize words";
 next_word = "Next word";
 previous_word = "Previous word";
+
+duplicate_word = "Duplicate word.";

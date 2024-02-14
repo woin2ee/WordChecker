@@ -217,6 +217,31 @@ final class WordUseCaseTests: XCTestCase {
         }
     }
 
+    func test_isWordDuplicated() throws {
+        // Given
+        let duplicatedWord = unmemorizedWordList[0]
+
+        // When
+        let isWordDuplicated = try sut.isWordDuplicated(duplicatedWord.word)
+            .toBlocking()
+            .single()
+
+        // Then
+        XCTAssertTrue(isWordDuplicated)
+    }
+
+    func test_throwError_whenUpdateToDuplicatedWord() {
+        // Given
+        let duplicatedWord: Word = .init(uuid: unmemorizedWordList[0].uuid, word: "J") // 단어 A 를 J(중복) 로 업데이트
+
+        // When
+        let updateWord = sut.updateWord(by: duplicatedWord.uuid, to: duplicatedWord)
+            .toBlocking()
+
+        // Then
+        XCTAssertThrowsError(try updateWord.single())
+    }
+
 }
 
 // MARK: - Helpers
