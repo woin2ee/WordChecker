@@ -99,6 +99,15 @@ public final class WordUseCase: WordUseCaseProtocol {
     }
 
     public func updateWord(by uuid: UUID, to newWord: Word) -> RxSwift.Single<Void> {
+        guard let originWord = wordRepository.getWord(by: uuid) else {
+            return .error(WordUseCaseError.retrieveFailed(reason: .uuidInvaild(uuid: uuid)))
+        }
+
+        let allWords = self.wordRepository.getAllWords()
+        if (originWord.word != newWord.word) && allWords.contains(where: { $0.word.lowercased() == newWord.word.lowercased() }) {
+            return .error(WordUseCaseError.saveFailed(reason: .duplicatedWord(word: newWord.word)))
+        }
+
         return .create { single in
             let updateTarget: Word = .init(
                 uuid: uuid,
@@ -178,6 +187,15 @@ public final class WordUseCase: WordUseCaseProtocol {
         }
 
         return .just(currentWord)
+    }
+
+    public func isWordDuplicated(_ word: String) -> Single<Bool> {
+        let allWords = self.wordRepository.getAllWords()
+        if allWords.contains(where: { $0.word.lowercased() == word.lowercased() }) {
+            return .just(true)
+        } else {
+            return .just(false)
+        }
     }
 
 }

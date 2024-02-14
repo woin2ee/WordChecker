@@ -44,4 +44,9 @@ public protocol WordUseCaseProtocol {
 
     func getCurrentUnmemorizedWord() -> Single<Word>
 
+    /// `word` 파라미터로 전달된 단어가 이미 저장되어 있는 단어인지 검사합니다.
+    ///
+    /// - Returns: 반환된 Sequence 는 `ture` or `false` 값을 가진 next 이벤트만 방출됩니다. error 이벤트는 방출되지 않습니다.
+    func isWordDuplicated(_ word: String) -> Single<Bool>
+
 }
