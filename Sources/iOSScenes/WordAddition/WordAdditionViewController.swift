@@ -87,19 +87,19 @@ final class WordAdditionViewController: RxBaseViewController, WordAdditionViewCo
         [
             output.saveComplete
                 .emit(with: self, onNext: { owner, _ in
-                    owner.delegate?.viewControllerMustBeDismissed(self)
+                    owner.delegate?.viewControllerMustBeDismissed(owner)
                 }),
             output.wordTextIsNotEmpty
                 .drive(doneBarButton.rx.isEnabled),
             output.reconfirmDismiss
                 .emit(with: self, onNext: { owner, _ in
                     owner.presentDismissActionSheet {
-                        owner.delegate?.viewControllerMustBeDismissed(self)
+                        owner.delegate?.viewControllerMustBeDismissed(owner)
                     }
                 }),
             output.dismissComplete
                 .emit(with: self, onNext: { owner, _ in
-                    owner.delegate?.viewControllerMustBeDismissed(self)
+                    owner.delegate?.viewControllerMustBeDismissed(owner)
                 }),
         ]
             .forEach { $0.disposed(by: disposeBag) }
