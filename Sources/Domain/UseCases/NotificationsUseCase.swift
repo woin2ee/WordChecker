@@ -56,7 +56,7 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
         let setDailyReminderSequence: Single<Void> = .create { observer in
             let unmemorizedWordCount = self.wordRepository.getUnmemorizedList().count
 
-            var content: UNMutableNotificationContent = .init()
+            let content: UNMutableNotificationContent = .init()
             content.title = DomainString.daily_reminder
             content.sound = .default
 
