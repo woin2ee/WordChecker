@@ -23,6 +23,7 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
                 .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.swinjectExtension),
+                .external(name: ExternalDependencyName.foundationPlus),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -89,7 +90,6 @@ func targets() -> [Target] {
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "Utility"),
-                .external(name: ExternalDependencyName.foundationPlus),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxCocoa),
                 .external(name: ExternalDependencyName.rxUtilityDynamic),
