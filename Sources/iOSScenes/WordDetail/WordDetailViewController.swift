@@ -6,17 +6,15 @@
 //
 
 import Domain
-import iOSSupport
+import IOSSupport
 import ReactorKit
+import RxCocoa
 import SnapKit
 import Then
 import UIKit
 import Utility
 
-public protocol WordDetailViewControllerDelegate: AnyObject {
-
-    func willFinishInteraction()
-
+public protocol WordDetailViewControllerDelegate: AnyObject, ViewControllerDelegate {
 }
 
 public protocol WordDetailViewControllerProtocol: UIViewController {
@@ -36,6 +34,13 @@ final class WordDetailViewController: RxBaseViewController, WordDetailViewContro
         $0.placeholder = WCString.word
         $0.borderStyle = .roundedRect
         $0.accessibilityIdentifier = AccessibilityIdentifier.WordDetail.wordTextField
+    }
+
+    let duplicatedWordAlertLabel: UILabel = .init().then {
+        $0.text = WCString.duplicate_word
+        $0.textColor = .systemRed
+        $0.adjustsFontForContentSizeCategory = true
+        $0.font = .preferredFont(forTextStyle: .footnote)
     }
 
     lazy var memorizationStatePopupButton: UIButton = {
@@ -80,6 +85,7 @@ final class WordDetailViewController: RxBaseViewController, WordDetailViewContro
 
     private func setupSubviews() {
         self.view.addSubview(wordTextField)
+        self.view.addSubview(duplicatedWordAlertLabel)
         self.view.addSubview(memorizationStatePopupButton)
 
         wordTextField.snp.makeConstraints { make in
@@ -87,8 +93,13 @@ final class WordDetailViewController: RxBaseViewController, WordDetailViewContro
             make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(20)
         }
 
+        duplicatedWordAlertLabel.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(22)
+            make.top.equalTo(wordTextField.snp.bottom).offset(10)
+        }
+
         memorizationStatePopupButton.snp.makeConstraints { make in
-            make.top.equalTo(wordTextField.snp.bottom).offset(20)
+            make.top.equalTo(duplicatedWordAlertLabel.snp.bottom).offset(20)
             make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(20)
         }
     }
@@ -106,10 +117,10 @@ final class WordDetailViewController: RxBaseViewController, WordDetailViewContro
             .drive(with: self) { owner, _ in
                 if owner.reactor!.currentState.hasChanges {
                     owner.presentDismissActionSheet {
-                        owner.delegate?.willFinishInteraction()
+                        owner.delegate?.viewControllerMustBeDismissed(owner)
                     }
                 } else {
-                    owner.delegate?.willFinishInteraction()
+                    owner.delegate?.viewControllerMustBeDismissed(owner)
                 }
             }
             .disposed(by: self.disposeBag)
@@ -122,20 +133,26 @@ final class WordDetailViewController: RxBaseViewController, WordDetailViewContro
 extension WordDetailViewController: View {
 
     func bind(reactor: WordDetailReactor) {
-        // Action
+        // MARK: Action
+
         self.rx.sentMessage(#selector(self.viewDidLoad))
             .map { _ in Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
 
         doneBarButton.rx.tap
-            .doOnNext { [weak self] _ in self?.delegate?.willFinishInteraction() }
+            .doOnNext { [weak self] _ in
+                guard let self = self else { return }
+                self.delegate?.viewControllerMustBeDismissed(self)
+            }
             .map { Reactor.Action.doneEditing }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
 
         wordTextField.rx.text.orEmpty
-            .map(Reactor.Action.editWord)
+            .skip(1) // 초깃값("") 무시
+            .distinctUntilChanged()
+            .map(Reactor.Action.enteredWord)
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
 
@@ -146,7 +163,8 @@ extension WordDetailViewController: View {
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
 
-        // State
+        // MARK: State
+
         reactor.state
             .map(\.hasChanges)
             .distinctUntilChanged()
@@ -175,6 +193,28 @@ extension WordDetailViewController: View {
                 }
             }
             .disposed(by: self.disposeBag)
+
+        // 완료 버튼 활성화/비활성화
+        Driver.zip([
+            reactor.state
+                .map(\.enteredWordIsEmpty)
+                .asDriverOnErrorJustComplete(),
+            reactor.state
+                .map(\.enteredWordIsDuplicated)
+                .asDriverOnErrorJustComplete(),
+        ]).map { !$0[0] && !$0[1] }
+            .drive(doneBarButton.rx.isEnabled)
+            .disposed(by: self.disposeBag)
+
+        // 중복 단어 경고 레이블 표시/비표시
+        reactor.state
+            .map(\.enteredWordIsDuplicated)
+            .distinctUntilChanged()
+            .asDriverOnErrorJustComplete()
+            .drive(with: self) { owner, enteredWordIsDuplicated in
+                owner.duplicatedWordAlertLabel.isHidden = !enteredWordIsDuplicated
+            }
+            .disposed(by: self.disposeBag)
     }
 
 }
@@ -185,12 +225,12 @@ extension WordDetailViewController: UIAdaptivePresentationControllerDelegate {
 
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
         self.presentDismissActionSheet {
-            self.delegate?.willFinishInteraction()
+            self.delegate?.viewControllerMustBeDismissed(self)
         }
     }
 
-    func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
-        delegate?.willFinishInteraction()
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        delegate?.viewControllerDidDismiss(self)
     }
 
 }

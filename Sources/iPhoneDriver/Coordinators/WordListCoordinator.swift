@@ -6,24 +6,15 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import iOSSupport
+import IOSSupport
 import SwinjectDIContainer
 import SwinjectExtension
 import UIKit
 import WordList
 
-final class WordListCoordinator: Coordinator {
+final class WordListCoordinator: BasicCoordinator {
 
-    weak var parentCoordinator: Coordinator?
-    var childCoordinators: [Coordinator] = []
-
-    let navigationController: UINavigationController
-
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
-    }
-
-    func start() {
+    override func start() {
         let viewController: WordListViewControllerProtocol = DIContainer.shared.resolver.resolve()
         viewController.delegate = self
         navigationController.setViewControllers([viewController], animated: false)

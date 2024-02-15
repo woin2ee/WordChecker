@@ -38,6 +38,8 @@ all = "전체";
 there_are_no_words = "단어가 없습니다.";
 quick_add_word = "빠른 단어 추가";
 "%@_added_successfully" = "[ %@ ] 추가 성공";
+already_added_word = "이미 추가된 단어입니다.";
+"%@_added_failed" = "[ %@ ] 단어 추가 실패";
 
 settings = "설정";
 languages = "언어";
@@ -68,7 +70,14 @@ haptics = "진동";
 hapticsSettingsFooterTextWhenHapticsIsOn = "상호 작용에 대한 진동을 사용합니다.";
 hapticsSettingsFooterTextWhenHapticsIsOff = "상호 작용에 대한 진동을 사용하지 않습니다.";
 
+theme = "테마";
+system_mode = "시스템 설정 모드";
+light_mode = "라이트 모드";
+dark_mode = "다크 모드";
+
 more_menu = "메뉴 더보기";
 memorize_words = "단어 암기";
 next_word = "다음 단어";
 previous_word = "이전 단어";
+
+duplicate_word = "중복 단어입니다.";

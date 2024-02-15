@@ -6,13 +6,14 @@
 //
 
 import Domain
-import iPhoneDriver
+import IPhoneDriver
 import Infrastructure
 
 // Scenes
 import GeneralSettings
 import LanguageSetting
 import PushNotificationSettings
+import ThemeSetting
 import UserSettings
 import WordAddition
 import WordChecking
@@ -24,7 +25,7 @@ import Swinject
 import SwinjectDIContainer
 
 @main
-class AppDelegate: iPhoneAppDelegate {
+class AppDelegate: IPhoneAppDelegate {
 
     override func restoreGoogleSignInState() {
         // No restore for dev.
@@ -42,6 +43,7 @@ class AppDelegate: iPhoneAppDelegate {
             LanguageSettingAssembly(),
             PushNotificationSettingsAssemblyDev(),
             GeneralSettingsAssembly(),
+            ThemeSettingAssembly(),
         ])
     }
 

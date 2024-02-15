@@ -8,7 +8,7 @@
 
 import Domain
 import Foundation
-import iOSSupport
+import IOSSupport
 import ReactorKit
 
 final class WordListReactor: Reactor {
@@ -33,10 +33,10 @@ final class WordListReactor: Reactor {
 
     var initialState: State = State(listType: .all, wordList: [])
 
-    let globalAction: GlobalReactorAction
+    let globalAction: GlobalAction
     let wordUseCase: WordUseCaseProtocol
 
-    init(globalAction: GlobalReactorAction, wordUseCase: WordUseCaseProtocol) {
+    init(globalAction: GlobalAction, wordUseCase: WordUseCaseProtocol) {
         self.globalAction = globalAction
         self.wordUseCase = wordUseCase
     }

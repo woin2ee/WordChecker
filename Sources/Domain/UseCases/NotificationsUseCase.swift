@@ -7,14 +7,10 @@
 //
 
 import Foundation
+import FoundationPlus
 import RxSwift
 import RxUtility
-import Then
 import UserNotifications
-
-enum NotificationsUseCaseError: Error {
-    case noWordsToMemorize
-}
 
 final class NotificationsUseCase: NotificationsUseCaseProtocol {
 
@@ -59,10 +55,9 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
         let setDailyReminderSequence: Single<Void> = .create { observer in
             let unmemorizedWordCount = self.wordRepository.getUnmemorizedList().count
 
-            var content: UNMutableNotificationContent = .init().then {
-                $0.title = DomainString.daily_reminder
-                $0.sound = .default
-            }
+            var content: UNMutableNotificationContent = .init()
+            content.title = DomainString.daily_reminder
+            content.sound = .default
 
             if unmemorizedWordCount == 0 {
                 content.body = DomainString.daily_reminder_body_message_when_no_words_to_memorize

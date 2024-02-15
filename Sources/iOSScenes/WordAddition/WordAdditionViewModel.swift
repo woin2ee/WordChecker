@@ -7,8 +7,8 @@
 
 import Domain
 import Foundation
-import FoundationExtension
-import iOSSupport
+import FoundationPlus
+import IOSSupport
 import RxSwift
 import RxCocoa
 import RxUtility
@@ -22,7 +22,7 @@ final class WordAdditionViewModel: ViewModelType {
     }
 
     func transform(input: Input) -> Output {
-        let initialWordText = ""
+        let initialWordText = "" // 새 단어를 추가할때는 초기 단어가 없으므로
 
         let hasChanges = input.wordText.map { $0 != initialWordText }
 
@@ -36,7 +36,7 @@ final class WordAdditionViewModel: ViewModelType {
                     .asSignalOnErrorJustComplete()
             }
             .doOnNext { _ in
-                GlobalReactorAction.shared.didAddWord.accept(())
+                GlobalAction.shared.didAddWord.accept(())
             }
 
         let wordTextIsNotEmpty = input.wordText.map(\.isNotEmpty)
@@ -53,11 +53,18 @@ final class WordAdditionViewModel: ViewModelType {
             .mapToVoid()
             .asSignalOnErrorJustComplete()
 
+        let enteredWordIsDuplicated = input.wordText
+            .flatMapLatest { word in
+                return self.wordUseCase.isWordDuplicated(word)
+                    .asDriverOnErrorJustComplete()
+            }
+
         return .init(
             saveComplete: saveComplete,
             wordTextIsNotEmpty: wordTextIsNotEmpty,
             reconfirmDismiss: reconfirmDismiss,
-            dismissComplete: dismissComplete
+            dismissComplete: dismissComplete,
+            enteredWordIsDuplicated: enteredWordIsDuplicated
         )
     }
 
@@ -81,10 +88,13 @@ extension WordAdditionViewModel {
 
         let wordTextIsNotEmpty: Driver<Bool>
 
+        /// Dismiss 해야하는지 재확인이 필요할때 next 이벤트가 방출됩니다.
         let reconfirmDismiss: Signal<Void>
 
         let dismissComplete: Signal<Void>
 
+        /// 입력되어 있는 단어가 중복된 단어인지 여부
+        var enteredWordIsDuplicated: Driver<Bool>
     }
 
 }

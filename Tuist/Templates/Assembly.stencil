@@ -7,6 +7,10 @@ public final class {{ name }}Assembly: Assembly {
     public init() {}
 
     public func assemble(container: Container) {
+        container.register({{ name }}Reactor.self) { _ in
+            return {{ name }}Reactor.init()
+        }
+
         container.register({{ name }}ViewControllerProtocol.self) { resolver in
             return {{ name }}ViewController().then {
                 $0.reactor = resolver.resolve()

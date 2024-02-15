@@ -6,11 +6,10 @@
 //
 
 import Domain
-import iOSSupport
+import IOSSupport
 import ReactorKit
 import SwinjectExtension
 import UIKit
-import WordDetail
 
 public protocol WordSearchResultsControllerDelegate: AnyObject {
 
@@ -149,16 +148,6 @@ extension WordSearchResultsController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
         currentSearchBarText = text
-    }
-
-}
-
-// MARK: - WordDetailViewControllerDelegate
-
-extension WordSearchResultsController: WordDetailViewControllerDelegate {
-
-    func willFinishInteraction() {
-        self.presentingViewController?.tabBarController?.dismiss(animated: true)
     }
 
 }

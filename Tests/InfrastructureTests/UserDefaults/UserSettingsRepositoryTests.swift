@@ -35,7 +35,7 @@ final class UserSettingsRepositoryTests: XCTestCase {
     func testSaveAndGetUserSettings() throws {
         do {
             // Given
-            let userSettings: UserSettings = .init(translationSourceLocale: .english, translationTargetLocale: .korean, hapticsIsOn: true)
+            let userSettings: UserSettings = .init(translationSourceLocale: .english, translationTargetLocale: .korean, hapticsIsOn: true, themeStyle: .system)
 
             // When
             try sut.saveUserSettings(userSettings)
@@ -50,11 +50,12 @@ final class UserSettingsRepositoryTests: XCTestCase {
             XCTAssertEqual(result.translationSourceLocale, .english)
             XCTAssertEqual(result.translationTargetLocale, .korean)
             XCTAssertEqual(result.hapticsIsOn, true)
+            XCTAssertEqual(result.themeStyle, .system)
         }
 
         do {
             // Given
-            let userSettings: UserSettings = .init(translationSourceLocale: .korean, translationTargetLocale: .english, hapticsIsOn: false)
+            let userSettings: UserSettings = .init(translationSourceLocale: .korean, translationTargetLocale: .english, hapticsIsOn: false, themeStyle: .dark)
 
             // When
             try sut.saveUserSettings(userSettings)
@@ -69,6 +70,7 @@ final class UserSettingsRepositoryTests: XCTestCase {
             XCTAssertEqual(result.translationSourceLocale, .korean)
             XCTAssertEqual(result.translationTargetLocale, .english)
             XCTAssertEqual(result.hapticsIsOn, false)
+            XCTAssertEqual(result.themeStyle, .dark)
         }
     }
 

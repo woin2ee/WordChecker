@@ -78,3 +78,6 @@ Resources/InfoPlist/Info.plist
 
 ### Using tests
 Tests/**/*.plist
+
+### Changelog
+Changelog/next.md

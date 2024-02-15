@@ -5,7 +5,7 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
-import iOSSupport
+import IOSSupport
 import ReactorKit
 import RxSwift
 import RxCocoa
@@ -169,6 +169,27 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
                 owner.setAccessibilityLanguage()
             }
             .disposed(by: self.disposeBag)
+
+        reactor.pulse(\.$showAddCompleteToast)
+            .asSignalOnErrorJustComplete()
+            .emit(with: self) { owner, showAddCompleteToast in
+                guard let showAddCompleteToast = showAddCompleteToast else { return }
+                switch showAddCompleteToast {
+                case .success(let word):
+                    owner.view.makeToast(WCString.word_added_successfully(word: word), duration: 2.0, position: .top)
+                case .failure(let error):
+                    switch error {
+                    case .addWordFailed(let reason):
+                        switch reason {
+                        case .duplicatedWord:
+                            owner.view.makeToast(WCString.already_added_word, duration: 2.0, position: .top)
+                        case .unknown(let word):
+                            owner.view.makeToast(WCString.word_added_failed(word: word), duration: 2.0, position: .top)
+                        }
+                    }
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
 
     func setAccessibilityLanguage() {
@@ -188,15 +209,13 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
             }
             alertController.addAction(cancelAction)
 
-            let addAction: UIAlertAction = .init(title: WCString.add, style: .default) { [weak self] _ in
+            let addAction: UIAlertAction = .init(title: WCString.add, style: .default) { _ in
                 guard let word = alertController.textFields?.first?.text else {
                     assertionFailure("Failed to get word.")
                     return
                 }
 
                 observer(.success(word))
-
-                self?.view.makeToast(WCString.word_added_successfully(word: word), duration: 1.2, position: .top)
             }
             alertController.addAction(addAction)
 

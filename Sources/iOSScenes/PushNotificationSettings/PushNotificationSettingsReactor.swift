@@ -8,7 +8,7 @@
 
 import Domain
 import Foundation
-import iOSSupport
+import IOSSupport
 import ReactorKit
 
 final class PushNotificationSettingsReactor: Reactor {
@@ -40,9 +40,9 @@ final class PushNotificationSettingsReactor: Reactor {
     )
 
     let notificationsUseCase: NotificationsUseCaseProtocol
-    let globalAction: GlobalReactorAction
+    let globalAction: GlobalAction
 
-    init(notificationsUseCase: NotificationsUseCaseProtocol, globalAction: GlobalReactorAction) {
+    init(notificationsUseCase: NotificationsUseCaseProtocol, globalAction: GlobalAction) {
         self.notificationsUseCase = notificationsUseCase
         self.globalAction = globalAction
     }

@@ -1,0 +1,26 @@
+import IOSSupport
+import SwinjectDIContainer
+import SwinjectExtension
+import UIKit
+
+import {{ name }}
+
+final class {{ name }}Coordinator: BasicCoordinator {
+
+    override func start() {
+        // An example if you push view controller.
+        let viewController: {{ name }}ViewControllerProtocol = DIContainer.shared.resolver.resolve()
+        viewController.delegate = self
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    /* If you want start to coordinator with arguments.
+    func start<Arg1>(with argument: Arg1) {
+
+    }
+    */
+
+}
+
+extension {{ name }}Coordinator: {{ name }}ViewControllerDelegate {
+}

@@ -109,7 +109,7 @@ final class UserSettingsReactorTests: RxBaseTestCase {
     func test_viewDidLoad() {
         // Given
         let userSettingsUseCase: UserSettingsUseCaseFake = .init()
-        userSettingsUseCase.currentUserSettings = .init(translationSourceLocale: .german, translationTargetLocale: .italian, hapticsIsOn: true)
+        userSettingsUseCase.currentUserSettings = .init(translationSourceLocale: .german, translationTargetLocale: .italian, hapticsIsOn: true, themeStyle: .system)
         sut = .init(
             userSettingsUseCase: userSettingsUseCase,
             googleDriveUseCase: GoogleDriveUseCaseFake(scheduler: testScheduler),
