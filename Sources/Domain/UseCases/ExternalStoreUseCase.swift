@@ -172,11 +172,3 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
     }
 
 }
-
-enum ExternalStoreUseCaseError: Error {
-
-    case noCurrentUser
-
-    case noPresentingConfiguration
-
-}

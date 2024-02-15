@@ -1,5 +1,5 @@
 //
-//  iPhoneAppDelegate.swift
+//  IPhoneAppDelegate.swift
 //  iPhoneDriver
 //
 //  Created by Jaewon Yun on 1/30/24.
@@ -7,25 +7,30 @@
 //
 
 import Domain
-import GeneralSettings
 import GoogleSignIn
 import Infrastructure
-import iOSSupport
+import IOSSupport
+import RxSwift
+import UIKit
+import Utility
+
+// Scenes
+import GeneralSettings
 import LanguageSetting
 import PushNotificationSettings
-import RxSwift
-import Swinject
-import SwinjectDIContainer
-import UIKit
+import ThemeSetting
 import UserSettings
-import Utility
 import WordAddition
 import WordChecking
 import WordDetail
 import WordList
 
+// DI
+import Swinject
+import SwinjectDIContainer
+
 // swiftlint:disable type_name
-open class iPhoneAppDelegate: UIResponder, UIApplicationDelegate {
+open class IPhoneAppDelegate: UIResponder, UIApplicationDelegate {
 
     public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         initDIContainer()
@@ -90,21 +95,23 @@ open class iPhoneAppDelegate: UIResponder, UIApplicationDelegate {
             LanguageSettingAssembly(),
             PushNotificationSettingsAssembly(),
             GeneralSettingsAssembly(),
+            ThemeSettingAssembly(),
         ])
     }
 
     func initGlobalState() {
         let userSettingsUseCase: UserSettingsUseCaseProtocol = DIContainer.shared.resolver.resolve()
         _ = userSettingsUseCase.getCurrentUserSettings()
-            .map(\.hapticsIsOn)
-            .doOnSuccess(GlobalState.shared.initialize)
+            .doOnSuccess {
+                GlobalState.shared.initialize(hapticsIsOn: $0.hapticsIsOn, themeStyle: $0.themeStyle.toUIKit())
+            }
             .subscribe(on: ConcurrentMainScheduler.instance)
             .subscribe()
     }
 
 }
 
-extension iPhoneAppDelegate: UNUserNotificationCenterDelegate {
+extension IPhoneAppDelegate: UNUserNotificationCenterDelegate {
 
     public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         RootTabBarController.shared.selectedViewController = RootTabBarController.shared.wordCheckingNC

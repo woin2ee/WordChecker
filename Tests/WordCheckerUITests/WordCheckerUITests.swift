@@ -7,7 +7,7 @@
 
 @testable import Domain
 
-import iOSSupport
+import IOSSupport
 import XCTest
 
 final class WordCheckerUITests: XCTestCase {

@@ -3,30 +3,30 @@ import ProjectDescription
 let nameAttribute: Template.Attribute = .required("name")
 
 let template = Template(
-    description: "Create default files for iOSScene.",
+    description: "Create default files for IOSScene.",
     attributes: [
         nameAttribute,
         .optional("platform", default: "ios"),
     ],
     items: [
         .file(
-            path: "Sources/iOSScenes/\(nameAttribute)/\(nameAttribute)ViewController.swift",
+            path: "Sources/IOSScenes/\(nameAttribute)/\(nameAttribute)ViewController.swift",
             templatePath: .relativeToCurrentFile("../ViewController.stencil")
         ),
         .file(
-            path: "Sources/iOSScenes/\(nameAttribute)/\(nameAttribute)Reactor.swift",
+            path: "Sources/IOSScenes/\(nameAttribute)/\(nameAttribute)Reactor.swift",
             templatePath: .relativeToCurrentFile("../Reactor.stencil")
         ),
         .file(
-            path: "Sources/iOSScenes/\(nameAttribute)/\(nameAttribute)Assembly.swift",
+            path: "Sources/IOSScenes/\(nameAttribute)/\(nameAttribute)Assembly.swift",
             templatePath: .relativeToCurrentFile("../Assembly.stencil")
         ),
         .file(
-            path: "Sources/iPhoneDriver/Coordinators/\(nameAttribute)Coordinator.swift",
-            templatePath: .relativeToCurrentFile("../iPhoneCoordinator.stencil")
+            path: "Sources/IPhoneDriver/Coordinators/\(nameAttribute)Coordinator.swift",
+            templatePath: .relativeToCurrentFile("../IPhoneCoordinator.stencil")
         ),
         .file(
-            path: "Tests/iOSScenesTests/\(nameAttribute)Tests/\(nameAttribute)Tests.swift",
+            path: "Tests/IOSScenesTests/\(nameAttribute)Tests/\(nameAttribute)Tests.swift",
             templatePath: .relativeToCurrentFile("../UnitTests.stencil")
         ),
         .file(

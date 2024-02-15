@@ -19,10 +19,14 @@ public struct UserSettings {
     /// 진동 사용 여부
     public var hapticsIsOn: Bool
 
-    public init(translationSourceLocale: TranslationLanguage, translationTargetLocale: TranslationLanguage, hapticsIsOn: Bool) {
+    /// 테마 스타일
+    public var themeStyle: ThemeStyle
+
+    public init(translationSourceLocale: TranslationLanguage, translationTargetLocale: TranslationLanguage, hapticsIsOn: Bool, themeStyle: ThemeStyle) {
         self.translationSourceLocale = translationSourceLocale
         self.translationTargetLocale = translationTargetLocale
         self.hapticsIsOn = hapticsIsOn
+        self.themeStyle = themeStyle
     }
 
 }

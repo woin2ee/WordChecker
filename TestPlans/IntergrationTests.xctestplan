@@ -151,13 +151,6 @@
     {
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "0D0A048C4E8A1F30CBB8F2BE",
-        "name" : "FoundationExtensionTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:WordChecker.xcodeproj",
         "identifier" : "3F3E981FC1A96E4F891CA1D4",
         "name" : "PushNotificationSettingsTests"
       }
@@ -174,6 +167,13 @@
         "containerPath" : "container:WordChecker.xcodeproj",
         "identifier" : "7C78BC2C06BF23C70DEE14AE",
         "name" : "InfrastructureTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "E5AF7A03E6E737AD9E4136ED",
+        "name" : "ThemeSettingTests"
       }
     }
   ],

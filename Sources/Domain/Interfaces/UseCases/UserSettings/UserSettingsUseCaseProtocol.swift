@@ -21,4 +21,6 @@ public protocol UserSettingsUseCaseProtocol {
 
     func offHaptics() -> Single<Void>
 
+    func updateThemeStyle(_ style: ThemeStyle) -> Single<Void>
+
 }

@@ -198,6 +198,50 @@ final class WordUseCaseTests: XCTestCase {
         XCTAssertNotEqual(try sut.getCurrentUnmemorizedWord().toBlocking().single(), oldCurrentWord)
     }
 
+    func test_addDuplicatedWord() throws {
+        // Given
+        let duplicatedWord = unmemorizedWordList[0]
+
+        // When
+        let addNewWord = sut.addNewWord(duplicatedWord)
+            .toBlocking()
+
+        // Then
+        XCTAssertThrowsError(try addNewWord.single()) { error in
+            switch error {
+            case WordUseCaseError.saveFailed(reason: .duplicatedWord):
+                break
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    func test_isWordDuplicated() throws {
+        // Given
+        let duplicatedWord = unmemorizedWordList[0]
+
+        // When
+        let isWordDuplicated = try sut.isWordDuplicated(duplicatedWord.word)
+            .toBlocking()
+            .single()
+
+        // Then
+        XCTAssertTrue(isWordDuplicated)
+    }
+
+    func test_throwError_whenUpdateToDuplicatedWord() {
+        // Given
+        let duplicatedWord: Word = .init(uuid: unmemorizedWordList[0].uuid, word: "J") // 단어 A 를 J(중복) 로 업데이트
+
+        // When
+        let updateWord = sut.updateWord(by: duplicatedWord.uuid, to: duplicatedWord)
+            .toBlocking()
+
+        // Then
+        XCTAssertThrowsError(try updateWord.single())
+    }
+
 }
 
 // MARK: - Helpers

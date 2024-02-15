@@ -17,8 +17,10 @@ final class UserSettingsRepositoryAssemblyDev: Assembly {
     func assemble(container: Container) {
         container.register(UserSettingsRepositoryProtocol.self) { _ in
             let userDefaults: ExtendedUserDefaults = .init(suiteName: "Dev")!
-            let arguments = ProcessInfo.processInfo.arguments
-            if arguments.contains(LaunchArguments.initUserDefaults.rawValue) {
+
+            LaunchArgument.verify()
+
+            if LaunchArgument.contains(.initUserDefaults) {
                 userDefaults.removeAllObject(forKeyType: UserDefaultsKey.self)
             }
 

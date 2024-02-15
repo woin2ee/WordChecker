@@ -5,7 +5,7 @@
 //  Created by Jaewon Yun on 2023/09/09.
 //
 
-import iOSSupport
+import IOSSupport
 import RxSwift
 import RxCocoa
 import RxUtility
@@ -13,10 +13,7 @@ import SnapKit
 import Then
 import UIKit
 
-public protocol WordAdditionViewControllerDelegate: AnyObject {
-
-    func didFinishInteration()
-
+public protocol WordAdditionViewControllerDelegate: AnyObject, ViewControllerDelegate {
 }
 
 public protocol WordAdditionViewControllerProtocol: UIViewController {
@@ -32,6 +29,13 @@ final class WordAdditionViewController: RxBaseViewController, WordAdditionViewCo
     let wordTextField: UITextField = .init().then {
         $0.placeholder = WCString.word
         $0.borderStyle = .roundedRect
+    }
+
+    let duplicatedWordAlertLabel: UILabel = .init().then {
+        $0.text = WCString.duplicate_word
+        $0.textColor = .systemRed
+        $0.adjustsFontForContentSizeCategory = true
+        $0.font = .preferredFont(forTextStyle: .footnote)
     }
 
     lazy var cancelBarButton: UIBarButtonItem = .init(systemItem: .cancel)
@@ -58,10 +62,16 @@ final class WordAdditionViewController: RxBaseViewController, WordAdditionViewCo
 
     func setupSubviews() {
         self.view.addSubview(wordTextField)
+        self.view.addSubview(duplicatedWordAlertLabel)
 
         wordTextField.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide).offset(10)
             make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(20)
+        }
+
+        duplicatedWordAlertLabel.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(22)
+            make.top.equalTo(wordTextField.snp.bottom).offset(10)
         }
     }
 
@@ -78,7 +88,7 @@ final class WordAdditionViewController: RxBaseViewController, WordAdditionViewCo
             return
         }
         let input: WordAdditionViewModel.Input = .init(
-            wordText: wordTextField.rx.text.orEmpty.asDriver(),
+            wordText: wordTextField.rx.text.orEmpty.asDriver().distinctUntilChanged(),
             saveAttempt: doneBarButton.rx.tap.asSignal(),
             dismissAttempt: Signal.merge(
                 cancelBarButton.rx.tap.asSignal(),
@@ -90,20 +100,27 @@ final class WordAdditionViewController: RxBaseViewController, WordAdditionViewCo
         [
             output.saveComplete
                 .emit(with: self, onNext: { owner, _ in
-                    owner.delegate?.didFinishInteration()
+                    owner.delegate?.viewControllerMustBeDismissed(owner)
                 }),
-            output.wordTextIsNotEmpty
-                .drive(doneBarButton.rx.isEnabled),
             output.reconfirmDismiss
                 .emit(with: self, onNext: { owner, _ in
                     owner.presentDismissActionSheet {
-                        owner.delegate?.didFinishInteration()
+                        owner.delegate?.viewControllerMustBeDismissed(owner)
                     }
                 }),
             output.dismissComplete
                 .emit(with: self, onNext: { owner, _ in
-                    owner.delegate?.didFinishInteration()
+                    owner.delegate?.viewControllerMustBeDismissed(owner)
                 }),
+            output.enteredWordIsDuplicated
+                .distinctUntilChanged()
+                .map { !$0 }
+                .drive(duplicatedWordAlertLabel.rx.isHidden),
+            Driver.zip([
+                output.wordTextIsNotEmpty,
+                output.enteredWordIsDuplicated,
+            ]).map { $0[0] && !$0[1] }
+                .drive(doneBarButton.rx.isEnabled),
         ]
             .forEach { $0.disposed(by: disposeBag) }
     }

@@ -63,6 +63,11 @@ public struct WCString {
         let localizedString = NSLocalizedString("%@_added_successfully", bundle: Bundle.module, comment: "단어 추가 완료 후 표시되는 메세지")
         return .init(format: localizedString, arguments: [word])
     }
+    public static let already_added_word = NSLocalizedString("already_added_word", bundle: Bundle.module, comment: "")
+    public static func word_added_failed(word: String) -> String {
+        let localizedString = NSLocalizedString("%@_added_failed", bundle: Bundle.module, comment: "알 수 없는 이유로 단어 추가 실패 후 표시되는 메세지")
+        return .init(format: localizedString, arguments: [word])
+    }
 
     public static let please_check_your_network_connection = NSLocalizedString("please_check_your_network_connection", bundle: Bundle.module, comment: "")
 
@@ -77,9 +82,15 @@ public struct WCString {
     public static let hapticsSettingsFooterTextWhenHapticsIsOn = NSLocalizedString("hapticsSettingsFooterTextWhenHapticsIsOn", bundle: Bundle.module, comment: "")
     public static let hapticsSettingsFooterTextWhenHapticsIsOff = NSLocalizedString("hapticsSettingsFooterTextWhenHapticsIsOff", bundle: Bundle.module, comment: "")
 
+    public static let theme = NSLocalizedString("theme", bundle: Bundle.module, comment: "")
+    public static let system_mode = NSLocalizedString("system_mode", bundle: Bundle.module, comment: "")
+    public static let light_mode = NSLocalizedString("light_mode", bundle: Bundle.module, comment: "")
+    public static let dark_mode = NSLocalizedString("dark_mode", bundle: Bundle.module, comment: "")
+
     public static let more_menu = NSLocalizedString("more_menu", bundle: Bundle.module, comment: "")
     public static let memorize_words = NSLocalizedString("memorize_words", bundle: Bundle.module, comment: "")
     public static let previous_word = NSLocalizedString("previous_word", bundle: Bundle.module, comment: "")
     public static let next_word = NSLocalizedString("next_word", bundle: Bundle.module, comment: "")
 
+    public static let duplicate_word = NSLocalizedString("duplicate_word", bundle: Bundle.module, comment: "")
 }

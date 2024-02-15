@@ -6,26 +6,16 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import Domain
-import iOSSupport
+import IOSSupport
 import LanguageSetting
 import SwinjectDIContainer
 import SwinjectExtension
 import UIKit
 import UserSettings
 
-final class UserSettingsCoordinator: Coordinator {
+final class UserSettingsCoordinator: BasicCoordinator {
 
-    weak var parentCoordinator: Coordinator?
-    var childCoordinators: [Coordinator] = []
-
-    let navigationController: UINavigationController
-
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
-    }
-
-    func start() {
+    override func start() {
         let viewController: UserSettingsViewControllerProtocol = DIContainer.shared.resolver.resolve()
         viewController.delegate = self
         navigationController.setViewControllers([viewController], animated: false)

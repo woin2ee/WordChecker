@@ -5,7 +5,7 @@
 //  Created by Jaewon Yun on 2023/09/11.
 //
 
-import iOSSupport
+import IOSSupport
 import UIKit
 
 extension WordCheckingView {

@@ -4,7 +4,7 @@ import XCTest
 
 final class {{ name }}Tests: XCTestCase {
 
-    var sut: <#Code#>!
+    var sut: {{ name }}Reactor!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -15,16 +15,14 @@ final class {{ name }}Tests: XCTestCase {
         try super.tearDownWithError()
         sut = nil
     }
-    
+
     func test_example() {
         // Given
-        
-        
+
         // When
-        
-        
+
         // Then
         XCTAssertEqual("{{ name }}Kit", "{{ name }}Kit")
     }
-    
+
 }

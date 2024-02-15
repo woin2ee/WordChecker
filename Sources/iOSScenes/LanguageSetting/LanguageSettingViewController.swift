@@ -7,19 +7,15 @@
 //
 
 import Domain
-import FoundationExtension
-import iOSSupport
+import FoundationPlus
+import IOSSupport
 import OrderedCollections
 import ReactorKit
 import RxSwift
 import Then
 import UIKit
 
-public protocol LanguageSettingViewControllerDelegate: AnyObject {
-
-    /// ViewController 가 Pop 해야될때 호출되는 Delegate method 입니다.
-    func viewMustPop()
-
+public protocol LanguageSettingViewControllerDelegate: AnyObject, ViewControllerDelegate {
 }
 
 public protocol LanguageSettingViewControllerProtocol: UIViewController {
@@ -95,16 +91,16 @@ final class LanguageSettingViewController: RxBaseViewController, LanguageSetting
         applyInitialSnapshotIfNoSections()
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
 
         if self.isMovingFromParent {
-            delegate?.viewMustPop()
+            delegate?.viewControllerDidPop(self)
         }
     }
 
-    /// 현재 Snapshot 에 추가된 Section 이 없다면 초기 snapshot 을 적용합니다.
-    /// - Returns: 현재 Snapshot 에 추가된 Section 이 있다면 현재 snapshot 을 반환, 없다면 새로 적용한 snapshot 을 반환합니다.
+    /// 현재 DataSource 에 적용된 Snapshot 이 없다면 초기 Snapshot 을 적용합니다.
+    /// - Returns: 현재 DataSource 에 적용된 Snapshot 이 있다면 해당 Snapshot 을 반환, 없다면 새로 적용한 Snapshot 을 반환합니다.
     @discardableResult
     func applyInitialSnapshotIfNoSections() -> NSDiffableDataSourceSnapshot<SectionIdentifier, ItemIdentifier> {
         let currenetSnapshot = dataSource.snapshot()
@@ -144,12 +140,13 @@ final class LanguageSettingViewController: RxBaseViewController, LanguageSetting
                 var snapshot = owner.dataSource.snapshot()
                 snapshot = owner.applyInitialSnapshotIfNoSections()
 
-                guard let sectionIdentifier = SectionIdentifier.init(rawValue: selectedIndexPath.section) else {
+                guard
+                    let selectedSectionIdentifier = SectionIdentifier.init(rawValue: selectedIndexPath.section),
+                    let selectedItemIdentifier = owner.dataSource.itemIdentifier(for: selectedIndexPath)
+                else {
                     assertionFailure("Out of selectable cell.")
                     return
                 }
-
-                let selectedItemIdentifier = snapshot.itemIdentifiers(inSection: sectionIdentifier)[selectedIndexPath.row]
 
                 if case .language = selectedItemIdentifier {
                     owner.itemModels = owner.defaultItemModels
@@ -158,7 +155,7 @@ final class LanguageSettingViewController: RxBaseViewController, LanguageSetting
                     owner.itemModels[selectedItemIdentifier] = selectedItem
                 }
 
-                snapshot.reconfigureItems(snapshot.itemIdentifiers(inSection: sectionIdentifier))
+                snapshot.reconfigureItems(snapshot.itemIdentifiers(inSection: selectedSectionIdentifier))
                 owner.dataSource.apply(snapshot)
             }
             .disposed(by: self.disposeBag)

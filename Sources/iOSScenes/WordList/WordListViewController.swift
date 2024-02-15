@@ -5,7 +5,7 @@
 //  Created by Jaewon Yun on 2023/08/25.
 //
 
-import iOSSupport
+import IOSSupport
 import ReactorKit
 import RxUtility
 import SFSafeSymbols

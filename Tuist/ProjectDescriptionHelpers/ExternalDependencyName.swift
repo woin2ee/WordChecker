@@ -23,5 +23,6 @@ public struct ExternalDependencyName {
     public static let googleAPIClientForRESTCore = "GoogleAPIClientForRESTCore"
     public static let reactorKit = "ReactorKit"
     public static let swiftCollections = "Collections"
+    public static let foundationPlus = "FoundationPlus"
 
 }

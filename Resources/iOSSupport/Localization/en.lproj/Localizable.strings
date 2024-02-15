@@ -38,6 +38,9 @@ all = "All";
 there_are_no_words = "There are no words.";
 quick_add_word = "Quick add word";
 "%@_added_successfully" = "[ %@ ] added successfully";
+already_added_word = "Already added word.";
+"%@_added_failed" = "[ %@ ] added failed.";
+
 settings = "Settings";
 translation_language = "Translation language";
 
@@ -66,9 +69,16 @@ dailyReminderFooter = "Sends a daily push notification at the time you set.";
 general = "General";
 haptics = "Haptics";
 hapticsSettingsFooterTextWhenHapticsIsOn = "Enable haptics for interactions.";
-hapticsSettingsFooterTextWhenHapticsIsOff = "Disable haptics for interactions";
+hapticsSettingsFooterTextWhenHapticsIsOff = "Disable haptics for interactions.";
+
+theme = "Theme";
+system_mode = "System mode";
+light_mode = "Light mode";
+dark_mode = "Dark mode";
 
 more_menu = "More menu";
 memorize_words = "Memorize words";
 next_word = "Next word";
 previous_word = "Previous word";
+
+duplicate_word = "Duplicate word.";

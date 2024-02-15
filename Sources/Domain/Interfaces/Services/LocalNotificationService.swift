@@ -29,6 +29,6 @@ public protocol LocalNotificationService {
 
     /// 매일 알림을 설정한 마지막 시각을 반환합니다.
     ///
-    /// /// - throws: 저장된 시각이 없을 때 Error 를 던집니다.
+    /// - throws: 저장된 시각이 없을 때 Error 를 던집니다.
     func getLatestDailyReminderTime() throws -> DateComponents
 }

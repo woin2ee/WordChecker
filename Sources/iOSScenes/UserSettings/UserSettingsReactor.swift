@@ -7,7 +7,7 @@
 //
 
 import Domain
-import iOSSupport
+import IOSSupport
 import ReactorKit
 
 final class UserSettingsReactor: Reactor {
@@ -47,12 +47,12 @@ final class UserSettingsReactor: Reactor {
 
     let userSettingsUseCase: UserSettingsUseCaseProtocol
     let googleDriveUseCase: ExternalStoreUseCaseProtocol
-    let globalAction: GlobalReactorAction
+    let globalAction: GlobalAction
 
     init(
         userSettingsUseCase: UserSettingsUseCaseProtocol,
         googleDriveUseCase: ExternalStoreUseCaseProtocol,
-        globalAction: GlobalReactorAction
+        globalAction: GlobalAction
     ) {
         self.userSettingsUseCase = userSettingsUseCase
         self.googleDriveUseCase = googleDriveUseCase
