@@ -16,9 +16,7 @@ public protocol NotificationsUseCaseProtocol {
     func requestNotificationAuthorization(with options: UNAuthorizationOptions) -> Single<Bool>
 
     /// Retrieves the notification authorization status for your app.
-    ///
-    /// 이 함수가 반환하는 Single 시퀀스는 error 를 방출하지 않습니다.
-    func getNotificationAuthorizationStatus() -> Single<UNAuthorizationStatus>
+    func getNotificationAuthorizationStatus() -> Infallible<UNAuthorizationStatus>
 
     /// 지정한 시각에 매일 알림을 설정합니다.
     /// - Parameter time: 매일 알림을 지정할 시각
