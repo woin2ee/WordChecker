@@ -40,11 +40,12 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
         }
     }
 
-    public func getNotificationAuthorizationStatus() -> Single<UNAuthorizationStatus> {
+    public func getNotificationAuthorizationStatus() -> Infallible<UNAuthorizationStatus> {
         return .create { observer in
             Task {
                 let notificationSettings = await self.localNotificationService.notificationSettings()
-                observer(.success(notificationSettings.authorizationStatus))
+                observer(.next(notificationSettings.authorizationStatus))
+                observer(.completed)
             }
 
             return Disposables.create()
@@ -90,6 +91,8 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
             .subscribe(on: ConcurrentMainScheduler.instance)
 
         return self.getNotificationAuthorizationStatus()
+            .asObservable()
+            .asSingle()
             .flatMap { authorizationStatus in
                 if authorizationStatus == .authorized {
                     return setDailyReminderSequence

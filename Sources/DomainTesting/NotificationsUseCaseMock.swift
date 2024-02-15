@@ -87,7 +87,7 @@ public final class NotificationsUseCaseMock: NotificationsUseCaseProtocol {
         return .just(false)
     }
 
-    public func getNotificationAuthorizationStatus() -> RxSwift.Single<UNAuthorizationStatus> {
+    public func getNotificationAuthorizationStatus() -> RxSwift.Infallible<UNAuthorizationStatus> {
         return .just(_authorizationStatus)
     }
 

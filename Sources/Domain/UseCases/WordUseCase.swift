@@ -189,7 +189,7 @@ public final class WordUseCase: WordUseCaseProtocol {
         return .just(currentWord)
     }
 
-    public func isWordDuplicated(_ word: String) -> Single<Bool> {
+    public func isWordDuplicated(_ word: String) -> Infallible<Bool> {
         let allWords = self.wordRepository.getAllWords()
         if allWords.contains(where: { $0.word.lowercased() == word.lowercased() }) {
             return .just(true)
