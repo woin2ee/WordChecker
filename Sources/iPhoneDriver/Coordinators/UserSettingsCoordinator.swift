@@ -22,18 +22,8 @@ final class UserSettingsCoordinator: BasicCoordinator {
         viewController.delegate = self
         navigationController.setViewControllers([viewController], animated: false)
 
-        observation = observePopToRoot()
-    }
-
-    func observePopToRoot() -> NSKeyValueObservation {
-        return RootTabBarController.shared.observe(\.selectedViewController, options: [.old, .new]) { [weak self] _, selectedVC in
-            guard let oldNC = selectedVC.oldValue as? UserSettingsNavigationController,
-                  let newNC = selectedVC.newValue as? UserSettingsNavigationController else {
-                return
-            }
-            if oldNC === newNC { // equals pop to root view controller.
-                self?.childCoordinators = []
-            }
+        observation = RootTabBarController.shared.observe(to: .doubleTap, tabBarItemAt: 2) { [weak self] in
+            self?.childCoordinators = []
         }
     }
 

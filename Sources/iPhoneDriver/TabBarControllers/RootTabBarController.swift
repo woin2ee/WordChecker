@@ -28,7 +28,7 @@ public final class RootTabBarController: UITabBarController {
         self.viewControllers = [wordCheckingNC, wordListNC, userSettingsNC]
     }
 
-    func setAppearance() {
+    private func setAppearance() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
 
