@@ -27,10 +27,10 @@ extension Domain.Word {
 
 extension Word {
 
-    func toDomain() -> Domain.Word {
+    func toDomain() throws -> Domain.Word {
         let memorizedState: MemorizedState = self.isMemorized ? .memorized : .memorizing
 
-        return .init(uuid: self.uuid, word: self.word, memorizedState: memorizedState)
+        return try .init(uuid: self.uuid, word: self.word, memorizedState: memorizedState)
     }
 
 }

@@ -55,9 +55,10 @@ final class WordListReactor: Reactor {
 
         case .editWord(let word, let index):
             let target = self.currentState.wordList[index]
-            target.word = word
+            try? target.setWord(word)
 
-            return wordUseCase.updateWord(by: target.uuid, to: target).asObservable()
+            return wordUseCase.updateWord(by: target.uuid, to: target)
+                .asObservable()
                 .doOnNext { self.globalAction.didEditWord.accept(target) }
                 .flatMap { self.updateWordList(by: self.currentState.listType) }
 
