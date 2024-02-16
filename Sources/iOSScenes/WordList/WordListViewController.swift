@@ -31,6 +31,8 @@ final class WordListViewController: RxBaseViewController, WordListViewController
 
     weak var delegate: WordListViewControllerDelegate?
 
+    var observation: NSKeyValueObservation?
+
     lazy var wordListTableView: UITableView = {
         let tableView: UITableView = .init()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -82,7 +84,7 @@ final class WordListViewController: RxBaseViewController, WordListViewController
 
         setupSubviews()
         setupNavigationBar()
-        bindTabBarControllerDelegate()
+        observeToDoubleTapTabBarItem()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -123,19 +125,12 @@ final class WordListViewController: RxBaseViewController, WordListViewController
         setupSearchBar()
     }
 
-    func bindTabBarControllerDelegate() {
-        self.tabBarController?.rx.didSelect
-            .asSignal()
-            .emit(with: self) { owner, selectedViewController in
-                guard selectedViewController == self.navigationController else {
-                    return
-                }
-
-                if owner.wordListTableView.visibleCells.count != 0 {
-                    owner.wordListTableView.scrollToRow(at: .init(row: 0, section: 0), at: .bottom, animated: true)
-                }
+    func observeToDoubleTapTabBarItem() {
+        observation = self.tabBarController?.observe(to: .doubleTap, tabBarItemAt: 1) { [weak self] in
+            if self?.wordListTableView.visibleCells.count != 0 {
+                self?.wordListTableView.scrollToRow(at: .init(row: 0, section: 0), at: .bottom, animated: true)
             }
-            .disposed(by: self.disposeBag)
+        }
     }
 
     func setupSearchBar() {
