@@ -66,7 +66,8 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
             return .error(WordUseCaseError.retrieveFailed(reason: .uuidInvaild(uuid: uuid)))
         }
 
-        if (newWord.word != _wordList[index].word) && _wordList.contains(where: { $0.word.lowercased() == newWord.word.lowercased() }) {
+        if (newWord.word.lowercased() != _wordList[index].word.lowercased()) &&
+            _wordList.contains(where: { $0.word.lowercased() == newWord.word.lowercased() }) {
             return .error(WordUseCaseError.saveFailed(reason: .duplicatedWord(word: newWord.word)))
         }
 

@@ -101,7 +101,9 @@ final class WordDetailReactor: Reactor {
             let setDuplicatedMutation = wordUseCase.isWordDuplicated(enteredWord)
                 .asObservable()
                 .map { [weak self] isWordDuplicated in
-                    if isWordDuplicated && (enteredWord != self?.originWord) { // 원래 단어와 달라야 중복이므로
+                    if isWordDuplicated &&
+                        (enteredWord.lowercased() != self?.originWord?.lowercased()) // 원래 단어와 달라야 중복이므로
+                    {
                         return Mutation.setDuplicated(true)
                     } else {
                         return Mutation.setDuplicated(false)
