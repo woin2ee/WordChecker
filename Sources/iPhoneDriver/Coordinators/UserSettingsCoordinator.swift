@@ -15,10 +15,26 @@ import UserSettings
 
 final class UserSettingsCoordinator: BasicCoordinator {
 
+    var observation: NSKeyValueObservation?
+
     override func start() {
         let viewController: UserSettingsViewControllerProtocol = DIContainer.shared.resolver.resolve()
         viewController.delegate = self
         navigationController.setViewControllers([viewController], animated: false)
+
+        observation = observePopToRoot()
+    }
+
+    func observePopToRoot() -> NSKeyValueObservation {
+        return RootTabBarController.shared.observe(\.selectedViewController, options: [.old, .new]) { [weak self] _, selectedVC in
+            guard let oldNC = selectedVC.oldValue as? UserSettingsNavigationController,
+                  let newNC = selectedVC.newValue as? UserSettingsNavigationController else {
+                return
+            }
+            if oldNC === newNC { // equals pop to root view controller.
+                self?.childCoordinators = []
+            }
+        }
     }
 
 }
