@@ -71,11 +71,16 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
             return .error(WordUseCaseError.saveFailed(reason: .duplicatedWord(word: newWord.word)))
         }
 
-        let updateTarget: Word = .init(
-            uuid: uuid,
-            word: newWord.word,
-            memorizedState: newWord.memorizedState
-        )
+        let updateTarget: Word
+        do {
+            updateTarget = try .init(
+                uuid: uuid,
+                word: newWord.word,
+                memorizedState: newWord.memorizedState
+            )
+        } catch {
+            return .error(error)
+        }
 
         if _unmemorizedWordList.contains(where: { $0.uuid == updateTarget.uuid }) {
             switch updateTarget.memorizedState {

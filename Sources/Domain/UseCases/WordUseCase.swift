@@ -109,28 +109,29 @@ public final class WordUseCase: WordUseCaseProtocol {
             return .error(WordUseCaseError.saveFailed(reason: .duplicatedWord(word: newWord.word)))
         }
 
-        return .create { single in
-            let updateTarget: Word = .init(
+        let updateTarget: Word
+        do {
+            updateTarget = try .init(
                 uuid: uuid,
                 word: newWord.word,
                 memorizedState: newWord.memorizedState
             )
-
-            if self.unmemorizedWordListRepository.contains(where: { $0.uuid == updateTarget.uuid }) {
-                if updateTarget.memorizedState == .memorized {
-                    self.unmemorizedWordListRepository.deleteWord(by: uuid)
-                }
-                self.unmemorizedWordListRepository.replaceWord(where: uuid, with: updateTarget)
-            } else if updateTarget.memorizedState == .memorizing {
-                self.unmemorizedWordListRepository.addWord(updateTarget)
-            }
-
-            self.wordRepository.save(updateTarget)
-
-            single(.success(()))
-
-            return Disposables.create()
+        } catch {
+            return .error(error)
         }
+
+        if self.unmemorizedWordListRepository.contains(where: { $0.uuid == updateTarget.uuid }) {
+            if updateTarget.memorizedState == .memorized {
+                self.unmemorizedWordListRepository.deleteWord(by: uuid)
+            }
+            self.unmemorizedWordListRepository.replaceWord(where: uuid, with: updateTarget)
+        } else if updateTarget.memorizedState == .memorizing {
+            self.unmemorizedWordListRepository.addWord(updateTarget)
+        }
+
+        self.wordRepository.save(updateTarget)
+
+        return .just(())
     }
 
     public func shuffleUnmemorizedWordList() -> RxSwift.Single<Void> {

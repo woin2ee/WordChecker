@@ -92,7 +92,10 @@ final class WordCheckingReactor: Reactor {
             ])
 
         case .addWord(let newWord):
-            let newWord: Word = .init(word: newWord)
+            guard let newWord: Word = try? .init(word: newWord) else {
+                return .empty()
+            }
+
             return wordUseCase.addNewWord(newWord)
                 .asObservable()
                 .flatMap { _ in self.wordUseCase.getCurrentUnmemorizedWord() }

@@ -11,7 +11,6 @@ trailing_comma:
 
 included:
     - Sources/
-    - Tests/
     
     - Project.swift
     
@@ -21,5 +20,4 @@ included:
     - Tuist/ProjectDescriptionHelpers/Extensions/*.swift
 
 excluded:
-    - Tests/InfrastructureTests/UserDefaults/UserSettingsRepositoryTests.swift.plist
-    - Tests/InfrastructureTests/UserDefaults/WCUserDefaultsTests.swift.plist
+    - Tests/

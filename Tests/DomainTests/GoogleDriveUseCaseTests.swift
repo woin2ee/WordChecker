@@ -79,7 +79,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
 
     func test_downloadBeforeSignIn() throws {
         // Given
-        let driveData: [Word] = testSampleWordList + [.init(word: "Drive")]
+        let driveData: [Word] = testSampleWordList + [try! .init(word: "Drive")]
 
         let wordRepository: WordRepositoryFake = .init(sampleData: testSampleWordList)
 
@@ -110,7 +110,7 @@ final class GoogleDriveUseCaseTests: XCTestCase {
 
     func test_downloadWhenNeedSyncToDriveAfterSignIn() throws {
         // Given
-        let driveData: [Word] = testSampleWordList + [.init(word: "Drive")]
+        let driveData: [Word] = testSampleWordList + [try! .init(word: "Drive")]
 
         let wordRepository: WordRepositoryFake = .init(sampleData: testSampleWordList)
 
@@ -142,11 +142,11 @@ final class GoogleDriveUseCaseTests: XCTestCase {
 }
 
 private let testSampleWordList: [Word] = [
-    .init(word: "A"),
-    .init(word: "B"),
-    .init(word: "C"),
-    .init(word: "D"),
-    .init(word: "E", memorizedState: .memorized),
-    .init(word: "F", memorizedState: .memorized),
-    .init(word: "G", memorizedState: .memorized),
+    try! .init(word: "A"),
+    try! .init(word: "B"),
+    try! .init(word: "C"),
+    try! .init(word: "D"),
+    try! .init(word: "E", memorizedState: .memorized),
+    try! .init(word: "F", memorizedState: .memorized),
+    try! .init(word: "G", memorizedState: .memorized),
 ]

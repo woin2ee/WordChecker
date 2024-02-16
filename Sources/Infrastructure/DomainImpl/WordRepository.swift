@@ -38,11 +38,11 @@ final class WordRepository: WordRepositoryProtocol {
 
     func getAllWords() -> [Domain.Word] {
         return findAll()
-            .map { $0.toDomain() }
+            .compactMap { try? $0.toDomain() }
     }
 
     func getWord(by uuid: UUID) -> Domain.Word? {
-        return find(by: uuid)?.toDomain() ?? nil
+        return try? find(by: uuid)?.toDomain() ?? nil
     }
 
     func deleteWord(by uuid: UUID) {
@@ -57,13 +57,13 @@ final class WordRepository: WordRepositoryProtocol {
     func getUnmemorizedList() -> [Domain.Word] {
         return findAll()
             .filter { $0.isMemorized == false }
-            .map { $0.toDomain() }
+            .compactMap { try? $0.toDomain() }
     }
 
     func getMemorizedList() -> [Domain.Word] {
         return findAll()
             .filter { $0.isMemorized == true }
-            .map { $0.toDomain() }
+            .compactMap { try? $0.toDomain() }
     }
 
     func reset(to wordList: [Domain.Word]) {

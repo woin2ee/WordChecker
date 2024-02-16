@@ -110,7 +110,7 @@ final class WordDetailReactor: Reactor {
                     }
                 }
 
-            self.currentState.word.word = enteredWord
+            try? self.currentState.word.setWord(enteredWord)
 
             return .merge([
                 .just(.updateWord(self.currentState.word)),
