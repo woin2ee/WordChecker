@@ -104,7 +104,8 @@ public final class WordUseCase: WordUseCaseProtocol {
         }
 
         let allWords = self.wordRepository.getAllWords()
-        if (originWord.word != newWord.word) && allWords.contains(where: { $0.word.lowercased() == newWord.word.lowercased() }) {
+        if (originWord.word.lowercased() != newWord.word.lowercased()) &&
+            allWords.contains(where: { $0.word.lowercased() == newWord.word.lowercased() }) {
             return .error(WordUseCaseError.saveFailed(reason: .duplicatedWord(word: newWord.word)))
         }
 
