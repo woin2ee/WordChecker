@@ -49,5 +49,6 @@ public protocol WordUseCaseProtocol {
     /// 대소문자가 다른 단어는 같은 단어로 취급합니다.
     ///
     /// - Returns: 이미 저장된 단어이면 `true` 를, 아니면 `false` 값의 next 이벤트를 방출하는 Sequence 를 반환합니다.
-    func isWordDuplicated(_ word: String) -> Infallible<Bool>
+    /// - Throws: 파라미터로 전달된 문자열이 유효하지 않아서 저장될 수 없는 단어일 때 Error 를 방출합니다.
+    func isWordDuplicated(_ word: String) -> Single<Bool>
 }

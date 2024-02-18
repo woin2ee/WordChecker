@@ -18,6 +18,7 @@ public final class DomainAssembly: Assembly {
             UserSettingsUseCaseAssembly(),
             ExternalStoreUseCaseAssembly(),
             NotificationsUseCaseAssembly(),
+            WordDuplicateSpecificationAssembly(),
         ]
 
         assemblies.forEach { assembly in
