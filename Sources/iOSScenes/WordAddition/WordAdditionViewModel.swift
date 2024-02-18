@@ -57,7 +57,7 @@ final class WordAdditionViewModel: ViewModelType {
         let enteredWordIsDuplicated = input.wordText
             .flatMapLatest { word in
                 return self.wordUseCase.isWordDuplicated(word)
-                    .asDriver()
+                    .asDriverOnErrorJustComplete()
             }
 
         return .init(

@@ -38,10 +38,13 @@ final class WordUseCaseTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
 
+        let wordRepository: WordRepositoryFake = makePreparedWordRepository()
+        
         sut = WordUseCase.init(
-            wordRepository: makePreparedWordRepository(),
+            wordRepository: wordRepository,
             unmemorizedWordListRepository: makePreparedUnmemorizedWordListRepository(),
-            notificationsUseCase: notificationsUseCase
+            notificationsUseCase: notificationsUseCase, 
+            wordDuplicateSpecification: .init(wordRepository: wordRepository)
         )
     }
 
@@ -200,10 +203,10 @@ final class WordUseCaseTests: XCTestCase {
 
     func test_addDuplicatedWord() throws {
         // Given
-        let duplicatedWord = unmemorizedWordList[0]
+        let newWord: Word = try .init(word: unmemorizedWordList[0].word)
 
         // When
-        let addNewWord = sut.addNewWord(duplicatedWord)
+        let addNewWord = sut.addNewWord(newWord)
             .toBlocking()
 
         // Then

@@ -19,7 +19,8 @@ final class WordUseCaseAssembly: Assembly {
             return WordUseCase.init(
                 wordRepository: wordRepository,
                 unmemorizedWordListRepository: unmemorizedWordListRepository,
-                notificationsUseCase: resolver.resolve()
+                notificationsUseCase: resolver.resolve(),
+                wordDuplicateSpecification: resolver.resolve()
             )
         }
         .inObjectScope(.container)

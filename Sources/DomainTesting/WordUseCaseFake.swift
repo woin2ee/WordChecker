@@ -131,7 +131,7 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
         return .just(currentWord)
     }
 
-    public func isWordDuplicated(_ word: String) -> Infallible<Bool> {
+    public func isWordDuplicated(_ word: String) -> Single<Bool> {
         if _wordList.contains(where: { $0.word.lowercased() == word.lowercased() }) {
             return .just(true)
         } else {
