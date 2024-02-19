@@ -20,6 +20,10 @@ public final class WordRepositoryFake: WordRepositoryProtocol {
         return _wordList.first(where: { $0.uuid == uuid })
     }
 
+    public func getWords(by word: String) -> [Domain.Word] {
+        return _wordList.filter { $0.word.lowercased() == word.lowercased() }
+    }
+
     public func save(_ word: Domain.Word) {
         if let index = _wordList.firstIndex(where: { $0.uuid == word.uuid }) {
             _wordList[index] = word

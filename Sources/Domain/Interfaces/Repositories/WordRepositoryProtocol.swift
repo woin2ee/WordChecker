@@ -17,6 +17,11 @@ public protocol WordRepositoryProtocol {
 
     func getWord(by uuid: UUID) -> Word?
 
+    /// 파라미터로 전달된 `word` 문자열과 일치하는 단어를 반환합니다.
+    ///
+    /// 문자열을 비교할 때 대소문자를 구분하지 않습니다.
+    func getWords(by word: String) -> [Word]
+
     func deleteWord(by uuid: UUID)
 
     func getUnmemorizedList() -> [Word]
