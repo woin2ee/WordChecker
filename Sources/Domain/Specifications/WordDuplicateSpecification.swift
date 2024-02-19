@@ -23,20 +23,15 @@ struct WordDuplicateSpecification: Specification {
 
     func isSatisfied(for entity: Word) -> Bool {
         if let originWord = wordRepository.getWord(by: entity.uuid) {
-            let allWords = wordRepository.getAllWords()
-            if (originWord.word.lowercased() != entity.word.lowercased()) &&
-                allWords.contains(where: { $0.word.lowercased() == entity.word.lowercased() }) {
+            // Entity 가 이미 있을때는 업데이트 상황이므로 만약 중복 단어가 존재한다면 추가로 자기 자신 Entity 가 아닌지 확인이 필요합니다.
+            if wordRepository.getWords(by: entity.word).hasElements &&
+                (originWord.word.lowercased() != entity.word.lowercased()) {
                 return false
             } else {
                 return true
             }
         }
 
-        let allWords = wordRepository.getAllWords()
-        if allWords.contains(where: { $0.word.lowercased() == entity.word.lowercased() }) {
-            return false
-        } else {
-            return true
-        }
+        return wordRepository.getWords(by: entity.word).isEmpty
     }
 }

@@ -45,6 +45,13 @@ final class WordRepository: WordRepositoryProtocol {
         return try? find(by: uuid)?.toDomain() ?? nil
     }
 
+    func getWords(by word: String) -> [Domain.Word] {
+        let results = realm.objects(Word.self)
+            .where { $0.word.equals(word, options: .caseInsensitive) }
+            .compactMap { try? $0.toDomain() }
+        return Array(results)
+    }
+
     func deleteWord(by uuid: UUID) {
         guard let object = find(by: uuid) else {
             return
@@ -75,6 +82,9 @@ final class WordRepository: WordRepositoryProtocol {
             self.realm.add(newList)
         }
     }
+}
+
+extension WordRepository {
 
     private func find(by uuid: UUID) -> Word? {
         guard let object = realm.object(ofType: Word.self, forPrimaryKey: uuid) else {
