@@ -215,7 +215,7 @@ final class WordUseCaseTests: XCTestCase {
             case WordUseCaseError.saveFailed(reason: .duplicatedWord):
                 break
             default:
-                XCTFail()
+                XCTFail("예상되지 않은 에러 던져짐.")
             }
         }
     }
