@@ -403,7 +403,6 @@ let project: Project = .init(
         "Scripts/",
         ".gitignore",
         "Project.swift",
-        "MyPlayground.playground",
     ],
     resourceSynthesizers: []
 )
