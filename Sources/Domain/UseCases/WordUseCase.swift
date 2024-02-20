@@ -32,8 +32,13 @@ public final class WordUseCase: WordUseCaseProtocol {
             return .error(WordUseCaseError.saveFailed(reason: .duplicatedWord(word: word.word)))
         }
 
+        do {
+            try self.wordRepository.save(word)
+        } catch {
+            return .error(error)
+        }
+
         self.unmemorizedWordListRepository.addWord(word)
-        self.wordRepository.save(word)
 
         _ = self.notificationsUseCase.updateDailyReminder()
             .subscribe()
@@ -42,17 +47,18 @@ public final class WordUseCase: WordUseCaseProtocol {
     }
 
     public func deleteWord(by uuid: UUID) -> RxSwift.Single<Void> {
-        return .create { single in
-            self.unmemorizedWordListRepository.deleteWord(by: uuid)
-            self.wordRepository.deleteWord(by: uuid)
-
-            _ = self.notificationsUseCase.updateDailyReminder()
-                .subscribe()
-
-            single(.success(()))
-
-            return Disposables.create()
+        do {
+            try self.wordRepository.deleteWord(by: uuid)
+        } catch {
+            return .error(error)
         }
+
+        self.unmemorizedWordListRepository.deleteWord(by: uuid)
+
+        _ = self.notificationsUseCase.updateDailyReminder()
+            .subscribe()
+
+        return .just(())
     }
 
     public func getWordList() -> RxSwift.Single<[Word]> {
@@ -110,6 +116,12 @@ public final class WordUseCase: WordUseCaseProtocol {
             return .error(WordUseCaseError.saveFailed(reason: .duplicatedWord(word: updateTarget.word)))
         }
 
+        do {
+            try self.wordRepository.save(updateTarget)
+        } catch {
+            return .error(error)
+        }
+
         if self.unmemorizedWordListRepository.contains(where: { $0.uuid == updateTarget.uuid }) {
             if updateTarget.memorizedState == .memorized {
                 self.unmemorizedWordListRepository.deleteWord(by: uuid)
@@ -118,8 +130,6 @@ public final class WordUseCase: WordUseCaseProtocol {
         } else if updateTarget.memorizedState == .memorizing {
             self.unmemorizedWordListRepository.addWord(updateTarget)
         }
-
-        self.wordRepository.save(updateTarget)
 
         return .just(())
     }
@@ -156,21 +166,21 @@ public final class WordUseCase: WordUseCaseProtocol {
     }
 
     public func markCurrentWordAsMemorized(uuid: UUID) -> RxSwift.Single<Void> {
-        return .create { single in
-            guard let currentWord = self.wordRepository.getWord(by: uuid) else {
-                single(.failure(WordUseCaseError.retrieveFailed(reason: .uuidInvaild(uuid: uuid))))
-                return Disposables.create()
-            }
-
-            currentWord.memorizedState = .memorized
-
-            self.unmemorizedWordListRepository.deleteWord(by: uuid)
-            self.wordRepository.save(currentWord)
-
-            single(.success(()))
-
-            return Disposables.create()
+        guard let currentWord = wordRepository.getWord(by: uuid) else {
+            return .error(WordUseCaseError.retrieveFailed(reason: .uuidInvaild(uuid: uuid)))
         }
+
+        currentWord.memorizedState = .memorized
+
+        do {
+            try self.wordRepository.save(currentWord)
+        } catch {
+            return .error(error)
+        }
+
+        self.unmemorizedWordListRepository.deleteWord(by: uuid)
+
+        return .just(())
     }
 
     public func getCurrentUnmemorizedWord() -> Single<Word> {

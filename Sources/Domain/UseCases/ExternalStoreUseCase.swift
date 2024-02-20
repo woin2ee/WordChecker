@@ -121,7 +121,7 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
                     let disposable = self.googleDriveService.downloadWordList()
                         .observe(on: MainScheduler.instance)
                         .doOnSuccess { wordList in
-                            self.wordRepository.reset(to: wordList)
+                            try self.wordRepository.reset(to: wordList)
                             let unmemorizedList = self.wordRepository.getUnmemorizedList()
                             self.unmemorizedWordListRepository.shuffle(with: unmemorizedList)
                             _ = self.notificationsUseCase.updateDailyReminder()

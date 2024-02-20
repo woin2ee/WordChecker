@@ -18,21 +18,9 @@ final class WordRepository: WordRepositoryProtocol {
         self.realm = realm
     }
 
-    func save(_ word: Domain.Word) {
-        if let updateTarget = find(by: word.uuid) {
-            try? realm.write {
-                updateTarget.word = word.word
-                switch word.memorizedState {
-                case .memorized:
-                    updateTarget.isMemorized = true
-                case .memorizing:
-                    updateTarget.isMemorized = false
-                }
-            }
-        } else {
-            try? realm.write {
-                realm.add(word.toObjectModel())
-            }
+    func save(_ word: Domain.Word) throws {
+        try realm.write {
+            realm.add(word.toObjectModel(), update: .modified)
         }
     }
 
@@ -42,7 +30,7 @@ final class WordRepository: WordRepositoryProtocol {
     }
 
     func getWord(by uuid: UUID) -> Domain.Word? {
-        return try? find(by: uuid)?.toDomain() ?? nil
+        return try? find(by: uuid)?.toDomain()
     }
 
     func getWords(by word: String) -> [Domain.Word] {
@@ -52,11 +40,12 @@ final class WordRepository: WordRepositoryProtocol {
         return Array(results)
     }
 
-    func deleteWord(by uuid: UUID) {
+    func deleteWord(by uuid: UUID) throws {
         guard let object = find(by: uuid) else {
             return
         }
-        try? realm.write {
+
+        try realm.write {
             self.realm.delete(object)
         }
     }
@@ -73,10 +62,9 @@ final class WordRepository: WordRepositoryProtocol {
             .compactMap { try? $0.toDomain() }
     }
 
-    func reset(to wordList: [Domain.Word]) {
-        try? realm.write {
-            let oldList = findAll()
-            self.realm.delete(oldList)
+    func reset(to wordList: [Domain.Word]) throws {
+        try realm.write {
+            self.realm.deleteAll()
 
             let newList = wordList.map { $0.toObjectModel() }
             self.realm.add(newList)
