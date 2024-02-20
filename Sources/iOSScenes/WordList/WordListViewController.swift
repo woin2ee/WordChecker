@@ -98,10 +98,6 @@ final class WordListViewController: RxBaseViewController, WordListViewController
         self.navigationItem.hidesSearchBarWhenScrolling = true
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
-
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         wordListTableView.frame = .init(origin: .zero, size: size)
