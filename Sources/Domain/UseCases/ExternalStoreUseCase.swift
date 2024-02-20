@@ -119,6 +119,7 @@ public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
                     observer.onNext(.inProgress)
 
                     let disposable = self.googleDriveService.downloadWordList()
+                        .subscribe(on: ConcurrentMainScheduler.instance)
                         .observe(on: MainScheduler.instance)
                         .doOnSuccess { wordList in
                             try self.wordRepository.reset(to: wordList)
