@@ -78,12 +78,14 @@ final class UserSettingsReactor: Reactor {
         case .uploadData(let presentingWindow):
             return self.currentState.hasSigned
             ? googleDriveUseCase.upload(presenting: presentingWindow)
+                .subscribe(on: ConcurrentMainScheduler.instance)
                 .map(Mutation.setUploadStatus)
             : .concat([
                 googleDriveUseCase.signInWithAuthorization(presenting: presentingWindow)
                     .asObservable()
                     .map({ _ in Mutation.signIn }),
                 googleDriveUseCase.upload(presenting: presentingWindow)
+                    .subscribe(on: ConcurrentMainScheduler.instance)
                     .map(Mutation.setUploadStatus),
             ])
 
