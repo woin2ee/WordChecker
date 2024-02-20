@@ -23,6 +23,9 @@ public protocol WordListViewControllerDelegate: AnyObject {
 
 public protocol WordListViewControllerProtocol: UIViewController {
     var delegate: WordListViewControllerDelegate? { get set }
+
+    /// 단어 목록을 맨 위로 스크롤합니다.
+    func scrollToTop()
 }
 
 final class WordListViewController: RxBaseViewController, WordListViewControllerProtocol {
@@ -30,8 +33,6 @@ final class WordListViewController: RxBaseViewController, WordListViewController
     var cellReuseIdentifier: String = "WORD_LIST_CELL"
 
     weak var delegate: WordListViewControllerDelegate?
-
-    var observation: NSKeyValueObservation?
 
     lazy var wordListTableView: UITableView = {
         let tableView: UITableView = .init()
@@ -84,7 +85,6 @@ final class WordListViewController: RxBaseViewController, WordListViewController
 
         setupSubviews()
         setupNavigationBar()
-        observeToDoubleTapTabBarItem()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -121,14 +121,6 @@ final class WordListViewController: RxBaseViewController, WordListViewController
         setupSearchBar()
     }
 
-    func observeToDoubleTapTabBarItem() {
-        observation = self.tabBarController?.observe(to: .doubleTap, tabBarItemAt: 1) { [weak self] in
-            if self?.wordListTableView.visibleCells.count != 0 {
-                self?.wordListTableView.scrollToRow(at: .init(row: 0, section: 0), at: .bottom, animated: true)
-            }
-        }
-    }
-
     func setupSearchBar() {
         let searchResultsController: WordSearchResultsController = .init().then {
             $0.reactor = self.reactor
@@ -153,6 +145,11 @@ final class WordListViewController: RxBaseViewController, WordListViewController
             .disposed(by: self.disposeBag)
     }
 
+    func scrollToTop() {
+        if wordListTableView.visibleCells.count != 0 {
+            wordListTableView.scrollToRow(at: .init(row: 0, section: 0), at: .bottom, animated: true)
+        }
+    }
 }
 
 // MARK: - Reactor Binding
