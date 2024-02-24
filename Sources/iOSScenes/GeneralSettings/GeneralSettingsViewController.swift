@@ -11,6 +11,7 @@ import ReactorKit
 import RxUtility
 import Then
 import UIKit
+import UIKitPlus
 
 public protocol GeneralSettingsViewControllerDelegate: AnyObject, ViewControllerDelegate {
     func didTapThemeSetting()
@@ -35,9 +36,9 @@ final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSe
     weak var delegate: GeneralSettingsViewControllerDelegate?
 
     lazy var rootView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
-        $0.registerCell(ManualSwitchCell.self)
-        $0.registerCell(DisclosureIndicatorCell.self)
-        $0.registerHeaderFooterView(TextFooterView.self)
+        $0.register(ManualSwitchCell.self)
+        $0.register(DisclosureIndicatorCell.self)
+        $0.register(TextFooterView.self)
         $0.delegate = self
     }
 

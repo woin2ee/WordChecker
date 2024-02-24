@@ -100,6 +100,7 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.sfSafeSymbols),
                 .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.swinjectExtension),
+                .external(name: ExternalDependencyName.uiKitPlus),
                 .package(product: ExternalDependencyName.swiftCollections),
             ],
             appendSchemeTo: &schemes

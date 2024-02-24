@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UIKitPlus
 import RxSwift
 import RxRelay
 
@@ -19,19 +20,19 @@ public final class GlobalState {
 
     public static let shared: GlobalState = .init()
 
-    /// 고정된 상태 값으로 객체를 초기화합니다.
-    private init() {
-        self.hapticsIsOn = true
-        self.themeStyle = .init(value: .unspecified)
+    private init() {}
+
+    public var hapticsIsOn: Bool = true {
+        didSet {
+            HapticGenerator.shared.isOn = hapticsIsOn
+        }
     }
 
-    public var hapticsIsOn: Bool
-
-    public var themeStyle: BehaviorRelay<UIUserInterfaceStyle>
+    public var themeStyle: BehaviorRelay<UIUserInterfaceStyle> = .init(value: .unspecified)
 
     /// 전역 상태를 초기화합니다.
     ///
-    /// 전달된 파라미터를 이용하여 전역 상태를 초기화합니다. 이 함수를 호출하여 초기화하지 않으면, 내부 생성자에서 고정된 값으로 전역 상태가 초기화됩니다.
+    /// 전달된 파라미터를 이용하여 전역 상태를 초기화합니다. 이 함수를 호출하여 초기화하지 않으면, 고정된 값으로 전역 상태가 초기화됩니다.
     public func initialize(hapticsIsOn: Bool, themeStyle: UIUserInterfaceStyle) {
         self.hapticsIsOn = hapticsIsOn
         self.themeStyle = .init(value: themeStyle)

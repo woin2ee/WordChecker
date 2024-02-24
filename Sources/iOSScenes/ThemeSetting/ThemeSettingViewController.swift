@@ -54,7 +54,7 @@ final class ThemeSettingViewController: RxBaseViewController, View, ThemeSetting
     weak var delegate: ThemeSettingViewControllerDelegate?
 
     lazy var rootView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
-        $0.registerCell(CheckmarkCell.self)
+        $0.register(CheckmarkCell.self)
     }
 
     override func loadView() {
