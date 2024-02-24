@@ -320,6 +320,18 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
+            name: "\(PROJECT_NAME)Mac",
+            platform: .macOS,
+            product: .app,
+            bundleId: "\(BASIC_BUNDLE_ID)Mac",
+            deploymentTarget: .macOS(targetVersion: "14.0.0"),
+            resourceOptions: [.own],
+            entitlements: nil,
+            dependencies: [],
+            settings: .settings(),
+            appendSchemeTo: &schemes
+        )
+        + Target.module(
             name: "TestsSupport",
             dependencies: [
                 .target(name: "Domain"),
