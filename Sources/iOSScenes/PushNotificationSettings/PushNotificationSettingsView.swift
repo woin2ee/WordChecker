@@ -9,15 +9,16 @@
 import IOSSupport
 import Then
 import UIKit
+import UIKitPlus
 
 final class PushNotificationSettingsView: UITableView {
 
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
 
-        self.registerCell(ManualSwitchCell.self)
-        self.registerCell(DatePickerCell.self)
-        self.registerHeaderFooterView(TextFooterView.self)
+        self.register(ManualSwitchCell.self)
+        self.register(DatePickerCell.self)
+        self.register(TextFooterView.self)
     }
 
     required init?(coder: NSCoder) {

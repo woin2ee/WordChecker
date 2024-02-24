@@ -62,8 +62,8 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
     weak var delegate: UserSettingsViewControllerDelegate?
 
     lazy var settingsTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
-        $0.registerCell(DisclosureIndicatorCell.self)
-        $0.registerCell(ButtonCell.self)
+        $0.register(DisclosureIndicatorCell.self)
+        $0.register(ButtonCell.self)
     }
 
     override func loadView() {

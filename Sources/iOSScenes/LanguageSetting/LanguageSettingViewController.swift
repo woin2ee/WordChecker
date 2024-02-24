@@ -77,7 +77,7 @@ final class LanguageSettingViewController: RxBaseViewController, LanguageSetting
     weak var delegate: LanguageSettingViewControllerDelegate?
 
     lazy var languageSettingTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
-        $0.registerCell(CheckmarkCell.self)
+        $0.register(CheckmarkCell.self)
     }
 
     override func loadView() {
