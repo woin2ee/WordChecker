@@ -1,0 +1,4 @@
+theme = "Theme";
+system_mode = "System mode";
+light_mode = "Light mode";
+dark_mode = "Dark mode";

@@ -1,0 +1,18 @@
+{
+  "configurations" : [
+
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "254A8C13CF84A32140BE313A",
+        "name" : "IOSScene_ThemeSettingTests"
+      }
+    }
+  ],
+  "version" : 1
+}
