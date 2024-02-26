@@ -68,6 +68,7 @@ final class WordCheckingReactor: Reactor {
         self.globalAction = globalAction
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:

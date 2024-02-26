@@ -20,7 +20,7 @@ public final class Word: Codable {
     public var memorizedState: MemorizedState
 
     public init(uuid: UUID = .init(), word: String, memorizedState: MemorizedState = .memorizing) throws {
-        guard word.isNotEmpty else {
+        guard word.hasElements else {
             throw EntityError.changeRejected(reason: .valueDisallowed)
         }
 
@@ -36,7 +36,7 @@ public final class Word: Codable {
     }
 
     public func setWord(_ word: String) throws {
-        guard word.isNotEmpty else {
+        guard word.hasElements else {
             throw EntityError.changeRejected(reason: .valueDisallowed)
         }
         self.word = word

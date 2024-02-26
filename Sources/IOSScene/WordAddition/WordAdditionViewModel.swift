@@ -40,7 +40,7 @@ final class WordAdditionViewModel: ViewModelType {
                 GlobalAction.shared.didAddWord.accept(())
             }
 
-        let wordTextIsNotEmpty = input.wordText.map(\.isNotEmpty)
+        let wordTextHasElements = input.wordText.map(\.hasElements)
 
         let reconfirmDismiss = input.dismissAttempt
             .withLatestFrom(hasChanges)
@@ -62,7 +62,7 @@ final class WordAdditionViewModel: ViewModelType {
 
         return .init(
             saveComplete: saveComplete,
-            wordTextIsNotEmpty: wordTextIsNotEmpty,
+            wordTextIsNotEmpty: wordTextHasElements,
             reconfirmDismiss: reconfirmDismiss,
             dismissComplete: dismissComplete,
             enteredWordIsDuplicated: enteredWordIsDuplicated

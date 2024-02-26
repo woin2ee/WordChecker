@@ -84,7 +84,7 @@ final class ThemeSettingViewController: RxBaseViewController, View, ThemeSetting
     func applyInitialSnapshotIfNoSections() -> NSDiffableDataSourceSnapshot<SectionIdentifier, ItemIdentifier> {
         let currenetSnapshot = dataSource.snapshot()
 
-        if currenetSnapshot.sectionIdentifiers.isNotEmpty {
+        if currenetSnapshot.sectionIdentifiers.hasElements {
             return currenetSnapshot
         }
 

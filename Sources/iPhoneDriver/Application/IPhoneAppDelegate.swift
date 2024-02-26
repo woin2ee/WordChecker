@@ -29,7 +29,6 @@ import IOSScene_WordList
 import Swinject
 import SwinjectDIContainer
 
-// swiftlint:disable type_name
 open class IPhoneAppDelegate: UIResponder, UIApplicationDelegate {
 
     public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
