@@ -1,0 +1,6 @@
+word = "단어";
+duplicate_word = "중복 단어입니다.";
+done = "완료";
+details = "세부사항";
+memorizing = "암기중";
+memorized = "암기 완료";

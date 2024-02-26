@@ -1,8 +1,8 @@
+import IOSScene_ThemeSetting
 import IOSSupport
 import SwinjectDIContainer
 import SwinjectExtension
 import UIKit
-import ThemeSetting
 
 final class ThemeSettingCoordinator: BasicCoordinator {
 

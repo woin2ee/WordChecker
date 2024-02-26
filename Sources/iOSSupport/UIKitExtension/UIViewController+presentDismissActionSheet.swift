@@ -13,11 +13,11 @@ extension UIViewController {
         let actionSheetController: UIAlertController = .init(title: nil, message: nil, preferredStyle: .actionSheet)
 
         let discardChangesAction: UIAlertAction = .init(
-            title: WCString.discardChanges,
+            title: LocalizedString.discardChanges,
             style: .destructive,
             handler: { _ in discardChangesAction?() }
         )
-        let cancelAction: UIAlertAction = .init(title: WCString.cancel, style: .cancel)
+        let cancelAction: UIAlertAction = .init(title: LocalizedString.cancel, style: .cancel)
 
         actionSheetController.addAction(discardChangesAction)
         actionSheetController.addAction(cancelAction)

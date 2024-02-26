@@ -22,7 +22,7 @@ public final class RootTabBarController: UITabBarController {
 
     public private(set) lazy var wordCheckingNC: UINavigationController = .init().then {
         $0.tabBarItem = .init(
-            title: WCString.memorization,
+            title: LocalizedString.tabBarItem1,
             image: .init(systemSymbol: .checkmarkDiamond),
             selectedImage: .init(systemSymbol: .checkmarkDiamond, withConfiguration: tabBarItemSymbolConfig)
         )
@@ -30,7 +30,7 @@ public final class RootTabBarController: UITabBarController {
 
     public private(set) lazy var wordListNC: UINavigationController = .init().then {
         $0.tabBarItem = .init(
-            title: WCString.list,
+            title: LocalizedString.tabBarItem2,
             image: .init(systemSymbol: .listBullet),
             selectedImage: .init(systemSymbol: .listBullet, withConfiguration: tabBarItemSymbolConfig)
         )
@@ -38,7 +38,7 @@ public final class RootTabBarController: UITabBarController {
 
     public private(set) lazy var userSettingsNC: UINavigationController = .init().then {
         $0.tabBarItem = .init(
-            title: WCString.settings,
+            title: LocalizedString.tabBarItem3,
             image: .init(systemSymbol: .gearshape),
             selectedImage: .init(systemSymbol: .gearshape, withConfiguration: tabBarItemSymbolConfig)
         )

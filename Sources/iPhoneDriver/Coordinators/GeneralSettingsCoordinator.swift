@@ -6,7 +6,7 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
-import GeneralSettings
+import IOSScene_GeneralSettings
 import IOSSupport
 import UIKit
 import SwinjectDIContainer

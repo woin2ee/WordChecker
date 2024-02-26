@@ -11,13 +11,7 @@ trailing_comma:
 
 included:
     - Sources/
-    
-    - Project.swift
-    
-    # Equivalent to Tuist/**/*.swift
-    - Tuist/*.swift
-    - Tuist/ProjectDescriptionHelpers/*.swift
-    - Tuist/ProjectDescriptionHelpers/Extensions/*.swift
 
 excluded:
     - Tests/
+    - Tuist/

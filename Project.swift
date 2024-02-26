@@ -106,9 +106,8 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "WordChecking",
-            sourcesPrefix: "IOSScenes",
-            resourceOptions: [.additional("Resources/IOSSupport/**")],
+            name: "IOSScene_WordChecking",
+            resourceOptions: [.own],
             dependencies: [
                 .target(name: "IOSSupport"),
             ],
@@ -121,20 +120,18 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "WordCheckingExample",
+            name: "IOSScene_WordCheckingExample",
             product: .app,
             infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
-            sourcesPrefix: "IOSScenes",
             dependencies: [
-                .target(name: "WordChecking"),
+                .target(name: "IOSScene_WordChecking"),
                 .target(name: "DomainTesting"),
             ],
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "WordList",
-            sourcesPrefix: "IOSScenes",
-            resourceOptions: [.additional("Resources/IOSSupport/**")],
+            name: "IOSScene_WordList",
+            resourceOptions: [.own],
             dependencies: [
                 .target(name: "IOSSupport"),
             ],
@@ -147,9 +144,8 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "WordDetail",
-            sourcesPrefix: "IOSScenes",
-            resourceOptions: [.additional("Resources/IOSSupport/**")],
+            name: "IOSScene_WordDetail",
+            resourceOptions: [.own],
             dependencies: [
                 .target(name: "IOSSupport"),
             ],
@@ -162,9 +158,8 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "WordAddition",
-            sourcesPrefix: "IOSScenes",
-            resourceOptions: [.additional("Resources/IOSSupport/**")],
+            name: "IOSScene_WordAddition",
+            resourceOptions: [.own],
             dependencies: [
                 .target(name: "IOSSupport"),
             ],
@@ -177,9 +172,8 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "UserSettings",
-            sourcesPrefix: "IOSScenes",
-            resourceOptions: [.additional("Resources/IOSSupport/**")],
+            name: "IOSScene_UserSettings",
+            resourceOptions: [.own],
             dependencies: [
                 .target(name: "IOSSupport"),
             ],
@@ -193,20 +187,18 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "UserSettingsExample",
+            name: "IOSScene_UserSettingsExample",
             product: .app,
             infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
-            sourcesPrefix: "IOSScenes",
             dependencies: [
-                .target(name: "UserSettings"),
+                .target(name: "IOSScene_UserSettings"),
                 .target(name: "DomainTesting"),
             ],
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "LanguageSetting",
-            sourcesPrefix: "IOSScenes",
-            resourceOptions: [.additional("Resources/IOSSupport/**")],
+            name: "IOSScene_LanguageSetting",
+            resourceOptions: [.own],
             dependencies: [
                 .target(name: "IOSSupport"),
             ],
@@ -219,9 +211,8 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "ThemeSetting",
-            sourcesPrefix: "IOSScenes",
-            resourceOptions: [.additional("Resources/IOSSupport/**")],
+            name: "IOSScene_ThemeSetting",
+            resourceOptions: [.own],
             dependencies: [
                 .target(name: "IOSSupport"),
             ],
@@ -233,9 +224,8 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "PushNotificationSettings",
-            sourcesPrefix: "IOSScenes",
-            resourceOptions: [.additional("Resources/IOSSupport/**")],
+            name: "IOSScene_PushNotificationSettings",
+            resourceOptions: [.own],
             dependencies: [
                 .target(name: "IOSSupport"),
             ],
@@ -247,20 +237,18 @@ func targets() -> [Target] {
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "PushNotificationSettingsExample",
+            name: "IOSScene_PushNotificationSettingsExample",
             product: .app,
             infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
-            sourcesPrefix: "IOSScenes",
             dependencies: [
-                .target(name: "PushNotificationSettings"),
+                .target(name: "IOSScene_PushNotificationSettings"),
                 .target(name: "DomainTesting"),
             ],
             appendSchemeTo: &schemes
         )
         + Target.module(
-            name: "GeneralSettings",
-            sourcesPrefix: "IOSScenes",
-            resourceOptions: [.additional("Resources/IOSSupport/**")],
+            name: "IOSScene_GeneralSettings",
+            resourceOptions: [.own],
             dependencies: [
                 .target(name: "IOSSupport"),
             ],
@@ -273,18 +261,19 @@ func targets() -> [Target] {
         )
         + Target.module(
             name: "IPhoneDriver",
+            resourceOptions: [.own],
             dependencies: [
                 .target(name: "IOSSupport"),
-                .target(name: "WordChecking"),
-                .target(name: "WordList"),
-                .target(name: "WordAddition"),
-                .target(name: "WordDetail"),
-                .target(name: "UserSettings"),
-                .target(name: "LanguageSetting"),
-                .target(name: "PushNotificationSettings"),
-                .target(name: "GeneralSettings"),
+                .target(name: "IOSScene_WordChecking"),
+                .target(name: "IOSScene_WordList"),
+                .target(name: "IOSScene_WordAddition"),
+                .target(name: "IOSScene_WordDetail"),
+                .target(name: "IOSScene_UserSettings"),
+                .target(name: "IOSScene_LanguageSetting"),
+                .target(name: "IOSScene_PushNotificationSettings"),
+                .target(name: "IOSScene_GeneralSettings"),
                 .target(name: "Infrastructure"),
-                .target(name: "ThemeSetting"),
+                .target(name: "IOSScene_ThemeSetting"),
                 .external(name: ExternalDependencyName.swinjectDIContainer),
             ],
             appendSchemeTo: &disposedSchemes
@@ -295,8 +284,8 @@ func targets() -> [Target] {
             bundleId: BASIC_BUNDLE_ID,
             infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
             resourceOptions: [
+                .own,
                 .common,
-                .additional("Resources/InfoPlist/Product/**"),
             ],
             dependencies: [
                 .target(name: "IPhoneDriver"),
@@ -310,8 +299,8 @@ func targets() -> [Target] {
             bundleId: "\(BASIC_BUNDLE_ID)Dev",
             infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
             resourceOptions: [
+                .own,
                 .common,
-                .additional("Resources/InfoPlist/Dev/**"),
             ],
             dependencies: [
                 .target(name: "IPhoneDriver"),
@@ -374,7 +363,9 @@ let project: Project = .init(
         .package(url: "https://github.com/google/google-api-objectivec-client-for-rest.git", from: "3.0.0"),
         .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.0"),
     ],
-    settings: .settings(),
+    settings: .settings(
+        base: ["SWIFT_EMIT_LOC_STRINGS": true]
+    ),
     targets: targets(),
     schemes: schemes + [
         .init(
