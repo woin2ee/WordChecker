@@ -17,18 +17,18 @@ final class WordCheckingView: BaseView {
         $0.adjustsFontForContentSizeCategory = true
         $0.font = .preferredFont(forTextStyle: .title3)
         $0.numberOfLines = 0
-        $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.wordLabel
+        $0.accessibilityIdentifier = AccessibilityIdentifier.wordLabel
     }
 
     lazy var previousButton: ChangeWordButton = .init().then {
-        $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.previousButton
+        $0.accessibilityIdentifier = AccessibilityIdentifier.previousButton
         $0.accessibilityLabel = LocalizedString.previous_word
     }
 
     let previousButtonSymbol: ChangeWordSymbol = .init(direction: .left)
 
     lazy var nextButton: ChangeWordButton = .init().then {
-        $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.nextButton
+        $0.accessibilityIdentifier = AccessibilityIdentifier.nextButton
         $0.accessibilityLabel = LocalizedString.next_word
     }
 
