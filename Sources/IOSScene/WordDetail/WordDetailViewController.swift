@@ -33,7 +33,7 @@ final class WordDetailViewController: RxBaseViewController, WordDetailViewContro
     let wordTextField: UITextField = .init().then {
         $0.placeholder = LocalizedString.word
         $0.borderStyle = .roundedRect
-        $0.accessibilityIdentifier = AccessibilityIdentifier.WordDetail.wordTextField
+        $0.accessibilityIdentifier = AccessibilityIdentifier.wordTextField
     }
 
     let duplicatedWordAlertLabel: UILabel = .init().then {
@@ -63,7 +63,7 @@ final class WordDetailViewController: RxBaseViewController, WordDetailViewContro
 
         button.showsMenuAsPrimaryAction = true
         button.changesSelectionAsPrimaryAction = true
-        button.accessibilityIdentifier = AccessibilityIdentifier.WordDetail.memorizationStateButton
+        button.accessibilityIdentifier = AccessibilityIdentifier.memorizationStateButton
 
         return button
     }()

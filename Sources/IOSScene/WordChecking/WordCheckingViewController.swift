@@ -26,13 +26,13 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
 
     let addWordButton: UIBarButtonItem = .init().then {
         $0.image = .init(systemSymbol: .plusApp)
-        $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.addWordButton
+        $0.accessibilityIdentifier = AccessibilityIdentifier.addWordButton
         $0.accessibilityLabel = LocalizedString.addWord
     }
 
     let moreMenuButton: UIBarButtonItem = .init().then {
         $0.image = .init(systemSymbol: .ellipsisCircle)
-        $0.accessibilityIdentifier = AccessibilityIdentifier.WordChecking.moreButton
+        $0.accessibilityIdentifier = AccessibilityIdentifier.moreButton
         $0.accessibilityLabel = LocalizedString.more_menu
     }
 

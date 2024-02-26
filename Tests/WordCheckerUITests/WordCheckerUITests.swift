@@ -6,9 +6,26 @@
 //
 
 @testable import Domain
-
-import IOSSupport
+@testable import IOSScene_GeneralSettings
+@testable import IOSScene_LanguageSetting
+@testable import IOSScene_PushNotificationSettings
+@testable import IOSScene_ThemeSetting
+@testable import IOSScene_UserSettings
+@testable import IOSScene_WordChecking
+@testable import IOSScene_WordList
+@testable import IOSScene_WordDetail
+@testable import IOSScene_WordAddition
+@testable import IPhoneDriver
 import XCTest
+
+typealias WordCheckingString            = IOSScene_WordChecking.LocalizedString
+typealias WordCheckingAccessibilityID   = IOSScene_WordChecking.AccessibilityIdentifier
+typealias WordListString                = IOSScene_WordList.LocalizedString
+typealias WordListAccessibilityID       = IOSScene_WordList.AccessibilityIdentifier
+typealias WordDetailString              = IOSScene_WordDetail.LocalizedString
+typealias WordDetailAccessibilityID     = IOSScene_WordDetail.AccessibilityIdentifier
+typealias UserSettingsString            = IOSScene_UserSettings.LocalizedString
+typealias IPhoneDriverString            = IPhoneDriver.LocalizedString
 
 final class WordCheckerUITests: XCTestCase {
 
@@ -30,22 +47,22 @@ final class WordCheckerUITests: XCTestCase {
         app.launch()
 
         // Save word
-        app.staticTexts[WCString.noWords].assertExistence()
+        app.staticTexts[WordCheckingString.noWords].assertExistence()
         runAddWord(text: "TestWord")
         app.staticTexts["TestWord"].assertExistence()
 
         // Show list
-        app.tabBars.buttons[WCString.list].tap()
+        app.tabBars.buttons[IPhoneDriverString.tabBarItem2].tap()
         app.staticTexts["TestWord"].assertExistence()
 
         // Edit word
         app.staticTexts["TestWord"].swipeLeft()
-        app.buttons[WCString.edit].tap()
-        let editAlert = app.alerts[WCString.editWord]
+        app.buttons[WordListString.edit].tap()
+        let editAlert = app.alerts[WordListString.editWord]
         editAlert.textFields.firstMatch.clearAndEnterText(text: "EditedWord")
-        editAlert.buttons[WCString.edit].tap()
+        editAlert.buttons[WordListString.edit].tap()
         app.staticTexts["EditedWord"].assertExistence()
-        app.tabBars.buttons[WCString.memorization].tap()
+        app.tabBars.buttons[IPhoneDriverString.tabBarItem1].tap()
         app.staticTexts["EditedWord"].assertExistence()
 
         // Append word
@@ -53,32 +70,32 @@ final class WordCheckerUITests: XCTestCase {
         runAddWord(text: "Append2")
 
         // Check next word
-        app.buttons[AccessibilityIdentifier.WordChecking.nextButton].tap()
+        app.buttons[WordCheckingAccessibilityID.nextButton].tap()
         app.staticTexts["Append1"].assertExistence()
-        app.buttons[AccessibilityIdentifier.WordChecking.nextButton].tap()
+        app.buttons[WordCheckingAccessibilityID.nextButton].tap()
         app.staticTexts["Append2"].assertExistence()
 
         // Check previous word
-        app.buttons[AccessibilityIdentifier.WordChecking.previousButton].tap()
+        app.buttons[WordCheckingAccessibilityID.previousButton].tap()
         app.staticTexts["Append1"].assertExistence()
-        app.buttons[AccessibilityIdentifier.WordChecking.previousButton].tap()
+        app.buttons[WordCheckingAccessibilityID.previousButton].tap()
         app.staticTexts["EditedWord"].assertExistence()
 
         // Delete
-        var currentWord: String = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
+        var currentWord: String = app.descendants(matching: .any)[WordCheckingAccessibilityID.wordLabel].label
         moveListTap()
         app.staticTexts[currentWord].swipeLeft()
-        app.buttons[WCString.delete].tap()
+        app.buttons[WordListString.delete].tap()
         XCTAssertEqual(app.tables.cells.count, 2)
         moveCheckingTap()
-        var newCurrentWord = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
+        var newCurrentWord = app.descendants(matching: .any)[WordCheckingAccessibilityID.wordLabel].label
         XCTAssertNotEqual(currentWord, newCurrentWord)
 
         // Shuffle
-        currentWord = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
-        app.navigationBars.buttons[AccessibilityIdentifier.WordChecking.moreButton].tap()
-        app.collectionViews.buttons[WCString.shuffleOrder].tap()
-        newCurrentWord = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
+        currentWord = app.descendants(matching: .any)[WordCheckingAccessibilityID.wordLabel].label
+        app.navigationBars.buttons[WordCheckingAccessibilityID.moreButton].tap()
+        app.collectionViews.buttons[WordCheckingString.shuffleOrder].tap()
+        newCurrentWord = app.descendants(matching: .any)[WordCheckingAccessibilityID.wordLabel].label
         XCTAssertNotEqual(currentWord, newCurrentWord)
     }
 
@@ -92,9 +109,9 @@ final class WordCheckerUITests: XCTestCase {
         runAddWord(text: "Test2")
         runAddWord(text: "Test3")
 
-        let currentWord: String = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
+        let currentWord: String = app.descendants(matching: .any)[WordCheckingAccessibilityID.wordLabel].label
 
-        app.tabBars.buttons[WCString.list].tap()
+        app.tabBars.buttons[IPhoneDriverString.tabBarItem2].tap()
 
         // Search word
         app.searchFields.firstMatch.tap()
@@ -103,41 +120,41 @@ final class WordCheckerUITests: XCTestCase {
 
         // Edit details
         app.tables.element(boundBy: 1).cells.element(boundBy: 0).tap()
-        let detailTextField = app.textFields[AccessibilityIdentifier.WordDetail.wordTextField]
-        let detailMemorizationStateButton = app.buttons[AccessibilityIdentifier.WordDetail.memorizationStateButton]
+        let detailTextField = app.textFields[WordDetailAccessibilityID.wordTextField]
+        let detailMemorizationStateButton = app.buttons[WordDetailAccessibilityID.memorizationStateButton]
         XCTAssertEqual(detailTextField.value as? String, currentWord)
-        XCTAssertEqual(detailMemorizationStateButton.label, WCString.memorizing)
+        XCTAssertEqual(detailMemorizationStateButton.label, WordDetailString.memorizing)
         detailTextField.tap()
         detailTextField.typeText("#")
         detailMemorizationStateButton.tap()
-        app.buttons[WCString.memorized].tap()
-        XCTAssertEqual(detailMemorizationStateButton.label, WCString.memorized)
-        app.navigationBars.buttons[WCString.done].tap()
+        app.buttons[WordDetailString.memorized].tap()
+        XCTAssertEqual(detailMemorizationStateButton.label, WordDetailString.memorized)
+        app.navigationBars.buttons[WordDetailString.done].tap()
         app.tables.element(boundBy: 1).cells.staticTexts["\(currentWord)#"].assertExistence()
 
         // Check memorization state
-        app.tabBars.buttons[WCString.memorization].tap()
-        let newWord: String = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
+        app.tabBars.buttons[IPhoneDriverString.tabBarItem1].tap()
+        let newWord: String = app.descendants(matching: .any)[WordCheckingAccessibilityID.wordLabel].label
         XCTAssertNotEqual("\(currentWord)#", newWord)
 
         // Change state to unmemorized
         do {
-            app.navigationBars.buttons[AccessibilityIdentifier.WordChecking.moreButton].tap()
-            app.collectionViews.buttons[WCString.memorized].tap()
-            app.navigationBars.buttons[AccessibilityIdentifier.WordChecking.moreButton].tap()
-            app.collectionViews.buttons[WCString.memorized].tap()
+            app.navigationBars.buttons[WordCheckingAccessibilityID.moreButton].tap()
+            app.collectionViews.buttons[WordCheckingString.memorized].tap()
+            app.navigationBars.buttons[WordCheckingAccessibilityID.moreButton].tap()
+            app.collectionViews.buttons[WordCheckingString.memorized].tap()
 
             moveListTap()
 
             app.tables.element(boundBy: 1).cells.element(boundBy: 0).tap()
-            app.buttons[AccessibilityIdentifier.WordDetail.memorizationStateButton].tap()
-            app.buttons[WCString.memorizing].tap()
-            app.navigationBars.buttons[WCString.done].tap()
+            app.buttons[WordDetailAccessibilityID.memorizationStateButton].tap()
+            app.buttons[WordDetailString.memorizing].tap()
+            app.navigationBars.buttons[WordDetailString.done].tap()
 
             moveCheckingTap()
 
-            let currentWord: String = app.descendants(matching: .any)[AccessibilityIdentifier.WordChecking.wordLabel].label
-            XCTAssertNotEqual(currentWord, WCString.there_are_no_words)
+            let currentWord: String = app.descendants(matching: .any)[WordCheckingAccessibilityID.wordLabel].label
+            XCTAssertNotEqual(currentWord, WordCheckingString.noWords)
         }
     }
 
@@ -147,7 +164,7 @@ final class WordCheckerUITests: XCTestCase {
 
         moveListTap()
 
-        app.staticTexts[WCString.there_are_no_words].assertExistence()
+        app.staticTexts[WordListString.there_are_no_words].assertExistence()
     }
 
     func testChangeTranslationLanguageSettings() {
@@ -156,12 +173,12 @@ final class WordCheckerUITests: XCTestCase {
 
         moveSettingsTap()
 
-        app.tables.element.staticTexts[WCString.source_language].tap()
+        app.tables.element.staticTexts[UserSettingsString.source_language].tap()
         app.tables.element.staticTexts[DomainString.russian].tap()
         app.navigationBars.backButton.tap()
         app.tables.element.staticTexts[DomainString.russian].assertExistence()
 
-        app.tables.element.staticTexts[WCString.translation_language].tap()
+        app.tables.element.staticTexts[UserSettingsString.translation_language].tap()
         app.tables.element.staticTexts[DomainString.italian].tap()
         app.navigationBars.backButton.tap()
         app.tables.element.staticTexts[DomainString.italian].assertExistence()
@@ -174,22 +191,22 @@ final class WordCheckerUITests: XCTestCase {
 extension WordCheckerUITests {
 
     func runAddWord(text: String) {
-        app.navigationBars.buttons[AccessibilityIdentifier.WordChecking.addWordButton].tap()
-        let addAlert = app.alerts[WCString.quick_add_word]
+        app.navigationBars.buttons[WordCheckingAccessibilityID.addWordButton].tap()
+        let addAlert = app.alerts[WordCheckingString.quick_add_word]
         addAlert.textFields.firstMatch.typeText(text)
-        addAlert.buttons[WCString.add].tap()
+        addAlert.buttons[WordCheckingString.add].tap() // 텍스트로 판단
     }
 
     func moveListTap() {
-        app.tabBars.buttons[WCString.list].tap()
+        app.tabBars.buttons[IPhoneDriverString.tabBarItem2].tap()
     }
 
     func moveCheckingTap() {
-        app.tabBars.buttons[WCString.memorization].tap()
+        app.tabBars.buttons[IPhoneDriverString.tabBarItem1].tap()
     }
 
     func moveSettingsTap() {
-        app.tabBars.buttons[WCString.settings].tap()
+        app.tabBars.buttons[IPhoneDriverString.tabBarItem3].tap()
     }
 
 }

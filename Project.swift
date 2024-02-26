@@ -343,6 +343,9 @@ func targets() -> [Target] {
                     .target(name: "IOSSupport"),
                     .target(name: "Utility"),
                     .package(product: "Realm"),
+                    .package(product: ExternalDependencyName.googleAPIClientForRESTCore),
+                    .package(product: ExternalDependencyName.googleAPIClientForREST_Drive),
+                    .package(product: ExternalDependencyName.googleSignIn),
                 ]
             ),
         ],
