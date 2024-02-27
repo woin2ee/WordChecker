@@ -18,38 +18,34 @@ final class WordRepository: WordRepositoryProtocol {
         self.realm = realm
     }
 
-    func save(_ word: Domain.Word) {
-        if let updateTarget = find(by: word.uuid) {
-            try? realm.write {
-                updateTarget.word = word.word
-                switch word.memorizedState {
-                case .memorized:
-                    updateTarget.isMemorized = true
-                case .memorizing:
-                    updateTarget.isMemorized = false
-                }
-            }
-        } else {
-            try? realm.write {
-                realm.add(word.toObjectModel())
-            }
+    func save(_ word: Domain.Word) throws {
+        try realm.write {
+            realm.add(word.toObjectModel(), update: .modified)
         }
     }
 
     func getAllWords() -> [Domain.Word] {
         return findAll()
-            .map { $0.toDomain() }
+            .compactMap { try? $0.toDomain() }
     }
 
     func getWord(by uuid: UUID) -> Domain.Word? {
-        return find(by: uuid)?.toDomain() ?? nil
+        return try? find(by: uuid)?.toDomain()
     }
 
-    func deleteWord(by uuid: UUID) {
+    func getWords(by word: String) -> [Domain.Word] {
+        let results = realm.objects(Word.self)
+            .where { $0.word.equals(word, options: .caseInsensitive) }
+            .compactMap { try? $0.toDomain() }
+        return Array(results)
+    }
+
+    func deleteWord(by uuid: UUID) throws {
         guard let object = find(by: uuid) else {
             return
         }
-        try? realm.write {
+
+        try realm.write {
             self.realm.delete(object)
         }
     }
@@ -57,24 +53,26 @@ final class WordRepository: WordRepositoryProtocol {
     func getUnmemorizedList() -> [Domain.Word] {
         return findAll()
             .filter { $0.isMemorized == false }
-            .map { $0.toDomain() }
+            .compactMap { try? $0.toDomain() }
     }
 
     func getMemorizedList() -> [Domain.Word] {
         return findAll()
             .filter { $0.isMemorized == true }
-            .map { $0.toDomain() }
+            .compactMap { try? $0.toDomain() }
     }
 
-    func reset(to wordList: [Domain.Word]) {
-        try? realm.write {
-            let oldList = findAll()
-            self.realm.delete(oldList)
+    func reset(to wordList: [Domain.Word]) throws {
+        try realm.write {
+            self.realm.deleteAll()
 
             let newList = wordList.map { $0.toObjectModel() }
             self.realm.add(newList)
         }
     }
+}
+
+extension WordRepository {
 
     private func find(by uuid: UUID) -> Word? {
         guard let object = realm.object(ofType: Word.self, forPrimaryKey: uuid) else {

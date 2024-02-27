@@ -14,7 +14,7 @@ extension UIViewController {
         let actionController: UIAlertController = .init(title: title, message: message, preferredStyle: .alert)
 
         let okAction: UIAlertAction = .init(
-            title: WCString.ok,
+            title: LocalizedString.ok,
             style: .default
         )
 

@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import UIKitPlus
 
-public final class TextFooterView: UITableViewHeaderFooterView, ReusableIdentifying {
+public final class TextFooterView: UITableViewHeaderFooterView, ReuseIdentifying {
 
     public var text: String = "" {
         didSet {

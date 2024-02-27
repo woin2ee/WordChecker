@@ -9,7 +9,7 @@
 import UIKit
 
 /// `UIViewController` 를 위한 기본적인 Delegate methods 가 정의되어 있는 Protocol 입니다.
-public protocol ViewControllerDelegate {
+public protocol ViewControllerDelegate: AnyObject {
 
     /// ViewController 가 Pop 되었음을 Delegate 에게 알립니다.
     func viewControllerDidPop(_ viewController: UIViewController)

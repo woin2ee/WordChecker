@@ -1,0 +1,57 @@
+//
+//  WordRepositoryTests.swift
+//  InfrastructureTests
+//
+//  Created by Jaewon Yun on 2/19/24.
+//  Copyright © 2024 woin2ee. All rights reserved.
+//
+
+@testable import Infrastructure
+
+import Domain
+import Realm
+import RealmSwift
+import XCTest
+
+final class WordRepositoryTests: XCTestCase {
+
+    var sut: WordRepository!
+    
+    override func setUpWithError() throws {
+        let config: Realm.Configuration = .init(inMemoryIdentifier: String(describing: self))
+        let realm: Realm = try .init(configuration: config)
+        sut = .init(realm: realm)
+    }
+    
+    override func tearDownWithError() throws {
+        sut = nil
+    }
+    
+    func test_ignoreCaseSensitive_whenGetByWord() throws {
+        // Given
+        let word1: Domain.Word = try .init(word: "TEST")
+        let word2: Domain.Word = try .init(word: "test")
+        try sut.save(word1)
+        try sut.save(word2)
+        
+        // When
+        let results = sut.getWords(by: "TeST")
+        
+        // Then
+        XCTAssertEqual(results.count, 2)
+    }
+    
+    func test_saveSamePrimaryKeyItem() throws {
+        // Given
+        let testWord: Domain.Word = try .init(word: "TestWord", memorizedState: .memorizing)
+        try sut.save(testWord)
+        
+        testWord.memorizedState = .memorized
+        
+        // When
+        try sut.save(testWord)
+        
+        // Then
+        XCTAssertEqual(sut.getWord(by: testWord.uuid), testWord)
+    }
+}

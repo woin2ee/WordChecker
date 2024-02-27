@@ -1,0 +1,15 @@
+source_language = "원본 언어";
+translation_language = "번역 언어";
+notifications = "알림";
+general = "일반";
+settings = "설정";
+notice = "알림";
+
+google_drive_upload = "구글 드라이브에 데이터 업로드";
+google_drive_upload_successfully = "구글 드라이브에 업로드 성공";
+
+google_drive_download = "구글 드라이브에서 데이터 다운로드";
+google_drive_download_successfully = "구글 드라이브에서 다운로드 성공";
+
+google_drive_logout = "구글 드라이브 로그아웃";
+signed_out_of_google_drive_successfully = "구글 드라이브에서 로그아웃되었습니다.";

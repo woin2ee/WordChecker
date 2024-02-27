@@ -7,7 +7,7 @@
 //
 
 import IOSSupport
-import LanguageSetting
+import IOSScene_LanguageSetting
 import SwinjectDIContainer
 import SwinjectExtension
 import UIKit

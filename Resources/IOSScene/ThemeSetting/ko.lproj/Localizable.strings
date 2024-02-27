@@ -1,0 +1,4 @@
+theme = "테마";
+system_mode = "시스템 설정 모드";
+light_mode = "라이트 모드";
+dark_mode = "다크 모드";

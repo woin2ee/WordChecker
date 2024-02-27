@@ -10,7 +10,9 @@ import UIKit
 
 extension UITabBarController {
 
+    /// `index` 에 해당하는 탭 바 아이템에 대한 `action` 을 관찰합니다.
     ///
+    /// when the returned NSKeyValueObservation is deinited or invalidated, it will stop observing.
     public func observe(
         to action: TabBarControllerUserAction,
         tabBarItemAt index: Int,
