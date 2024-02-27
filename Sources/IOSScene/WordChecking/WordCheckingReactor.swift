@@ -73,6 +73,7 @@ final class WordCheckingReactor: Reactor {
         switch action {
         case .viewDidLoad:
             let initUnmemorizedWordList = wordUseCase.shuffleUnmemorizedWordList()
+                .asObservable()
                 .flatMap { self.wordUseCase.getCurrentUnmemorizedWord() }
                 .map(Mutation.setCurrentWord)
                 .catchAndReturn(.setCurrentWord(nil))
@@ -171,17 +172,17 @@ final class WordCheckingReactor: Reactor {
                 .map(Mutation.setTargetLanguage),
             globalAction.didEditWord
                 .flatMap { _ in return self.wordUseCase.getCurrentUnmemorizedWord() }
-                .map(Mutation.setCurrentWord)
-                .catchAndReturn(.setCurrentWord(nil)),
+                .map(Mutation.setCurrentWord),
             globalAction.didDeleteWord
                 .filter { $0.uuid == self.currentState.currentWord?.uuid }
                 .flatMap { _ in return self.wordUseCase.getCurrentUnmemorizedWord() }
-                .map(Mutation.setCurrentWord)
-                .catchAndReturn(.setCurrentWord(nil)),
+                .map(Mutation.setCurrentWord),
             globalAction.didResetWordList
                 .flatMap { self.wordUseCase.getCurrentUnmemorizedWord() }
-                .map(Mutation.setCurrentWord)
-                .catchAndReturn(.setCurrentWord(nil)),
+                .map(Mutation.setCurrentWord),
+            globalAction.didAddWord
+                .flatMap { self.wordUseCase.getCurrentUnmemorizedWord() }
+                .map(Mutation.setCurrentWord),
         ])
     }
 

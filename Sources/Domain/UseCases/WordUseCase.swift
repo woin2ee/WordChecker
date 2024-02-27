@@ -183,12 +183,8 @@ public final class WordUseCase: WordUseCaseProtocol {
         return .just(())
     }
 
-    public func getCurrentUnmemorizedWord() -> Single<Word> {
-        guard let currentWord = unmemorizedWordListRepository.getCurrentWord() else {
-            return .error(WordUseCaseError.noMemorizingWords)
-        }
-
-        return .just(currentWord)
+    public func getCurrentUnmemorizedWord() -> Infallible<Word?> {
+        return .just(unmemorizedWordListRepository.getCurrentWord())
     }
 
     public func isWordDuplicated(_ word: String) -> Single<Bool> {
