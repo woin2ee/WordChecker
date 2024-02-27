@@ -42,7 +42,7 @@ public protocol WordUseCaseProtocol {
 
     func markCurrentWordAsMemorized(uuid: UUID) -> Single<Void>
 
-    func getCurrentUnmemorizedWord() -> Single<Word>
+    func getCurrentUnmemorizedWord() -> Infallible<Word?>
 
     /// `word` 파라미터로 전달된 단어가 이미 저장된 단어인지 검사합니다.
     ///
