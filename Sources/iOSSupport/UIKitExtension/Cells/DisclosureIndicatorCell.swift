@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import UIKitPlus
 
-public final class DisclosureIndicatorCell: UITableViewCell, ReusableIdentifying {
+public final class DisclosureIndicatorCell: UITableViewCell, ReuseIdentifying {
 
     public struct Model {
         let title: String

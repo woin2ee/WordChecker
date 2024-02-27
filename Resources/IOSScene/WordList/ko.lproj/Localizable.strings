@@ -1,0 +1,9 @@
+addWord = "단어 추가";
+all = "전체";
+there_are_no_words = "단어가 없습니다.";
+memorizing = "암기중";
+memorized = "암기 완료";
+delete = "삭제";
+edit = "수정";
+editWord = "단어 수정";
+cancel = "취소";

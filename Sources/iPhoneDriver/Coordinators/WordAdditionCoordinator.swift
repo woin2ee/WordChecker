@@ -6,11 +6,11 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
+import IOSScene_WordAddition
 import IOSSupport
 import SwinjectDIContainer
 import SwinjectExtension
 import UIKit
-import WordAddition
 
 final class WordAdditionCoordinator: BasicCoordinator {
 

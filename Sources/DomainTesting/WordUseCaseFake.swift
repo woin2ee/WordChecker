@@ -71,11 +71,16 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
             return .error(WordUseCaseError.saveFailed(reason: .duplicatedWord(word: newWord.word)))
         }
 
-        let updateTarget: Word = .init(
-            uuid: uuid,
-            word: newWord.word,
-            memorizedState: newWord.memorizedState
-        )
+        let updateTarget: Word
+        do {
+            updateTarget = try .init(
+                uuid: uuid,
+                word: newWord.word,
+                memorizedState: newWord.memorizedState
+            )
+        } catch {
+            return .error(error)
+        }
 
         if _unmemorizedWordList.contains(where: { $0.uuid == updateTarget.uuid }) {
             switch updateTarget.memorizedState {
@@ -119,14 +124,11 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
         return .just(())
     }
 
-    public func getCurrentUnmemorizedWord() -> Single<Domain.Word> {
-        guard let currentWord = _unmemorizedWordList.getCurrentWord() else {
-            return .error(WordUseCaseError.noMemorizingWords)
-        }
-        return .just(currentWord)
+    public func getCurrentUnmemorizedWord() -> Infallible<Domain.Word?> {
+        return .just(_unmemorizedWordList.getCurrentWord())
     }
 
-    public func isWordDuplicated(_ word: String) -> Infallible<Bool> {
+    public func isWordDuplicated(_ word: String) -> Single<Bool> {
         if _wordList.contains(where: { $0.word.lowercased() == word.lowercased() }) {
             return .just(true)
         } else {

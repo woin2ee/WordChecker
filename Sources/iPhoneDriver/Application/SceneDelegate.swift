@@ -27,7 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         setRootViewController()
 
-        subscribeGlobalAction()
+        subscribeGlobalState()
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
@@ -46,7 +46,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         appCoordinator?.start()
     }
 
-    func subscribeGlobalAction() {
+    func subscribeGlobalState() {
         globalState.themeStyle
             .asDriver()
             .drive(with: self) { owner, userInterfaceStyle in

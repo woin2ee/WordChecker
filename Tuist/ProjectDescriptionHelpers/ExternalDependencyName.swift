@@ -24,5 +24,5 @@ public struct ExternalDependencyName {
     public static let reactorKit = "ReactorKit"
     public static let swiftCollections = "Collections"
     public static let foundationPlus = "FoundationPlus"
-
+    public static let uiKitPlus = "UIKitPlus"
 }

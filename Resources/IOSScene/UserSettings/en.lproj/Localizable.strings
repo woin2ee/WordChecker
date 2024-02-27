@@ -1,0 +1,15 @@
+source_language = "Source language";
+translation_language = "Translation language";
+notifications = "Notifications";
+general = "General";
+settings = "Settings";
+notice = "Notice";
+
+google_drive_upload = "Upload data to Google Drive";
+google_drive_upload_successfully = "Successfully uploading to Google Drive";
+
+google_drive_download = "Download data from Google Drive";
+google_drive_download_successfully = "Successfully downloading from Google Drive";
+
+google_drive_logout = "Google Drive Logout";
+signed_out_of_google_drive_successfully = "Signed out of Google Drive successfully";

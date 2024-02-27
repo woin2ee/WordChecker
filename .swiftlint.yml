@@ -1,6 +1,8 @@
 disabled_rules:
     - line_length
     - identifier_name
+    - type_name
+    - function_body_length
 
 trailing_whitespace:
     severity: error
@@ -11,15 +13,7 @@ trailing_comma:
 
 included:
     - Sources/
-    - Tests/
-    
-    - Project.swift
-    
-    # Equivalent to Tuist/**/*.swift
-    - Tuist/*.swift
-    - Tuist/ProjectDescriptionHelpers/*.swift
-    - Tuist/ProjectDescriptionHelpers/Extensions/*.swift
 
 excluded:
-    - Tests/InfrastructureTests/UserDefaults/UserSettingsRepositoryTests.swift.plist
-    - Tests/InfrastructureTests/UserDefaults/WCUserDefaultsTests.swift.plist
+    - Tests/
+    - Tuist/

@@ -1,0 +1,6 @@
+general = "General";
+haptics = "Haptics";
+theme = "Theme";
+
+hapticsSettingsFooterTextWhenHapticsIsOn = "Enable haptics for interactions.";
+hapticsSettingsFooterTextWhenHapticsIsOff = "Disable haptics for interactions.";

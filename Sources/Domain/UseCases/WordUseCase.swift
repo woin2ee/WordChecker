@@ -14,49 +14,51 @@ public final class WordUseCase: WordUseCaseProtocol {
     let unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol
     let notificationsUseCase: NotificationsUseCaseProtocol
 
-    init(wordRepository: WordRepositoryProtocol, unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol, notificationsUseCase: NotificationsUseCaseProtocol) {
+    let wordDuplicateSpecification: WordDuplicateSpecification
+
+    init(wordRepository: WordRepositoryProtocol, unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol, notificationsUseCase: NotificationsUseCaseProtocol, wordDuplicateSpecification: WordDuplicateSpecification) {
         self.wordRepository = wordRepository
         self.unmemorizedWordListRepository = unmemorizedWordListRepository
         self.notificationsUseCase = notificationsUseCase
+        self.wordDuplicateSpecification = wordDuplicateSpecification
     }
 
     public func addNewWord(_ word: Word) -> RxSwift.Single<Void> {
-        return .create { single in
-            guard word.memorizedState != .memorized else {
-                single(.failure(WordUseCaseError.saveFailed(reason: .wordStateInvalid)))
-                return Disposables.create()
-            }
-
-            let allWords = self.wordRepository.getAllWords()
-            if allWords.contains(where: { $0.word.lowercased() == word.word.lowercased() }) {
-                single(.failure(WordUseCaseError.saveFailed(reason: .duplicatedWord(word: word.word))))
-                return Disposables.create()
-            }
-
-            self.unmemorizedWordListRepository.addWord(word)
-            self.wordRepository.save(word)
-
-            _ = self.notificationsUseCase.updateDailyReminder()
-                .subscribe()
-
-            single(.success(()))
-
-            return Disposables.create()
+        guard word.memorizedState != .memorized else {
+            return .error(WordUseCaseError.saveFailed(reason: .wordStateInvalid))
         }
+
+        guard self.wordDuplicateSpecification.isSatisfied(for: word) else {
+            return .error(WordUseCaseError.saveFailed(reason: .duplicatedWord(word: word.word)))
+        }
+
+        do {
+            try self.wordRepository.save(word)
+        } catch {
+            return .error(error)
+        }
+
+        self.unmemorizedWordListRepository.addWord(word)
+
+        _ = self.notificationsUseCase.updateDailyReminder()
+            .subscribe()
+
+        return .just(())
     }
 
     public func deleteWord(by uuid: UUID) -> RxSwift.Single<Void> {
-        return .create { single in
-            self.unmemorizedWordListRepository.deleteWord(by: uuid)
-            self.wordRepository.deleteWord(by: uuid)
-
-            _ = self.notificationsUseCase.updateDailyReminder()
-                .subscribe()
-
-            single(.success(()))
-
-            return Disposables.create()
+        do {
+            try self.wordRepository.deleteWord(by: uuid)
+        } catch {
+            return .error(error)
         }
+
+        self.unmemorizedWordListRepository.deleteWord(by: uuid)
+
+        _ = self.notificationsUseCase.updateDailyReminder()
+            .subscribe()
+
+        return .just(())
     }
 
     public func getWordList() -> RxSwift.Single<[Word]> {
@@ -99,38 +101,37 @@ public final class WordUseCase: WordUseCaseProtocol {
     }
 
     public func updateWord(by uuid: UUID, to newWord: Word) -> RxSwift.Single<Void> {
-        guard let originWord = wordRepository.getWord(by: uuid) else {
-            return .error(WordUseCaseError.retrieveFailed(reason: .uuidInvaild(uuid: uuid)))
-        }
-
-        let allWords = self.wordRepository.getAllWords()
-        if (originWord.word.lowercased() != newWord.word.lowercased()) &&
-            allWords.contains(where: { $0.word.lowercased() == newWord.word.lowercased() }) {
-            return .error(WordUseCaseError.saveFailed(reason: .duplicatedWord(word: newWord.word)))
-        }
-
-        return .create { single in
-            let updateTarget: Word = .init(
+        let updateTarget: Word
+        do {
+            updateTarget = try .init(
                 uuid: uuid,
                 word: newWord.word,
                 memorizedState: newWord.memorizedState
             )
-
-            if self.unmemorizedWordListRepository.contains(where: { $0.uuid == updateTarget.uuid }) {
-                if updateTarget.memorizedState == .memorized {
-                    self.unmemorizedWordListRepository.deleteWord(by: uuid)
-                }
-                self.unmemorizedWordListRepository.replaceWord(where: uuid, with: updateTarget)
-            } else if updateTarget.memorizedState == .memorizing {
-                self.unmemorizedWordListRepository.addWord(updateTarget)
-            }
-
-            self.wordRepository.save(updateTarget)
-
-            single(.success(()))
-
-            return Disposables.create()
+        } catch {
+            return .error(error)
         }
+
+        guard self.wordDuplicateSpecification.isSatisfied(for: updateTarget) else {
+            return .error(WordUseCaseError.saveFailed(reason: .duplicatedWord(word: updateTarget.word)))
+        }
+
+        do {
+            try self.wordRepository.save(updateTarget)
+        } catch {
+            return .error(error)
+        }
+
+        if self.unmemorizedWordListRepository.contains(where: { $0.uuid == updateTarget.uuid }) {
+            if updateTarget.memorizedState == .memorized {
+                self.unmemorizedWordListRepository.deleteWord(by: uuid)
+            }
+            self.unmemorizedWordListRepository.replaceWord(where: uuid, with: updateTarget)
+        } else if updateTarget.memorizedState == .memorizing {
+            self.unmemorizedWordListRepository.addWord(updateTarget)
+        }
+
+        return .just(())
     }
 
     public func shuffleUnmemorizedWordList() -> RxSwift.Single<Void> {
@@ -165,38 +166,36 @@ public final class WordUseCase: WordUseCaseProtocol {
     }
 
     public func markCurrentWordAsMemorized(uuid: UUID) -> RxSwift.Single<Void> {
-        return .create { single in
-            guard let currentWord = self.wordRepository.getWord(by: uuid) else {
-                single(.failure(WordUseCaseError.retrieveFailed(reason: .uuidInvaild(uuid: uuid))))
-                return Disposables.create()
-            }
-
-            currentWord.memorizedState = .memorized
-
-            self.unmemorizedWordListRepository.deleteWord(by: uuid)
-            self.wordRepository.save(currentWord)
-
-            single(.success(()))
-
-            return Disposables.create()
+        guard let currentWord = wordRepository.getWord(by: uuid) else {
+            return .error(WordUseCaseError.retrieveFailed(reason: .uuidInvaild(uuid: uuid)))
         }
+
+        currentWord.memorizedState = .memorized
+
+        do {
+            try self.wordRepository.save(currentWord)
+        } catch {
+            return .error(error)
+        }
+
+        self.unmemorizedWordListRepository.deleteWord(by: uuid)
+
+        return .just(())
     }
 
-    public func getCurrentUnmemorizedWord() -> Single<Word> {
-        guard let currentWord = unmemorizedWordListRepository.getCurrentWord() else {
-            return .error(WordUseCaseError.noMemorizingWords)
-        }
-
-        return .just(currentWord)
+    public func getCurrentUnmemorizedWord() -> Infallible<Word?> {
+        return .just(unmemorizedWordListRepository.getCurrentWord())
     }
 
-    public func isWordDuplicated(_ word: String) -> Infallible<Bool> {
-        let allWords = self.wordRepository.getAllWords()
-        if allWords.contains(where: { $0.word.lowercased() == word.lowercased() }) {
-            return .just(true)
-        } else {
-            return .just(false)
+    public func isWordDuplicated(_ word: String) -> Single<Bool> {
+        let tempEntity: Word
+        do {
+            tempEntity = try .init(word: word)
+        } catch {
+            return .error(error)
         }
+
+        return wordDuplicateSpecification.isSatisfied(for: tempEntity) ? .just(false) : .just(true)
     }
 
 }

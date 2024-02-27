@@ -7,11 +7,11 @@
 //
 
 import IOSSupport
-import LanguageSetting
+import IOSScene_LanguageSetting
+import IOSScene_UserSettings
 import SwinjectDIContainer
 import SwinjectExtension
 import UIKit
-import UserSettings
 
 final class UserSettingsCoordinator: BasicCoordinator {
 

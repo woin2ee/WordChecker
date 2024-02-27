@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "33DC4C4D-6922-4D95-92A4-65E64DD26377",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "5EFB0ED9315AE8487B9974DF",
+        "name" : "IOSScene_PushNotificationSettingsTests"
+      }
+    }
+  ],
+  "version" : 1
+}

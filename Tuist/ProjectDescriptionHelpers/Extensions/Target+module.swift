@@ -20,12 +20,6 @@ public enum ResourceOption {
 
 extension Target {
 
-    /// Parameters 에 따라 Target 을 만들고 Unit Tests Target 을 추가하거나 Scheme 을 추가하는 등의 작업을 수행합니다.
-    ///
-    /// 특정 Bundle ID 를 지정하지 않을 경우 모듈의 Bundle ID 는 Configurations.swift 파일에 정의된 `BASIC_BUNDLE_ID` 을 사용하여 `$(BASIC_BUNDLE_ID).$(name)` 으로 지정됩니다.
-    /// 테스트 타겟의 Bundle ID 는 `$(BASIC_BUNDLE_ID).$(name)UnitTests` 으로 지정됩니다.
-    ///
-    /// 모듈의 Sources 패스는 `Source/$(name)`이고 Tests 패스는 `Tests/$(name)UnitTests` 입니다.
     public static func module(
         name: String,
         platform: ProjectDescription.Platform = .iOS,
@@ -33,7 +27,6 @@ extension Target {
         bundleId: String? = nil,
         deploymentTarget: ProjectDescription.DeploymentTarget = DEPLOYMENT_TARGET,
         infoPlist: InfoPlist? = .default,
-        sourcesPrefix: String? = nil,
         resourceOptions: [ResourceOption] = [],
         entitlements: ProjectDescription.Path? = nil,
         scripts: [ProjectDescription.TargetScript] = [],
@@ -45,9 +38,28 @@ extension Target {
         additionalFiles: [ProjectDescription.FileElement] = [],
         hasTests: Bool = false,
         additionalTestDependencies: [ProjectDescription.TargetDependency] = [],
-        appendSchemeTo scheme: inout [Scheme]
+        appendSchemeTo schemes: inout [Scheme]
     ) -> [Target] {
-        let bundleId = bundleId ?? "\(BASIC_BUNDLE_ID).\(name)"
+        var namePrefix: String?
+        var nameSuffix: String?
+
+        // Example
+        // - name: IOSScene_WordChecking
+        // - nameComponents[0]: IOSScene
+        // - nameComponents[1]: WordChecking
+        let nameComponents = name.components(separatedBy: "_")
+        precondition(nameComponents.count <= 2)
+
+        if nameComponents.count == 2 {
+            namePrefix = nameComponents[0]
+            nameSuffix = nameComponents[1]
+        }
+
+        let bundleID = if bundleId != nil {
+            bundleId!
+        } else {
+            "\(BASIC_BUNDLE_ID).\(name.replacing("_", with: "."))"
+        }
 
         let resourceFileElements = resourceOptions
             .reduce(into: [ResourceFileElement](), { partialResult, option in
@@ -55,36 +67,52 @@ extension Target {
                 case .common:
                     partialResult.append("Resources/Common/**")
                 case .own:
-                    partialResult.append("Resources/\(name)/**")
+                    let path: ResourceFileElement = if let namePrefix = namePrefix, let nameSuffix = nameSuffix {
+                        "Resources/\(namePrefix)/\(nameSuffix)/**"
+                    } else {
+                        "Resources/\(name)/**"
+                    }
+                    partialResult.append(path)
                 case .additional(let resourceFileElement):
                     partialResult.append(resourceFileElement)
                 }
             })
         let resources: ResourceFileElements = .init(resources: resourceFileElements)
 
-        if hasTests {
-            let moduleScheme: Scheme = .init(
-                name: name,
-                buildAction: .buildAction(targets: ["\(name)"]),
-                testAction: .testPlans([.relativeToRoot("TestPlans/\(name).xctestplan")])
-            )
-            scheme.append(moduleScheme)
-        } else {
-            let moduleScheme: Scheme = .init(
-                name: name,
-                buildAction: .buildAction(targets: ["\(name)"])
-            )
-            scheme.append(moduleScheme)
-        }
+        let scheme: Scheme = {
+            if hasTests {
+                let testPlanName: String = if let namePrefix = namePrefix, let nameSuffix = nameSuffix {
+                    "TestPlans/\(namePrefix)/\(nameSuffix).xctestplan"
+                } else {
+                    "TestPlans/\(name).xctestplan"
+                }
 
-        let sources: SourceFilesList? = (sourcesPrefix == nil) ? "Sources/\(name)/**" : "Sources/\(sourcesPrefix!)/\(name)/**"
+                return Scheme(
+                    name: name,
+                    buildAction: .buildAction(targets: ["\(name)"]),
+                    testAction: .testPlans([.relativeToRoot(testPlanName)])
+                )
+            } else {
+                return Scheme(
+                    name: name,
+                    buildAction: .buildAction(targets: ["\(name)"])
+                )
+            }
+        }()
+        schemes.append(scheme)
+
+        let sources: SourceFilesList = if let namePrefix = namePrefix, let nameSuffix = nameSuffix {
+            "Sources/\(namePrefix)/\(nameSuffix)/**"
+        } else {
+            "Sources/\(name)/**"
+        }
 
         let frameworkTarget: Target = .init(
             name: name,
             platform: platform,
             product: product,
             productName: nil,
-            bundleId: bundleId,
+            bundleId: bundleID,
             deploymentTarget: deploymentTarget,
             infoPlist: infoPlist,
             sources: sources,
@@ -104,14 +132,19 @@ extension Target {
 
         if hasTests {
             let testsTargetName = "\(name)Tests"
-            let testsSources: SourceFilesList? = (sourcesPrefix == nil) ? "Tests/\(testsTargetName)/**" : "Tests/\(sourcesPrefix!)Tests/\(testsTargetName)/**"
+            let testsSources: SourceFilesList = if let namePrefix = namePrefix, let nameSuffix = nameSuffix {
+                "Tests/\(namePrefix)Tests/\(nameSuffix)Tests/**"
+            } else {
+                "Tests/\(testsTargetName)/**"
+            }
+            let testBundleID = "\(BASIC_BUNDLE_ID).\(testsTargetName.replacing("_", with: "."))"
 
             let testsTarget: Target = .init(
                 name: testsTargetName,
                 platform: platform,
                 product: .unitTests,
                 productName: nil,
-                bundleId: "\(BASIC_BUNDLE_ID).\(testsTargetName)",
+                bundleId: testBundleID,
                 deploymentTarget: deploymentTarget,
                 infoPlist: .default,
                 sources: testsSources,

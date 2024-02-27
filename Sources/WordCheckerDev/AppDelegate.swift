@@ -10,15 +10,15 @@ import IPhoneDriver
 import Infrastructure
 
 // Scenes
-import GeneralSettings
-import LanguageSetting
-import PushNotificationSettings
-import ThemeSetting
-import UserSettings
-import WordAddition
-import WordChecking
-import WordDetail
-import WordList
+import IOSScene_GeneralSettings
+import IOSScene_LanguageSetting
+import IOSScene_PushNotificationSettings
+import IOSScene_ThemeSetting
+import IOSScene_UserSettings
+import IOSScene_WordAddition
+import IOSScene_WordChecking
+import IOSScene_WordDetail
+import IOSScene_WordList
 
 // DI
 import Swinject

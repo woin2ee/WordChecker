@@ -1,0 +1,7 @@
+daily_reminder = "매일 알림";
+notifications = "알림";
+notice = "알림";
+time = "시간";
+
+allow_notifications_is_required = "알림 허용이 필요합니다.";
+dailyReminderFooter = "설정한 시각에 매일 푸시 알림을 보냅니다.";
