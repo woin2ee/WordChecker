@@ -11,7 +11,7 @@ import ExtendedUserDefaults
 import ExtendedUserDefaultsRxExtension
 import Foundation
 import RxSwift
-import RxUtility
+import RxSwiftSugar
 
 final class UserSettingsRepository: UserSettingsRepositoryProtocol {
 

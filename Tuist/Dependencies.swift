@@ -19,8 +19,8 @@ let dependencies = Dependencies(
         // Realm
         .remote(url: "https://github.com/realm/realm-swift.git",
                 requirement: .upToNextMajor(from: "10.42.0")),
-        // RxUtility
-        .remote(url: "https://github.com/Woin2ee-Modules/RxUtility.git",
+        // RxSwiftSugar
+        .remote(url: "https://github.com/Woin2ee-Modules/RxSwiftSugar.git",
                 requirement: .upToNextMajor(from: "1.0.0")),
         // ExtendedUserDefaults
         .remote(url: "https://github.com/Woin2ee-Modules/ExtendedUserDefaults.git",

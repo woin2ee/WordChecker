@@ -8,7 +8,7 @@
 import IOSSupport
 import RxSwift
 import RxCocoa
-import RxUtility
+import RxSwiftSugar
 import SnapKit
 import Then
 import UIKit

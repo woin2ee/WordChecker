@@ -10,7 +10,7 @@
 import Foundation
 import InfrastructureTesting
 import RxSwift
-import RxUtility
+import RxSwiftSugar
 import Utility
 
 public final class WordUseCaseFake: WordUseCaseProtocol {

@@ -8,7 +8,7 @@
 
 import IOSSupport
 import ReactorKit
-import RxUtility
+import RxSwiftSugar
 import Then
 import UIKit
 import UIKitPlus
