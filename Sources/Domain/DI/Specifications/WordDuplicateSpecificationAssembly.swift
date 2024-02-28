@@ -15,5 +15,6 @@ struct WordDuplicateSpecificationAssembly: Assembly {
         container.register(WordDuplicateSpecification.self) { resolver in
             return .init(wordRepository: resolver.resolve())
         }
+        .inObjectScope(.container)
     }
 }
