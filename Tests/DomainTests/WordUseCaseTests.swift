@@ -67,7 +67,7 @@ final class WordUseCaseTests: XCTestCase {
             .single()
 
         // Assert
-        XCTAssertEqual(try sut.getWord(by: testUUID).toBlocking().single(), testWord)
+        XCTAssertEqual(try sut.fetchWord(by: testUUID).toBlocking().single(), testWord)
         XCTAssertEqual(notificationsUseCase.updateDailyReminderCallCount, 1)
     }
 
@@ -83,8 +83,8 @@ final class WordUseCaseTests: XCTestCase {
             .single()
 
         // Assert
-        XCTAssertThrowsError(try sut.getWord(by: deleteTarget.uuid).toBlocking().single())
-        XCTAssertFalse(try sut.getUnmemorizedWordList().toBlocking().single().contains(where: { $0.uuid == deleteTarget.uuid }))
+        XCTAssertThrowsError(try sut.fetchWord(by: deleteTarget.uuid).toBlocking().single())
+        XCTAssertFalse(sut.fetchUnmemorizedWordList().contains(where: { $0.uuid == deleteTarget.uuid }))
         XCTAssertEqual(notificationsUseCase.updateDailyReminderCallCount, 1)
     }
 
@@ -100,8 +100,8 @@ final class WordUseCaseTests: XCTestCase {
             .single()
 
         // Assert
-        XCTAssertThrowsError(try sut.getWord(by: deleteTarget.uuid).toBlocking().single())
-        XCTAssertFalse(try sut.getMemorizedWordList().toBlocking().single().contains(where: { $0.uuid == deleteTarget.uuid }))
+        XCTAssertThrowsError(try sut.fetchWord(by: deleteTarget.uuid).toBlocking().single())
+        XCTAssertFalse(sut.fetchMemorizedWordList().contains(where: { $0.uuid == deleteTarget.uuid }))
         XCTAssertEqual(notificationsUseCase.updateDailyReminderCallCount, 1)
     }
 
@@ -110,9 +110,7 @@ final class WordUseCaseTests: XCTestCase {
         let preparedList = [unmemorizedWordList, memorizedWordList].flatMap { $0 }
 
         // Act
-        let wordList = try sut.getWordList()
-            .toBlocking()
-            .single()
+        let wordList = sut.fetchWordList()
 
         // Assert
         XCTAssertEqual(Set(wordList), Set(preparedList))
@@ -131,8 +129,8 @@ final class WordUseCaseTests: XCTestCase {
             .single()
 
         // Assert
-        XCTAssertEqual(try sut.getWord(by: updateTarget.uuid).toBlocking().single().word, "UpdatedWord")
-        XCTAssertEqual(try sut.getWord(by: updateTarget.uuid).toBlocking().single().memorizedState, .memorizing)
+        XCTAssertEqual(try sut.fetchWord(by: updateTarget.uuid).toBlocking().single().word, "UpdatedWord")
+        XCTAssertEqual(try sut.fetchWord(by: updateTarget.uuid).toBlocking().single().memorizedState, .memorizing)
     }
 
     func test_updateUnmemorizedWordToMemorized() throws {
@@ -148,7 +146,7 @@ final class WordUseCaseTests: XCTestCase {
             .single()
 
         // Assert
-        XCTAssertEqual(try sut.getWord(by: updateTarget.uuid).toBlocking().single().memorizedState, .memorized)
+        XCTAssertEqual(try sut.fetchWord(by: updateTarget.uuid).toBlocking().single().memorizedState, .memorized)
     }
 
     func test_updateMemorizedWordToUnmemorized() throws {
@@ -164,7 +162,7 @@ final class WordUseCaseTests: XCTestCase {
             .single()
 
         // Assert
-        XCTAssertEqual(try sut.getWord(by: updateTarget.uuid).toBlocking().single().memorizedState, .memorizing)
+        XCTAssertEqual(try sut.fetchWord(by: updateTarget.uuid).toBlocking().single().memorizedState, .memorizing)
     }
 
     func test_shuffleUnmemorizedWordListWhenOnly1Element() throws {
@@ -178,27 +176,21 @@ final class WordUseCaseTests: XCTestCase {
         }
 
         // Act
-        try sut.shuffleUnmemorizedWordList()
-            .toBlocking()
-            .single()
+        sut.shuffleUnmemorizedWordList()
 
         // Assert
-        XCTAssertEqual(try sut.getCurrentUnmemorizedWord().toBlocking().single(), testWord)
+        XCTAssertEqual(sut.getCurrentUnmemorizedWord(), testWord)
     }
 
     func test_shuffleUnmemorizedWordListWhenMoreThen2Element() throws {
         // Arrange
-        let oldCurrentWord = try sut.getCurrentUnmemorizedWord()
-            .toBlocking()
-            .single()
+        let oldCurrentWord = sut.getCurrentUnmemorizedWord()
 
         // Act
-        try sut.shuffleUnmemorizedWordList()
-            .toBlocking()
-            .single()
+        sut.shuffleUnmemorizedWordList()
 
         // Assert
-        XCTAssertNotEqual(try sut.getCurrentUnmemorizedWord().toBlocking().single(), oldCurrentWord)
+        XCTAssertNotEqual(sut.getCurrentUnmemorizedWord(), oldCurrentWord)
     }
 
     func test_addDuplicatedWord() throws {

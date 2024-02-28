@@ -100,20 +100,18 @@ final class WordListReactor: Reactor {
     ///
     /// 이 함수는 ListType 상태를 직접 업데이트 하지 않습니다.
     private func updateWordList(by listType: ListType) -> Observable<Mutation> {
-        let wordListSequence: Single<[Word]>
+        let wordList: [Word]
 
         switch listType {
         case .all:
-            wordListSequence = wordUseCase.getWordList()
+            wordList = wordUseCase.fetchWordList()
         case .memorized:
-            wordListSequence = wordUseCase.getMemorizedWordList()
+            wordList = wordUseCase.fetchMemorizedWordList()
         case .unmemorized:
-            wordListSequence = wordUseCase.getUnmemorizedWordList()
+            wordList = wordUseCase.fetchUnmemorizedWordList()
         }
 
-        return wordListSequence
-            .asObservable()
-            .map(Mutation.updateWordList)
+        return .just(Mutation.updateWordList(wordList))
     }
 
 }

@@ -40,21 +40,21 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
         return .just(())
     }
 
-    public func getWordList() -> Single<[Domain.Word]> {
-        return .just(_wordList)
+    public func fetchWordList() -> [Domain.Word] {
+        return _wordList
     }
 
-    public func getMemorizedWordList() -> Single<[Domain.Word]> {
+    public func fetchMemorizedWordList() -> [Domain.Word] {
         let memorizedList = _wordList.filter { $0.memorizedState == .memorized }
-        return .just(memorizedList)
+        return memorizedList
     }
 
-    public func getUnmemorizedWordList() -> Single<[Domain.Word]> {
+    public func fetchUnmemorizedWordList() -> [Domain.Word] {
         let memorizingList = _wordList.filter { $0.memorizedState == .memorizing }
-        return .just(memorizingList)
+        return memorizingList
     }
 
-    public func getWord(by uuid: UUID) -> Single<Domain.Word> {
+    public func fetchWord(by uuid: UUID) -> Single<Domain.Word> {
         guard let word = _wordList.first(where: { $0.uuid == uuid }) else {
             return .error(WordUseCaseError.retrieveFailed(reason: .uuidInvaild(uuid: uuid)))
         }
@@ -98,22 +98,17 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
         return .just(())
     }
 
-    public func shuffleUnmemorizedWordList() -> Single<Void> {
-        return getUnmemorizedWordList()
-            .doOnSuccess { wordList in
-                self._unmemorizedWordList.shuffle(with: wordList)
-            }
-            .mapToVoid()
+    public func shuffleUnmemorizedWordList() {
+        let unmemorizedWordList = fetchUnmemorizedWordList()
+        _unmemorizedWordList.shuffle(with: unmemorizedWordList)
     }
 
-    public func updateToNextWord() -> Single<Void> {
+    public func updateToNextWord() {
         _unmemorizedWordList.updateToNextWord()
-        return .just(())
     }
 
-    public func updateToPreviousWord() -> Single<Void> {
+    public func updateToPreviousWord() {
         _unmemorizedWordList.updateToPreviousWord()
-        return .just(())
     }
 
     public func markCurrentWordAsMemorized(uuid: UUID) -> Single<Void> {
@@ -124,8 +119,8 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
         return .just(())
     }
 
-    public func getCurrentUnmemorizedWord() -> Infallible<Domain.Word?> {
-        return .just(_unmemorizedWordList.getCurrentWord())
+    public func getCurrentUnmemorizedWord() -> Domain.Word? {
+        return _unmemorizedWordList.getCurrentWord()
     }
 
     public func isWordDuplicated(_ word: String) -> Single<Bool> {
