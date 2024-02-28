@@ -13,7 +13,7 @@ import RxSwift
 /// 대소문자가 다른 단어는 같은 단어로 취급합니다.
 ///
 /// - Note: UUID 가 동일한 Entity 는 하나의 Entity 이므로 중복으로 인식되지 않습니다.
-struct WordDuplicateSpecification: Specification {
+final class WordDuplicateSpecification: Specification {
 
     private let wordRepository: WordRepositoryProtocol
 
