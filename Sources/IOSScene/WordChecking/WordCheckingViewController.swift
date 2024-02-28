@@ -9,7 +9,7 @@ import IOSSupport
 import ReactorKit
 import RxSwift
 import RxCocoa
-import RxUtility
+import RxSwiftSugar
 import SFSafeSymbols
 import Then
 import Toast

@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 import RxRelay
-import RxUtility
+import RxSwiftSugar
 import Utility
 
 public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {

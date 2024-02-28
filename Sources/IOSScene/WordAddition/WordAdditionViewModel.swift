@@ -11,7 +11,7 @@ import FoundationPlus
 import IOSSupport
 import RxSwift
 import RxCocoa
-import RxUtility
+import RxSwiftSugar
 
 final class WordAdditionViewModel: ViewModelType {
 

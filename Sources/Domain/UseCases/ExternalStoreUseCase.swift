@@ -8,7 +8,7 @@
 
 import Foundation
 import RxSwift
-import RxUtility
+import RxSwiftSugar
 
 public final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
 

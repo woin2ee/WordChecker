@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import RxUtility
+import RxSwiftSugar
 
 extension Reactive where Base: UIPresentationController {
 

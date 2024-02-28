@@ -9,7 +9,7 @@
 import Foundation
 import FoundationPlus
 import RxSwift
-import RxUtility
+import RxSwiftSugar
 import UserNotifications
 
 final class NotificationsUseCase: NotificationsUseCaseProtocol {
