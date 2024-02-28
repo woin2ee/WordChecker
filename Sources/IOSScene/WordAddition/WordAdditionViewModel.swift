@@ -31,7 +31,7 @@ final class WordAdditionViewModel: ViewModelType {
             .map { wordText -> Word? in
                 return try? .init(word: wordText)
             }
-            .compactMap { $0 }
+            .unwrapOrIgnore()
             .flatMapFirst { newWord in
                 return self.wordUseCase.addNewWord(newWord)
                     .asSignalOnErrorJustComplete()
