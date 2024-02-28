@@ -1,5 +1,5 @@
 //
-//  DomainString.swift
+//  LocalizedString.swift
 //  Domain
 //
 //  Created by Jaewon Yun on 2023/10/01.
@@ -8,9 +8,7 @@
 
 import Foundation
 
-struct DomainString {
-
-    private init() {}
+enum LocalizedString {
 
     static let korean = NSLocalizedString("korean", bundle: Bundle.module, comment: "")
     static let english = NSLocalizedString("english", bundle: Bundle.module, comment: "")
