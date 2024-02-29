@@ -19,6 +19,7 @@
       }
     },
     "CFBundleName" : {
+      "comment" : "Bundle name",
       "localizations" : {
         "en" : {
           "stringUnit" : {
