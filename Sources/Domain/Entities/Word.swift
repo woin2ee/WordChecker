@@ -21,6 +21,7 @@ public final class Word: Codable {
 
     public init(uuid: UUID = .init(), word: String, memorizedState: MemorizedState = .memorizing) throws {
         guard word.hasElements else {
+            DomainLogger(category: .entity).error("Attempted to create a `Word` entity with an empty word.")
             throw EntityError.changeRejected(reason: .valueDisallowed)
         }
 

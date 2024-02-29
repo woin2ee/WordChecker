@@ -76,7 +76,7 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
             do {
                 try self.localNotificationService.saveLatestDailyReminderTime(time)
             } catch {
-                // TODO: 예외 상황 로그 추가
+                DomainLogger(category: .useCase).error("Not saved latest daily reminder time(\(time)). \(error)")
             }
 
             Task {
