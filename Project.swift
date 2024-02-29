@@ -5,26 +5,24 @@ import MyPlugin
 // Local plugin loaded
 let localHelper = LocalHelper(name: "MyPlugin")
 
-// MARK: - Targets
-
 var schemes: [Scheme] = []
 var disposedSchemes: [Scheme] = []
 
-// swiftlint:disable:next function_body_length
-func targets() -> [Target] {
-    let targets =
+// MARK: - Targets
+
+func commonTargets() -> [Target] {
     [
-        Target.module(
+        Target.makeCommonFramework(
             name: "Domain",
-            resourceOptions: [.own],
             dependencies: [
                 .target(name: "Utility"),
-                .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.rxSwift, condition: nil),
                 .external(name: ExternalDependencyName.rxSwiftSugarDynamic),
                 .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.swinjectExtension),
                 .external(name: ExternalDependencyName.foundationPlus),
             ],
+            resourceOptions: [.own],
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "TestsSupport"),
@@ -33,16 +31,16 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxBlocking),
             ],
             appendSchemeTo: &schemes
-        )
-        + Target.module(
+        ),
+        Target.makeCommonFramework(
             name: "DomainTesting",
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "InfrastructureTesting"),
             ],
             appendSchemeTo: &disposedSchemes
-        )
-        + Target.module(
+        ),
+        Target.makeCommonFramework(
             name: "Utility",
             scripts: [
                 // 공동 작업자의 githook path 자동 세팅을 위함
@@ -54,8 +52,8 @@ func targets() -> [Target] {
             ],
             hasTests: true,
             appendSchemeTo: &schemes
-        )
-        + Target.module(
+        ),
+        Target.makeCommonFramework(
             name: "Infrastructure",
             dependencies: [
                 .target(name: "Domain"),
@@ -76,17 +74,50 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxBlocking),
             ],
             appendSchemeTo: &schemes
-        )
-        + Target.module(
+        ),
+        Target.makeCommonFramework(
             name: "InfrastructureTesting",
             dependencies: [
                 .target(name: "Domain"),
             ],
             appendSchemeTo: &disposedSchemes
-        )
-        + Target.module(
+        ),
+        Target.makeCommonFramework(
+            name: "TestsSupport",
+            dependencies: [
+                .target(name: "Domain"),
+                .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.rxTest),
+            ],
+            settings: .settings(base: ["ENABLE_TESTING_SEARCH_PATHS": "YES"]),
+            appendSchemeTo: &disposedSchemes
+        ),
+    ]
+        .flatMap { $0 }
+}
+
+func iOSTargets() -> [Target] {
+    [
+        Target.target(
+            name: "\(PROJECT_NAME)UITests",
+            destinations: [.iPhone],
+            product: .uiTests,
+            bundleId: "\(BASIC_BUNDLE_ID)UITests",
+            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            sources: "Tests/\(PROJECT_NAME)UITests/**",
+            dependencies: [
+                .target(name: "\(PROJECT_NAME)Dev"),
+                .target(name: "IOSSupport"),
+                .target(name: "Utility"),
+                .package(product: "Realm"),
+                .package(product: ExternalDependencyName.googleAPIClientForRESTCore),
+                .package(product: ExternalDependencyName.googleAPIClientForREST_Drive),
+                .package(product: ExternalDependencyName.googleSignIn),
+            ]
+        ),
+    ] + [
+        Target.makeIOSFramework(
             name: "IOSSupport",
-            resourceOptions: [.own],
             dependencies: [
                 .target(name: "Domain"),
                 .target(name: "Utility"),
@@ -103,14 +134,13 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.uiKitPlus),
                 .package(product: ExternalDependencyName.swiftCollections),
             ],
-            appendSchemeTo: &schemes
-        )
-        + Target.module(
-            name: "IOSScene_WordChecking",
             resourceOptions: [.own],
-            dependencies: [
-                .target(name: "IOSSupport"),
-            ],
+            appendSchemeTo: &schemes
+        ),
+        Target.makeIOSFramework(
+            name: "IOSScene_WordChecking",
+            dependencies: [.target(name: "IOSSupport"),],
+            resourceOptions: [.own],
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "DomainTesting"),
@@ -118,23 +148,23 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxTest),
             ],
             appendSchemeTo: &schemes
-        )
-        + Target.module(
+        ),
+        Target.makeTargets(
             name: "IOSScene_WordCheckingExample",
+            destinations: .iOS,
             product: .app,
+            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
             infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
             dependencies: [
                 .target(name: "IOSScene_WordChecking"),
                 .target(name: "DomainTesting"),
             ],
             appendSchemeTo: &schemes
-        )
-        + Target.module(
+        ),
+        Target.makeIOSFramework(
             name: "IOSScene_WordList",
+            dependencies: [.target(name: "IOSSupport"),],
             resourceOptions: [.own],
-            dependencies: [
-                .target(name: "IOSSupport"),
-            ],
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "DomainTesting"),
@@ -142,13 +172,11 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxTest),
             ],
             appendSchemeTo: &schemes
-        )
-        + Target.module(
+        ),
+        Target.makeIOSFramework(
             name: "IOSScene_WordDetail",
+            dependencies: [.target(name: "IOSSupport"),],
             resourceOptions: [.own],
-            dependencies: [
-                .target(name: "IOSSupport"),
-            ],
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "DomainTesting"),
@@ -156,13 +184,11 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxTest),
             ],
             appendSchemeTo: &schemes
-        )
-        + Target.module(
+        ),
+        Target.makeIOSFramework(
             name: "IOSScene_WordAddition",
+            dependencies: [.target(name: "IOSSupport"),],
             resourceOptions: [.own],
-            dependencies: [
-                .target(name: "IOSSupport"),
-            ],
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "DomainTesting"),
@@ -170,13 +196,11 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxTest),
             ],
             appendSchemeTo: &schemes
-        )
-        + Target.module(
+        ),
+        Target.makeIOSFramework(
             name: "IOSScene_UserSettings",
+            dependencies: [.target(name: "IOSSupport"),],
             resourceOptions: [.own],
-            dependencies: [
-                .target(name: "IOSSupport"),
-            ],
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "DomainTesting"),
@@ -185,23 +209,23 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxTest),
             ],
             appendSchemeTo: &schemes
-        )
-        + Target.module(
+        ),
+        Target.makeTargets(
             name: "IOSScene_UserSettingsExample",
+            destinations: .iOS,
             product: .app,
+            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
             infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
             dependencies: [
                 .target(name: "IOSScene_UserSettings"),
                 .target(name: "DomainTesting"),
             ],
             appendSchemeTo: &schemes
-        )
-        + Target.module(
+        ),
+        Target.makeIOSFramework(
             name: "IOSScene_LanguageSetting",
+            dependencies: [.target(name: "IOSSupport"),],
             resourceOptions: [.own],
-            dependencies: [
-                .target(name: "IOSSupport"),
-            ],
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "DomainTesting"),
@@ -209,59 +233,58 @@ func targets() -> [Target] {
                 .external(name: ExternalDependencyName.rxTest),
             ],
             appendSchemeTo: &schemes
-        )
-        + Target.module(
+        ),
+        Target.makeIOSFramework(
             name: "IOSScene_ThemeSetting",
+            dependencies: [.target(name: "IOSSupport"),],
             resourceOptions: [.own],
-            dependencies: [
-                .target(name: "IOSSupport"),
-            ],
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "DomainTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
+                .external(name: ExternalDependencyName.rxTest),
             ],
             appendSchemeTo: &schemes
-        )
-        + Target.module(
+        ),
+        Target.makeIOSFramework(
             name: "IOSScene_PushNotificationSettings",
+            dependencies: [.target(name: "IOSSupport"),],
             resourceOptions: [.own],
-            dependencies: [
-                .target(name: "IOSSupport"),
-            ],
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "DomainTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
             ],
             appendSchemeTo: &schemes
-        )
-        + Target.module(
+        ),
+        Target.makeTargets(
             name: "IOSScene_PushNotificationSettingsExample",
+            destinations: .iOS,
             product: .app,
+            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
             infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
             dependencies: [
                 .target(name: "IOSScene_PushNotificationSettings"),
                 .target(name: "DomainTesting"),
             ],
             appendSchemeTo: &schemes
-        )
-        + Target.module(
+        ),
+        Target.makeIOSFramework(
             name: "IOSScene_GeneralSettings",
+            dependencies: [.target(name: "IOSSupport"),],
             resourceOptions: [.own],
-            dependencies: [
-                .target(name: "IOSSupport"),
-            ],
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "DomainTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
             ],
             appendSchemeTo: &schemes
-        )
-        + Target.module(
+        ),
+        Target.makeTargets(
             name: "IPhoneDriver",
-            resourceOptions: [.own],
+            destinations: [.iPhone],
+            product: .framework,
+            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
             dependencies: [
                 .target(name: "IOSSupport"),
                 .target(name: "IOSScene_WordChecking"),
@@ -276,83 +299,55 @@ func targets() -> [Target] {
                 .target(name: "IOSScene_ThemeSetting"),
                 .external(name: ExternalDependencyName.swinjectDIContainer),
             ],
-            appendSchemeTo: &disposedSchemes
-        )
-        + Target.module(
-            name: PROJECT_NAME,
-            product: .app,
-            bundleId: BASIC_BUNDLE_ID,
-            infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
-            resourceOptions: [
-                .own,
-                .common,
-            ],
-            dependencies: [
-                .target(name: "IPhoneDriver"),
-            ],
-            settings: .settings(),
-            appendSchemeTo: &schemes
-        )
-        + Target.module(
-            name: "\(PROJECT_NAME)Dev",
-            product: .app,
-            bundleId: "\(BASIC_BUNDLE_ID)Dev",
-            infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
-            resourceOptions: [
-                .own,
-                .common,
-            ],
-            dependencies: [
-                .target(name: "IPhoneDriver"),
-            ],
-            settings: .settings(),
-            appendSchemeTo: &schemes
-        )
-        + Target.module(
-            name: "\(PROJECT_NAME)Mac",
-            platform: .macOS,
-            product: .app,
-            bundleId: "\(BASIC_BUNDLE_ID)Mac",
-            deploymentTarget: .macOS(targetVersion: "14.0.0"),
             resourceOptions: [.own],
-            entitlements: nil,
-            dependencies: [],
-            settings: .settings(),
-            appendSchemeTo: &schemes
-        )
-        + Target.module(
-            name: "TestsSupport",
-            dependencies: [
-                .target(name: "Domain"),
-                .external(name: ExternalDependencyName.rxSwift),
-                .external(name: ExternalDependencyName.rxTest),
-            ],
-            settings: .settings(base: ["ENABLE_TESTING_SEARCH_PATHS": "YES"]),
             appendSchemeTo: &disposedSchemes
-        )
-        + [
-            Target.init(
-                name: "\(PROJECT_NAME)UITests",
-                platform: .iOS,
-                product: .uiTests,
-                bundleId: "\(BASIC_BUNDLE_ID)UITests",
-                deploymentTarget: DEPLOYMENT_TARGET,
-                sources: "Tests/\(PROJECT_NAME)UITests/**",
-                dependencies: [
-                    .target(name: "\(PROJECT_NAME)Dev"),
-                    .target(name: "IOSSupport"),
-                    .target(name: "Utility"),
-                    .package(product: "Realm"),
-                    .package(product: ExternalDependencyName.googleAPIClientForRESTCore),
-                    .package(product: ExternalDependencyName.googleAPIClientForREST_Drive),
-                    .package(product: ExternalDependencyName.googleSignIn),
-                ]
-            ),
-        ],
+        ),
+        Target.makeTargets(
+            name: PROJECT_NAME,
+            destinations: [.iPhone],
+            product: .app,
+            bundleID: BASIC_BUNDLE_ID,
+            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
+            dependencies: [.target(name: "IPhoneDriver"),],
+            settings: .settings(),
+            resourceOptions: [.own, .common],
+            appendSchemeTo: &schemes
+        ),
+        Target.makeTargets(
+            name: "\(PROJECT_NAME)Dev",
+            destinations: [.iPhone],
+            product: .app,
+            bundleID: "\(BASIC_BUNDLE_ID)Dev",
+            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
+            dependencies: [.target(name: "IPhoneDriver"),],
+            settings: .settings(),
+            resourceOptions: [.own, .common],
+            appendSchemeTo: &schemes
+        ),
     ]
-
-    return targets.flatMap { $0 }
+        .flatMap { $0 }
 }
+
+let macAppTargets = Target.makeTargets(
+    name: "\(PROJECT_NAME)Mac",
+    destinations: [.mac],
+    product: .app,
+    bundleID: "\(BASIC_BUNDLE_ID)Mac",
+    deploymentTargets: .macOS(MINIMUM_MACOS_VERSION),
+    dependencies: [],
+    settings: .settings(),
+    resourceOptions: [.own],
+    appendSchemeTo: &schemes
+)
+
+let allTargets: [Target] = [
+    commonTargets(),
+    iOSTargets(),
+    macAppTargets
+]
+    .flatMap { $0 }
 
 // MARK: - Project
 
@@ -369,37 +364,37 @@ let project: Project = .init(
     settings: .settings(
         base: ["SWIFT_EMIT_LOC_STRINGS": true]
     ),
-    targets: targets(),
+    targets: allTargets,
     schemes: schemes + [
-        .init(
+        .scheme(
             name: PROJECT_NAME,
             buildAction: .buildAction(targets: ["\(PROJECT_NAME)"]),
             runAction: .runAction(executable: "\(PROJECT_NAME)"),
             profileAction: .profileAction(executable: "\(PROJECT_NAME)")
         ),
-        .init(
+        .scheme(
             name: "\(PROJECT_NAME)Dev",
             runAction: .runAction(executable: "\(PROJECT_NAME)Dev")
         ),
-        .init(
+        .scheme(
             name: "\(PROJECT_NAME)Dev_InMemoryDB",
             runAction: .runAction(
                 executable: "\(PROJECT_NAME)Dev",
-                arguments: .init(launchArguments: [
-                    .init(name: "-useInMemoryDatabase", isEnabled: true)
+                arguments: .arguments(launchArguments: [
+                    .launchArgument(name: "-useInMemoryDatabase", isEnabled: true)
                 ])
             )
         ),
-        .init(
+        .scheme(
             name: "\(PROJECT_NAME)Dev_SampleDB",
             runAction: .runAction(
                 executable: "\(PROJECT_NAME)Dev",
-                arguments: .init(launchArguments: [
-                    .init(name: "-sampledDatabase", isEnabled: true)
+                arguments: .arguments(launchArguments: [
+                    .launchArgument(name: "-sampledDatabase", isEnabled: true)
                 ])
             )
         ),
-        .init(
+        .scheme(
             name: "IntergrationTests",
             testAction: .testPlans([.relativeToRoot("TestPlans/IntergrationTests.xctestplan")])
         ),

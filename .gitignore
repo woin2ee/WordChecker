@@ -67,7 +67,8 @@ graph.dot
 Derived/
 
 ### Tuist managed dependencies ###
-Tuist/Dependencies
+Tuist/Dependencies/graph.json
+Tuist/Dependencies/SwiftPackageManager
 
 ### Tuist Signing
 Tuist/Signing
@@ -84,3 +85,11 @@ Changelog/next.md
 
 ### Personal Playground
 MyPlayground.playground
+
+# Swift Package Manager
+#
+# Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
+# Packages/
+# Package.pins
+.build/
+.swiftpm
