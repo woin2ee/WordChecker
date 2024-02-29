@@ -16,6 +16,13 @@ public let PROJECT_NAME = "WordChecker"
 
 public let BASIC_BUNDLE_ID = "com.\(ORGANIZATION).\(PROJECT_NAME)"
 
-public let DEPLOYMENT_TARGET: DeploymentTarget = .iOS(targetVersion: "16.0", devices: [.iphone])
+public let MINIMUM_IOS_VERSION = "16.0"
 
-public let XCODE_VERSION: Version? = .init(14, 3, 1)
+public let MINIMUM_MACOS_VERSION = "14.0.0"
+
+public let ALL_DEPLOYMENT_TARGETS: DeploymentTargets = .multiplatform(
+    iOS: MINIMUM_IOS_VERSION,
+    macOS: MINIMUM_MACOS_VERSION
+)
+
+public let ALL_DESTINATIONS: Destinations = [.iPhone, .mac]
