@@ -19,23 +19,20 @@ public enum ResourceOption {
 }
 
 extension Target {
-
-    public static func module(
+    
+    static func _module(
         name: String,
-        platform: ProjectDescription.Platform = .iOS,
-        product: ProjectDescription.Product = .framework,
-        bundleId: String? = nil,
-        deploymentTarget: ProjectDescription.DeploymentTarget = DEPLOYMENT_TARGET,
+        destinations: Destinations,
+        product: Product,
+        bundleID: String? = nil,
+        deploymentTargets: DeploymentTargets? = nil, // 동적으로 destinations 에 등록된 것만 적용되는가? -> 되면 default value 로 해결 가능
         infoPlist: InfoPlist? = .default,
+        scripts: [TargetScript] = [],
+        dependencies: [TargetDependency] = [],
+        settings: Settings? = nil,
+        launchArguments: [LaunchArgument] = [],
+        additionalFiles: [FileElement] = [],
         resourceOptions: [ResourceOption] = [],
-        entitlements: ProjectDescription.Path? = nil,
-        scripts: [ProjectDescription.TargetScript] = [],
-        dependencies: [ProjectDescription.TargetDependency] = [],
-        settings: ProjectDescription.Settings? = nil,
-        coreDataModels: [ProjectDescription.CoreDataModel] = [],
-        environment: [String: String] = [:],
-        launchArguments: [ProjectDescription.LaunchArgument] = [],
-        additionalFiles: [ProjectDescription.FileElement] = [],
         hasTests: Bool = false,
         additionalTestDependencies: [ProjectDescription.TargetDependency] = [],
         appendSchemeTo schemes: inout [Scheme]
@@ -54,12 +51,8 @@ extension Target {
             namePrefix = nameComponents[0]
             nameSuffix = nameComponents[1]
         }
-
-        let bundleID = if bundleId != nil {
-            bundleId!
-        } else {
-            "\(BASIC_BUNDLE_ID).\(name.replacing("_", with: "."))"
-        }
+        
+        let bundleID = bundleID ?? "\(BASIC_BUNDLE_ID).\(name.replacing("_", with: "."))"
 
         let resourceFileElements = resourceOptions
             .reduce(into: [ResourceFileElement](), { partialResult, option in
@@ -77,8 +70,8 @@ extension Target {
                     partialResult.append(resourceFileElement)
                 }
             })
-        let resources: ResourceFileElements = .init(resources: resourceFileElements)
-
+        let resources: ResourceFileElements = .resources(resourceFileElements)
+        
         let scheme: Scheme = {
             if hasTests {
                 let testPlanName: String = if let namePrefix = namePrefix, let nameSuffix = nameSuffix {
@@ -86,15 +79,17 @@ extension Target {
                 } else {
                     "TestPlans/\(name).xctestplan"
                 }
-
-                return Scheme(
+                
+                return Scheme.scheme(
                     name: name,
+                    shared: true,
                     buildAction: .buildAction(targets: ["\(name)"]),
                     testAction: .testPlans([.relativeToRoot(testPlanName)])
                 )
             } else {
-                return Scheme(
+                return Scheme.scheme(
                     name: name,
+                    shared: true,
                     buildAction: .buildAction(targets: ["\(name)"])
                 )
             }
@@ -107,27 +102,29 @@ extension Target {
             "Sources/\(name)/**"
         }
 
-        let frameworkTarget: Target = .init(
+        let frameworkTarget: Target = .target(
             name: name,
-            platform: platform,
+            destinations: destinations,
             product: product,
             productName: nil,
             bundleId: bundleID,
-            deploymentTarget: deploymentTarget,
+            deploymentTargets: deploymentTargets,
             infoPlist: infoPlist,
             sources: sources,
             resources: resources,
             copyFiles: nil,
             headers: nil,
-            entitlements: entitlements,
+            entitlements: nil,
             scripts: scripts,
             dependencies: dependencies,
             settings: settings,
-            coreDataModels: coreDataModels,
-            environment: environment,
+            coreDataModels: [],
+            environmentVariables: [:],
             launchArguments: launchArguments,
             additionalFiles: additionalFiles,
-            buildRules: []
+            buildRules: [],
+            mergedBinaryType: .disabled,
+            mergeable: false
         )
 
         if hasTests {
@@ -139,33 +136,133 @@ extension Target {
             }
             let testBundleID = "\(BASIC_BUNDLE_ID).\(testsTargetName.replacing("_", with: "."))"
 
-            let testsTarget: Target = .init(
+            let testsTarget: Target = .target(
                 name: testsTargetName,
-                platform: platform,
+                destinations: destinations,
                 product: .unitTests,
                 productName: nil,
                 bundleId: testBundleID,
-                deploymentTarget: deploymentTarget,
+                deploymentTargets: deploymentTargets,
                 infoPlist: .default,
                 sources: testsSources,
                 resources: resources,
                 copyFiles: nil,
                 headers: nil,
-                entitlements: entitlements,
-                scripts: scripts,
+                entitlements: nil,
+                scripts: [],
                 dependencies: [.target(name: name)] + additionalTestDependencies,
-                settings: settings,
-                coreDataModels: coreDataModels,
-                environment: environment,
-                launchArguments: launchArguments,
-                additionalFiles: additionalFiles,
-                buildRules: []
+                settings: nil,
+                coreDataModels: [],
+                environmentVariables: [:],
+                launchArguments: [],
+                additionalFiles: [],
+                buildRules: [],
+                mergedBinaryType: .disabled,
+                mergeable: false
             )
-
+            
             return [frameworkTarget, testsTarget]
         } else {
             return [frameworkTarget]
         }
+    }
+    
+    public static func makeTargets(
+        name: String,
+        destinations: Destinations,
+        product: Product,
+        bundleID: String? = nil,
+        deploymentTargets: DeploymentTargets? = nil,
+        infoPlist: InfoPlist? = .default,
+        scripts: [TargetScript] = [],
+        dependencies: [TargetDependency] = [],
+        settings: Settings? = nil,
+        launchArguments: [LaunchArgument] = [],
+        additionalFiles: [FileElement] = [],
+        resourceOptions: [ResourceOption] = [],
+        hasTests: Bool = false,
+        additionalTestDependencies: [ProjectDescription.TargetDependency] = [],
+        appendSchemeTo schemes: inout [Scheme]
+    ) -> [Target] {
+        return Target._module(
+            name: name,
+            destinations: destinations,
+            product: product,
+            bundleID: bundleID,
+            deploymentTargets: deploymentTargets,
+            infoPlist: infoPlist,
+            scripts: scripts,
+            dependencies: dependencies,
+            settings: settings,
+            launchArguments: launchArguments,
+            additionalFiles: additionalFiles,
+            resourceOptions: resourceOptions,
+            hasTests: hasTests,
+            additionalTestDependencies: additionalTestDependencies,
+            appendSchemeTo: &schemes
+        )
+    }
+    
+    public static func makeCommonFramework(
+        name: String,
+        scripts: [TargetScript] = [],
+        dependencies: [TargetDependency] = [],
+        settings: Settings? = nil,
+        launchArguments: [LaunchArgument] = [],
+        additionalFiles: [FileElement] = [],
+        resourceOptions: [ResourceOption] = [],
+        hasTests: Bool = false,
+        additionalTestDependencies: [ProjectDescription.TargetDependency] = [],
+        appendSchemeTo schemes: inout [Scheme]
+    ) -> [Target] {
+        return Target._module(
+            name: name,
+            destinations: ALL_DESTINATIONS,
+            product: .framework,
+            bundleID: nil,
+            deploymentTargets: ALL_DEPLOYMENT_TARGETS,
+            infoPlist: .default,
+            scripts: scripts,
+            dependencies: dependencies,
+            settings: settings,
+            launchArguments: launchArguments,
+            additionalFiles: additionalFiles,
+            resourceOptions: resourceOptions,
+            hasTests: hasTests,
+            additionalTestDependencies: additionalTestDependencies,
+            appendSchemeTo: &schemes
+        )
+    }
+    
+    public static func makeIOSFramework(
+        name: String,
+        scripts: [TargetScript] = [],
+        dependencies: [TargetDependency] = [],
+        settings: Settings? = nil,
+        launchArguments: [LaunchArgument] = [],
+        additionalFiles: [FileElement] = [],
+        resourceOptions: [ResourceOption] = [],
+        hasTests: Bool = false,
+        additionalTestDependencies: [ProjectDescription.TargetDependency] = [],
+        appendSchemeTo schemes: inout [Scheme]
+    ) -> [Target] {
+        return Target._module(
+            name: name,
+            destinations: .iOS,
+            product: .framework,
+            bundleID: nil,
+            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            infoPlist: .default,
+            scripts: scripts,
+            dependencies: dependencies,
+            settings: settings,
+            launchArguments: launchArguments,
+            additionalFiles: additionalFiles,
+            resourceOptions: resourceOptions,
+            hasTests: hasTests,
+            additionalTestDependencies: additionalTestDependencies,
+            appendSchemeTo: &schemes
+        )
     }
 
 }

@@ -18,6 +18,7 @@
 @testable import IPhoneDriver
 import XCTest
 
+typealias DomainString                  = Domain.LocalizedString
 typealias WordCheckingString            = IOSScene_WordChecking.LocalizedString
 typealias WordCheckingAccessibilityID   = IOSScene_WordChecking.AccessibilityIdentifier
 typealias WordListString                = IOSScene_WordList.LocalizedString

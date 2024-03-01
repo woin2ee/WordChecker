@@ -79,7 +79,7 @@ final class WordDetailReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            return wordUseCase.getWord(by: uuid)
+            return wordUseCase.fetchWord(by: uuid)
                 .doOnSuccess {
                     self.originWord = $0.word
                 }

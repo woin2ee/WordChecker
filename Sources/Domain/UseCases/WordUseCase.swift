@@ -61,34 +61,19 @@ public final class WordUseCase: WordUseCaseProtocol {
         return .just(())
     }
 
-    public func getWordList() -> RxSwift.Single<[Word]> {
-        return .create { single in
-            let wordList = self.wordRepository.getAllWords()
-            single(.success(wordList))
-
-            return Disposables.create()
-        }
+    public func fetchWordList() -> [Word] {
+        return wordRepository.getAllWords()
     }
 
-    public func getUnmemorizedWordList() -> Single<[Word]> {
-        return .create { single in
-            let unmemorizedList = self.wordRepository.getUnmemorizedList()
-            single(.success(unmemorizedList))
-
-            return Disposables.create()
-        }
+    public func fetchUnmemorizedWordList() -> [Word] {
+        return wordRepository.getUnmemorizedList()
     }
 
-    public func getMemorizedWordList() -> Single<[Word]> {
-        return .create { single in
-            let memorizedList = self.wordRepository.getMemorizedList()
-            single(.success(memorizedList))
-
-            return Disposables.create()
-        }
+    public func fetchMemorizedWordList() -> [Word] {
+        return wordRepository.getMemorizedList()
     }
 
-    public func getWord(by uuid: UUID) -> RxSwift.Single<Word> {
+    public func fetchWord(by uuid: UUID) -> RxSwift.Single<Word> {
         return .create { single in
             if let word = self.wordRepository.getWord(by: uuid) {
                 single(.success(word))
@@ -134,35 +119,17 @@ public final class WordUseCase: WordUseCaseProtocol {
         return .just(())
     }
 
-    public func shuffleUnmemorizedWordList() -> RxSwift.Single<Void> {
-        return .create { single in
-            let unmemorizedList = self.wordRepository.getUnmemorizedList()
-            self.unmemorizedWordListRepository.shuffle(with: unmemorizedList)
-
-            single(.success(()))
-
-            return Disposables.create()
-        }
+    public func shuffleUnmemorizedWordList() {
+        let unmemorizedList = wordRepository.getUnmemorizedList()
+        unmemorizedWordListRepository.shuffle(with: unmemorizedList)
     }
 
-    public func updateToNextWord() -> RxSwift.Single<Void> {
-        return .create { single in
-            self.unmemorizedWordListRepository.updateToNextWord()
-
-            single(.success(()))
-
-            return Disposables.create()
-        }
+    public func updateToNextWord() {
+        unmemorizedWordListRepository.updateToNextWord()
     }
 
-    public func updateToPreviousWord() -> RxSwift.Single<Void> {
-        return .create { single in
-            self.unmemorizedWordListRepository.updateToPreviousWord()
-
-            single(.success(()))
-
-            return Disposables.create()
-        }
+    public func updateToPreviousWord() {
+        unmemorizedWordListRepository.updateToPreviousWord()
     }
 
     public func markCurrentWordAsMemorized(uuid: UUID) -> RxSwift.Single<Void> {
@@ -183,8 +150,8 @@ public final class WordUseCase: WordUseCaseProtocol {
         return .just(())
     }
 
-    public func getCurrentUnmemorizedWord() -> Infallible<Word?> {
-        return .just(unmemorizedWordListRepository.getCurrentWord())
+    public func getCurrentUnmemorizedWord() -> Word? {
+        return unmemorizedWordListRepository.getCurrentWord()
     }
 
     public func isWordDuplicated(_ word: String) -> Single<Bool> {

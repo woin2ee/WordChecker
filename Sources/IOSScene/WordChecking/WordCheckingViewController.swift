@@ -9,7 +9,7 @@ import IOSSupport
 import ReactorKit
 import RxSwift
 import RxCocoa
-import RxUtility
+import RxSwiftSugar
 import SFSafeSymbols
 import Then
 import Toast
@@ -172,12 +172,12 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
             .disposed(by: self.disposeBag)
 
         reactor.pulse(\.$showAddCompleteToast)
+            .unwrapOrIgnore()
             .asSignalOnErrorJustComplete()
             .emit(with: self) { owner, showAddCompleteToast in
-                guard let showAddCompleteToast = showAddCompleteToast else { return }
                 switch showAddCompleteToast {
                 case .success(let word):
-                    owner.view.makeToast(LocalizedString.word_added_successfully(word: word), duration: 2.0, position: .top)
+                    owner.view.makeToast(LocalizedString.word_added_successfully(word: word.word), duration: 2.0, position: .top)
                 case .failure(let error):
                     switch error {
                     case .addWordFailed(let reason):

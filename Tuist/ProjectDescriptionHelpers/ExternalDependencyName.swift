@@ -12,7 +12,7 @@ public struct ExternalDependencyName {
     public static let snapKit = "SnapKit"
     public static let realm = "Realm"
     public static let realmSwift = "RealmSwift"
-    public static let rxUtilityDynamic = "RxUtility-Dynamic"
+    public static let rxSwiftSugarDynamic = "RxSwiftSugar-Dynamic"
     public static let extendedUserDefaults = "ExtendedUserDefaults"
     public static let extendedUserDefaultsRxExtension = "ExtendedUserDefaultsRxExtension"
     public static let sfSafeSymbols = "SFSafeSymbols"

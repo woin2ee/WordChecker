@@ -8,7 +8,7 @@
 import IOSSupport
 import RxSwift
 import RxCocoa
-import RxUtility
+import RxSwiftSugar
 import SnapKit
 import Then
 import UIKit
@@ -42,6 +42,7 @@ final class WordAdditionViewController: RxBaseViewController, WordAdditionViewCo
 
     lazy var doneBarButton: UIBarButtonItem = .init(systemItem: .done).then {
         $0.style = .done
+        $0.isEnabled = false
     }
 
     override func viewDidLoad() {
@@ -116,10 +117,10 @@ final class WordAdditionViewController: RxBaseViewController, WordAdditionViewCo
                 .distinctUntilChanged()
                 .map { !$0 }
                 .drive(duplicatedWordAlertLabel.rx.isHidden),
-            Driver.zip([
-                output.wordTextIsNotEmpty,
-                output.enteredWordIsDuplicated,
-            ]).map { $0[0] && !$0[1] }
+            Driver.combineLatest(
+                output.wordIsEntered,
+                output.enteredWordIsDuplicated
+            ).map { $0.0 && !$0.1 }
                 .drive(doneBarButton.rx.isEnabled),
         ]
             .forEach { $0.disposed(by: disposeBag) }

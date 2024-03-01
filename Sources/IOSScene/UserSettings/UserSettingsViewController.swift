@@ -10,7 +10,7 @@ import Domain
 import IOSSupport
 import ReactorKit
 import RxSwift
-import RxUtility
+import RxSwiftSugar
 import Then
 import UIKit
 
