@@ -11,7 +11,7 @@ import FoundationPlus
 import IOSSupport
 import RxSwift
 import RxCocoa
-import RxUtility
+import RxSwiftSugar
 
 final class WordAdditionViewModel: ViewModelType {
 
@@ -31,7 +31,7 @@ final class WordAdditionViewModel: ViewModelType {
             .map { wordText -> Word? in
                 return try? .init(word: wordText)
             }
-            .compactMap { $0 }
+            .unwrapOrIgnore()
             .flatMapFirst { newWord in
                 return self.wordUseCase.addNewWord(newWord)
                     .asSignalOnErrorJustComplete()
@@ -40,7 +40,7 @@ final class WordAdditionViewModel: ViewModelType {
                 GlobalAction.shared.didAddWord.accept(())
             }
 
-        let wordTextHasElements = input.wordText.map(\.hasElements)
+        let wordIsEntered = input.wordText.map(\.hasElements)
 
         let reconfirmDismiss = input.dismissAttempt
             .withLatestFrom(hasChanges)
@@ -56,13 +56,17 @@ final class WordAdditionViewModel: ViewModelType {
 
         let enteredWordIsDuplicated = input.wordText
             .flatMapLatest { word in
-                return self.wordUseCase.isWordDuplicated(word)
-                    .asDriverOnErrorJustComplete()
+                if word.hasElements {
+                    return self.wordUseCase.isWordDuplicated(word)
+                        .asDriverOnErrorJustComplete()
+                } else {
+                    return .just(false)
+                }
             }
 
         return .init(
             saveComplete: saveComplete,
-            wordTextIsNotEmpty: wordTextHasElements,
+            wordIsEntered: wordIsEntered,
             reconfirmDismiss: reconfirmDismiss,
             dismissComplete: dismissComplete,
             enteredWordIsDuplicated: enteredWordIsDuplicated
@@ -87,7 +91,7 @@ extension WordAdditionViewModel {
 
         let saveComplete: Signal<Void>
 
-        let wordTextIsNotEmpty: Driver<Bool>
+        let wordIsEntered: Driver<Bool>
 
         /// Dismiss 해야하는지 재확인이 필요할때 next 이벤트가 방출됩니다.
         let reconfirmDismiss: Signal<Void>

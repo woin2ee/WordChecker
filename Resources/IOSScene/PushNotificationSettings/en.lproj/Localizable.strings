@@ -1,7 +1,0 @@
-daily_reminder = "Daily Reminder";
-notifications = "Notifications";
-notice = "Notice";
-time = "Time";
-
-allow_notifications_is_required = "Allow notifications is required.";
-dailyReminderFooter = "Sends a daily push notification at the time you set.";

@@ -9,7 +9,7 @@
 import Foundation
 import FoundationPlus
 import RxSwift
-import RxUtility
+import RxSwiftSugar
 import UserNotifications
 
 final class NotificationsUseCase: NotificationsUseCaseProtocol {
@@ -57,13 +57,13 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
             let unmemorizedWordCount = self.wordRepository.getUnmemorizedList().count
 
             let content: UNMutableNotificationContent = .init()
-            content.title = DomainString.daily_reminder
+            content.title = LocalizedString.daily_reminder
             content.sound = .default
 
             if unmemorizedWordCount == 0 {
-                content.body = DomainString.daily_reminder_body_message_when_no_words_to_memorize
+                content.body = LocalizedString.daily_reminder_body_message_when_no_words_to_memorize
             } else {
-                content.body = DomainString.daily_reminder_body_message(unmemorizedWordCount: unmemorizedWordCount)
+                content.body = LocalizedString.daily_reminder_body_message(unmemorizedWordCount: unmemorizedWordCount)
             }
 
             let trigger: UNCalendarNotificationTrigger = .init(dateMatching: time, repeats: true)
@@ -76,7 +76,7 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
             do {
                 try self.localNotificationService.saveLatestDailyReminderTime(time)
             } catch {
-                // TODO: 예외 상황 로그 추가
+                DomainLogger(category: .useCase).error("Not saved latest daily reminder time(\(time)). \(error)")
             }
 
             Task {

@@ -32,23 +32,23 @@ public enum TranslationLanguage: CaseIterable, Codable, Sendable {
     public var localizedString: String {
         switch self {
         case .korean:
-            DomainString.korean
+            LocalizedString.korean
         case .english:
-            DomainString.english
+            LocalizedString.english
         case .japanese:
-            DomainString.japanese
+            LocalizedString.japanese
         case .chinese:
-            DomainString.chinese
+            LocalizedString.chinese
         case .french:
-            DomainString.french
+            LocalizedString.french
         case .spanish:
-            DomainString.spanish
+            LocalizedString.spanish
         case .italian:
-            DomainString.italian
+            LocalizedString.italian
         case .german:
-            DomainString.german
+            LocalizedString.german
         case .russian:
-            DomainString.russian
+            LocalizedString.russian
         }
     }
 

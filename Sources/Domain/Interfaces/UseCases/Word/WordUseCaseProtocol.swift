@@ -19,30 +19,30 @@ public protocol WordUseCaseProtocol {
     func deleteWord(by uuid: UUID) -> Single<Void>
 
     /// 저장된 모든 단어 목록을 가져옵니다.
-    func getWordList() -> Single<[Word]>
+    func fetchWordList() -> [Word]
 
     /// 암기 완료된 단어의 목록을 가져옵니다.
-    func getMemorizedWordList() -> Single<[Word]>
+    func fetchMemorizedWordList() -> [Word]
 
     /// 암기되지 않은 단어의 목록을 가져옵니다.
-    func getUnmemorizedWordList() -> Single<[Word]>
+    func fetchUnmemorizedWordList() -> [Word]
 
     /// 특정 단어를 가져옵니다.
-    func getWord(by uuid: UUID) -> Single<Word>
+    func fetchWord(by uuid: UUID) -> Single<Word>
 
     /// 단어를 업데이트 합니다.
     func updateWord(by uuid: UUID, to newWord: Word) -> Single<Void>
 
     /// 암기되지 않은 단어 목록을 섞습니다.
-    func shuffleUnmemorizedWordList() -> Single<Void>
+    func shuffleUnmemorizedWordList()
 
-    func updateToNextWord() -> Single<Void>
+    func updateToNextWord()
 
-    func updateToPreviousWord() -> Single<Void>
+    func updateToPreviousWord()
 
     func markCurrentWordAsMemorized(uuid: UUID) -> Single<Void>
 
-    func getCurrentUnmemorizedWord() -> Infallible<Word?>
+    func getCurrentUnmemorizedWord() -> Word?
 
     /// `word` 파라미터로 전달된 단어가 이미 저장된 단어인지 검사합니다.
     ///

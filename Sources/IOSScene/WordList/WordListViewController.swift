@@ -7,7 +7,7 @@
 
 import IOSSupport
 import ReactorKit
-import RxUtility
+import RxSwiftSugar
 import SFSafeSymbols
 import SnapKit
 import Then

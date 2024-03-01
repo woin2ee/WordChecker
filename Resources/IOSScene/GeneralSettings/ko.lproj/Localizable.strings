@@ -1,6 +1,0 @@
-general = "일반";
-haptics = "진동";
-theme = "테마";
-
-hapticsSettingsFooterTextWhenHapticsIsOn = "상호 작용에 대한 진동을 사용합니다.";
-hapticsSettingsFooterTextWhenHapticsIsOff = "상호 작용에 대한 진동을 사용하지 않습니다.";
