@@ -310,7 +310,9 @@ func iOSTargets() -> [Target] {
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
             infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
             dependencies: [.target(name: "IPhoneDriver"),],
-            settings: .settings(),
+            settings: .settings(
+                base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.TEAM_ID)
+            ),
             resourceOptions: [.own, .common],
             appendSchemeTo: &schemes
         ),
@@ -322,7 +324,9 @@ func iOSTargets() -> [Target] {
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
             infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
             dependencies: [.target(name: "IPhoneDriver"),],
-            settings: .settings(),
+            settings: .settings(
+                base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.TEAM_ID)
+            ),
             resourceOptions: [.own, .common],
             appendSchemeTo: &schemes
         ),
