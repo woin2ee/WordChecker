@@ -111,7 +111,7 @@ final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSe
             .doOnNext { [weak self] in self?.rootView.deselectRow(at: $0, animated: true) }
 
         itemSelectedEvent
-            .filter { self.dataSource.itemIdentifier(for: $0) == .themeSetting }
+            .filter { [weak self] in self?.dataSource.itemIdentifier(for: $0) == .themeSetting }
             .emit(with: self, onNext: { owner, _ in
                 owner.delegate?.didTapThemeSetting()
             })
