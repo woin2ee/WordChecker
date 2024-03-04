@@ -73,7 +73,7 @@ Tuist/Dependencies/SwiftPackageManager
 ### Tuist Signing
 Tuist/Signing
 Tuist/master.key
-Tuist/ProjectDescriptionHelpers/Constant.swift
+Tuist/ProjectDescriptionHelpers/Constant+Security.swift
 
 ### info.plist
 Resources/InfoPlist/Info.plist
