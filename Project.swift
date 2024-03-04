@@ -154,7 +154,7 @@ func iOSTargets() -> [Target] {
             destinations: .iOS,
             product: .app,
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
-            infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
+            infoPlist: .file(path: .path(Constant.Path.iPhoneExampleInfoPlist)),
             dependencies: [
                 .target(name: "IOSScene_WordChecking"),
                 .target(name: "DomainTesting"),
@@ -215,7 +215,7 @@ func iOSTargets() -> [Target] {
             destinations: .iOS,
             product: .app,
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
-            infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
+            infoPlist: .file(path: .path(Constant.Path.iPhoneExampleInfoPlist)),
             dependencies: [
                 .target(name: "IOSScene_UserSettings"),
                 .target(name: "DomainTesting"),
@@ -262,7 +262,7 @@ func iOSTargets() -> [Target] {
             destinations: .iOS,
             product: .app,
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
-            infoPlist: .file(path: "Resources/InfoPlist/InfoExample.plist"),
+            infoPlist: .file(path: .path(Constant.Path.iPhoneExampleInfoPlist)),
             dependencies: [
                 .target(name: "IOSScene_PushNotificationSettings"),
                 .target(name: "DomainTesting"),
@@ -308,10 +308,10 @@ func iOSTargets() -> [Target] {
             product: .app,
             bundleID: BASIC_BUNDLE_ID,
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
-            infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
+            infoPlist: .file(path: .path(Constant.Path.iPhoneInfoPlist)),
             dependencies: [.target(name: "IPhoneDriver"),],
             settings: .settings(
-                base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.TEAM_ID)
+                base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.Security.TEAM_ID)
             ),
             resourceOptions: [.own, .common],
             appendSchemeTo: &schemes
@@ -322,10 +322,10 @@ func iOSTargets() -> [Target] {
             product: .app,
             bundleID: "\(BASIC_BUNDLE_ID)Dev",
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
-            infoPlist: .file(path: "Resources/InfoPlist/Info.plist"),
+            infoPlist: .file(path: .path(Constant.Path.iPhoneInfoPlist)),
             dependencies: [.target(name: "IPhoneDriver"),],
             settings: .settings(
-                base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.TEAM_ID)
+                base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.Security.TEAM_ID)
             ),
             resourceOptions: [.own, .common],
             appendSchemeTo: &schemes
@@ -340,6 +340,8 @@ let macAppTargets = Target.makeTargets(
     product: .app,
     bundleID: "\(BASIC_BUNDLE_ID)Mac",
     deploymentTargets: .macOS(MINIMUM_MACOS_VERSION),
+    infoPlist: .file(path: .path(Constant.Path.macInfoPlist)),
+    entitlements: .file(path: .path(Constant.Path.macEntitlements)),
     dependencies: [],
     settings: .settings(),
     resourceOptions: [.own],
