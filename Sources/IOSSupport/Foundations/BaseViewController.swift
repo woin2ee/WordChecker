@@ -14,5 +14,12 @@ open class BaseViewController: UIViewController {
 
         self.view.backgroundColor = .systemBackground
     }
-
+    
+    open override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        #if DEBUG
+            self.checkDeallocation()
+        #endif
+    }
 }
