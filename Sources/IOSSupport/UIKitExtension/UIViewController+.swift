@@ -43,18 +43,18 @@ extension UIViewController {
 #if DEBUG
 
 extension UIViewController {
-    
+
     public func checkDeallocation(afterDelay delay: TimeInterval = 1.0) {
         if isMovingFromParent || rootParentViewController.isBeingDismissed {
             let viewControllerType = type(of: self)
             let disappearanceSource: String = isMovingFromParent ? "removed from its parent" : "dismissed"
-            
+
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
                 assert(self == nil, "\(viewControllerType) not deallocated after being \(disappearanceSource).")
             }
         }
     }
-    
+
     private var rootParentViewController: UIViewController {
         var root = self
         while let parent = root.parent {
