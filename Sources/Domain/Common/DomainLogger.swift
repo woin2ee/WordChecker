@@ -12,12 +12,12 @@ import OSLog
 internal typealias DomainLogger = Logger
 
 internal extension DomainLogger {
-    
+
     enum Category: String {
         case entity
         case useCase
     }
-    
+
     init(category: Category) {
         self.init(subsystem: "Domain", category: category.rawValue.capitalized)
     }
