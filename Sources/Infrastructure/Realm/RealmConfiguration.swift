@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-public func makeDefaultRealmConfiguration() -> Realm.Configuration {
+internal func makeDefaultRealmConfiguration() -> Realm.Configuration {
     let newSchemaVersion: UInt64 = 9
     let config: Realm.Configuration = .init(
         schemaVersion: newSchemaVersion,
