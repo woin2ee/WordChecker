@@ -9,7 +9,7 @@ import Foundation
 import Realm
 import RealmSwift
 
-public final class Word: Object {
+internal final class Word: Object {
 
 //    @Persisted(primaryKey: true) var objectID: ObjectId = .generate()
     @Persisted(primaryKey: true) var uuid: UUID = .init()
@@ -18,7 +18,7 @@ public final class Word: Object {
 
     @Persisted var isMemorized: Bool = false
 
-    public convenience init(word: String) {
+    convenience init(word: String) {
         self.init()
         self.word = word
     }
