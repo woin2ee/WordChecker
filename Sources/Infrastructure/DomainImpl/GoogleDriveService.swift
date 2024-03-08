@@ -1,10 +1,14 @@
+#if os(macOS)
+import AppKit
+#elseif os(iOS)
+import UIKit
+#endif
 import Domain
 import Foundation
 import GoogleSignIn
 import GoogleAPIClientForRESTCore
 import GoogleAPIClientForREST_Drive
 import RxSwift
-import UIKit
 import Utility
 
 enum GoogleDriveServiceError: Error {
@@ -41,9 +45,15 @@ final class GoogleDriveService: Domain.GoogleDriveService {
     }
 
     func signInWithAppDataScope(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
+#if os(macOS)
+        guard let presentingViewController = presenting.window as? NSWindow else {
+            return .error(GoogleDriveServiceError.unSupportedWindow)
+        }
+#elseif os(iOS)
         guard let presentingViewController = presenting.window as? UIViewController else {
             return .error(GoogleDriveServiceError.unSupportedWindow)
         }
+#endif
 
         guard let clientID = Bundle.main.object(forInfoDictionaryKey: "GIDClientID") as? String else {
             assertionFailure("ClientID is missing from info.plist")
@@ -93,9 +103,15 @@ final class GoogleDriveService: Domain.GoogleDriveService {
     }
 
     func requestAppDataScopeAccess(presenting: PresentingConfiguration) -> Single<Void> {
+#if os(macOS)
+        guard let presentingViewController = presenting.window as? NSWindow else {
+            return .error(GoogleDriveServiceError.unSupportedWindow)
+        }
+#elseif os(iOS)
         guard let presentingViewController = presenting.window as? UIViewController else {
             return .error(GoogleDriveServiceError.unSupportedWindow)
         }
+#endif
 
         return .create { result in
             self.gidSignIn.addScopes([ScopeCode.appData], presenting: presentingViewController) { user, error in

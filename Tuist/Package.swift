@@ -48,5 +48,9 @@ let package = Package(
         .package(url: "https://github.com/Woin2ee-Modules/FoundationPlus.git", from: "1.0.0"),
         // UIKitPlus
         .package(url: "https://github.com/Woin2ee-Modules/UIKitPlus.git", from: "1.0.0"),
+        // swiftui-introspect
+        .package(url: "https://github.com/siteline/swiftui-introspect", from: "1.0.0"),
+        // PinLayout
+        .package(url: "https://github.com/layoutBox/PinLayout", from: "1.0.0"),
     ]
 )

@@ -25,4 +25,6 @@ public struct ExternalDependencyName {
     public static let swiftCollections = "Collections"
     public static let foundationPlus = "FoundationPlus"
     public static let uiKitPlus = "UIKitPlus"
+    public static let swiftUIIntrospectDynamic = "SwiftUIIntrospect-Dynamic"
+    public static let pinLayout = "PinLayout"
 }
