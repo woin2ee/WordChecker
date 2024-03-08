@@ -342,7 +342,16 @@ let macAppTargets = Target.makeTargets(
     deploymentTargets: .macOS(MINIMUM_MACOS_VERSION),
     infoPlist: .file(path: .path(Constant.Path.macInfoPlist)),
     entitlements: .file(path: .path(Constant.Path.macEntitlements)),
-    dependencies: [],
+    dependencies: [
+        .target(name: "Domain"),
+        .target(name: "Infrastructure"),
+        .external(name: ExternalDependencyName.then),
+        .external(name: ExternalDependencyName.swinject),
+        .external(name: ExternalDependencyName.swinjectExtension),
+        .external(name: ExternalDependencyName.swinjectDIContainer),
+        .external(name: ExternalDependencyName.pinLayout),
+        .external(name: ExternalDependencyName.reactorKit),
+    ],
     settings: .settings(),
     resourceOptions: [.own],
     appendSchemeTo: &schemes
