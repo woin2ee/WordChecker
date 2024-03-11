@@ -130,11 +130,11 @@ final class GoogleDriveService: Domain.GoogleDriveService {
 
         let file: GTLRDrive_File = .init()
         file.name = backupFileName
-        file.parents = ["appDataFolder"]
+        file.parents = [Space.appDataFolder.rawValue]
 
         let fileCreatingSequence: Single<Void> = .create { result in
             Task {
-                try await GoogleDriveAPI(user: currentUser).create(for: file, with: data)
+                try await GoogleDriveAPI(authentication: currentUser.authentication).files.create(file, with: data)
                 result(.success(()))
             } catch: {
                 result(.failure($0))
@@ -162,7 +162,7 @@ final class GoogleDriveService: Domain.GoogleDriveService {
                     return
                 }
 
-                let dataObject = try await GoogleDriveAPI(user: currentUser).files(forFileID: backupFileID)
+                let dataObject = try await GoogleDriveAPI(authentication: currentUser.authentication).files.get(forFileID: backupFileID)
                 let decoded = try JSONDecoder().decode([Domain.Word].self, from: dataObject.data)
 
                 result(.success(decoded))
@@ -173,7 +173,12 @@ final class GoogleDriveService: Domain.GoogleDriveService {
             return Disposables.create()
         }
     }
+}
 
+// MARK: Helpers
+
+extension GoogleDriveService {
+    
     private func deleteBackupFiles() -> Completable {
         guard let currentUser = gidSignIn.currentUser else {
             return .error(GoogleDriveServiceError.noSignedInUser)
@@ -190,7 +195,7 @@ final class GoogleDriveService: Domain.GoogleDriveService {
 
                 try await backupFiles.compactMap(\.identifier)
                     .asyncForEach {
-                        try await GoogleDriveAPI(user: currentUser).delete(byFileID: $0)
+                        try await GoogleDriveAPI(authentication: currentUser.authentication).files.delete(byFileID: $0)
                     }
 
                 observer(.completed)
@@ -210,10 +215,9 @@ final class GoogleDriveService: Domain.GoogleDriveService {
 
             let filesListQuery: GTLRDriveQuery_FilesList = .query()
             filesListQuery.q = "name = '\(backupFileName)' and trashed = false"
-            filesListQuery.spaces = "appDataFolder"
+            filesListQuery.spaces = Space.appDataFolder.rawValue
 
-            return try await GoogleDriveAPI(user: currentUser).filesList(query: filesListQuery)
+            return try await GoogleDriveAPI(authentication: currentUser.authentication).files.list(query: filesListQuery)
         }
     }
-
 }
