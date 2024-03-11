@@ -17,21 +17,36 @@ enum GoogleDriveAPIError: Error {
 
 }
 
-struct GoogleDriveAPI {
+/// <#Description#>
+public final class GoogleDriveAPI {
 
-    let service: GTLRDriveService = .init()
-
-    init(user: GIDGoogleUser) {
-        self.service.authorizer = user.authentication.fetcherAuthorizer()
+    let service: GTLRDriveService
+    
+    public let files: GoogleDriveFilesAPI
+    
+    public init(authentication: GIDAuthentication?) {
+        self.service = .init()
+        self.service.authorizer = authentication?.fetcherAuthorizer()
+        self.files = .init(service: self.service)
     }
+}
 
+/// <#Description#>
+public struct GoogleDriveFilesAPI {
+    
+    let service: GTLRDriveService
+    
+    init(service: GTLRDriveService) {
+        self.service = service
+    }
+    
     /// Method: files.create
     @discardableResult
-    func create(for file: GTLRDrive_File, with data: Data) async throws -> GTLRDrive_File {
-        let parameters = GTLRUploadParameters(data: data, mimeType: "application/octet-stream")
-        parameters.shouldUploadWithSingleRequest = true
+    public func create(_ file: GTLRDrive_File, with data: Data) async throws -> GTLRDrive_File {
+        let uploadParameters = GTLRUploadParameters(data: data, mimeType: "application/octet-stream")
+        uploadParameters.shouldUploadWithSingleRequest = true
 
-        let query: GTLRDriveQuery_FilesCreate = .query(withObject: file, uploadParameters: parameters)
+        let query: GTLRDriveQuery_FilesCreate = .query(withObject: file, uploadParameters: uploadParameters)
 
         return try await withCheckedThrowingContinuation { continuation in
             service.executeQuery(query) { _, file, error in
@@ -47,7 +62,7 @@ struct GoogleDriveAPI {
     }
 
     /// Method: files.list
-    func filesList(query: GTLRDriveQuery_FilesList) async throws -> GTLRDrive_FileList {
+    public func list(query: GTLRDriveQuery_FilesList) async throws -> GTLRDrive_FileList {
         return try await withCheckedThrowingContinuation { continuation in
             service.executeQuery(query) { _, fileList, error in
                 if error == nil, let fileList = fileList as? GTLRDrive_FileList {
@@ -62,7 +77,7 @@ struct GoogleDriveAPI {
     }
 
     /// Method: files.get
-    func files(forFileID fileID: String) async throws -> GTLRDataObject {
+    public func get(forFileID fileID: String) async throws -> GTLRDataObject {
         let query: GTLRDriveQuery_FilesGet = .queryForMedia(withFileId: fileID)
 
         return try await withCheckedThrowingContinuation { continuation in
@@ -79,7 +94,7 @@ struct GoogleDriveAPI {
     }
 
     /// Method: files.delete
-    func delete(byFileID fileID: String) async throws {
+    public func delete(byFileID fileID: String) async throws {
         let query: GTLRDriveQuery_FilesDelete = .query(withFileId: fileID)
 
         return try await withCheckedThrowingContinuation { continuation in
@@ -92,5 +107,4 @@ struct GoogleDriveAPI {
             }
         }
     }
-
 }
