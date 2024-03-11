@@ -14,19 +14,21 @@ import Then
 internal final class MenuConfigurator {
 
     let statusItem: NSStatusItem
+    let statusBarButton: NSStatusBarButton
     var mainWindow: MainWindow = DIContainer.shared.resolver.resolve()
     let menu = NSMenu()
 
     init() {
         self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        statusItem.button?.image = .init(systemSymbolName: "star", accessibilityDescription: nil)
-        statusItem.button?.target = self
-        statusItem.button?.action = #selector(didTapStatusItemButton(sender:))
-        statusItem.button?.sendAction(on: [.leftMouseUp, .rightMouseUp])
+        self.statusBarButton = statusItem.button ?? NSStatusBarButton()
+        
+        statusBarButton.image = .init(systemSymbolName: "star", accessibilityDescription: nil)
+        statusBarButton.target = self
+        statusBarButton.action = #selector(didTapStatusItemButton(sender:))
+        statusBarButton.sendAction(on: [.leftMouseUp, .rightMouseUp])
 
-        let menuItem = NSMenuItem(title: "종료", action: #selector(terminateApp), keyEquivalent: "").then {
-            $0.target = self
-        }
+        let menuItem = NSMenuItem(title: "종료", action: #selector(terminateApp), keyEquivalent: "")
+        menuItem.target = self
         menu.addItem(menuItem)
     }
 
@@ -39,9 +41,13 @@ internal final class MenuConfigurator {
             guard !mainWindow.isKeyWindow else {
                 return
             }
-
-            mainWindow.center()
-            mainWindow.orderFrontRegardless()
+            guard let statusBarButtonWindow = statusBarButton.window else {
+                return
+            }
+            let frameOnScreen = statusBarButtonWindow.convertToScreen(statusBarButton.frame)
+            mainWindow.setFrameTopLeftPoint(frameOnScreen.origin)
+            mainWindow.makeKeyAndOrderFront(self)
+            NSApp.activate()
         } else if NSApp.currentEvent?.type == .rightMouseUp {
             statusItem.menu = menu
             statusItem.button?.performClick(self)
