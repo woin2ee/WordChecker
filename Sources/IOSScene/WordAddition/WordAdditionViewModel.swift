@@ -5,13 +5,14 @@
 //  Created by Jaewon Yun on 2023/09/09.
 //
 
-import Domain
+import Domain_Word
 import Foundation
 import FoundationPlus
 import IOSSupport
 import RxSwift
 import RxCocoa
 import RxSwiftSugar
+import UseCase_Word
 
 final class WordAdditionViewModel: ViewModelType {
 

@@ -6,9 +6,9 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import Domain
 import Swinject
 import SwinjectExtension
+import UseCase_Word
 
 public final class WordAdditionAssembly: Assembly {
 

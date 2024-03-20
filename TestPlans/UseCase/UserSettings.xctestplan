@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "F9192BBD-AEA9-4342-B2E6-71DC48BE066F",
+      "name" : "SouthKoreaRegion",
+      "options" : {
+        "region" : "KR"
+      }
+    },
+    {
+      "id" : "8FED7EE7-0BC5-4BBB-AA0B-BB30399CAE21",
+      "name" : "OtherRegion",
+      "options" : {
+        "region" : "CA"
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "0330B05FDFAB50BB62CD0AA1",
+        "name" : "Domain_UserSettingsTests"
+      }
+    }
+  ],
+  "version" : 1
+}

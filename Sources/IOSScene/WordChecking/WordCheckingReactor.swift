@@ -6,19 +6,22 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import Domain
+import Domain_UserSettings
+import Domain_Word
 import Foundation
 import IOSSupport
 import ReactorKit
+import UseCase_Word
+import UseCase_UserSettings
 
 enum WordCheckingReactorError: Error {
 
     enum AddWordFailureReason {
-        case duplicatedWord(word: String)
-        case unknown(word: String)
+        case duplicatedWord
+        case unknown
     }
 
-    case addWordFailed(reason: AddWordFailureReason)
+    case addWordFailed(reason: AddWordFailureReason?, word: String)
 
 }
 
@@ -106,12 +109,7 @@ final class WordCheckingReactor: Reactor {
                     ])
                 }
                 .catch { error in
-                    switch error {
-                    case WordUseCaseError.saveFailed(reason: .duplicatedWord):
-                        return .just(.showAddCompleteToast(.failure(.addWordFailed(reason: .duplicatedWord(word: newWord.word)))))
-                    default:
-                        return .just(.showAddCompleteToast(.failure(.addWordFailed(reason: .unknown(word: newWord.word)))))
-                    }
+                    return .just(.showAddCompleteToast(.failure(.addWordFailed(reason: nil, word: newWord.word))))
                 }
 
         case .updateToNextWord:

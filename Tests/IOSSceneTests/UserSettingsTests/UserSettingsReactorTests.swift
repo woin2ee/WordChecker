@@ -8,8 +8,11 @@
 
 @testable import IOSScene_UserSettings
 
-import Domain
-import DomainTesting
+import Domain_ExternalStorageInterface
+import Domain_ExternalStorageTesting
+import Domain_UserSettingsTesting
+import IOSSupport
+
 import RxTest
 import TestsSupport
 import XCTest
@@ -24,7 +27,7 @@ final class UserSettingsReactorTests: RxBaseTestCase {
         sut = .init(
             userSettingsUseCase: UserSettingsUseCaseFake(),
             googleDriveUseCase: GoogleDriveUseCaseFake(scheduler: testScheduler),
-            globalAction: .shared
+            globalAction: GlobalAction.shared
         )
     }
 

@@ -6,10 +6,10 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
-import Domain
+import Domain_UserSettings
 import UIKit
 
-extension Domain.ThemeStyle {
+extension Domain_UserSettings.ThemeStyle {
 
     public func toUIKit() -> UIUserInterfaceStyle {
         switch self {
@@ -26,7 +26,7 @@ extension Domain.ThemeStyle {
 
 extension UIUserInterfaceStyle {
 
-    public func toDomain() -> Domain.ThemeStyle {
+    public func toDomain() -> Domain_UserSettings.ThemeStyle {
         switch self {
         case .unspecified:
             return .system

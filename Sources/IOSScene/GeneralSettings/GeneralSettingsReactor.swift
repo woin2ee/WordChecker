@@ -6,9 +6,9 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
-import Domain
 import IOSSupport
 import ReactorKit
+import UseCase_UserSettings
 
 final class GeneralSettingsReactor: Reactor {
 

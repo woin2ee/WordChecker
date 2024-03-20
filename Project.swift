@@ -12,34 +12,8 @@ var disposedSchemes: [Scheme] = []
 
 func commonTargets() -> [Target] {
     [
-        Target.makeCommonFramework(
-            name: "Domain",
-            dependencies: [
-                .target(name: "Utility"),
-                .external(name: ExternalDependencyName.rxSwift, condition: nil),
-                .external(name: ExternalDependencyName.rxSwiftSugarDynamic),
-                .external(name: ExternalDependencyName.swinject),
-                .external(name: ExternalDependencyName.swinjectExtension),
-                .external(name: ExternalDependencyName.foundationPlus),
-            ],
-            resourceOptions: [.own],
-            hasTests: true,
-            additionalTestDependencies: [
-                .target(name: "TestsSupport"),
-                .target(name: "DomainTesting"),
-                .target(name: "InfrastructureTesting"),
-                .external(name: ExternalDependencyName.rxBlocking),
-            ],
-            appendSchemeTo: &schemes
-        ),
-        Target.makeCommonFramework(
-            name: "DomainTesting",
-            dependencies: [
-                .target(name: "Domain"),
-                .target(name: "InfrastructureTesting"),
-            ],
-            appendSchemeTo: &disposedSchemes
-        ),
+        // MARK: Utility
+        
         Target.makeCommonFramework(
             name: "Utility",
             scripts: [
@@ -53,39 +27,110 @@ func commonTargets() -> [Target] {
             hasTests: true,
             appendSchemeTo: &schemes
         ),
+        
+        // MARK: Domain
+        
         Target.makeCommonFramework(
-            name: "Infrastructure",
+            name: "Domain_Core",
             dependencies: [
-                .target(name: "Domain"),
                 .target(name: "Utility"),
-                .package(product: ExternalDependencyName.realm),
-                .package(product: ExternalDependencyName.realmSwift),
-                .package(product: ExternalDependencyName.googleAPIClientForRESTCore),
-                .package(product: ExternalDependencyName.googleAPIClientForREST_Drive),
-                .package(product: ExternalDependencyName.googleSignIn),
-                .external(name: ExternalDependencyName.rxSwift),
-                .external(name: ExternalDependencyName.rxSwiftSugarDynamic),
-                .external(name: ExternalDependencyName.extendedUserDefaultsRxExtension),
+                .external(name: ExternalDependencyName.foundationPlus),
                 .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.swinjectExtension),
-            ],
-            hasTests: true,
-            additionalTestDependencies: [
-                .external(name: ExternalDependencyName.rxBlocking),
+                .external(name: ExternalDependencyName.rxSwift),
+                .external(name: ExternalDependencyName.rxSwiftSugarDynamic),
             ],
             appendSchemeTo: &schemes
         ),
         Target.makeCommonFramework(
-            name: "InfrastructureTesting",
+            name: "Domain_Word",
             dependencies: [
-                .target(name: "Domain"),
+                .target(name: "Domain_Core"),
+                .package(product: ExternalDependencyName.realm),
+                .package(product: ExternalDependencyName.realmSwift),
             ],
-            appendSchemeTo: &disposedSchemes
+            hasTests: true,
+            withTesting: true,
+            appendSchemeTo: &schemes
         ),
+        Target.makeCommonFramework(
+            name: "Domain_GoogleDrive",
+            dependencies: [
+                .target(name: "Domain_Core"),
+                .package(product: ExternalDependencyName.googleAPIClientForRESTCore),
+                .package(product: ExternalDependencyName.googleAPIClientForREST_Drive),
+                .package(product: ExternalDependencyName.googleSignIn),
+            ],
+            withTesting: true,
+            appendSchemeTo: &schemes
+        ),
+        Target.makeCommonFramework(
+            name: "Domain_UserSettings",
+            dependencies: [
+                .target(name: "Domain_Core"),
+                .external(name: ExternalDependencyName.extendedUserDefaults),
+            ],
+            hasTests: true,
+            withTesting: true,
+            appendSchemeTo: &schemes
+        ),
+        Target.makeCommonFramework(
+            name: "Domain_LocalNotification",
+            dependencies: [
+                .target(name: "Domain_Core"),
+                .external(name: ExternalDependencyName.extendedUserDefaults),
+            ],
+            resourceOptions: [.own],
+            withTesting: true,
+            appendSchemeTo: &schemes
+        ),
+        
+        // MARK: UseCase
+        
+        Target.makeCommonFramework(
+            name: "UseCase_Word",
+            dependencies: [
+                .target(name: "Domain_Word"),
+                .target(name: "Domain_LocalNotification"),
+            ],
+            hasTests: true,
+            withTesting: true,
+            appendSchemeTo: &schemes
+        ),
+        Target.makeCommonFramework(
+            name: "UseCase_GoogleDrive",
+            dependencies: [
+                .target(name: "Domain_GoogleDrive"),
+                .target(name: "Domain_LocalNotification"),
+                .target(name: "Domain_Word"),
+            ],
+            hasTests: true,
+            withTesting: true,
+            appendSchemeTo: &schemes
+        ),
+        Target.makeCommonFramework(
+            name: "UseCase_UserSettings",
+            dependencies: [
+                .target(name: "Domain_UserSettings"),
+            ],
+            hasTests: true,
+            withTesting: true,
+            appendSchemeTo: &schemes
+        ),
+        Target.makeCommonFramework(
+            name: "UseCase_LocalNotification",
+            dependencies: [
+                .target(name: "Domain_LocalNotification"),
+                .target(name: "Domain_Word"),
+            ],
+            hasTests: true,
+            withTesting: true,
+            appendSchemeTo: &schemes
+        ),
+        
         Target.makeCommonFramework(
             name: "TestsSupport",
             dependencies: [
-                .target(name: "Domain"),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxTest),
             ],
@@ -109,18 +154,21 @@ func iOSTargets() -> [Target] {
                 .target(name: "\(PROJECT_NAME)Dev"),
                 .target(name: "IOSSupport"),
                 .target(name: "Utility"),
-                .package(product: "Realm"),
-                .package(product: ExternalDependencyName.googleAPIClientForRESTCore),
-                .package(product: ExternalDependencyName.googleAPIClientForREST_Drive),
-                .package(product: ExternalDependencyName.googleSignIn),
             ]
         ),
     ] + [
         Target.makeIOSFramework(
             name: "IOSSupport",
             dependencies: [
-                .target(name: "Domain"),
                 .target(name: "Utility"),
+                .target(name: "Domain_GoogleDrive"),
+                .target(name: "Domain_LocalNotification"),
+                .target(name: "Domain_UserSettings"),
+                .target(name: "Domain_Word"),
+                .target(name: "UseCase_GoogleDrive"),
+                .target(name: "UseCase_LocalNotification"),
+                .target(name: "UseCase_UserSettings"),
+                .target(name: "UseCase_Word"),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxCocoa),
                 .external(name: ExternalDependencyName.rxSwiftSugarDynamic),
@@ -139,11 +187,14 @@ func iOSTargets() -> [Target] {
         ),
         Target.makeIOSFramework(
             name: "IOSScene_WordChecking",
-            dependencies: [.target(name: "IOSSupport"),],
+            dependencies: [
+                .target(name: "IOSSupport"),
+            ],
             resourceOptions: [.own],
             hasTests: true,
             additionalTestDependencies: [
-                .target(name: "DomainTesting"),
+                .target(name: "UseCase_UserSettingsTesting"),
+                .target(name: "UseCase_WordTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
                 .external(name: ExternalDependencyName.rxTest),
             ],
@@ -157,17 +208,18 @@ func iOSTargets() -> [Target] {
             infoPlist: .file(path: .path(Constant.Path.iPhoneExampleInfoPlist)),
             dependencies: [
                 .target(name: "IOSScene_WordChecking"),
-                .target(name: "DomainTesting"),
             ],
             appendSchemeTo: &schemes
         ),
         Target.makeIOSFramework(
             name: "IOSScene_WordList",
-            dependencies: [.target(name: "IOSSupport"),],
+            dependencies: [
+                .target(name: "IOSSupport"),
+            ],
             resourceOptions: [.own],
             hasTests: true,
             additionalTestDependencies: [
-                .target(name: "DomainTesting"),
+                .target(name: "UseCase_WordTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
                 .external(name: ExternalDependencyName.rxTest),
             ],
@@ -175,11 +227,13 @@ func iOSTargets() -> [Target] {
         ),
         Target.makeIOSFramework(
             name: "IOSScene_WordDetail",
-            dependencies: [.target(name: "IOSSupport"),],
+            dependencies: [
+                .target(name: "IOSSupport"),
+            ],
             resourceOptions: [.own],
             hasTests: true,
             additionalTestDependencies: [
-                .target(name: "DomainTesting"),
+                .target(name: "UseCase_WordTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
                 .external(name: ExternalDependencyName.rxTest),
             ],
@@ -187,11 +241,12 @@ func iOSTargets() -> [Target] {
         ),
         Target.makeIOSFramework(
             name: "IOSScene_WordAddition",
-            dependencies: [.target(name: "IOSSupport"),],
+            dependencies: [
+                .target(name: "IOSSupport"),
+            ],
             resourceOptions: [.own],
             hasTests: true,
             additionalTestDependencies: [
-                .target(name: "DomainTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
                 .external(name: ExternalDependencyName.rxTest),
             ],
@@ -199,12 +254,15 @@ func iOSTargets() -> [Target] {
         ),
         Target.makeIOSFramework(
             name: "IOSScene_UserSettings",
-            dependencies: [.target(name: "IOSSupport"),],
+            dependencies: [
+                .target(name: "IOSSupport"),
+            ],
             resourceOptions: [.own],
             hasTests: true,
             additionalTestDependencies: [
-                .target(name: "DomainTesting"),
                 .target(name: "TestsSupport"),
+                .target(name: "UseCase_UserSettingsTesting"),
+                .target(name: "UseCase_GoogleDriveTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
                 .external(name: ExternalDependencyName.rxTest),
             ],
@@ -218,17 +276,17 @@ func iOSTargets() -> [Target] {
             infoPlist: .file(path: .path(Constant.Path.iPhoneExampleInfoPlist)),
             dependencies: [
                 .target(name: "IOSScene_UserSettings"),
-                .target(name: "DomainTesting"),
             ],
             appendSchemeTo: &schemes
         ),
         Target.makeIOSFramework(
             name: "IOSScene_LanguageSetting",
-            dependencies: [.target(name: "IOSSupport"),],
+            dependencies: [
+                .target(name: "IOSSupport"),
+            ],
             resourceOptions: [.own],
             hasTests: true,
             additionalTestDependencies: [
-                .target(name: "DomainTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
                 .external(name: ExternalDependencyName.rxTest),
             ],
@@ -236,11 +294,12 @@ func iOSTargets() -> [Target] {
         ),
         Target.makeIOSFramework(
             name: "IOSScene_ThemeSetting",
-            dependencies: [.target(name: "IOSSupport"),],
+            dependencies: [
+                .target(name: "IOSSupport"),
+            ],
             resourceOptions: [.own],
             hasTests: true,
             additionalTestDependencies: [
-                .target(name: "DomainTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
                 .external(name: ExternalDependencyName.rxTest),
             ],
@@ -248,11 +307,12 @@ func iOSTargets() -> [Target] {
         ),
         Target.makeIOSFramework(
             name: "IOSScene_PushNotificationSettings",
-            dependencies: [.target(name: "IOSSupport"),],
+            dependencies: [
+                .target(name: "IOSSupport"),
+            ],
             resourceOptions: [.own],
             hasTests: true,
             additionalTestDependencies: [
-                .target(name: "DomainTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
             ],
             appendSchemeTo: &schemes
@@ -265,17 +325,17 @@ func iOSTargets() -> [Target] {
             infoPlist: .file(path: .path(Constant.Path.iPhoneExampleInfoPlist)),
             dependencies: [
                 .target(name: "IOSScene_PushNotificationSettings"),
-                .target(name: "DomainTesting"),
             ],
             appendSchemeTo: &schemes
         ),
         Target.makeIOSFramework(
             name: "IOSScene_GeneralSettings",
-            dependencies: [.target(name: "IOSSupport"),],
+            dependencies: [
+                .target(name: "IOSSupport"),
+            ],
             resourceOptions: [.own],
             hasTests: true,
             additionalTestDependencies: [
-                .target(name: "DomainTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
             ],
             appendSchemeTo: &schemes
@@ -295,7 +355,6 @@ func iOSTargets() -> [Target] {
                 .target(name: "IOSScene_LanguageSetting"),
                 .target(name: "IOSScene_PushNotificationSettings"),
                 .target(name: "IOSScene_GeneralSettings"),
-                .target(name: "Infrastructure"),
                 .target(name: "IOSScene_ThemeSetting"),
                 .external(name: ExternalDependencyName.swinjectDIContainer),
             ],

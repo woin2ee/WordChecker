@@ -8,7 +8,10 @@
 
 @testable import IOSScene_WordList
 
-import DomainTesting
+import Domain_WordInterface
+import Domain_WordTesting
+import IOSSupport
+
 import RxBlocking
 import XCTest
 
@@ -28,7 +31,7 @@ final class WordListReactorTests: XCTestCase {
         try wordUseCase.addNewWord(.init(word: "B", memorizedState: .memorized)).toBlocking().single()
         try wordUseCase.addNewWord(.init(word: "C", memorizedState: .memorized)).toBlocking().single()
 
-        sut = .init(globalAction: .shared, wordUseCase: wordUseCase)
+        sut = .init(globalAction: GlobalAction.shared, wordUseCase: wordUseCase)
     }
 
     override func tearDownWithError() throws {
