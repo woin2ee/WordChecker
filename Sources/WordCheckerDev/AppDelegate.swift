@@ -5,9 +5,19 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
-import Domain
 import IPhoneDriver
-import Infrastructure
+
+// Domain
+import Domain_GoogleDrive
+import Domain_LocalNotification
+import Domain_UserSettings
+import Domain_Word
+
+// UseCase
+import UseCase_GoogleDrive
+import UseCase_LocalNotification
+import UseCase_UserSettings
+import UseCase_Word
 
 // Scenes
 import IOSScene_GeneralSettings
@@ -33,8 +43,19 @@ class AppDelegate: IPhoneAppDelegate {
 
     override func initDIContainer() {
         DIContainer.shared.assembler.apply(assemblies: [
-            DomainAssembly(),
-            InfrastructureAssemblyDev(),
+            // Domain
+            DomainGoogleDriveAssembly(),
+            DomainLocalNotificationAssembly(),
+            DomainUserSettingsAssemblyDev(),
+            DomainWordAssemblyDev(),
+            
+            // UseCase
+            GoogleDriveUseCaseAssembly(),
+            LocalNotificationsUseCaseAssembly(),
+            UserSettingsUseCaseAssembly(),
+            WordUseCaseAssembly(),
+            
+            // IOSScene
             WordCheckingAssembly(),
             WordListAssembly(),
             WordDetailAssembly(),

@@ -34,6 +34,7 @@ fileprivate func _module(
     resourceOptions: [ResourceOption] = [],
     hasTests: Bool = false,
     additionalTestDependencies: [ProjectDescription.TargetDependency] = [],
+    withTesting: Bool = false,
     appendSchemeTo schemes: inout [Scheme]
 ) -> [Target] {
     var namePrefix: String?
@@ -71,30 +72,24 @@ fileprivate func _module(
         })
     let resources: ResourceFileElements = .resources(resourceFileElements)
     
-    let scheme: Scheme = {
-        if hasTests {
-            let testPlanName: String = if let namePrefix = namePrefix, let nameSuffix = nameSuffix {
-                "TestPlans/\(namePrefix)/\(nameSuffix).xctestplan"
-            } else {
-                "TestPlans/\(name).xctestplan"
-            }
-            
-            return Scheme.scheme(
-                name: name,
-                shared: true,
-                buildAction: .buildAction(targets: ["\(name)"]),
-                testAction: .testPlans([.relativeToRoot(testPlanName)])
-            )
+    var scheme = Scheme.scheme(
+        name: name,
+        shared: true,
+        buildAction: .buildAction(targets: ["\(name)"])
+    )
+    if hasTests {
+        let testPlanName: String = if let namePrefix = namePrefix, let nameSuffix = nameSuffix {
+            "TestPlans/\(namePrefix)/\(nameSuffix).xctestplan"
         } else {
-            return Scheme.scheme(
-                name: name,
-                shared: true,
-                buildAction: .buildAction(targets: ["\(name)"])
-            )
+            "TestPlans/\(name).xctestplan"
         }
-    }()
+        scheme.testAction = .testPlans([.relativeToRoot(testPlanName)])
+    }
+    if withTesting {
+        scheme.buildAction?.targets.append("\(name)Testing")
+    }
     schemes.append(scheme)
-
+    
     let sources: SourceFilesList = if let namePrefix = namePrefix, let nameSuffix = nameSuffix {
         "Sources/\(namePrefix)/\(nameSuffix)/**"
     } else {
@@ -125,7 +120,9 @@ fileprivate func _module(
         mergedBinaryType: .disabled,
         mergeable: false
     )
-
+    
+    var targets: [Target] = [frameworkTarget]
+    
     if hasTests {
         let testsTargetName = "\(name)Tests"
         let testsSources: SourceFilesList = if let namePrefix = namePrefix, let nameSuffix = nameSuffix {
@@ -160,10 +157,47 @@ fileprivate func _module(
             mergeable: false
         )
         
-        return [frameworkTarget, testsTarget]
-    } else {
-        return [frameworkTarget]
+        targets.append(testsTarget)
     }
+    
+    if withTesting {
+        let testingTargetName = "\(name)Testing"
+        let testingSources: SourceFilesList = if let namePrefix = namePrefix, let nameSuffix = nameSuffix {
+            "Sources/\(namePrefix)/\(nameSuffix)Testing/**"
+        } else {
+            "Sources/\(testingTargetName)/**"
+        }
+        let testingBundleID = "\(BASIC_BUNDLE_ID).\(testingTargetName.replacing("_", with: "."))"
+        
+        let testingTarget: Target = .target(
+            name: testingTargetName,
+            destinations: destinations,
+            product: product,
+            productName: nil,
+            bundleId: testingBundleID,
+            deploymentTargets: deploymentTargets,
+            infoPlist: infoPlist,
+            sources: testingSources,
+            resources: resources,
+            copyFiles: nil,
+            headers: nil,
+            entitlements: entitlements,
+            scripts: scripts,
+            dependencies: [.target(name: name)], // 인터페이스 의존하게
+            settings: settings,
+            coreDataModels: [],
+            environmentVariables: [:],
+            launchArguments: launchArguments,
+            additionalFiles: additionalFiles,
+            buildRules: [],
+            mergedBinaryType: .disabled,
+            mergeable: false
+        )
+        
+        targets.append(testingTarget)
+    }
+    
+    return targets
 }
 
 extension Target {
@@ -216,6 +250,7 @@ extension Target {
         resourceOptions: [ResourceOption] = [],
         hasTests: Bool = false,
         additionalTestDependencies: [ProjectDescription.TargetDependency] = [],
+        withTesting: Bool = false,
         appendSchemeTo schemes: inout [Scheme]
     ) -> [Target] {
         return _module(
@@ -233,6 +268,7 @@ extension Target {
             resourceOptions: resourceOptions,
             hasTests: hasTests,
             additionalTestDependencies: additionalTestDependencies,
+            withTesting: withTesting,
             appendSchemeTo: &schemes
         )
     }

@@ -6,11 +6,12 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
-import Domain
+import Domain_UserSettings
 import Foundation
 import FoundationPlus
 import IOSSupport
 import ReactorKit
+import UseCase_UserSettings
 
 final class LanguageSettingReactor: Reactor {
 

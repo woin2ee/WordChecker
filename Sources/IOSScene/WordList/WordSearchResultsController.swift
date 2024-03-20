@@ -5,11 +5,12 @@
 //  Created by Jaewon Yun on 2023/08/27.
 //
 
-import Domain
+import Domain_Word
 import IOSSupport
 import ReactorKit
 import SwinjectExtension
 import UIKit
+import UseCase_Word
 
 public protocol WordSearchResultsControllerDelegate: AnyObject {
 

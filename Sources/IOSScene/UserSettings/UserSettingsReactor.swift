@@ -6,9 +6,13 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import Domain
+import Domain_Core
+import Domain_GoogleDrive
+import Domain_UserSettings
 import IOSSupport
 import ReactorKit
+import UseCase_GoogleDrive
+import UseCase_UserSettings
 
 final class UserSettingsReactor: Reactor {
 

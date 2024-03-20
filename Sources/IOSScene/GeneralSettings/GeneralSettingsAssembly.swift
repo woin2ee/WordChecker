@@ -6,7 +6,7 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
-import Domain
+import IOSSupport
 import Swinject
 import SwinjectExtension
 import Then
@@ -19,7 +19,7 @@ public final class GeneralSettingsAssembly: Assembly {
         container.register(GeneralSettingsReactor.self) { resolver in
             return .init(
                 userSettingsUseCase: resolver.resolve(),
-                globalState: .shared
+                globalState: GlobalState.shared
             )
         }
 

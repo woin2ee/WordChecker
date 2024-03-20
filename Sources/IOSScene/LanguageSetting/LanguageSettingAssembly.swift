@@ -6,7 +6,7 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import Domain
+import IOSSupport
 import Swinject
 import SwinjectExtension
 import Then
@@ -20,7 +20,7 @@ public final class LanguageSettingAssembly: Assembly {
             let reactor: LanguageSettingReactor = .init(
                 translationDirection: translationDirection,
                 userSettingsUseCase: resolver.resolve(),
-                globalAction: .shared
+                globalAction: GlobalAction.shared
             )
 
             return LanguageSettingViewController.init().then {

@@ -38,10 +38,10 @@ class PushNotificationSettingsViewController: RxBaseViewController, View, PushNo
             cell.prepareForReuse()
             cell.bind(model: .init(title: LocalizedString.daily_reminder, isOn: reactor.currentState.isOnDailyReminder))
             // Bind to Reactor.Action
-            cell.wrappingButton.rx.tap
+            cell.wrappingButton.rx.tap.asSignal()
                 .doOnNext { HapticGenerator.shared.impactOccurred(style: .light) }
                 .map { _ in Reactor.Action.tapDailyReminderSwitch }
-                .bind(to: reactor.action)
+                .emit(to: reactor.action)
                 .disposed(by: cell.disposeBag)
             return cell
         case .dailyReminderTimeSetter:

@@ -6,7 +6,7 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import Domain
+import IOSSupport
 import Swinject
 import SwinjectExtension
 import Then
@@ -20,7 +20,7 @@ public final class UserSettingsAssembly: Assembly {
             return .init(
                 userSettingsUseCase: resolver.resolve(),
                 googleDriveUseCase: resolver.resolve(),
-                globalAction: .shared
+                globalAction: GlobalAction.shared
             )
         }
 

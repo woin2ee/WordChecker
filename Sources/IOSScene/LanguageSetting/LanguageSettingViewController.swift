@@ -6,7 +6,7 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import Domain
+import Domain_UserSettings
 import FoundationPlus
 import IOSSupport
 import OrderedCollections
@@ -14,6 +14,7 @@ import ReactorKit
 import RxSwift
 import Then
 import UIKit
+import UseCase_UserSettings
 
 public protocol LanguageSettingViewControllerDelegate: AnyObject, ViewControllerDelegate {
 }

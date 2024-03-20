@@ -6,10 +6,11 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import Domain
+import IOSSupport
 import Swinject
 import SwinjectExtension
 import Then
+import UseCase_Word
 
 public final class WordListAssembly: Assembly {
 
@@ -19,7 +20,7 @@ public final class WordListAssembly: Assembly {
         container.register(WordListReactor.self) { resolver in
             let wordUseCase: WordUseCaseProtocol = resolver.resolve()
 
-            return .init(globalAction: .shared, wordUseCase: wordUseCase)
+            return .init(globalAction: GlobalAction.shared, wordUseCase: wordUseCase)
         }
 
         container.register(WordListViewControllerProtocol.self) { resolver in

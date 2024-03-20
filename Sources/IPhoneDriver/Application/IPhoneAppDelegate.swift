@@ -6,13 +6,23 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
-import Domain
 import GoogleSignIn
-import Infrastructure
 import IOSSupport
 import RxSwift
 import UIKit
 import Utility
+
+// Domain
+import Domain_GoogleDrive
+import Domain_LocalNotification
+import Domain_UserSettings
+import Domain_Word
+
+// UseCase
+import UseCase_GoogleDrive
+import UseCase_LocalNotification
+import UseCase_UserSettings
+import UseCase_Word
 
 // Scenes
 import IOSScene_GeneralSettings
@@ -84,8 +94,19 @@ open class IPhoneAppDelegate: UIResponder, UIApplicationDelegate {
 
     open func initDIContainer() {
         DIContainer.shared.assembler.apply(assemblies: [
-            DomainAssembly(),
-            InfrastructureAssembly(),
+            // Domain
+            DomainGoogleDriveAssembly(),
+            DomainLocalNotificationAssembly(),
+            DomainUserSettingsAssembly(),
+            DomainWordAssembly(),
+            
+            // UseCase
+            GoogleDriveUseCaseAssembly(),
+            LocalNotificationsUseCaseAssembly(),
+            UserSettingsUseCaseAssembly(),
+            WordUseCaseAssembly(),
+            
+            // IOSScene
             WordCheckingAssembly(),
             WordListAssembly(),
             WordDetailAssembly(),
