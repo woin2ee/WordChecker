@@ -8,8 +8,9 @@
 
 @testable import IOSScene_WordDetail
 
-import Domain
-import DomainTesting
+import Domain_WordInterface
+import Domain_WordTesting
+
 import XCTest
 
 final class WordDetailReactorTests: XCTestCase {

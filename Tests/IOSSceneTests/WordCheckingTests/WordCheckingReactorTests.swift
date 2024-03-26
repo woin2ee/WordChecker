@@ -8,7 +8,9 @@
 
 @testable import IOSScene_WordChecking
 
-import DomainTesting
+import Domain_UserSettingsTesting
+import Domain_WordTesting
+
 import XCTest
 
 final class WordCheckingReactorTests: XCTestCase {

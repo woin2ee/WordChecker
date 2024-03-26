@@ -6,10 +6,11 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import Domain
+import Domain_Word
 import Foundation
 import IOSSupport
 import ReactorKit
+import UseCase_Word
 
 final class WordListReactor: Reactor {
 

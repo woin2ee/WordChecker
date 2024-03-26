@@ -6,11 +6,12 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import Domain
 import Foundation
+import IOSSupport
 import Swinject
 import SwinjectExtension
 import Then
+import UseCase_Word
 
 public final class WordDetailAssembly: Assembly {
 
@@ -22,7 +23,7 @@ public final class WordDetailAssembly: Assembly {
 
             return WordDetailReactor.init(
                 uuid: uuid,
-                globalAction: .shared,
+                globalAction: GlobalAction.shared,
                 wordUseCase: wordUseCase
             )
         }

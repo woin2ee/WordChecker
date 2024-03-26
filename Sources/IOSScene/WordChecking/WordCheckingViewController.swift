@@ -180,13 +180,8 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
                     owner.view.makeToast(LocalizedString.word_added_successfully(word: word.word), duration: 2.0, position: .top)
                 case .failure(let error):
                     switch error {
-                    case .addWordFailed(let reason):
-                        switch reason {
-                        case .duplicatedWord:
-                            owner.view.makeToast(LocalizedString.already_added_word, duration: 2.0, position: .top)
-                        case .unknown(let word):
-                            owner.view.makeToast(LocalizedString.word_added_failed(word: word), duration: 2.0, position: .top)
-                        }
+                    case .addWordFailed(reason: _, word: let word):
+                        owner.view.makeToast(LocalizedString.word_added_failed(word: word), duration: 2.0, position: .top)
                     }
                 }
             }
@@ -197,7 +192,7 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
         if self.reactor?.currentState.currentWord == nil {
             rootView.wordLabel.accessibilityLanguage = Locale.current.language.languageCode?.identifier
         } else {
-            rootView.wordLabel.accessibilityLanguage = self.reactor?.currentState.translationSourceLanguage.bcp47tag
+            rootView.wordLabel.accessibilityLanguage = self.reactor?.currentState.translationSourceLanguage.bcp47tag.rawValue
         }
     }
 

@@ -6,10 +6,10 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import Domain
 import Foundation
 import IOSSupport
 import ReactorKit
+import UseCase_LocalNotification
 
 final class PushNotificationSettingsReactor: Reactor {
 
