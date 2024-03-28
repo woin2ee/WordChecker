@@ -1,16 +1,7 @@
-//
-//  DI.swift
-//  WordCheckerMac
-//
-//  Created by Jaewon Yun on 3/6/24.
-//  Copyright © 2024 woin2ee. All rights reserved.
-//
-
 import Swinject
 import SwinjectExtension
-import SwinjectDIContainer
 
-internal final class WordCheckerMacAssembly: Assembly {
+internal final class MainWindowAssembly: Assembly {
 
     func assemble(container: Container) {
         container.register(MainView.self) { _ in

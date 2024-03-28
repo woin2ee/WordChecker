@@ -10,14 +10,10 @@ import Cocoa
 import PinLayout
 import Then
 
-internal final class MainView: NSView {
+internal final class MainView: PinView {
 
     let width: CGFloat = 260
     let height: CGFloat = 72
-
-    override var isFlipped: Bool {
-        true
-    }
 
     let titleLabel = NSTextField().then {
         $0.isEditable = false

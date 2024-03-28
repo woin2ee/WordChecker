@@ -7,15 +7,17 @@
 //
 
 import Cocoa
-import Domain
+import Domain_Word
 import RxSwift
+import RxSwiftSugar
 import RxCocoa
+import UseCase_Word
 
 internal final class MainViewController: NSViewController {
 
-    let disposeBag: DisposeBag = .init()
+    private let disposeBag: DisposeBag = .init()
     let ownView: MainView
-    let wordUseCase: WordUseCaseProtocol
+    private let wordUseCase: WordUseCaseProtocol
 
     init(ownView: MainView, wordUseCase: WordUseCaseProtocol) {
         self.wordUseCase = wordUseCase
@@ -33,10 +35,10 @@ internal final class MainViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        bindRx()
+        bindAddAction()
     }
 
-    func bindRx() {
+    private func bindAddAction() {
         Signal<Void>.merge([
             ownView.wordTextField.rx.controlEvent.asSignal(),
             ownView.addButton.rx.tap.asSignal(),
@@ -44,6 +46,11 @@ internal final class MainViewController: NSViewController {
         .flatMapFirst {
             return self.wordUseCase.isWordDuplicated(self.ownView.wordTextField.stringValue)
                 .asSignalOnErrorJustComplete()
+        }
+        .doOnNext { wordIsDuplicated in
+            if wordIsDuplicated {
+                self.ownView.wordTextField.stringValue = ""
+            }
         }
         .filter { !$0 }
         .compactMap { _ in try? Word(word: self.ownView.wordTextField.stringValue) }

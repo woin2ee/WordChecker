@@ -7,10 +7,11 @@
 //
 
 import Cocoa
-import Domain
-import Infrastructure
+import Domain_LocalNotification
+import Domain_Word
 import Swinject
 import SwinjectDIContainer
+import UseCase_Word
 
 internal final class WordCheckerApplication: NSApplication {
 
@@ -38,9 +39,10 @@ internal final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func initDIContainer() {
         DIContainer.shared.assembler.apply(assemblies: [
-            DomainAssembly(),
-            InfrastructureAssembly(),
-            WordCheckerMacAssembly(),
+            DomainLocalNotificationAssembly(),
+            DomainWordAssembly(),
+            WordUseCaseAssembly(),
+            MainWindowAssembly(),
         ])
     }
 }

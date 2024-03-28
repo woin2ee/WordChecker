@@ -16,9 +16,10 @@ internal final class MenuConfigurator {
     let statusItem: NSStatusItem
     let statusBarButton: NSStatusBarButton
     var mainWindow: MainWindow = DIContainer.shared.resolver.resolve()
-    let menu = NSMenu()
+    let menu: WCStatusItemMenu
 
     init() {
+        menu = .init()
         self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         self.statusBarButton = statusItem.button ?? NSStatusBarButton()
         
@@ -26,10 +27,6 @@ internal final class MenuConfigurator {
         statusBarButton.target = self
         statusBarButton.action = #selector(didTapStatusItemButton(sender:))
         statusBarButton.sendAction(on: [.leftMouseUp, .rightMouseUp])
-
-        let menuItem = NSMenuItem(title: "종료", action: #selector(terminateApp), keyEquivalent: "")
-        menuItem.target = self
-        menu.addItem(menuItem)
     }
 
     deinit {
@@ -53,9 +50,5 @@ internal final class MenuConfigurator {
             statusItem.button?.performClick(self)
             statusItem.menu = nil
         }
-    }
-
-    @objc func terminateApp() {
-        NSApp.terminate(self)
     }
 }
