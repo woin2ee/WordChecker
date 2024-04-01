@@ -24,29 +24,10 @@ internal final class UserDefaultsUserSettingsService: UserSettingsService {
     }
 
     func saveUserSettings(_ userSettings: UserSettings) throws {
-        try userDefaults.setCodable(
-            userSettings.translationSourceLocale,
-            forKey: UserDefaultsKey.translationSourceLocale)
-        .get()
-        try userDefaults.setCodable(
-            userSettings.translationTargetLocale,
-            forKey: UserDefaultsKey.translationTargetLocale
-        ).get()
-        userDefaults.setValue(userSettings.hapticsIsOn, forKey: UserDefaultsKey.hapticsIsOn)
-        try userDefaults.setCodable(userSettings.themeStyle, forKey: UserDefaultsKey.themeStyle).get()
+        try userDefaults.setCodable(userSettings, forKey: UserDefaultsKey.userSettings).get()
     }
 
     func getUserSettings() throws -> UserSettings {
-        let translationSourceLocale = try userDefaults.object(TranslationLanguage.self, forKey: UserDefaultsKey.translationSourceLocale).get()
-        let translationTargetLocale = try userDefaults.object(TranslationLanguage.self, forKey: UserDefaultsKey.translationTargetLocale).get()
-        let hapticsIsOn = try unwrapOrThrow(userDefaults.bool(forKey: UserDefaultsKey.hapticsIsOn))
-        let themeStyle = try userDefaults.object(ThemeStyle.self, forKey: UserDefaultsKey.themeStyle).get()
-
-        return UserSettings(
-            translationSourceLocale: translationSourceLocale,
-            translationTargetLocale: translationTargetLocale,
-            hapticsIsOn: hapticsIsOn,
-            themeStyle: themeStyle
-        )
+        return try userDefaults.object(UserSettings.self, forKey: UserDefaultsKey.userSettings).get()
     }
 }

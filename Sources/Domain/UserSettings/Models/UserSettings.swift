@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct UserSettings {
+public struct UserSettings: Codable {
 
     /// 변역 원본 언어
     public var translationSourceLocale: TranslationLanguage
