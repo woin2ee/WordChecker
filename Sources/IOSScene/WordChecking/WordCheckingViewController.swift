@@ -177,7 +177,7 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
             .emit(with: self) { owner, showAddCompleteToast in
                 switch showAddCompleteToast {
                 case .success(let word):
-                    owner.view.makeToast(LocalizedString.word_added_successfully(word: word.word), duration: 2.0, position: .top)
+                    owner.view.makeToast(LocalizedString.word_added_successfully(word: word), duration: 2.0, position: .top)
                 case .failure(let error):
                     switch error {
                     case .addWordFailed(reason: _, word: let word):

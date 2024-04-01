@@ -21,9 +21,9 @@ enum GoogleDriveAPIError: Error {
 public final class GoogleDriveAPI {
 
     let service: GTLRDriveService
-    
+
     public let files: GoogleDriveFilesAPI
-    
+
     public init(authentication: GIDAuthentication?) {
         self.service = .init()
         self.service.authorizer = authentication?.fetcherAuthorizer()
@@ -33,13 +33,9 @@ public final class GoogleDriveAPI {
 
 /// <#Description#>
 public struct GoogleDriveFilesAPI {
-    
+
     let service: GTLRDriveService
-    
-    init(service: GTLRDriveService) {
-        self.service = service
-    }
-    
+
     /// Method: files.create
     @discardableResult
     public func create(_ file: GTLRDrive_File, with data: Data) async throws -> GTLRDrive_File {

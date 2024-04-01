@@ -6,11 +6,11 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
-public struct NoticeTime: Codable {
-    
+public struct NoticeTime: Codable, Equatable {
+
     public let hour: Int
     public let minute: Int
-    
+
     public init(hour: Int, minute: Int) {
         self.hour = hour
         self.minute = minute

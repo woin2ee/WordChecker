@@ -14,7 +14,7 @@ import Utility
 public final class DomainUserSettingsAssemblyDev: Assembly {
 
     public init() {}
-    
+
     public func assemble(container: Container) {
         container.register(UserSettingsService.self) { _ in
             let userDefaults: ExtendedUserDefaults = .init(suiteName: "Dev")!
@@ -25,7 +25,7 @@ public final class DomainUserSettingsAssemblyDev: Assembly {
                 userDefaults.removeAllObject(forKeyType: UserDefaultsKey.self)
             }
 
-            return UserSettingsService(userDefaults: userDefaults)
+            return UserDefaultsUserSettingsService(userDefaults: userDefaults)
         }
         .inObjectScope(.container)
     }

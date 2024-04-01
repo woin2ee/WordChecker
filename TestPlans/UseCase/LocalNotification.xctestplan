@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "BABCF172-C069-4857-AC68-41A7B731B344",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "ED732726583763B49A3E3B10",
+        "name" : "UseCase_LocalNotificationTests"
+      }
+    }
+  ],
+  "version" : 1
+}

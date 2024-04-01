@@ -12,79 +12,143 @@ import RealmSwift
 internal final class WordRepository: WordRepositoryProtocol {
 
     let realm: Realm
-    let realmConfinedQueue: DispatchQueue
+    let realmConfinedQueue: DispatchQueue?
 
-    init(realm: Realm, realmConfinedQueue: DispatchQueue) {
+    init(realm: Realm, realmConfinedQueue: DispatchQueue? = nil) {
         self.realm = realm
         self.realmConfinedQueue = realmConfinedQueue
     }
 
     func save(_ word: Word) throws {
-        try realmConfinedQueue.sync {
-            try realm.write {
-                realm.add(word.toObjectModel(), update: .modified)
+        if let realmConfinedQueue = realmConfinedQueue {
+            try realmConfinedQueue.sync {
+                try _save(word)
             }
+        } else {
+            try _save(word)
+        }
+    }
+
+    private func _save(_ word: Word) throws {
+        try realm.write {
+            realm.add(word.toObjectModel(), update: .modified)
         }
     }
 
     func getAllWords() -> [Word] {
-        return realmConfinedQueue.sync {
-            return findAll()
-                .compactMap { try? $0.toDomain() }
+        if let realmConfinedQueue = realmConfinedQueue {
+            return realmConfinedQueue.sync {
+                return _getAllWords()
+            }
+        } else {
+            return _getAllWords()
         }
+    }
+
+    private func _getAllWords() -> [Word] {
+        return findAll()
+            .compactMap { try? $0.toDomain() }
     }
 
     func getWord(by uuid: UUID) -> Word? {
-        return realmConfinedQueue.sync {
-            return try? find(by: uuid)?.toDomain()
+        if let realmConfinedQueue = realmConfinedQueue {
+            return realmConfinedQueue.sync {
+                return _getWord(by: uuid)
+            }
+        } else {
+            return _getWord(by: uuid)
         }
+    }
+
+    private func _getWord(by uuid: UUID) -> Word? {
+        return try? find(by: uuid)?.toDomain()
     }
 
     func getWords(by word: String) -> [Word] {
-        return realmConfinedQueue.sync {
-            let results = realm.objects(WordObject.self)
-                .where { $0.word.equals(word, options: .caseInsensitive) }
-                .compactMap { try? $0.toDomain() }
-            return Array(results)
+        if let realmConfinedQueue = realmConfinedQueue {
+            return realmConfinedQueue.sync {
+                return _getWords(by: word)
+            }
+        } else {
+            return _getWords(by: word)
         }
     }
 
+    private func _getWords(by word: String) -> [Word] {
+        let results = realm.objects(WordObject.self)
+            .where { $0.word.equals(word, options: .caseInsensitive) }
+            .compactMap { try? $0.toDomain() }
+        return Array(results)
+    }
+
     func deleteWord(by uuid: UUID) throws {
-        try realmConfinedQueue.sync {
-            guard let object = find(by: uuid) else {
-                return
+        if let realmConfinedQueue = realmConfinedQueue {
+            try realmConfinedQueue.sync {
+                try _deleteWord(by: uuid)
             }
-            
-            try realm.write {
-                self.realm.delete(object)
-            }
+        } else {
+            try _deleteWord(by: uuid)
+        }
+    }
+
+    private func _deleteWord(by uuid: UUID) throws {
+        guard let object = find(by: uuid) else {
+            return
+        }
+
+        try realm.write {
+            self.realm.delete(object)
         }
     }
 
     func getUnmemorizedList() -> [Word] {
-        return realmConfinedQueue.sync {
-            return findAll()
-                .filter { $0.isMemorized == false }
-                .compactMap { try? $0.toDomain() }
+        if let realmConfinedQueue = realmConfinedQueue {
+            return realmConfinedQueue.sync {
+                return _getUnmemorizedList()
+            }
+        } else {
+            return _getUnmemorizedList()
         }
+    }
+
+    private func _getUnmemorizedList() -> [Word] {
+        return findAll()
+            .filter { $0.isMemorized == false }
+            .compactMap { try? $0.toDomain() }
     }
 
     func getMemorizedList() -> [Word] {
-        return realmConfinedQueue.sync {
-            return findAll()
-                .filter { $0.isMemorized == true }
-                .compactMap { try? $0.toDomain() }
+        if let realmConfinedQueue = realmConfinedQueue {
+            return realmConfinedQueue.sync {
+                return _getMemorizedList()
+            }
+        } else {
+            return _getMemorizedList()
         }
     }
 
+    private func _getMemorizedList() -> [Word] {
+        return findAll()
+            .filter { $0.isMemorized == true }
+            .compactMap { try? $0.toDomain() }
+    }
+
     func reset(to wordList: [Word]) throws {
-        try realmConfinedQueue.sync {
-            try realm.write {
-                self.realm.deleteAll()
-                
-                let newList = wordList.map { $0.toObjectModel() }
-                self.realm.add(newList)
+        if let realmConfinedQueue = realmConfinedQueue {
+            try realmConfinedQueue.sync {
+                try _reset(to: wordList)
             }
+        } else {
+            try _reset(to: wordList)
+        }
+    }
+
+    private func _reset(to wordList: [Word]) throws {
+        try realm.write {
+            self.realm.deleteAll()
+
+            let newList = wordList.map { $0.toObjectModel() }
+            self.realm.add(newList)
         }
     }
 }

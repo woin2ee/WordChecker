@@ -50,6 +50,9 @@ func commonTargets() -> [Target] {
                 .package(product: ExternalDependencyName.realmSwift),
             ],
             hasTests: true,
+            additionalTestDependencies: [
+                .target(name: "Domain_WordTesting"),
+            ],
             withTesting: true,
             appendSchemeTo: &schemes
         ),
@@ -94,6 +97,11 @@ func commonTargets() -> [Target] {
                 .target(name: "Domain_LocalNotification"),
             ],
             hasTests: true,
+            additionalTestDependencies: [
+                .target(name: "Domain_WordTesting"),
+                .target(name: "Domain_LocalNotificationTesting"),
+                .external(name: ExternalDependencyName.rxBlocking),
+            ],
             withTesting: true,
             appendSchemeTo: &schemes
         ),
@@ -105,6 +113,12 @@ func commonTargets() -> [Target] {
                 .target(name: "Domain_Word"),
             ],
             hasTests: true,
+            additionalTestDependencies: [
+                .target(name: "Domain_GoogleDriveTesting"),
+                .target(name: "Domain_LocalNotificationTesting"),
+                .target(name: "Domain_WordTesting"),
+                .external(name: ExternalDependencyName.rxBlocking),
+            ],
             withTesting: true,
             appendSchemeTo: &schemes
         ),
@@ -114,6 +128,10 @@ func commonTargets() -> [Target] {
                 .target(name: "Domain_UserSettings"),
             ],
             hasTests: true,
+            additionalTestDependencies: [
+                .target(name: "Domain_UserSettingsTesting"),
+                .external(name: ExternalDependencyName.rxBlocking),
+            ],
             withTesting: true,
             appendSchemeTo: &schemes
         ),
@@ -124,6 +142,11 @@ func commonTargets() -> [Target] {
                 .target(name: "Domain_Word"),
             ],
             hasTests: true,
+            additionalTestDependencies: [
+                .target(name: "Domain_LocalNotificationTesting"),
+                .target(name: "Domain_WordTesting"),
+                .external(name: ExternalDependencyName.rxBlocking),
+            ],
             withTesting: true,
             appendSchemeTo: &schemes
         ),
@@ -220,6 +243,8 @@ func iOSTargets() -> [Target] {
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "UseCase_WordTesting"),
+                .target(name: "Domain_LocalNotificationTesting"),
+                .target(name: "Domain_WordTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
                 .external(name: ExternalDependencyName.rxTest),
             ],
@@ -313,6 +338,7 @@ func iOSTargets() -> [Target] {
             resourceOptions: [.own],
             hasTests: true,
             additionalTestDependencies: [
+                .target(name: "UseCase_LocalNotificationTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
             ],
             appendSchemeTo: &schemes

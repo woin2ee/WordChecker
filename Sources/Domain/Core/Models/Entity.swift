@@ -7,9 +7,9 @@
 //
 
 public protocol Entity {
-    
+
     associatedtype Identifier: Sendable
-    
+
     /// <#Description#>
     var id: Identifier { get }
 }

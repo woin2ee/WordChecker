@@ -10,7 +10,7 @@ import Foundation
 import FoundationPlus
 import OSLog
 
-public final class Word: Entity, Codable {
+public struct Word: Entity, Codable, Hashable {
 
     public var id: UUID { uuid }
 
@@ -21,9 +21,9 @@ public final class Word: Entity, Codable {
     public private(set) var word: String
 
     /// 암기 상태
-    public var memorizedState: MemorizedState
+    public var memorizedState: MemorizationState
 
-    public init(uuid: UUID = .init(), word: String, memorizedState: MemorizedState = .memorizing) throws {
+    public init(uuid: UUID = .init(), word: String, memorizedState: MemorizationState = .memorizing) throws {
         guard word.hasElements else {
             let logger = Logger(subsystem: "Domain", category: "Entity")
             logger.error("Attempted to create a `Word` entity with an empty word.")
@@ -41,26 +41,12 @@ public final class Word: Entity, Codable {
         self.memorizedState = .memorizing
     }
 
-    public func setWord(_ word: String) throws {
+    public mutating func setWord(_ word: String) throws {
         guard word.hasElements else {
             throw EntityError.changeRejected(reason: .valueDisallowed)
         }
         self.word = word
     }
-}
-
-extension Word: Hashable {
-
-    public static func == (lhs: Word, rhs: Word) -> Bool {
-        return (lhs.uuid == rhs.uuid) && (lhs.word == rhs.word) && (lhs.memorizedState == rhs.memorizedState)
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(uuid)
-        hasher.combine(word)
-        hasher.combine(memorizedState)
-    }
-
 }
 
 extension Word {

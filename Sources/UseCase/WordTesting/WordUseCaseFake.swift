@@ -6,7 +6,6 @@
 //
 
 @testable import Domain_Word
-import Domain_WordTesting
 import Foundation
 import RxSwift
 import RxSwiftSugar
@@ -20,20 +19,44 @@ enum WordUseCaseFakeError: Error {
 public final class WordUseCaseFake: WordUseCaseProtocol {
 
     /// Fake 객체 구현을 위해 사용한 인메모리 단어 저장소
-    public var _wordList: [Word] = []
+    private var _wordList: [Word] = []
 
-    public var _unmemorizedWordList: UnmemorizedWordListRepositorySpy = .init()
+    private var _unmemorizedWordList: UnmemorizedWordListRepository = .init()
 
     public init() {}
 
-    public func addNewWord(_ word: Word) -> Single<Void> {
-        if _wordList.contains(where: { $0.word.lowercased() == word.word.lowercased() }) {
+    public func addNewWord(_ word: String) -> Single<Void> {
+        if _wordList.contains(where: { $0.word.lowercased() == word.lowercased() }) {
             return .error(WordUseCaseFakeError.duplicatedWord)
         }
 
-        _wordList.append(word)
-        _unmemorizedWordList.addWord(word)
-        return .just(())
+        return .create { observer in
+            do {
+                let newWordEntity = try Word(word: word)
+
+                self._wordList.append(newWordEntity)
+                self._unmemorizedWordList.addWord(newWordEntity)
+
+                observer(.success(()))
+            } catch {
+                observer(.failure(error))
+            }
+
+            return Disposables.create()
+        }
+    }
+
+    /// For tests.
+    public func addNewWord(_ word: Word) throws {
+        if _wordList.contains(where: { $0.word.lowercased() == word.word.lowercased() }) {
+            throw WordUseCaseFakeError.duplicatedWord
+        }
+
+        self._wordList.append(word)
+
+        if word.memorizedState == .memorizing {
+            self._unmemorizedWordList.addWord(word)
+        }
     }
 
     public func deleteWord(by uuid: UUID) -> Single<Void> {
@@ -65,39 +88,41 @@ public final class WordUseCaseFake: WordUseCaseProtocol {
         return .just(word)
     }
 
-    public func updateWord(by uuid: UUID, to newWord: Word) -> Single<Void> {
+    public func updateWord(by uuid: UUID, with newAttribute: WordAttribute) -> Single<Void> {
         guard let index = _wordList.firstIndex(where: { $0.uuid == uuid }) else {
             return .error(WordUseCaseError.uuidInvalid)
         }
 
-        if (newWord.word.lowercased() != _wordList[index].word.lowercased()) &&
-            _wordList.contains(where: { $0.word.lowercased() == newWord.word.lowercased() }) {
-            return .error(WordUseCaseFakeError.duplicatedWord)
+        var wordEntity = _wordList[index]
+
+        if let newWord = newAttribute.word {
+            if (newWord.lowercased() != wordEntity.word.lowercased()) &&
+                _wordList.contains(where: { $0.word.lowercased() == newWord.lowercased() }) {
+                return .error(WordUseCaseFakeError.duplicatedWord)
+            }
+            do {
+                try wordEntity.setWord(newWord)
+            } catch {
+                return .error(error)
+            }
         }
 
-        let updateTarget: Word
-        do {
-            updateTarget = try .init(
-                uuid: uuid,
-                word: newWord.word,
-                memorizedState: newWord.memorizedState
-            )
-        } catch {
-            return .error(error)
+        if let newState = newAttribute.memorizationState {
+            wordEntity.memorizedState = newState
         }
 
-        if _unmemorizedWordList.contains(where: { $0.uuid == updateTarget.uuid }) {
-            switch updateTarget.memorizedState {
+        _wordList[index] = wordEntity
+
+        if _unmemorizedWordList.contains(where: { $0.uuid == uuid }) {
+            switch wordEntity.memorizedState {
             case .memorized:
                 _unmemorizedWordList.deleteWord(by: uuid)
             case .memorizing:
-                _unmemorizedWordList.replaceWord(where: uuid, with: updateTarget)
+                _unmemorizedWordList.replaceWord(where: uuid, with: wordEntity)
             }
-        } else if updateTarget.memorizedState == .memorizing {
-            _unmemorizedWordList.addWord(updateTarget)
+        } else if wordEntity.memorizedState == .memorizing {
+            _unmemorizedWordList.addWord(wordEntity)
         }
-
-        _wordList[index] = updateTarget
 
         return .just(())
     }

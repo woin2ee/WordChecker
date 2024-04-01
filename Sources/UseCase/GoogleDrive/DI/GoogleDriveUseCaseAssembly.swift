@@ -12,10 +12,10 @@ import SwinjectExtension
 public final class GoogleDriveUseCaseAssembly: Assembly {
 
     public init() {}
-    
+
     public func assemble(container: Container) {
-        container.register(ExternalStoreUseCaseProtocol.self) { resolver in
-            return ExternalStoreUseCase(
+        container.register(GoogleDriveUseCase.self) { resolver in
+            return DefaultGoogleDriveUseCase(
                 googleDriveService: resolver.resolve(),
                 wordService: resolver.resolve(),
                 localNotificationService: resolver.resolve()

@@ -1,21 +1,11 @@
-//
-//  UserSettingsRepositoryTests.swift
-//  UserDefaultsPlatformUnitTests
-//
-//  Created by Jaewon Yun on 2023/09/19.
-//  Copyright © 2023 woin2ee. All rights reserved.
-//
-
 @testable import Domain_UserSettings
-import Domain_UserSettingsInterface
 
 import ExtendedUserDefaults
-import RxBlocking
 import XCTest
 
-final class UserSettingsRepositoryTests: XCTestCase {
+final class UserDefaultsUserSettingsServiceTests: XCTestCase {
 
-    var sut: UserSettingsRepositoryProtocol!
+    var sut: UserDefaultsUserSettingsService!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -23,7 +13,7 @@ final class UserSettingsRepositoryTests: XCTestCase {
         let userDefaults: ExtendedUserDefaults = .init(suiteName: #file)!
         userDefaults.removeAllObject(forKeyType: UserDefaultsKey.self)
 
-        sut = UserSettingsRepository.init(userDefaults: userDefaults)
+        sut = UserDefaultsUserSettingsService(userDefaults: userDefaults)
     }
 
     override func tearDownWithError() throws {
@@ -33,39 +23,43 @@ final class UserSettingsRepositoryTests: XCTestCase {
     }
 
     func testSaveAndGetUserSettings() throws {
+        // First attempt
         do {
             // Given
-            let userSettings: UserSettings = .init(translationSourceLocale: .english, translationTargetLocale: .korean, hapticsIsOn: true, themeStyle: .system)
+            let userSettings: UserSettings = .init(
+                translationSourceLocale: .english,
+                translationTargetLocale: .korean,
+                hapticsIsOn: true,
+                themeStyle: .system
+            )
 
             // When
             try sut.saveUserSettings(userSettings)
-                .toBlocking()
-                .single()
 
             // Then
             let result = try sut.getUserSettings()
-                .toBlocking()
-                .single()
 
             XCTAssertEqual(result.translationSourceLocale, .english)
             XCTAssertEqual(result.translationTargetLocale, .korean)
             XCTAssertEqual(result.hapticsIsOn, true)
             XCTAssertEqual(result.themeStyle, .system)
         }
-
+        
+        // Second attempt
         do {
             // Given
-            let userSettings: UserSettings = .init(translationSourceLocale: .korean, translationTargetLocale: .english, hapticsIsOn: false, themeStyle: .dark)
+            let userSettings: UserSettings = .init(
+                translationSourceLocale: .korean,
+                translationTargetLocale: .english,
+                hapticsIsOn: false,
+                themeStyle: .dark
+            )
 
             // When
             try sut.saveUserSettings(userSettings)
-                .toBlocking()
-                .single()
 
             // Then
             let result = try sut.getUserSettings()
-                .toBlocking()
-                .single()
 
             XCTAssertEqual(result.translationSourceLocale, .korean)
             XCTAssertEqual(result.translationTargetLocale, .english)
@@ -73,5 +67,4 @@ final class UserSettingsRepositoryTests: XCTestCase {
             XCTAssertEqual(result.themeStyle, .dark)
         }
     }
-
 }

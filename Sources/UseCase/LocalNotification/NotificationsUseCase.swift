@@ -14,16 +14,16 @@ import RxSwift
 import RxSwiftSugar
 import UserNotifications
 
-final class NotificationsUseCase: NotificationsUseCaseProtocol {
-    
-    let localNotificationService: LocalNotificationServiceProtocol
+internal final class NotificationsUseCase: NotificationsUseCaseProtocol {
+
+    let localNotificationService: LocalNotificationService
     let wordService: WordService
 
-    init(localNotificationService: LocalNotificationServiceProtocol, wordService: WordService) {
+    init(localNotificationService: LocalNotificationService, wordService: WordService) {
         self.localNotificationService = localNotificationService
         self.wordService = wordService
     }
-    
+
     func requestNotificationAuthorization(with options: UNAuthorizationOptions) -> Single<Bool> {
         return .create { observer in
             Task {
@@ -53,15 +53,15 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
         guard let hour = time.hour, let minute = time.minute else {
             return .error(NotificationUseCaseError.noticeTimeInvalid)
         }
-        
+
         let unmemorizedWordCount = wordService.fetchUnmemorizedWordList().count
         assert(unmemorizedWordCount >= 0)
-        
+
         let dailyReminder = DailyReminder(
             unmemorizedWordCount: unmemorizedWordCount,
             noticeTime: NoticeTime(hour: hour, minute: minute)
         )
-        
+
         return .create { observer in
             Task {
                 try await self.localNotificationService.setDailyReminder(dailyReminder)
@@ -91,7 +91,7 @@ final class NotificationsUseCase: NotificationsUseCaseProtocol {
                     observer(.failure(NotificationUseCaseError.noPendingDailyReminder))
                     return
                 }
-                
+
                 observer(.success(dailyReminder))
             }
 

@@ -12,11 +12,11 @@ import Swinject
 public final class DomainUserSettingsAssembly: Assembly {
 
     public init() {}
-    
+
     public func assemble(container: Container) {
         container.register(UserSettingsService.self) { _ in
             let userDefaults: ExtendedUserDefaults = .standard
-            return UserSettingsService(userDefaults: userDefaults)
+            return UserDefaultsUserSettingsService(userDefaults: userDefaults)
         }
         .inObjectScope(.container)
     }

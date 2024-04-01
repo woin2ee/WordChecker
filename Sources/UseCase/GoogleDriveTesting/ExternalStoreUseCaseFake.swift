@@ -12,7 +12,7 @@ import Foundation
 import RxSwift
 import UseCase_GoogleDrive
 
-public final class GoogleDriveUseCaseFake: ExternalStoreUseCaseProtocol {
+public final class GoogleDriveUseCaseFake: GoogleDriveUseCase {
 
     let scheduler: SchedulerType
 
@@ -93,7 +93,7 @@ public final class GoogleDriveUseCaseFake: ExternalStoreUseCaseProtocol {
         _hasSigned = true
         return .just(())
     }
-    
+
     public func syncWordList(using strategy: SyncStrategy) -> RxSwift.Single<Void> {
         fatalError()
     }

@@ -9,6 +9,10 @@
 import Foundation
 
 internal enum LocalNotificationServiceError: Error {
-    
+
+    /// 알림 허용이 되지 않았습니다.
     case notificationNotAuthorized
+
+    /// 매일 알림이 저장된 적이 없습니다.
+    case dailyReminderNeverSaved
 }

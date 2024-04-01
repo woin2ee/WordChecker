@@ -10,15 +10,20 @@ import ExtendedUserDefaults
 import Foundation
 import Utility
 
-public final class UserSettingsService {
-    
+public protocol UserSettingsService {
+    func saveUserSettings(_ userSettings: UserSettings) throws
+    func getUserSettings() throws -> UserSettings
+}
+
+internal final class UserDefaultsUserSettingsService: UserSettingsService {
+
     let userDefaults: ExtendedUserDefaults
-    
+
     init(userDefaults: ExtendedUserDefaults) {
         self.userDefaults = userDefaults
     }
-    
-    public func saveUserSettings(_ userSettings: UserSettings) throws {
+
+    func saveUserSettings(_ userSettings: UserSettings) throws {
         try userDefaults.setCodable(
             userSettings.translationSourceLocale,
             forKey: UserDefaultsKey.translationSourceLocale)
@@ -31,12 +36,12 @@ public final class UserSettingsService {
         try userDefaults.setCodable(userSettings.themeStyle, forKey: UserDefaultsKey.themeStyle).get()
     }
 
-    public func getUserSettings() throws -> UserSettings {
+    func getUserSettings() throws -> UserSettings {
         let translationSourceLocale = try userDefaults.object(TranslationLanguage.self, forKey: UserDefaultsKey.translationSourceLocale).get()
         let translationTargetLocale = try userDefaults.object(TranslationLanguage.self, forKey: UserDefaultsKey.translationTargetLocale).get()
         let hapticsIsOn = try unwrapOrThrow(userDefaults.bool(forKey: UserDefaultsKey.hapticsIsOn))
         let themeStyle = try userDefaults.object(ThemeStyle.self, forKey: UserDefaultsKey.themeStyle).get()
-        
+
         return UserSettings(
             translationSourceLocale: translationSourceLocale,
             translationTargetLocale: translationTargetLocale,

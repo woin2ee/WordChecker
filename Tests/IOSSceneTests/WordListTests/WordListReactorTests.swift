@@ -7,9 +7,10 @@
 //
 
 @testable import IOSScene_WordList
-
-import Domain_WordInterface
-import Domain_WordTesting
+@testable import Domain_LocalNotificationTesting
+@testable import Domain_Word
+@testable import Domain_WordTesting
+@testable import UseCase_Word
 import IOSSupport
 
 import RxBlocking
@@ -20,23 +21,27 @@ final class WordListReactorTests: XCTestCase {
     var sut: WordListReactor!
 
     override func setUpWithError() throws {
-        try super.setUpWithError()
-
-        let wordUseCase: WordUseCaseFake = .init()
-
         // Prepare word list (memorizing: 2개, memorized: 3개)
-        try wordUseCase.addNewWord(.init(word: "1")).toBlocking().single()
-        try wordUseCase.addNewWord(.init(word: "2")).toBlocking().single()
-        try wordUseCase.addNewWord(.init(word: "A", memorizedState: .memorized)).toBlocking().single()
-        try wordUseCase.addNewWord(.init(word: "B", memorizedState: .memorized)).toBlocking().single()
-        try wordUseCase.addNewWord(.init(word: "C", memorizedState: .memorized)).toBlocking().single()
+        let wordRepositoryFake = WordRepositoryFake()
+        wordRepositoryFake.save(try Word(word: "1"))
+        wordRepositoryFake.save(try Word(word: "2"))
+        wordRepositoryFake.save(try Word(word: "A", memorizedState: .memorized))
+        wordRepositoryFake.save(try Word(word: "B", memorizedState: .memorized))
+        wordRepositoryFake.save(try Word(word: "C", memorizedState: .memorized))
+        
+        let wordUseCase = WordUseCase(
+            wordService: DefaultWordService(
+                wordRepository: wordRepositoryFake,
+                unmemorizedWordListRepository: UnmemorizedWordListRepository(),
+                wordDuplicateSpecification: WordDuplicateSpecification(wordRepository: wordRepositoryFake)
+            ),
+            localNotificationService: LocalNotificationServiceDummy()
+        )
 
         sut = .init(globalAction: GlobalAction.shared, wordUseCase: wordUseCase)
     }
 
     override func tearDownWithError() throws {
-        try super.tearDownWithError()
-
         sut = nil
     }
 

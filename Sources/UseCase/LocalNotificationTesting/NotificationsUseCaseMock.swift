@@ -34,7 +34,7 @@ public final class NotificationsUseCaseMock: NotificationsUseCaseProtocol {
         guard let hour = time.hour, let minute = time.minute else {
             return .error(NotificationUseCaseError.noticeTimeInvalid)
         }
-        
+
         _dailyReminder = .init(
             unmemorizedWordCount: 10,
             noticeTime: NoticeTime(hour: hour, minute: minute)
@@ -54,7 +54,7 @@ public final class NotificationsUseCaseMock: NotificationsUseCaseProtocol {
         }
 
         let date = DateComponents(hour: dailyReminder.noticeTime.hour, minute: dailyReminder.noticeTime.minute)
-        
+
         return setDailyReminder(at: date)
             .asCompletable()
     }

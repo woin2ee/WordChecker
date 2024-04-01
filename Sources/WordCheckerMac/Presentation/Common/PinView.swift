@@ -9,7 +9,7 @@
 import AppKit
 
 internal class PinView: NSView {
-    
+
     override var isFlipped: Bool {
         return true
     }

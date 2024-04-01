@@ -3,9 +3,9 @@ import Swinject
 import SwinjectExtension
 
 public struct DomainWordAssembly: Assembly {
-    
+
     public init() {}
-    
+
     public func assemble(container: Container) {
         let subAssemblies: [Assembly] = [
             WordRepositoryAssembly(),

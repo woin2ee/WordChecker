@@ -5,10 +5,10 @@ import UserNotifications
 public final class DomainLocalNotificationAssembly: Assembly {
 
     public init() {}
-    
+
     public func assemble(container: Container) {
-        container.register(LocalNotificationServiceProtocol.self) { _ in
-            return LocalNotificationService(
+        container.register(LocalNotificationService.self) { _ in
+            return DefaultLocalNotificationService(
                 userDefaults: .standard,
                 userNotificationCenter: .current()
             )

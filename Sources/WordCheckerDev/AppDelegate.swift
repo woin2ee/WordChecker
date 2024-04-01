@@ -48,13 +48,13 @@ class AppDelegate: IPhoneAppDelegate {
             DomainLocalNotificationAssembly(),
             DomainUserSettingsAssemblyDev(),
             DomainWordAssemblyDev(),
-            
+
             // UseCase
             GoogleDriveUseCaseAssembly(),
             LocalNotificationsUseCaseAssembly(),
             UserSettingsUseCaseAssembly(),
             WordUseCaseAssembly(),
-            
+
             // IOSScene
             WordCheckingAssembly(),
             WordListAssembly(),

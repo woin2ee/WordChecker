@@ -22,11 +22,12 @@ final class WordDetailReactor: Reactor {
         /// 현재 입력된 단어
         case enteredWord(String)
 
-        case changeMemorizedState(MemorizedState)
+        case changeMemorizedState(MemorizationState)
     }
 
     enum Mutation {
-        case updateWord(Word)
+        case updateWord(String)
+        case updateMemorizationState(MemorizationState)
         case markAsEditing
 
         /// 현재 입력된 단어를 중복된 단어로 표시할지 결정하는 Mutation
@@ -39,7 +40,10 @@ final class WordDetailReactor: Reactor {
     struct State {
 
         /// 현재 입력된 단어
-        var word: Word
+        var word: String
+
+        /// 암기 상태
+        var memorizationState: MemorizationState
 
         /// 현재 화면에서 변경사항이 발생했는지 여부를 나타내는 값
         var hasChanges: Bool
@@ -52,7 +56,8 @@ final class WordDetailReactor: Reactor {
     }
 
     var initialState: State = State(
-        word: .empty,
+        word: "",
+        memorizationState: .memorizing,
         hasChanges: false,
         enteredWordIsDuplicated: false,
         enteredWordIsEmpty: false // Detail 화면에서는 항상 초기 단어가 있으므로
@@ -80,23 +85,27 @@ final class WordDetailReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            return wordUseCase.fetchWord(by: uuid)
+            let fetchWord = wordUseCase.fetchWord(by: uuid)
                 .doOnSuccess {
                     self.originWord = $0.word
                 }
                 .asObservable()
-                .map(Mutation.updateWord)
+                .share()
+
+            return .merge([
+                fetchWord.map { Mutation.updateWord($0.word) },
+                fetchWord.map { Mutation.updateMemorizationState($0.memorizedState) },
+            ])
 
         case .beginEditing:
             return .just(.markAsEditing)
 
         case .doneEditing:
-            return wordUseCase.updateWord(by: uuid, to: self.currentState.word)
-                .doOnSuccess { _ in
-                    self.globalAction.didEditWord.accept(self.currentState.word)
-                }
+            let newAttribute = WordAttribute(word: currentState.word, memorizationState: currentState.memorizationState)
+            return wordUseCase.updateWord(by: uuid, with: newAttribute)
                 .asObservable()
-                .flatMap { _ -> Observable<Mutation> in return .empty() }
+                .doOnNext { self.globalAction.didEditWord.accept(self.uuid) }
+                .flatMap { return Observable<Mutation>.empty() }
 
         case .enteredWord(let enteredWord):
             let setDuplicatedMutation = wordUseCase.isWordDuplicated(enteredWord)
@@ -111,20 +120,16 @@ final class WordDetailReactor: Reactor {
                     }
                 }
 
-            try? self.currentState.word.setWord(enteredWord)
-
             return .merge([
-                .just(.updateWord(self.currentState.word)),
+                .just(.updateWord(enteredWord)),
                 setDuplicatedMutation,
                 .just(.setEmpty(enteredWord.isEmpty)),
             ])
 
-        case .changeMemorizedState(let state):
-            self.currentState.word.memorizedState = state
-
+        case .changeMemorizedState(let newState):
             return .merge([
                 .just(.markAsEditing),
-                .just(.updateWord(self.currentState.word)),
+                .just(.updateMemorizationState(newState)),
             ])
         }
     }
@@ -135,6 +140,8 @@ final class WordDetailReactor: Reactor {
         switch mutation {
         case .updateWord(let word):
             state.word = word
+        case .updateMemorizationState(let memorizationState):
+            state.memorizationState = memorizationState
         case .markAsEditing:
             state.hasChanges = true
         case .setDuplicated(let enteredWordIsDuplicated):

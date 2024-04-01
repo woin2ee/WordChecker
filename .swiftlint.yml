@@ -13,3 +13,4 @@ included:
 excluded:
     - Tests/
     - Tuist/
+    - Sources/**/*Testing

@@ -1,6 +1,7 @@
 @testable import IOSScene_PushNotificationSettings
+@testable import IOSSupport
+@testable import UseCase_LocalNotificationTesting
 
-import DomainTesting
 import RxBlocking
 import XCTest
 
@@ -9,8 +10,6 @@ final class PushNotificationSettingsTests: XCTestCase {
     var sut: PushNotificationSettingsReactor!
 
     override func setUpWithError() throws {
-        try super.setUpWithError()
-
         sut = .init(
             notificationsUseCase: NotificationsUseCaseMock(expectedAuthorizationStatus: .authorized),
             globalAction: .shared
@@ -18,8 +17,6 @@ final class PushNotificationSettingsTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        try super.tearDownWithError()
-
         sut = nil
     }
 

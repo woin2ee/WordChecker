@@ -22,7 +22,7 @@ internal final class MenuConfigurator {
         menu = .init()
         self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         self.statusBarButton = statusItem.button ?? NSStatusBarButton()
-        
+
         statusBarButton.image = .init(systemSymbolName: "star", accessibilityDescription: nil)
         statusBarButton.target = self
         statusBarButton.action = #selector(didTapStatusItemButton(sender:))

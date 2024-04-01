@@ -1,7 +1,4 @@
 //
-//  WordRepositoryTests.swift
-//  InfrastructureTests
-//
 //  Created by Jaewon Yun on 2/19/24.
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
@@ -42,7 +39,7 @@ final class WordRepositoryTests: XCTestCase {
     
     func test_saveSamePrimaryKeyItem() throws {
         // Given
-        let testWord: Word = try .init(word: "TestWord", memorizedState: .memorizing)
+        var testWord: Word = try .init(word: "TestWord", memorizedState: .memorizing)
         try sut.save(testWord)
         
         testWord.memorizedState = .memorized

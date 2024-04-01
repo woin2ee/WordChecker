@@ -1,57 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "chinese" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chinese"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "중국어"
-          }
-        }
-      }
-    },
-    "english" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "English"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "영어"
-          }
-        }
-      }
-    },
-    "french" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "French"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "프랑스어"
-          }
-        }
-      }
-    },
     "general" : {
       "localizations" : {
         "en" : {
@@ -64,23 +13,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "일반"
-          }
-        }
-      }
-    },
-    "german" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "German"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "독일어"
           }
         }
       }
@@ -165,57 +97,6 @@
         }
       }
     },
-    "italian" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Italian"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이탈리아어"
-          }
-        }
-      }
-    },
-    "japanese" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Japanese"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "일본어"
-          }
-        }
-      }
-    },
-    "korean" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Korean"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "한국어"
-          }
-        }
-      }
-    },
     "notice" : {
       "localizations" : {
         "en" : {
@@ -244,23 +125,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "알림"
-          }
-        }
-      }
-    },
-    "russian" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Russian"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "러시아어"
           }
         }
       }
@@ -309,23 +173,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "원본 언어"
-          }
-        }
-      }
-    },
-    "spanish" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spanish"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "스페인어"
           }
         }
       }

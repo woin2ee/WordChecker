@@ -7,9 +7,8 @@
 //
 
 @testable import IOSScene_WordDetail
-
-import Domain_WordInterface
-import Domain_WordTesting
+import Domain_Word
+import UseCase_WordTesting
 
 import XCTest
 
@@ -22,7 +21,7 @@ final class WordDetailReactorTests: XCTestCase {
         sut = nil
     }
 
-    func test_enteredWordIsDuplicated() {
+    func test_enteredWordIsDuplicated() throws {
         // Given
         let uuid1: UUID = .init()
         let word1: Word = try! .init(uuid: uuid1, word: "Word1")
@@ -31,7 +30,8 @@ final class WordDetailReactorTests: XCTestCase {
         let word2: Word = try!.init(uuid: uuid2, word: "Word2")
 
         let wordUseCase = WordUseCaseFake()
-        wordUseCase._wordList = [word1, word2]
+        try wordUseCase.addNewWord(word1)
+        try wordUseCase.addNewWord(word2)
 
         sut = .init(uuid: word1.uuid, globalAction: .shared, wordUseCase: wordUseCase)
         sut.action.onNext(.viewDidLoad)
@@ -43,13 +43,13 @@ final class WordDetailReactorTests: XCTestCase {
         XCTAssertTrue(sut.currentState.enteredWordIsDuplicated)
     }
 
-    func test_enteredWordIsDuplicated_whenSameOriginWord() {
+    func test_enteredWordIsDuplicated_whenSameOriginWord() throws {
         // Given
         let uuid1: UUID = .init()
         let word1: Word = try!.init(uuid: uuid1, word: "Word1")
 
         let wordUseCase = WordUseCaseFake()
-        wordUseCase._wordList = [word1]
+        try wordUseCase.addNewWord(word1)
 
         sut = .init(uuid: word1.uuid, globalAction: .shared, wordUseCase: wordUseCase)
         sut.action.onNext(.viewDidLoad)
@@ -61,13 +61,13 @@ final class WordDetailReactorTests: XCTestCase {
         XCTAssertFalse(sut.currentState.enteredWordIsDuplicated)
     }
 
-    func test_enteredWordIsEmpty() {
+    func test_enteredWordIsEmpty() throws {
         // Given
         let uuid1: UUID = .init()
         let word1: Word = try!.init(uuid: uuid1, word: "Word1")
 
         let wordUseCase = WordUseCaseFake()
-        wordUseCase._wordList = [word1]
+        try wordUseCase.addNewWord(word1)
 
         sut = .init(uuid: word1.uuid, globalAction: .shared, wordUseCase: wordUseCase)
         sut.action.onNext(.viewDidLoad)

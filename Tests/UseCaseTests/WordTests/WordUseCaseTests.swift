@@ -5,14 +5,18 @@
 //  Created by Jaewon Yun on 2023/09/04.
 //
 
+@testable import UseCase_Word
 @testable import Domain_Word
-import Domain_WordTesting
+@testable import Domain_WordTesting
+@testable import Domain_LocalNotification
+@testable import Domain_LocalNotificationTesting
+
 import RxBlocking
 import XCTest
 
 final class WordUseCaseTests: XCTestCase {
 
-    var sut: WordUseCaseProtocol!
+    var sut: WordUseCase!
 
     let memorizedWordList: [Word] = [
         try! .init(word: "F", memorizedState: .memorized),
@@ -33,12 +37,15 @@ final class WordUseCaseTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
 
-        let wordRepository: WordRepositoryFake = makePreparedWordRepository()
+        let (wordRepositoryFake, unmemorizedWordListRepository) = makePreparedRepositories()
         
-        sut = WordUseCase.init(
-            wordRepository: wordRepository,
-            unmemorizedWordListRepository: makePreparedUnmemorizedWordListRepository(),
-            wordDuplicateSpecification: .init(wordRepository: wordRepository)
+        sut = WordUseCase(
+            wordService: DefaultWordService(
+                wordRepository: wordRepositoryFake,
+                unmemorizedWordListRepository: unmemorizedWordListRepository,
+                wordDuplicateSpecification: WordDuplicateSpecification(wordRepository: wordRepositoryFake)
+            ),
+            localNotificationService: LocalNotificationServiceFake()
         )
     }
 
@@ -50,18 +57,15 @@ final class WordUseCaseTests: XCTestCase {
 
     func test_addNewWord() throws {
         // Arrange
-        guard let testUUID: UUID = .init(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F") else {
-            return XCTFail("Failed to initialize uuid.")
-        }
-        let testWord: Word = try! .init(uuid: testUUID, word: "Test", memorizedState: .memorizing)
-
+        let beforeCount = sut.fetchWordList().count
+        
         // Act
-        try sut.addNewWord(testWord)
+        try sut.addNewWord("Not duplicate word")
             .toBlocking()
             .single()
 
         // Assert
-        XCTAssertEqual(try sut.fetchWord(by: testUUID).toBlocking().single(), testWord)
+        XCTAssertEqual(sut.fetchWordList().count, beforeCount + 1)
     }
 
     func test_deleteUnmemorizedWord() throws {
@@ -112,10 +116,9 @@ final class WordUseCaseTests: XCTestCase {
         guard let updateTarget: Word = unmemorizedWordList.last else {
             return XCTFail("'unmemorizedWordList' property is empty.")
         }
-        try! updateTarget.setWord("UpdatedWord")
 
         // Act
-        try sut.updateWord(by: updateTarget.uuid, to: updateTarget)
+        try sut.updateWord(by: updateTarget.uuid, with: WordAttribute(word: "UpdatedWord"))
             .toBlocking()
             .single()
 
@@ -129,10 +132,9 @@ final class WordUseCaseTests: XCTestCase {
         guard let updateTarget: Word = unmemorizedWordList.last else {
             return XCTFail("'unmemorizedWordList' property is empty.")
         }
-        updateTarget.memorizedState = .memorized
 
         // Act
-        try sut.updateWord(by: updateTarget.uuid, to: updateTarget)
+        try sut.updateWord(by: updateTarget.uuid, with: WordAttribute(memorizationState: .memorized))
             .toBlocking()
             .single()
 
@@ -145,10 +147,9 @@ final class WordUseCaseTests: XCTestCase {
         guard let updateTarget: Word = memorizedWordList.last else {
             return XCTFail("'memorizedWordList' property is empty.")
         }
-        updateTarget.memorizedState = .memorizing
 
         // Act
-        try sut.updateWord(by: updateTarget.uuid, to: updateTarget)
+        try sut.updateWord(by: updateTarget.uuid, with: WordAttribute(memorizationState: .memorizing))
             .toBlocking()
             .single()
 
@@ -186,7 +187,7 @@ final class WordUseCaseTests: XCTestCase {
 
     func test_addDuplicatedWord() throws {
         // Given
-        let newWord: Word = try .init(word: unmemorizedWordList[0].word)
+        let newWord = unmemorizedWordList[0].word
 
         // When
         let addNewWord = sut.addNewWord(newWord)
@@ -195,7 +196,7 @@ final class WordUseCaseTests: XCTestCase {
         // Then
         XCTAssertThrowsError(try addNewWord.single()) { error in
             switch error {
-            case WordUseCaseError.saveFailed(reason: .duplicatedWord):
+            case WordServiceError.saveFailed(reason: .duplicatedWord):
                 break
             default:
                 XCTFail("예상되지 않은 에러 던져짐.")
@@ -218,37 +219,69 @@ final class WordUseCaseTests: XCTestCase {
 
     func test_throwError_whenUpdateToDuplicatedWordWithDiffCase() {
         // Given
-        let duplicatedWord: Word = try! .init(uuid: unmemorizedWordList[0].uuid, word: "j") // 단어 A 를 j(중복, 소문자) 로 업데이트
+        let targetUUID = unmemorizedWordList[0].uuid
+        let duplicateWord = "j"
 
         // When
-        let updateWord = sut.updateWord(by: duplicatedWord.uuid, to: duplicatedWord)
+        let updateWord = sut.updateWord(by: targetUUID, with: WordAttribute(word: duplicateWord))
             .toBlocking()
 
         // Then
         XCTAssertThrowsError(try updateWord.single())
     }
 
+    func test_dailyReminderMessage_whenCompleteMemorizingLastWord() async throws {
+        // Given
+        let uuid = UUID()
+        let word = try Word(uuid: uuid, word: "Test", memorizedState: .memorizing)
+        
+        let wordRepositoryFake = WordRepositoryFake()
+        wordRepositoryFake.save(word)
+        
+        let localNotificationServiceFake = LocalNotificationServiceFake()
+        _ = try await localNotificationServiceFake.requestAuthorization(options: .alert)
+        
+        let dailyReminder = DailyReminder(
+            unmemorizedWordCount: 1,
+            noticeTime: NoticeTime(hour: 11, minute: 11)
+        )
+        try await localNotificationServiceFake.setDailyReminder(dailyReminder)
+        
+        sut = .init(
+            wordService: DefaultWordService(
+                wordRepository: wordRepositoryFake,
+                unmemorizedWordListRepository: UnmemorizedWordListRepository(),
+                wordDuplicateSpecification: WordDuplicateSpecification(wordRepository: wordRepositoryFake)
+            ),
+            localNotificationService: localNotificationServiceFake
+        )
+        
+        // When
+        try sut.updateWord(by: uuid, with: WordAttribute(memorizationState: .memorized))
+            .toBlocking()
+            .single()
+        
+        // Then
+        XCTAssertEqual(localNotificationServiceFake.pendingDailyReminder?.unmemorizedWordCount, 0)
+    }
 }
 
 // MARK: - Helpers
 
 extension WordUseCaseTests {
 
-    func makePreparedWordRepository() -> WordRepositoryFake {
-        let repository = WordRepositoryFake()
+    private func makePreparedRepositories() -> (wordRepositoryFake: WordRepositoryFake, unmemorizedWordListRepository: UnmemorizedWordListRepository) {
+        let wordRepositoryFake = WordRepositoryFake()
         zip(memorizedWordList, unmemorizedWordList).forEach {
-            repository.save($0)
-            repository.save($1)
+            wordRepositoryFake.save($0)
+            wordRepositoryFake.save($1)
         }
-        return repository
-    }
-
-    func makePreparedUnmemorizedWordListRepository() -> UnmemorizedWordListRepositorySpy {
-        let repository: UnmemorizedWordListRepositorySpy = .init()
+        
+        let unmemorizedWordListRepository: UnmemorizedWordListRepository = .init()
         unmemorizedWordList.forEach {
-            repository.addWord($0)
+            unmemorizedWordListRepository.addWord($0)
         }
-        return repository
+       
+        return (wordRepositoryFake, unmemorizedWordListRepository)
     }
-
 }

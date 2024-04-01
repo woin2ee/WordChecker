@@ -34,16 +34,16 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
         } catch {
             return .error(error)
         }
-        
+
         userSettings.translationSourceLocale = sourceLocale
         userSettings.translationTargetLocale = targetLocale
-        
+
         do {
             try userSettingsService.saveUserSettings(userSettings)
         } catch {
             return .error(error)
         }
-        
+
         return .just(())
     }
 
@@ -54,7 +54,7 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
         } catch {
             return .error(error)
         }
-        
+
         return .just((userSettings.translationSourceLocale, userSettings.translationTargetLocale))
     }
 
@@ -73,15 +73,15 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
         } catch {
             return .error(error)
         }
-        
+
         userSettings.hapticsIsOn = true
-        
+
         do {
             try userSettingsService.saveUserSettings(userSettings)
         } catch {
             return .error(error)
         }
-        
+
         return .just(())
     }
 
@@ -92,15 +92,15 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
         } catch {
             return .error(error)
         }
-        
+
         userSettings.hapticsIsOn = false
-        
+
         do {
             try userSettingsService.saveUserSettings(userSettings)
         } catch {
             return .error(error)
         }
-        
+
         return .just(())
     }
 
@@ -111,15 +111,15 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
         } catch {
             return .error(error)
         }
-        
+
         userSettings.themeStyle = style
-        
+
         do {
             try userSettingsService.saveUserSettings(userSettings)
         } catch {
             return .error(error)
         }
-        
+
         return .just(())
     }
 
@@ -128,12 +128,12 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 // MARK: - Helpers
 
 extension UserSettingsUseCase {
-    
+
     private func initUserSettingsIfNoUserSettings() -> RxSwift.Single<Void> {
         guard (try? userSettingsService.getUserSettings()) == nil else {
             return .just(())
         }
-        
+
         let translationTargetLocale: TranslationLanguage = switch Locale.current.language.region?.identifier {
         case "KR":
             .korean
@@ -154,10 +154,10 @@ extension UserSettingsUseCase {
         default:
             .english
         }
-        
+
         // FIXME: 처음에 Source Locale 설정 가능하게 (현재 .english 고정)
         let initialUserSettings: UserSettings = .init(translationSourceLocale: .english, translationTargetLocale: translationTargetLocale, hapticsIsOn: true, themeStyle: .system)
-        
+
         do {
             try userSettingsService.saveUserSettings(initialUserSettings)
             return .just(())

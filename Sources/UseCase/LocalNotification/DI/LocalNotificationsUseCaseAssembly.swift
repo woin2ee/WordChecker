@@ -13,7 +13,7 @@ import SwinjectExtension
 public final class LocalNotificationsUseCaseAssembly: Assembly {
 
     public init() {}
-    
+
     public func assemble(container: Container) {
         container.register(NotificationsUseCaseProtocol.self) { resolver in
             return NotificationsUseCase(

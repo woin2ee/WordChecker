@@ -7,11 +7,10 @@
 //
 
 @testable import IOSScene_UserSettings
-
-import Domain_ExternalStorageInterface
-import Domain_ExternalStorageTesting
-import Domain_UserSettingsTesting
+import Domain_GoogleDrive
 import IOSSupport
+import UseCase_GoogleDriveTesting
+import UseCase_UserSettingsTesting
 
 import RxTest
 import TestsSupport

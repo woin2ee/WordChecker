@@ -172,14 +172,14 @@ extension WordDetailViewController: View {
             .disposed(by: self.disposeBag)
 
         reactor.state
-            .map(\.word.word)
+            .map(\.word)
             .distinctUntilChanged()
             .asDriverOnErrorJustComplete()
             .drive(wordTextField.rx.text)
             .disposed(by: self.disposeBag)
 
         reactor.state
-            .map(\.word.memorizedState)
+            .map(\.memorizationState)
             .distinctUntilChanged()
             .asDriverOnErrorJustComplete()
             .drive(with: self) { owner, state in

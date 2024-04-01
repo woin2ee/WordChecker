@@ -50,12 +50,12 @@ final class UserSettingsReactor: Reactor {
     )
 
     let userSettingsUseCase: UserSettingsUseCaseProtocol
-    let googleDriveUseCase: ExternalStoreUseCaseProtocol
+    let googleDriveUseCase: GoogleDriveUseCase
     let globalAction: GlobalAction
 
     init(
         userSettingsUseCase: UserSettingsUseCaseProtocol,
-        googleDriveUseCase: ExternalStoreUseCaseProtocol,
+        googleDriveUseCase: GoogleDriveUseCase,
         globalAction: GlobalAction
     ) {
         self.userSettingsUseCase = userSettingsUseCase

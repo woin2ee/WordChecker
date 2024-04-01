@@ -6,10 +6,9 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-@testable import Domain_UserSettings
-import Domain_UserSettingsInterface
-import Domain_UserSettingsTesting
+@testable import UseCase_UserSettings
 
+import Domain_UserSettingsTesting
 import RxBlocking
 import XCTest
 
@@ -20,9 +19,7 @@ final class UserSettingsUseCaseTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
 
-        sut = UserSettingsUseCase.init(
-            userSettingsRepository: UserSettingsRepositoryFake()
-        )
+        sut = UserSettingsUseCase(userSettingsService: UserSettingsServiceFake())
     }
 
     override func tearDownWithError() throws {
@@ -99,5 +96,4 @@ final class UserSettingsUseCaseTests: XCTestCase {
             XCTAssertEqual(hapticsIsOn, true)
         }
     }
-
 }

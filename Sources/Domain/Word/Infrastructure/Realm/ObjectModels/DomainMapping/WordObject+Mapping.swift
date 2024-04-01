@@ -25,7 +25,7 @@ extension Word {
 extension WordObject {
 
     func toDomain() throws -> Word {
-        let memorizedState: MemorizedState = self.isMemorized ? .memorized : .memorizing
+        let memorizedState: MemorizationState = self.isMemorized ? .memorized : .memorizing
 
         return try .init(uuid: self.uuid, word: self.word, memorizedState: memorizedState)
     }

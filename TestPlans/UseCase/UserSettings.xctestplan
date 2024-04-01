@@ -22,8 +22,8 @@
     {
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "0330B05FDFAB50BB62CD0AA1",
-        "name" : "Domain_UserSettingsTests"
+        "identifier" : "BD8EB97FBB3A8493FF32C0EE",
+        "name" : "UseCase_UserSettingsTests"
       }
     }
   ],

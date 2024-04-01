@@ -32,27 +32,27 @@ internal final class WordRepositoryAssemblyDev: Assembly {
 
     private func makeInMemoryWordRepository() -> WordRepository {
         let config: Realm.Configuration = .init(inMemoryIdentifier: "WordCheckerDev")
-        
+
         let realm = realmExecutionQueue.sync {
             guard let realm: Realm = try? .init(configuration: config, queue: realmExecutionQueue) else {
                 fatalError("Failed to initialize.")
             }
             return realm
         }
-        
+
         return WordRepository(realm: realm, realmConfinedQueue: realmExecutionQueue)
     }
 
     private func makeSampledWordRepository() -> WordRepository {
         let config: Realm.Configuration = .init(inMemoryIdentifier: "WordCheckerDevSampled")
-        
+
         let realm = realmExecutionQueue.sync {
             guard let realm: Realm = try? .init(configuration: config, queue: realmExecutionQueue) else {
                 fatalError("Failed to initialize.")
             }
             return realm
         }
-        
+
         do {
             try realmExecutionQueue.sync {
                 try realm.write {
@@ -64,7 +64,7 @@ internal final class WordRepositoryAssemblyDev: Assembly {
         } catch {
             fatalError("Failed to create sample data.")
         }
-        
+
         return WordRepository(realm: realm, realmConfinedQueue: realmExecutionQueue)
     }
 
@@ -76,18 +76,18 @@ internal final class WordRepositoryAssemblyDev: Assembly {
         config.fileURL?.deleteLastPathComponent()
         config.fileURL?.append(path: "WordCheckerDev")
         config.fileURL?.appendPathExtension("realm")
-        
+
         let realm = realmExecutionQueue.sync {
             guard let realm: Realm = try? .init(configuration: config, queue: realmExecutionQueue) else {
                 fatalError("Failed to initialize.")
             }
             return realm
         }
-        
+
         #if DEBUG
             print("Realm file url : \(realm.configuration.fileURL?.debugDescription ?? "nil")")
         #endif
-        
+
         return WordRepository(realm: realm, realmConfinedQueue: realmExecutionQueue)
     }
 

@@ -41,14 +41,14 @@ final class WordCheckingReactor: Reactor {
         case setCurrentWord(Word?)
         case setSourceLanguage(TranslationLanguage)
         case setTargetLanguage(TranslationLanguage)
-        case showAddCompleteToast(Result<Word, WordCheckingReactorError>)
+        case showAddCompleteToast(Result<String, WordCheckingReactorError>)
     }
 
     struct State {
         var currentWord: Word?
         var translationSourceLanguage: TranslationLanguage
         var translationTargetLanguage: TranslationLanguage
-        @Pulse var showAddCompleteToast: Result<Word, WordCheckingReactorError>?
+        @Pulse var showAddCompleteToast: Result<String, WordCheckingReactorError>?
     }
 
     let initialState: State = State(
@@ -95,10 +95,6 @@ final class WordCheckingReactor: Reactor {
             ])
 
         case .addWord(let newWord):
-            guard let newWord: Word = try? .init(word: newWord) else {
-                return .empty()
-            }
-
             return wordUseCase.addNewWord(newWord)
                 .asObservable()
                 .flatMap { _ -> Observable<Mutation> in
@@ -108,8 +104,8 @@ final class WordCheckingReactor: Reactor {
                         .just(.showAddCompleteToast(.success(newWord))),
                     ])
                 }
-                .catch { error in
-                    return .just(.showAddCompleteToast(.failure(.addWordFailed(reason: nil, word: newWord.word))))
+                .catch { _ in
+                    return .just(.showAddCompleteToast(.failure(.addWordFailed(reason: nil, word: newWord))))
                 }
 
         case .updateToNextWord:

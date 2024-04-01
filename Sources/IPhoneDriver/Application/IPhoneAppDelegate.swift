@@ -85,7 +85,7 @@ open class IPhoneAppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Helpers
 
     open func restoreGoogleSignInState() {
-        let googleDriveUseCase: ExternalStoreUseCaseProtocol = DIContainer.shared.resolver.resolve()
+        let googleDriveUseCase: GoogleDriveUseCase = DIContainer.shared.resolver.resolve()
         googleDriveUseCase.restoreSignIn()
             .subscribe(on: ConcurrentMainScheduler.instance)
             .subscribe()
@@ -99,13 +99,13 @@ open class IPhoneAppDelegate: UIResponder, UIApplicationDelegate {
             DomainLocalNotificationAssembly(),
             DomainUserSettingsAssembly(),
             DomainWordAssembly(),
-            
+
             // UseCase
             GoogleDriveUseCaseAssembly(),
             LocalNotificationsUseCaseAssembly(),
             UserSettingsUseCaseAssembly(),
             WordUseCaseAssembly(),
-            
+
             // IOSScene
             WordCheckingAssembly(),
             WordListAssembly(),

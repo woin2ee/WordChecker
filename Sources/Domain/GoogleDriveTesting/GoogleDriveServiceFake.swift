@@ -10,86 +10,70 @@
 import Foundation
 import RxSwift
 
-public final class GoogleDriveServiceFake {
+public final class GoogleDriveServiceFake: GoogleDriveService {
 
-//    public var _wordList: [Word] = []
+    var backupFiles: [BackupFile]
+    public var hasSigned: Bool
+    public var isGrantedAppDataScope: Bool
 
-    public var _hasSignIn: Bool = false
+    public init() {
+        self.backupFiles = []
+        self.hasSigned = false
+        self.isGrantedAppDataScope = false
+    }
 
-    public var _isGrantedAppDataScope: Bool = false
+    public func uploadBackupFile(_ backupFile: BackupFile) -> RxSwift.Single<Void> {
+        guard hasSigned, isGrantedAppDataScope else {
+            return .error(GoogleDriveServiceError.noSignedInUser)
+        }
 
-//    public init(sampleWordList: [Word] = []) {
-//        _wordList = sampleWordList
-//    }
+        backupFiles.append(backupFile)
+        return .just(())
+    }
 
-//    public func uploadWordList(_ wordList: [Word]) -> Single<Void> {
-//        if _hasSignIn == false {
-//            return .error(GoogleDriveRepositoryFakeError.noSignedIn)
-//        }
-//
-//        if _isGrantedAppDataScope == false {
-//            return .error(GoogleDriveRepositoryFakeError.noGranted)
-//        }
-//
-//        _wordList = wordList
-//
-//        return .just(())
-//    }
-//
-//    public func downloadWordList() -> Single<[Word]> {
-//        if _hasSignIn == false {
-//            return .error(GoogleDriveRepositoryFakeError.noSignedIn)
-//        }
-//
-//        if _isGrantedAppDataScope == false {
-//            return .error(GoogleDriveRepositoryFakeError.noGranted)
-//        }
-//
-//        return .just(_wordList)
-//    }
+    public func downloadLatestBackupFile(backupFileName: BackupFileName) -> RxSwift.Single<BackupFile> {
+        guard hasSigned, isGrantedAppDataScope else {
+            return .error(GoogleDriveServiceError.noSignedInUser)
+        }
+
+        guard let latestBackupFile = backupFiles.filter({ $0.name == backupFileName }).last else {
+            return .error(GoogleDriveServiceError.noFileInDrive)
+        }
+
+        return .just(latestBackupFile)
+    }
+
+    public func deleteAllBackupFiles(named backupFileName: BackupFileName) -> RxSwift.Single<Void> {
+        backupFiles.removeAll(where: { $0.name == backupFileName })
+        return .just(())
+    }
 
     public func signInWithAppDataScope(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
-        _hasSignIn = true
-        _isGrantedAppDataScope = true
+        hasSigned = true
+        isGrantedAppDataScope = true
 
         return .just(())
     }
 
     public func signOut() {
-        _hasSignIn = false
-        _isGrantedAppDataScope = false
-    }
-
-    public var hasSigned: Bool {
-        _hasSignIn
-    }
-
-    public var isGrantedAppDataScope: Bool {
-        _isGrantedAppDataScope
+        hasSigned = false
+        isGrantedAppDataScope = false
     }
 
     public func restorePreviousSignIn() -> RxSwift.Single<Void> {
-        _hasSignIn = true
+        hasSigned = true
+        isGrantedAppDataScope = true
 
         return .just(())
     }
 
     public func requestAppDataScopeAccess(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
-        if _hasSignIn == false {
-            return .error(GoogleDriveRepositoryFakeError.noSignedIn)
+        if !hasSigned {
+            return .error(GoogleDriveServiceError.noSignedInUser)
         }
 
-        _isGrantedAppDataScope = true
+        isGrantedAppDataScope = true
 
         return .just(())
     }
-
-}
-
-enum GoogleDriveRepositoryFakeError: Error {
-
-    case noSignedIn
-
-    case noGranted
-
 }

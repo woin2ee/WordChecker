@@ -7,9 +7,8 @@
 //
 
 @testable import IOSScene_WordChecking
-
-import Domain_UserSettingsTesting
-import Domain_WordTesting
+import UseCase_WordTesting
+import UseCase_UserSettingsTesting
 
 import XCTest
 

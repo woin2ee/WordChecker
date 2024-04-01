@@ -9,6 +9,6 @@
 import Foundation
 
 internal enum WordUseCaseError: Error {
-    
+
     case uuidInvalid
 }

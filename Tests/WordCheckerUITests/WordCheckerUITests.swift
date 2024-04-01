@@ -5,7 +5,6 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
-@testable import Domain
 @testable import IOSScene_GeneralSettings
 @testable import IOSScene_LanguageSetting
 @testable import IOSScene_PushNotificationSettings
@@ -15,10 +14,10 @@
 @testable import IOSScene_WordList
 @testable import IOSScene_WordDetail
 @testable import IOSScene_WordAddition
+@testable import IOSSupport
 @testable import IPhoneDriver
 import XCTest
 
-typealias DomainString                  = Domain.LocalizedString
 typealias WordCheckingString            = IOSScene_WordChecking.LocalizedString
 typealias WordCheckingAccessibilityID   = IOSScene_WordChecking.AccessibilityIdentifier
 typealias WordListString                = IOSScene_WordList.LocalizedString
@@ -26,6 +25,7 @@ typealias WordListAccessibilityID       = IOSScene_WordList.AccessibilityIdentif
 typealias WordDetailString              = IOSScene_WordDetail.LocalizedString
 typealias WordDetailAccessibilityID     = IOSScene_WordDetail.AccessibilityIdentifier
 typealias UserSettingsString            = IOSScene_UserSettings.LocalizedString
+typealias IOSSupportString              = IOSSupport.LocalizedString
 typealias IPhoneDriverString            = IPhoneDriver.LocalizedString
 
 final class WordCheckerUITests: XCTestCase {
@@ -175,14 +175,14 @@ final class WordCheckerUITests: XCTestCase {
         moveSettingsTap()
 
         app.tables.element.staticTexts[UserSettingsString.source_language].tap()
-        app.tables.element.staticTexts[DomainString.russian].tap()
+        app.tables.element.staticTexts[IOSSupportString.russian].tap()
         app.navigationBars.backButton.tap()
-        app.tables.element.staticTexts[DomainString.russian].assertExistence()
+        app.tables.element.staticTexts[IOSSupportString.russian].assertExistence()
 
         app.tables.element.staticTexts[UserSettingsString.translation_language].tap()
-        app.tables.element.staticTexts[DomainString.italian].tap()
+        app.tables.element.staticTexts[IOSSupportString.italian].tap()
         app.navigationBars.backButton.tap()
-        app.tables.element.staticTexts[DomainString.italian].assertExistence()
+        app.tables.element.staticTexts[IOSSupportString.italian].assertExistence()
     }
 
 }

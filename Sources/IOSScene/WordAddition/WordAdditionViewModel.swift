@@ -29,10 +29,6 @@ final class WordAdditionViewModel: ViewModelType {
 
         let saveComplete = input.saveAttempt
             .withLatestFrom(input.wordText)
-            .map { wordText -> Word? in
-                return try? .init(word: wordText)
-            }
-            .unwrapOrIgnore()
             .flatMapFirst { newWord in
                 return self.wordUseCase.addNewWord(newWord)
                     .asSignalOnErrorJustComplete()

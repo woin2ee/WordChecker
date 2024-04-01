@@ -10,7 +10,7 @@ import Domain_UserSettings
 import Foundation
 
 extension TranslationLanguage {
-    
+
     /// 현재 현지화된 언어로 번역한 명칭을 반환합니다.
     public var localizedString: String {
         switch self {

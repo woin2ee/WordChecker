@@ -7,12 +7,12 @@
 //
 
 public struct DailyReminder {
-    
+
     public static let identifier = "DailyReminder"
-    
+
     public let unmemorizedWordCount: Int
     public let noticeTime: NoticeTime
-    
+
     public init(unmemorizedWordCount: Int, noticeTime: NoticeTime) {
         self.unmemorizedWordCount = unmemorizedWordCount
         self.noticeTime = noticeTime

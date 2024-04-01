@@ -12,7 +12,7 @@ import SwinjectExtension
 public final class WordUseCaseAssembly: Assembly {
 
     public init() {}
-    
+
     public func assemble(container: Container) {
         container.register(WordUseCaseProtocol.self) { resolver in
             return WordUseCase(

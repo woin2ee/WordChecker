@@ -31,7 +31,7 @@ public enum TranslationLanguage: String, Codable, CaseIterable {
 }
 
 extension TranslationLanguage {
-    
+
     public var bcp47tag: BCP47Tag {
         switch self {
         case .korean:

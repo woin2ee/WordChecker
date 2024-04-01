@@ -11,10 +11,10 @@ import Swinject
 import SwinjectExtension
 
 internal struct WordServiceAssembly: Assembly {
-    
+
     func assemble(container: Container) {
         container.register(WordService.self) { resolver in
-            return WordService(
+            return DefaultWordService(
                 wordRepository: resolver.resolve(),
                 unmemorizedWordListRepository: resolver.resolve(),
                 wordDuplicateSpecification: resolver.resolve()

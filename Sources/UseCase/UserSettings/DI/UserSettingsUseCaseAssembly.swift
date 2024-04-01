@@ -12,7 +12,7 @@ import SwinjectExtension
 public final class UserSettingsUseCaseAssembly: Assembly {
 
     public init() {}
-    
+
     public func assemble(container: Container) {
         container.register(UserSettingsUseCaseProtocol.self) { resolver in
             return UserSettingsUseCase(userSettingsService: resolver.resolve())

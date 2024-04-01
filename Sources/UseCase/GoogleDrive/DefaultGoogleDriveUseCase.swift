@@ -1,7 +1,4 @@
 //
-//  GoogleDriveUseCase.swift
-//  Domain
-//
 //  Created by Jaewon Yun on 2023/09/22.
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
@@ -14,15 +11,15 @@ import Foundation
 import RxSwift
 import RxSwiftSugar
 
-final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
+internal final class DefaultGoogleDriveUseCase: GoogleDriveUseCase {
 
-    let WORD_LIST_BACKUP_FILE_NAME = "word_list_backup"
-    
-    let googleDriveService: GoogleDriveServiceProtocol
+//    let WORD_LIST_BACKUP_FILE_NAME = "word_list_backup"
+
+    let googleDriveService: GoogleDriveService
     let wordService: WordService
-    let localNotificationService: LocalNotificationServiceProtocol
+    let localNotificationService: LocalNotificationService
 
-    init(googleDriveService: GoogleDriveServiceProtocol, wordService: WordService, localNotificationService: LocalNotificationServiceProtocol) {
+    init(googleDriveService: GoogleDriveService, wordService: WordService, localNotificationService: LocalNotificationService) {
         self.googleDriveService = googleDriveService
         self.wordService = wordService
         self.localNotificationService = localNotificationService
@@ -70,9 +67,11 @@ final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
                         observer.onError(error)
                         return
                     }
-                    
-                    let backupFile = BackupFile(name: self.WORD_LIST_BACKUP_FILE_NAME, data: wordListData)
-                    let disposable = self.googleDriveService.uploadBackupFile(backupFile)
+
+                    let backupFile = BackupFile(name: .wordListBackup, data: wordListData)
+
+                    let disposable = self.googleDriveService.deleteAllBackupFiles(named: backupFile.name)
+                        .flatMap { self.googleDriveService.uploadBackupFile(backupFile) }
                         .subscribe(
                             onSuccess: { _ in
                                 observer.onNext(.complete)
@@ -128,7 +127,7 @@ final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
                 case .success:
                     observer.onNext(.inProgress)
 
-                    let disposable = self.googleDriveService.downloadLatestBackupFile(backupFileName: self.WORD_LIST_BACKUP_FILE_NAME)
+                    let disposable = self.googleDriveService.downloadLatestBackupFile(backupFileName: BackupFileName.wordListBackup)
                         .map { backupFile -> [Word] in
                             return try JSONDecoder().decode([Word].self, from: backupFile.data)
                         }
@@ -190,16 +189,16 @@ final class ExternalStoreUseCase: ExternalStoreUseCaseProtocol {
 
 // MARK: Helpers
 
-extension ExternalStoreUseCase {
-    
+extension DefaultGoogleDriveUseCase {
+
     private func updateDailyReminder() {
         let unmemorizedWordCount = wordService.fetchUnmemorizedWordList().count
-        
+
         Task {
             guard let dailyReminder = await self.localNotificationService.getPendingDailyReminder() else {
                 return
             }
-            
+
             let newDailyReminder = DailyReminder(
                 unmemorizedWordCount: unmemorizedWordCount,
                 noticeTime: dailyReminder.noticeTime

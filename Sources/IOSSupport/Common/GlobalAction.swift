@@ -21,7 +21,7 @@ public final class GlobalAction {
     public var didSetSourceLanguage: PublishRelay<TranslationLanguage> = .init()
     public var didSetTargetLanguage: PublishRelay<TranslationLanguage> = .init()
 
-    public var didEditWord: PublishRelay<Word> = .init()
+    public var didEditWord: PublishRelay<UUID> = .init()
     public var didDeleteWord: PublishRelay<Word> = .init()
     public var didAddWord: PublishRelay<Void> = .init()
 

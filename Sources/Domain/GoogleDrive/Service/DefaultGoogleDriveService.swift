@@ -12,7 +12,7 @@ import RxSwift
 import RxSwiftSugar
 import Utility
 
-public final class GoogleDriveService: GoogleDriveServiceProtocol {
+public final class DefaultGoogleDriveService: GoogleDriveService {
 
     let gidSignIn: GIDSignIn
 
@@ -110,16 +110,16 @@ public final class GoogleDriveService: GoogleDriveServiceProtocol {
 
         return grantedScopes.contains(where: { $0 == ScopeCode.appData })
     }
-    
+
     public func uploadBackupFile(_ backupFile: BackupFile) -> Single<Void> {
         guard let currentUser = gidSignIn.currentUser else {
             return .error(GoogleDriveServiceError.noSignedInUser)
         }
-        
+
         let file: GTLRDrive_File = .init()
-        file.name = backupFile.name
+        file.name = backupFile.name.rawValue
         file.parents = [Space.appDataFolder.rawValue]
-        
+
         return .create { observer in
             Task {
                 try await GoogleDriveAPI(authentication: currentUser.authentication).files.create(file, with: backupFile.data)
@@ -127,60 +127,60 @@ public final class GoogleDriveService: GoogleDriveServiceProtocol {
             } catch: {
                 observer(.failure($0))
             }
-            
+
             return Disposables.create()
         }
     }
-    
-    public func downloadLatestBackupFile(backupFileName: String) -> Single<BackupFile> {
+
+    public func downloadLatestBackupFile(backupFileName: BackupFileName) -> Single<BackupFile> {
         guard let currentUser = gidSignIn.currentUser else {
             return .error(GoogleDriveServiceError.noSignedInUser)
         }
-        
+
         return .create { observer in
             Task {
-                let backupFileList = try await self.fetchBackupFileList(backupFileName: backupFileName)
-                
+                let backupFileList = try await self.fetchBackupFileList(backupFileName: backupFileName.rawValue)
+
                 guard let backupFileID = backupFileList.files?.first?.identifier else {
                     observer(.failure(GoogleDriveServiceError.noFileInDrive))
                     return
                 }
-                
+
                 let dataObject = try await GoogleDriveAPI(authentication: currentUser.authentication).files.get(forFileID: backupFileID)
 
                 observer(.success(BackupFile(name: backupFileName, data: dataObject.data)))
             } catch: {
                 observer(.failure($0))
             }
-            
+
             return Disposables.create()
         }
     }
-    
-    public func deleteBackupFiles(backupFileName: String) -> Single<Void> {
+
+    public func deleteAllBackupFiles(named backupFileName: BackupFileName) -> Single<Void> {
         guard let currentUser = gidSignIn.currentUser else {
             return .error(GoogleDriveServiceError.noSignedInUser)
         }
-        
+
         return .create { observer in
             Task {
-                let backupFileList = try await self.fetchBackupFileList(backupFileName: backupFileName)
-                
+                let backupFileList = try await self.fetchBackupFileList(backupFileName: backupFileName.rawValue)
+
                 guard let backupFiles = backupFileList.files else {
                     observer(.success(()))
                     return
                 }
-                
+
                 try await backupFiles.compactMap(\.identifier)
                     .asyncForEach {
                         try await GoogleDriveAPI(authentication: currentUser.authentication).files.delete(byFileID: $0)
                     }
-                
+
                 observer(.success(()))
             } catch: {
                 observer(.failure($0))
             }
-            
+
             return Disposables.create()
         }
     }
@@ -188,8 +188,8 @@ public final class GoogleDriveService: GoogleDriveServiceProtocol {
 
 // MARK: Helpers
 
-extension GoogleDriveService {
-    
+extension DefaultGoogleDriveService {
+
     private func fetchBackupFileList(backupFileName: String) async throws -> GTLRDrive_FileList {
         guard let currentUser = gidSignIn.currentUser else {
             throw GoogleDriveServiceError.noSignedInUser

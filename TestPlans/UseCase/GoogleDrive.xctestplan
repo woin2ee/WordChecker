@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "7A03233D-45A0-4F37-A9EE-6C61896BD8FF",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "2A297612CBD0B81A5E021D13",
+        "name" : "UseCase_GoogleDriveTests"
+      }
+    }
+  ],
+  "version" : 1
+}

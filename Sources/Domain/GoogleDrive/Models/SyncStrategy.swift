@@ -7,7 +7,7 @@
 //
 
 public enum SyncStrategy {
-    
+
     /// 서로의 단어를 모두 포함하여 합칩니다.
     case merged
 }

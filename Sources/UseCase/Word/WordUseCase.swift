@@ -11,29 +11,29 @@ import Foundation
 import RxSwift
 
 final class WordUseCase: WordUseCaseProtocol {
-    
+
     let wordService: WordService
-    let localNotificationService: LocalNotificationServiceProtocol
-    
-    init(wordService: WordService, localNotificationService: LocalNotificationServiceProtocol) {
+    let localNotificationService: LocalNotificationService
+
+    init(wordService: WordService, localNotificationService: LocalNotificationService) {
         self.wordService = wordService
         self.localNotificationService = localNotificationService
     }
-    
-    func addNewWord(_ word: Word) -> RxSwift.Single<Void> {
+
+    func addNewWord(_ word: String) -> RxSwift.Single<Void> {
         return .create { observer in
             do {
-                try self.wordService.addNewWord(word.word)
+                try self.wordService.addNewWord(word)
                 observer(.success(()))
                 self.updateDailyReminder()
             } catch {
                 observer(.failure(error))
             }
-            
+
             return Disposables.create()
         }
     }
-    
+
     func deleteWord(by uuid: UUID) -> RxSwift.Single<Void> {
         do {
             try wordService.deleteWord(by: uuid)
@@ -43,49 +43,48 @@ final class WordUseCase: WordUseCaseProtocol {
             return .error(error)
         }
     }
-    
+
     func fetchWordList() -> [Word] {
         return wordService.fetchWordList()
     }
-    
+
     func fetchMemorizedWordList() -> [Word] {
         return wordService.fetchMemorizedWordList()
     }
-    
+
     func fetchUnmemorizedWordList() -> [Word] {
         return wordService.fetchUnmemorizedWordList()
     }
-    
+
     func fetchWord(by uuid: UUID) -> RxSwift.Single<Word> {
         guard let word = wordService.fetchWord(by: uuid) else {
             return .error(WordUseCaseError.uuidInvalid)
         }
         return .just(word)
     }
-    
-    func updateWord(by uuid: UUID, to newWord: Word) -> RxSwift.Single<Void> {
+
+    func updateWord(by uuid: UUID, with newAttribute: WordAttribute) -> RxSwift.Single<Void> {
         do {
-            try wordService.updateWordState(to: newWord.memorizedState, uuid: uuid)
-            try wordService.updateWordString(to: newWord.word, uuid: uuid)
+            try wordService.updateWord(with: newAttribute, id: uuid)
             updateDailyReminder()
             return .just(())
         } catch {
             return .error(error)
         }
     }
-    
+
     func shuffleUnmemorizedWordList() {
         wordService.shuffleUnmemorizedWordList()
     }
-    
+
     func updateToNextWord() {
         wordService.updateToNextWord()
     }
-    
+
     func updateToPreviousWord() {
         wordService.updateToPreviousWord()
     }
-    
+
     func markCurrentWordAsMemorized(uuid: UUID) -> RxSwift.Single<Void> {
         do {
             try wordService.markCurrentWordAsMemorized()
@@ -95,11 +94,11 @@ final class WordUseCase: WordUseCaseProtocol {
             return .error(error)
         }
     }
-    
+
     func getCurrentUnmemorizedWord() -> Word? {
         return wordService.getCurrentUnmemorizedWord()
     }
-    
+
     func isWordDuplicated(_ word: String) -> RxSwift.Single<Bool> {
         do {
             let isDuplicated = try wordService.isWordDuplicated(word)
@@ -113,15 +112,15 @@ final class WordUseCase: WordUseCaseProtocol {
 // MARK: Helpers
 
 extension WordUseCase {
-    
+
     private func updateDailyReminder() {
         let unmemorizedWordCount = wordService.fetchUnmemorizedWordList().count
-        
+
         Task {
             guard let dailyReminder = await self.localNotificationService.getPendingDailyReminder() else {
                 return
             }
-            
+
             let newDailyReminder = DailyReminder(
                 unmemorizedWordCount: unmemorizedWordCount,
                 noticeTime: dailyReminder.noticeTime

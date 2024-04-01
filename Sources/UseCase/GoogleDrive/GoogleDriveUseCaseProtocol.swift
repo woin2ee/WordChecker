@@ -1,7 +1,4 @@
 //
-//  ExternalStoreUseCaseProtocol.swift
-//  Domain
-//
 //  Created by Jaewon Yun on 2023/09/22.
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
@@ -11,7 +8,7 @@ import Domain_GoogleDrive
 import Foundation
 import RxSwift
 
-public protocol ExternalStoreUseCaseProtocol {
+public protocol GoogleDriveUseCase {
 
     /// 외부 저장소에 로그인합니다.
     func signInWithAuthorization(presenting: PresentingConfiguration) -> RxSwift.Single<Void>

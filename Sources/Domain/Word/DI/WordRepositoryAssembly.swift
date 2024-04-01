@@ -21,18 +21,18 @@ internal final class WordRepositoryAssembly: Assembly {
             config.fileURL?.deleteLastPathComponent()
             config.fileURL?.append(path: "WordCheckerProduct")
             config.fileURL?.appendPathExtension("realm")
-            
+
             let realm = realmExecutionQueue.sync {
                 guard let realm: Realm = try? .init(configuration: config, queue: realmExecutionQueue) else {
                     fatalError("Failed to initialize.")
                 }
                 return realm
             }
-            
+
             #if DEBUG
                 print("Realm file url : \(realm.configuration.fileURL?.debugDescription ?? "nil")")
             #endif
-            
+
             return WordRepository(realm: realm, realmConfinedQueue: realmExecutionQueue)
         }
         .inObjectScope(.container)
