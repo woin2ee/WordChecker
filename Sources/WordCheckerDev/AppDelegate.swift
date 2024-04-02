@@ -20,10 +20,6 @@ import UseCase_UserSettings
 import UseCase_Word
 
 // Scenes
-import IOSScene_GeneralSettings
-import IOSScene_LanguageSetting
-import IOSScene_PushNotificationSettings
-import IOSScene_ThemeSetting
 import IOSScene_UserSettings
 import IOSScene_WordAddition
 import IOSScene_WordChecking
@@ -60,11 +56,7 @@ class AppDelegate: IPhoneAppDelegate {
             WordListAssembly(),
             WordDetailAssembly(),
             WordAdditionAssembly(),
-            UserSettingsAssembly(),
-            LanguageSettingAssembly(),
-            PushNotificationSettingsAssemblyDev(),
-            GeneralSettingsAssembly(),
-            ThemeSettingAssembly(),
+            IOSSceneUserSettingsAssemblyDev(),
         ])
     }
 

@@ -15,7 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-    var appCoordinator: AppCoordinator?
+    var appCoordinator: AppCoordinator = .shared
 
     let globalAction: GlobalAction = .shared
     let globalState: GlobalState = .shared
@@ -39,11 +39,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func setRootViewController() {
-        let rootTabBarController: RootTabBarController = .shared
-        window?.rootViewController = rootTabBarController
-
-        appCoordinator = .init(rootTabBarController: rootTabBarController)
-        appCoordinator?.start()
+        window?.rootViewController = appCoordinator.rootTabBarController
+        appCoordinator.start()
     }
 
     func subscribeGlobalState() {

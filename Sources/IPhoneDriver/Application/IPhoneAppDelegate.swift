@@ -25,10 +25,6 @@ import UseCase_UserSettings
 import UseCase_Word
 
 // Scenes
-import IOSScene_GeneralSettings
-import IOSScene_LanguageSetting
-import IOSScene_PushNotificationSettings
-import IOSScene_ThemeSetting
 import IOSScene_UserSettings
 import IOSScene_WordAddition
 import IOSScene_WordChecking
@@ -46,7 +42,7 @@ open class IPhoneAppDelegate: UIResponder, UIApplicationDelegate {
         initGlobalState()
         restoreGoogleSignInState()
         NetworkMonitor.start()
-        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().delegate = AppCoordinator.shared
 
         return true
     }
@@ -111,11 +107,7 @@ open class IPhoneAppDelegate: UIResponder, UIApplicationDelegate {
             WordListAssembly(),
             WordDetailAssembly(),
             WordAdditionAssembly(),
-            UserSettingsAssembly(),
-            LanguageSettingAssembly(),
-            PushNotificationSettingsAssembly(),
-            GeneralSettingsAssembly(),
-            ThemeSettingAssembly(),
+            IOSSceneUserSettingsAssembly(),
         ])
     }
 
@@ -127,14 +119,6 @@ open class IPhoneAppDelegate: UIResponder, UIApplicationDelegate {
             }
             .subscribe(on: ConcurrentMainScheduler.instance)
             .subscribe()
-    }
-
-}
-
-extension IPhoneAppDelegate: UNUserNotificationCenterDelegate {
-
-    public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        RootTabBarController.shared.selectedViewController = RootTabBarController.shared.wordCheckingNC
     }
 
 }

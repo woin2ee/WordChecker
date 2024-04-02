@@ -288,6 +288,7 @@ func iOSTargets() -> [Target] {
                 .target(name: "TestsSupport"),
                 .target(name: "UseCase_UserSettingsTesting"),
                 .target(name: "UseCase_GoogleDriveTesting"),
+                .target(name: "UseCase_LocalNotificationTesting"),
                 .external(name: ExternalDependencyName.rxBlocking),
                 .external(name: ExternalDependencyName.rxTest),
             ],
@@ -301,68 +302,9 @@ func iOSTargets() -> [Target] {
             infoPlist: .file(path: .path(Constant.Path.iPhoneExampleInfoPlist)),
             dependencies: [
                 .target(name: "IOSScene_UserSettings"),
-            ],
-            appendSchemeTo: &schemes
-        ),
-        Target.makeIOSFramework(
-            name: "IOSScene_LanguageSetting",
-            dependencies: [
-                .target(name: "IOSSupport"),
-            ],
-            resourceOptions: [.own],
-            hasTests: true,
-            additionalTestDependencies: [
-                .external(name: ExternalDependencyName.rxBlocking),
-                .external(name: ExternalDependencyName.rxTest),
-            ],
-            appendSchemeTo: &schemes
-        ),
-        Target.makeIOSFramework(
-            name: "IOSScene_ThemeSetting",
-            dependencies: [
-                .target(name: "IOSSupport"),
-            ],
-            resourceOptions: [.own],
-            hasTests: true,
-            additionalTestDependencies: [
-                .external(name: ExternalDependencyName.rxBlocking),
-                .external(name: ExternalDependencyName.rxTest),
-            ],
-            appendSchemeTo: &schemes
-        ),
-        Target.makeIOSFramework(
-            name: "IOSScene_PushNotificationSettings",
-            dependencies: [
-                .target(name: "IOSSupport"),
-            ],
-            resourceOptions: [.own],
-            hasTests: true,
-            additionalTestDependencies: [
                 .target(name: "UseCase_LocalNotificationTesting"),
-                .external(name: ExternalDependencyName.rxBlocking),
-            ],
-            appendSchemeTo: &schemes
-        ),
-        Target.makeTargets(
-            name: "IOSScene_PushNotificationSettingsExample",
-            destinations: .iOS,
-            product: .app,
-            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
-            infoPlist: .file(path: .path(Constant.Path.iPhoneExampleInfoPlist)),
-            dependencies: [
-                .target(name: "IOSScene_PushNotificationSettings"),
-            ],
-            appendSchemeTo: &schemes
-        ),
-        Target.makeIOSFramework(
-            name: "IOSScene_GeneralSettings",
-            dependencies: [
-                .target(name: "IOSSupport"),
-            ],
-            resourceOptions: [.own],
-            hasTests: true,
-            additionalTestDependencies: [
-                .external(name: ExternalDependencyName.rxBlocking),
+                .target(name: "UseCase_GoogleDriveTesting"),
+                .target(name: "UseCase_UserSettingsTesting"),
             ],
             appendSchemeTo: &schemes
         ),
@@ -378,10 +320,6 @@ func iOSTargets() -> [Target] {
                 .target(name: "IOSScene_WordAddition"),
                 .target(name: "IOSScene_WordDetail"),
                 .target(name: "IOSScene_UserSettings"),
-                .target(name: "IOSScene_LanguageSetting"),
-                .target(name: "IOSScene_PushNotificationSettings"),
-                .target(name: "IOSScene_GeneralSettings"),
-                .target(name: "IOSScene_ThemeSetting"),
                 .external(name: ExternalDependencyName.swinjectDIContainer),
             ],
             resourceOptions: [.own],
