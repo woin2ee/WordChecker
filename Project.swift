@@ -202,6 +202,7 @@ func iOSTargets() -> [Target] {
                 .external(name: ExternalDependencyName.sfSafeSymbols),
                 .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.swinjectExtension),
+                .external(name: ExternalDependencyName.swinjectDIContainer),
                 .external(name: ExternalDependencyName.uiKitPlus),
                 .package(product: ExternalDependencyName.swiftCollections),
             ],
@@ -231,6 +232,8 @@ func iOSTargets() -> [Target] {
             infoPlist: .file(path: .path(Constant.Path.iPhoneExampleInfoPlist)),
             dependencies: [
                 .target(name: "IOSScene_WordChecking"),
+                .target(name: "UseCase_WordTesting"),
+                .target(name: "UseCase_UserSettingsTesting"),
             ],
             appendSchemeTo: &schemes
         ),
