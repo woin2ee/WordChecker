@@ -102,34 +102,6 @@
     {
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "2299637D8411DACC7655DE5B",
-        "name" : "IOSScene_GeneralSettingsTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "2569B7E8807F8ECFB01CCD33",
-        "name" : "IOSScene_LanguageSettingTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "5EFB0ED9315AE8487B9974DF",
-        "name" : "IOSScene_PushNotificationSettingsTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "254A8C13CF84A32140BE313A",
-        "name" : "IOSScene_ThemeSettingTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:WordChecker.xcodeproj",
         "identifier" : "312637C8AEFA0BF87C1E5266",
         "name" : "IOSScene_UserSettingsTests"
       }

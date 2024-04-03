@@ -13,8 +13,6 @@ import RxSwiftSugar
 
 internal final class DefaultGoogleDriveUseCase: GoogleDriveUseCase {
 
-//    let WORD_LIST_BACKUP_FILE_NAME = "word_list_backup"
-
     let googleDriveService: GoogleDriveService
     let wordService: WordService
     let localNotificationService: LocalNotificationService
