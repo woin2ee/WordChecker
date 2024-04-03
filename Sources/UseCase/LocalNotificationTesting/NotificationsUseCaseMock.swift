@@ -12,7 +12,7 @@ import RxSwift
 import UserNotifications
 @testable import UseCase_LocalNotification
 
-public final class NotificationsUseCaseMock: NotificationsUseCaseProtocol {
+public final class NotificationsUseCaseMock: NotificationsUseCase {
 
     public var updateDailyReminderCallCount: Int = 0
     public var _authorizationStatus: UNAuthorizationStatus = .notDetermined

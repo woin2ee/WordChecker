@@ -31,13 +31,13 @@ final class LanguageSettingReactor: Reactor {
 
     let initialState: State
 
-    let userSettingsUseCase: UserSettingsUseCaseProtocol
+    let userSettingsUseCase: UserSettingsUseCase
 
     let globalAction: GlobalAction
 
     init(
         translationDirection: TranslationDirection,
-        userSettingsUseCase: UserSettingsUseCaseProtocol,
+        userSettingsUseCase: UserSettingsUseCase,
         globalAction: GlobalAction
     ) {
         self.initialState = .init(translationDirection: translationDirection, selectedCell: .init())

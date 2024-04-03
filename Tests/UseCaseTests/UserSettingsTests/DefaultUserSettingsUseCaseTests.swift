@@ -1,7 +1,4 @@
 //
-//  UserSettingsUseCaseTests.swift
-//  DomainUnitTests
-//
 //  Created by Jaewon Yun on 2023/09/17.
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
@@ -12,14 +9,14 @@ import Domain_UserSettingsTesting
 import RxBlocking
 import XCTest
 
-final class UserSettingsUseCaseTests: XCTestCase {
+final class DefaultUserSettingsUseCaseTests: XCTestCase {
 
-    var sut: UserSettingsUseCaseProtocol!
+    var sut: DefaultUserSettingsUseCase!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
 
-        sut = UserSettingsUseCase(userSettingsService: UserSettingsServiceFake())
+        sut = DefaultUserSettingsUseCase(userSettingsService: UserSettingsServiceFake())
     }
 
     override func tearDownWithError() throws {

@@ -1,5 +1,5 @@
 //
-//  WordUseCaseProtocol.swift
+//  WordUseCase.swift
 //  Domain
 //
 //  Created by Jaewon Yun on 2023/09/04.
@@ -9,7 +9,7 @@ import Domain_Word
 import Foundation
 import RxSwift
 
-public protocol WordUseCaseProtocol {
+public protocol WordUseCase {
 
     /// 새 단어를 추가합니다.
     ///

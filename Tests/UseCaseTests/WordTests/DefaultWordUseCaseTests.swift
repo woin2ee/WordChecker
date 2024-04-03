@@ -1,7 +1,4 @@
 //
-//  WordUseCaseTests.swift
-//  WordUseCaseTests
-//
 //  Created by Jaewon Yun on 2023/09/04.
 //
 
@@ -14,9 +11,9 @@
 import RxBlocking
 import XCTest
 
-final class WordUseCaseTests: XCTestCase {
+final class DefaultWordUseCaseTests: XCTestCase {
 
-    var sut: WordUseCase!
+    var sut: DefaultWordUseCase!
 
     let memorizedWordList: [Word] = [
         try! .init(word: "F", memorizedState: .memorized),
@@ -39,7 +36,7 @@ final class WordUseCaseTests: XCTestCase {
 
         let (wordRepositoryFake, unmemorizedWordListRepository) = makePreparedRepositories()
         
-        sut = WordUseCase(
+        sut = DefaultWordUseCase(
             wordService: DefaultWordService(
                 wordRepository: wordRepositoryFake,
                 unmemorizedWordListRepository: unmemorizedWordListRepository,

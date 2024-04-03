@@ -12,7 +12,7 @@ public final class UserSettingsUseCaseFakeAssembly: Assembly {
     public init() {}
 
     public func assemble(container: Container) {
-        container.register(UserSettingsUseCaseProtocol.self) { resolver in
+        container.register(UserSettingsUseCase.self) { resolver in
             return UserSettingsUseCaseFake()
         }
         .inObjectScope(.container)

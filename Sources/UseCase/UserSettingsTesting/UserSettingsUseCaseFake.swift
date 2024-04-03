@@ -11,7 +11,7 @@ import Foundation
 import RxSwift
 import UseCase_UserSettings
 
-public final class UserSettingsUseCaseFake: UserSettingsUseCaseProtocol {
+public final class UserSettingsUseCaseFake: UserSettingsUseCase {
 
     public var currentUserSettings: UserSettings = .init(
         translationSourceLocale: .english,

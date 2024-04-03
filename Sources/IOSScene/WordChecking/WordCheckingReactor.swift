@@ -57,13 +57,13 @@ final class WordCheckingReactor: Reactor {
         translationTargetLanguage: .korean
     )
 
-    let wordUseCase: WordUseCaseProtocol
-    let userSettingsUseCase: UserSettingsUseCaseProtocol
+    let wordUseCase: WordUseCase
+    let userSettingsUseCase: UserSettingsUseCase
     let globalAction: GlobalAction
 
     init(
-        wordUseCase: WordUseCaseProtocol,
-        userSettingsUseCase: UserSettingsUseCaseProtocol,
+        wordUseCase: WordUseCase,
+        userSettingsUseCase: UserSettingsUseCase,
         globalAction: GlobalAction
     ) {
         self.wordUseCase = wordUseCase

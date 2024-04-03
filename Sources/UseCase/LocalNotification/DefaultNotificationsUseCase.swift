@@ -1,5 +1,5 @@
 //
-//  NotificationsUseCase.swift
+//  DefaultNotificationsUseCase.swift
 //  Domain
 //
 //  Created by Jaewon Yun on 1/24/24.
@@ -14,7 +14,7 @@ import RxSwift
 import RxSwiftSugar
 import UserNotifications
 
-internal final class NotificationsUseCase: NotificationsUseCaseProtocol {
+internal final class DefaultNotificationsUseCase: NotificationsUseCase {
 
     let localNotificationService: LocalNotificationService
     let wordService: WordService

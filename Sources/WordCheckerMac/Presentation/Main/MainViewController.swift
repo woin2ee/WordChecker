@@ -17,9 +17,9 @@ internal final class MainViewController: NSViewController {
 
     private let disposeBag: DisposeBag = .init()
     let ownView: MainView
-    private let wordUseCase: WordUseCaseProtocol
+    private let wordUseCase: WordUseCase
 
-    init(ownView: MainView, wordUseCase: WordUseCaseProtocol) {
+    init(ownView: MainView, wordUseCase: WordUseCase) {
         self.wordUseCase = wordUseCase
         self.ownView = ownView
         super.init(nibName: nil, bundle: nil)

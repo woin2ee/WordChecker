@@ -13,7 +13,7 @@ public final class LocalNotificationsUseCaseMockAssembly: Assembly {
     public init() {}
 
     public func assemble(container: Container) {
-        container.register(NotificationsUseCaseProtocol.self) { resolver in
+        container.register(NotificationsUseCase.self) { resolver in
             return NotificationsUseCaseMock(expectedAuthorizationStatus: .authorized)
         }
         .inObjectScope(.container)

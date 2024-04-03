@@ -16,7 +16,7 @@ enum WordUseCaseFakeError: Error {
     case duplicatedWord
 }
 
-public final class WordUseCaseFake: WordUseCaseProtocol {
+public final class WordUseCaseFake: WordUseCase {
 
     /// Fake 객체 구현을 위해 사용한 인메모리 단어 저장소
     private var _wordList: [Word] = []

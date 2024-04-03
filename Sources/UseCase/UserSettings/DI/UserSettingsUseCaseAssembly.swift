@@ -14,8 +14,8 @@ public final class UserSettingsUseCaseAssembly: Assembly {
     public init() {}
 
     public func assemble(container: Container) {
-        container.register(UserSettingsUseCaseProtocol.self) { resolver in
-            return UserSettingsUseCase(userSettingsService: resolver.resolve())
+        container.register(UserSettingsUseCase.self) { resolver in
+            return DefaultUserSettingsUseCase(userSettingsService: resolver.resolve())
         }
         .inObjectScope(.container)
     }

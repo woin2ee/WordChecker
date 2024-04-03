@@ -20,10 +20,10 @@ final class ThemeSettingReactor: Reactor {
 
     var initialState: State = .init(selectedStyle: .unspecified)
 
-    let userSettingsUseCase: UserSettingsUseCaseProtocol
+    let userSettingsUseCase: UserSettingsUseCase
     let globalState: GlobalState
 
-    init(userSettingsUseCase: UserSettingsUseCaseProtocol, globalState: GlobalState) {
+    init(userSettingsUseCase: UserSettingsUseCase, globalState: GlobalState) {
         self.userSettingsUseCase = userSettingsUseCase
         self.globalState = globalState
     }

@@ -1,5 +1,5 @@
 //
-//  NotificationsUseCaseProtocol.swift
+//  NotificationsUseCase.swift
 //  Domain
 //
 //  Created by Jaewon Yun on 1/24/24.
@@ -11,7 +11,7 @@ import Foundation
 import RxSwift
 import UserNotifications
 
-public protocol NotificationsUseCaseProtocol {
+public protocol NotificationsUseCase {
 
     /// Requests the user’s authorization to allow local and remote notifications for your app.
     func requestNotificationAuthorization(with options: UNAuthorizationOptions) -> Single<Bool>

@@ -29,7 +29,7 @@ final class WordListReactorTests: XCTestCase {
         wordRepositoryFake.save(try Word(word: "B", memorizedState: .memorized))
         wordRepositoryFake.save(try Word(word: "C", memorizedState: .memorized))
         
-        let wordUseCase = WordUseCase(
+        let wordUseCase = DefaultWordUseCase(
             wordService: DefaultWordService(
                 wordRepository: wordRepositoryFake,
                 unmemorizedWordListRepository: UnmemorizedWordListRepository(),

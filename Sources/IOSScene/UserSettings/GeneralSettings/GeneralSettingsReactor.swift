@@ -28,10 +28,10 @@ final class GeneralSettingsReactor: Reactor {
 
     var initialState: State = .init(hapticsIsOn: true)
 
-    let userSettingsUseCase: UserSettingsUseCaseProtocol
+    let userSettingsUseCase: UserSettingsUseCase
     let globalState: GlobalState
 
-    init(userSettingsUseCase: UserSettingsUseCaseProtocol, globalState: GlobalState) {
+    init(userSettingsUseCase: UserSettingsUseCase, globalState: GlobalState) {
         self.userSettingsUseCase = userSettingsUseCase
         self.globalState = globalState
     }

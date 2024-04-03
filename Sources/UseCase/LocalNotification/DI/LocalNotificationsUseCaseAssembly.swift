@@ -15,8 +15,8 @@ public final class LocalNotificationsUseCaseAssembly: Assembly {
     public init() {}
 
     public func assemble(container: Container) {
-        container.register(NotificationsUseCaseProtocol.self) { resolver in
-            return NotificationsUseCase(
+        container.register(NotificationsUseCase.self) { resolver in
+            return DefaultNotificationsUseCase(
                 localNotificationService: resolver.resolve(),
                 wordService: resolver.resolve()
             )

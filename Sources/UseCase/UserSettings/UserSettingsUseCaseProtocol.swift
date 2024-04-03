@@ -1,5 +1,5 @@
 //
-//  UserSettingsUseCaseProtocol.swift
+//  UserSettingsUseCase.swift
 //  Domain
 //
 //  Created by Jaewon Yun on 2023/09/17.
@@ -10,7 +10,7 @@ import Domain_UserSettings
 import Foundation
 import RxSwift
 
-public protocol UserSettingsUseCaseProtocol {
+public protocol UserSettingsUseCase {
 
     func updateTranslationLocale(source sourceLocale: TranslationLanguage, target targetLocale: TranslationLanguage) -> Single<Void>
 

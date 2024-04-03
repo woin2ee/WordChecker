@@ -1,5 +1,5 @@
 //
-//  UserSettingsUseCase.swift
+//  DefaultUserSettingsUseCase.swift
 //  Domain
 //
 //  Created by Jaewon Yun on 2023/09/17.
@@ -13,7 +13,7 @@ import RxRelay
 import RxSwiftSugar
 import Utility
 
-public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
+internal final class DefaultUserSettingsUseCase: UserSettingsUseCase {
 
     let userSettingsService: UserSettingsService
 
@@ -27,7 +27,7 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
             .dispose()
     }
 
-    public func updateTranslationLocale(source sourceLocale: TranslationLanguage, target targetLocale: TranslationLanguage) -> RxSwift.Single<Void> {
+    func updateTranslationLocale(source sourceLocale: TranslationLanguage, target targetLocale: TranslationLanguage) -> RxSwift.Single<Void> {
         var userSettings: UserSettings
         do {
             userSettings = try userSettingsService.getUserSettings()
@@ -47,7 +47,7 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
         return .just(())
     }
 
-    public func getCurrentTranslationLocale() -> RxSwift.Single<(source: TranslationLanguage, target: TranslationLanguage)> {
+    func getCurrentTranslationLocale() -> RxSwift.Single<(source: TranslationLanguage, target: TranslationLanguage)> {
         let userSettings: UserSettings
         do {
             userSettings = try userSettingsService.getUserSettings()
@@ -58,7 +58,7 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
         return .just((userSettings.translationSourceLocale, userSettings.translationTargetLocale))
     }
 
-    public func getCurrentUserSettings() -> Single<UserSettings> {
+    func getCurrentUserSettings() -> Single<UserSettings> {
         do {
             return .just(try userSettingsService.getUserSettings())
         } catch {
@@ -66,7 +66,7 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
         }
     }
 
-    public func onHaptics() -> Single<Void> {
+    func onHaptics() -> Single<Void> {
         var userSettings: UserSettings
         do {
             userSettings = try userSettingsService.getUserSettings()
@@ -85,7 +85,7 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
         return .just(())
     }
 
-    public func offHaptics() -> Single<Void> {
+    func offHaptics() -> Single<Void> {
         var userSettings: UserSettings
         do {
             userSettings = try userSettingsService.getUserSettings()
@@ -104,7 +104,7 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
         return .just(())
     }
 
-    public func updateThemeStyle(_ style: ThemeStyle) -> Single<Void> {
+    func updateThemeStyle(_ style: ThemeStyle) -> Single<Void> {
         var userSettings: UserSettings
         do {
             userSettings = try userSettingsService.getUserSettings()
@@ -127,7 +127,7 @@ public final class UserSettingsUseCase: UserSettingsUseCaseProtocol {
 
 // MARK: - Helpers
 
-extension UserSettingsUseCase {
+extension DefaultUserSettingsUseCase {
 
     private func initUserSettingsIfNoUserSettings() -> RxSwift.Single<Void> {
         guard (try? userSettingsService.getUserSettings()) == nil else {

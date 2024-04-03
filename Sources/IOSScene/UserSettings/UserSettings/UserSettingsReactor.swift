@@ -49,12 +49,12 @@ final class UserSettingsReactor: Reactor {
         downloadStatus: .noTask
     )
 
-    let userSettingsUseCase: UserSettingsUseCaseProtocol
+    let userSettingsUseCase: UserSettingsUseCase
     let googleDriveUseCase: GoogleDriveUseCase
     let globalAction: GlobalAction
 
     init(
-        userSettingsUseCase: UserSettingsUseCaseProtocol,
+        userSettingsUseCase: UserSettingsUseCase,
         googleDriveUseCase: GoogleDriveUseCase,
         globalAction: GlobalAction
     ) {

@@ -16,9 +16,9 @@ import UseCase_Word
 
 final class WordAdditionViewModel: ViewModelType {
 
-    let wordUseCase: WordUseCaseProtocol
+    let wordUseCase: WordUseCase
 
-    init(wordUseCase: WordUseCaseProtocol) {
+    init(wordUseCase: WordUseCase) {
         self.wordUseCase = wordUseCase
     }
 

@@ -39,10 +39,10 @@ final class PushNotificationSettingsReactor: Reactor {
         reminderTime: .init(hour: 9, minute: 0)
     )
 
-    let notificationsUseCase: NotificationsUseCaseProtocol
+    let notificationsUseCase: NotificationsUseCase
     let globalAction: GlobalAction
 
-    init(notificationsUseCase: NotificationsUseCaseProtocol, globalAction: GlobalAction) {
+    init(notificationsUseCase: NotificationsUseCase, globalAction: GlobalAction) {
         self.notificationsUseCase = notificationsUseCase
         self.globalAction = globalAction
     }

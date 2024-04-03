@@ -11,7 +11,7 @@ public final class WordUseCaseFakeAssembly: Assembly {
     public init() {}
 
     public func assemble(container: Container) {
-        container.register(WordUseCaseProtocol.self) { _ in
+        container.register(WordUseCase.self) { _ in
             return WordUseCaseFake()
         }
         .inObjectScope(.container)

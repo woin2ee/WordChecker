@@ -112,7 +112,7 @@ open class IPhoneAppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func initGlobalState() {
-        let userSettingsUseCase: UserSettingsUseCaseProtocol = DIContainer.shared.resolver.resolve()
+        let userSettingsUseCase: UserSettingsUseCase = DIContainer.shared.resolver.resolve()
         _ = userSettingsUseCase.getCurrentUserSettings()
             .doOnSuccess {
                 GlobalState.shared.initialize(hapticsIsOn: $0.hapticsIsOn, themeStyle: $0.themeStyle.toUIKit())

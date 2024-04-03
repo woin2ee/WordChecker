@@ -12,9 +12,9 @@
 import RxBlocking
 import XCTest
 
-final class LocalNotificationsUseCaseTests: XCTestCase {
+final class DefaultNotificationsUseCaseTests: XCTestCase {
 
-    var sut: NotificationsUseCase!
+    var sut: DefaultNotificationsUseCase!
 
     override func setUpWithError() throws {
         try super.setUpWithError()

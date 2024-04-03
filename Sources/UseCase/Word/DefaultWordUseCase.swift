@@ -1,5 +1,5 @@
 //
-//  WordUseCase.swift
+//  DefaultWordUseCase.swift
 //  Domain
 //
 //  Created by Jaewon Yun on 2023/09/11.
@@ -10,7 +10,7 @@ import Domain_Word
 import Foundation
 import RxSwift
 
-final class WordUseCase: WordUseCaseProtocol {
+internal final class DefaultWordUseCase: WordUseCase {
 
     let wordService: WordService
     let localNotificationService: LocalNotificationService
@@ -111,7 +111,7 @@ final class WordUseCase: WordUseCaseProtocol {
 
 // MARK: Helpers
 
-extension WordUseCase {
+extension DefaultWordUseCase {
 
     private func updateDailyReminder() {
         let unmemorizedWordCount = wordService.fetchUnmemorizedWordList().count
