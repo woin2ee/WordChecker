@@ -15,7 +15,7 @@ func commonTargets() -> [Target] {
         // MARK: Utility
         
         Target.makeCommonFramework(
-            name: "Utility",
+            name: Module.utility,
             scripts: [
                 // 공동 작업자의 githook path 자동 세팅을 위함
                 .pre(
@@ -31,9 +31,9 @@ func commonTargets() -> [Target] {
         // MARK: Domain
         
         Target.makeCommonFramework(
-            name: "Domain_Core",
+            name: Module.domain.core,
             dependencies: [
-                .target(name: "Utility"),
+                .target(name: Module.utility),
                 .external(name: ExternalDependencyName.foundationPlus),
                 .external(name: ExternalDependencyName.swinject),
                 .external(name: ExternalDependencyName.swinjectExtension),
@@ -43,9 +43,9 @@ func commonTargets() -> [Target] {
             appendSchemeTo: &schemes
         ),
         Target.makeCommonFramework(
-            name: "Domain_Word",
+            name: Module.domain.word,
             dependencies: [
-                .target(name: "Domain_Core"),
+                .target(name: Module.domain.core),
                 .package(product: ExternalDependencyName.realm),
                 .package(product: ExternalDependencyName.realmSwift),
             ],
@@ -57,9 +57,9 @@ func commonTargets() -> [Target] {
             appendSchemeTo: &schemes
         ),
         Target.makeCommonFramework(
-            name: "Domain_GoogleDrive",
+            name: Module.domain.googleDrive,
             dependencies: [
-                .target(name: "Domain_Core"),
+                .target(name: Module.domain.core),
                 .package(product: ExternalDependencyName.googleAPIClientForRESTCore),
                 .package(product: ExternalDependencyName.googleAPIClientForREST_Drive),
                 .package(product: ExternalDependencyName.googleSignIn),
@@ -68,9 +68,9 @@ func commonTargets() -> [Target] {
             appendSchemeTo: &schemes
         ),
         Target.makeCommonFramework(
-            name: "Domain_UserSettings",
+            name: Module.domain.userSettings,
             dependencies: [
-                .target(name: "Domain_Core"),
+                .target(name: Module.domain.core),
                 .external(name: ExternalDependencyName.extendedUserDefaults),
             ],
             hasTests: true,
@@ -78,9 +78,9 @@ func commonTargets() -> [Target] {
             appendSchemeTo: &schemes
         ),
         Target.makeCommonFramework(
-            name: "Domain_LocalNotification",
+            name: Module.domain.localNotification,
             dependencies: [
-                .target(name: "Domain_Core"),
+                .target(name: Module.domain.core),
                 .external(name: ExternalDependencyName.extendedUserDefaults),
             ],
             resourceOptions: [.own],
@@ -91,10 +91,10 @@ func commonTargets() -> [Target] {
         // MARK: UseCase
         
         Target.makeCommonFramework(
-            name: "UseCase_Word",
+            name: Module.useCase.word,
             dependencies: [
-                .target(name: "Domain_Word"),
-                .target(name: "Domain_LocalNotification"),
+                .target(name: Module.domain.word),
+                .target(name: Module.domain.localNotification),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -106,11 +106,11 @@ func commonTargets() -> [Target] {
             appendSchemeTo: &schemes
         ),
         Target.makeCommonFramework(
-            name: "UseCase_GoogleDrive",
+            name: Module.useCase.googleDrive,
             dependencies: [
-                .target(name: "Domain_GoogleDrive"),
-                .target(name: "Domain_LocalNotification"),
-                .target(name: "Domain_Word"),
+                .target(name: Module.domain.googleDrive),
+                .target(name: Module.domain.localNotification),
+                .target(name: Module.domain.word),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -123,9 +123,9 @@ func commonTargets() -> [Target] {
             appendSchemeTo: &schemes
         ),
         Target.makeCommonFramework(
-            name: "UseCase_UserSettings",
+            name: Module.useCase.userSettings,
             dependencies: [
-                .target(name: "Domain_UserSettings"),
+                .target(name: Module.domain.userSettings),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -138,8 +138,8 @@ func commonTargets() -> [Target] {
         Target.makeCommonFramework(
             name: "UseCase_LocalNotification",
             dependencies: [
-                .target(name: "Domain_LocalNotification"),
-                .target(name: "Domain_Word"),
+                .target(name: Module.domain.localNotification),
+                .target(name: Module.domain.word),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -152,7 +152,7 @@ func commonTargets() -> [Target] {
         ),
         
         Target.makeCommonFramework(
-            name: "TestsSupport",
+            name: Module.testsSupport,
             dependencies: [
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxTest),
@@ -175,23 +175,23 @@ func iOSTargets() -> [Target] {
             sources: "Tests/\(PROJECT_NAME)UITests/**",
             dependencies: [
                 .target(name: "\(PROJECT_NAME)Dev"),
-                .target(name: "IOSSupport"),
-                .target(name: "Utility"),
+                .target(name: Module.iOSSupport),
+                .target(name: Module.utility),
             ]
         ),
     ] + [
         Target.makeIOSFramework(
-            name: "IOSSupport",
+            name: Module.iOSSupport,
             dependencies: [
-                .target(name: "Utility"),
-                .target(name: "Domain_GoogleDrive"),
-                .target(name: "Domain_LocalNotification"),
-                .target(name: "Domain_UserSettings"),
-                .target(name: "Domain_Word"),
-                .target(name: "UseCase_GoogleDrive"),
-                .target(name: "UseCase_LocalNotification"),
-                .target(name: "UseCase_UserSettings"),
-                .target(name: "UseCase_Word"),
+                .target(name: Module.utility),
+                .target(name: Module.domain.googleDrive),
+                .target(name: Module.domain.localNotification),
+                .target(name: Module.domain.userSettings),
+                .target(name: Module.domain.word),
+                .target(name: Module.useCase.googleDrive),
+                .target(name: Module.useCase.localNotification),
+                .target(name: Module.useCase.userSettings),
+                .target(name: Module.useCase.word),
                 .external(name: ExternalDependencyName.rxSwift),
                 .external(name: ExternalDependencyName.rxCocoa),
                 .external(name: ExternalDependencyName.rxSwiftSugarDynamic),
@@ -210,9 +210,9 @@ func iOSTargets() -> [Target] {
             appendSchemeTo: &schemes
         ),
         Target.makeIOSFramework(
-            name: "IOSScene_WordChecking",
+            name: Module.iOSScene.wordChecking,
             dependencies: [
-                .target(name: "IOSSupport"),
+                .target(name: Module.iOSSupport),
             ],
             resourceOptions: [.own],
             hasTests: true,
@@ -231,16 +231,16 @@ func iOSTargets() -> [Target] {
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
             infoPlist: .file(path: .path(Constant.Path.iPhoneExampleInfoPlist)),
             dependencies: [
-                .target(name: "IOSScene_WordChecking"),
+                .target(name: Module.iOSScene.wordChecking),
                 .target(name: "UseCase_WordTesting"),
                 .target(name: "UseCase_UserSettingsTesting"),
             ],
             appendSchemeTo: &schemes
         ),
         Target.makeIOSFramework(
-            name: "IOSScene_WordList",
+            name: Module.iOSScene.wordList,
             dependencies: [
-                .target(name: "IOSSupport"),
+                .target(name: Module.iOSSupport),
             ],
             resourceOptions: [.own],
             hasTests: true,
@@ -254,9 +254,9 @@ func iOSTargets() -> [Target] {
             appendSchemeTo: &schemes
         ),
         Target.makeIOSFramework(
-            name: "IOSScene_WordDetail",
+            name: Module.iOSScene.wordDetail,
             dependencies: [
-                .target(name: "IOSSupport"),
+                .target(name: Module.iOSSupport),
             ],
             resourceOptions: [.own],
             hasTests: true,
@@ -268,9 +268,9 @@ func iOSTargets() -> [Target] {
             appendSchemeTo: &schemes
         ),
         Target.makeIOSFramework(
-            name: "IOSScene_WordAddition",
+            name: Module.iOSScene.wordAddition,
             dependencies: [
-                .target(name: "IOSSupport"),
+                .target(name: Module.iOSSupport),
             ],
             resourceOptions: [.own],
             hasTests: true,
@@ -281,14 +281,14 @@ func iOSTargets() -> [Target] {
             appendSchemeTo: &schemes
         ),
         Target.makeIOSFramework(
-            name: "IOSScene_UserSettings",
+            name: Module.iOSScene.userSettings,
             dependencies: [
-                .target(name: "IOSSupport"),
+                .target(name: Module.iOSSupport),
             ],
             resourceOptions: [.own],
             hasTests: true,
             additionalTestDependencies: [
-                .target(name: "TestsSupport"),
+                .target(name: Module.testsSupport),
                 .target(name: "UseCase_UserSettingsTesting"),
                 .target(name: "UseCase_GoogleDriveTesting"),
                 .target(name: "UseCase_LocalNotificationTesting"),
@@ -304,7 +304,7 @@ func iOSTargets() -> [Target] {
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
             infoPlist: .file(path: .path(Constant.Path.iPhoneExampleInfoPlist)),
             dependencies: [
-                .target(name: "IOSScene_UserSettings"),
+                .target(name: Module.iOSScene.userSettings),
                 .target(name: "UseCase_LocalNotificationTesting"),
                 .target(name: "UseCase_GoogleDriveTesting"),
                 .target(name: "UseCase_UserSettingsTesting"),
@@ -312,17 +312,17 @@ func iOSTargets() -> [Target] {
             appendSchemeTo: &schemes
         ),
         Target.makeTargets(
-            name: "IPhoneDriver",
+            name: Module.iPhoneDriver,
             destinations: [.iPhone],
             product: .framework,
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
             dependencies: [
-                .target(name: "IOSSupport"),
-                .target(name: "IOSScene_WordChecking"),
-                .target(name: "IOSScene_WordList"),
-                .target(name: "IOSScene_WordAddition"),
-                .target(name: "IOSScene_WordDetail"),
-                .target(name: "IOSScene_UserSettings"),
+                .target(name: Module.iOSSupport),
+                .target(name: Module.iOSScene.wordChecking),
+                .target(name: Module.iOSScene.wordList),
+                .target(name: Module.iOSScene.wordAddition),
+                .target(name: Module.iOSScene.wordDetail),
+                .target(name: Module.iOSScene.userSettings),
                 .external(name: ExternalDependencyName.swinjectDIContainer),
             ],
             resourceOptions: [.own],
@@ -335,7 +335,7 @@ func iOSTargets() -> [Target] {
             bundleID: BASIC_BUNDLE_ID,
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
             infoPlist: .file(path: .path(Constant.Path.iPhoneInfoPlist)),
-            dependencies: [.target(name: "IPhoneDriver"),],
+            dependencies: [.target(name: Module.iPhoneDriver),],
             settings: .settings(
                 base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.Security.TEAM_ID)
             ),
@@ -349,7 +349,7 @@ func iOSTargets() -> [Target] {
             bundleID: "\(BASIC_BUNDLE_ID)Dev",
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
             infoPlist: .file(path: .path(Constant.Path.iPhoneInfoPlist)),
-            dependencies: [.target(name: "IPhoneDriver"),],
+            dependencies: [.target(name: Module.iPhoneDriver),],
             settings: .settings(
                 base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.Security.TEAM_ID)
             ),
@@ -369,8 +369,8 @@ let macAppTargets = Target.makeTargets(
     infoPlist: .file(path: .path(Constant.Path.macInfoPlist)),
     entitlements: .file(path: .path(Constant.Path.macEntitlements)),
     dependencies: [
-        .target(name: "Domain_Word"),
-        .target(name: "UseCase_Word"),
+        .target(name: Module.domain.word),
+        .target(name: Module.useCase.word),
         .external(name: ExternalDependencyName.then),
         .external(name: ExternalDependencyName.swinject),
         .external(name: ExternalDependencyName.swinjectExtension),
