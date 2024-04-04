@@ -11,11 +11,11 @@ import UIKit
 /// 앱의 가장 메인이 되는 `TabBarController` 입니다.
 ///
 /// `shared` 타입 프로퍼티를 이용하여 공유 인스턴스를 가져올 수 있습니다.
-public final class RootTabBarController: UITabBarController {
+internal final class RootTabBarController: UITabBarController {
 
-    public static let shared: RootTabBarController = .init()
+    static let shared: RootTabBarController = .init()
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         setAppearance()
     }
@@ -27,5 +27,4 @@ public final class RootTabBarController: UITabBarController {
         self.tabBar.standardAppearance = appearance
         self.tabBar.scrollEdgeAppearance = appearance
     }
-
 }

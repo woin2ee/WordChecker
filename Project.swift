@@ -229,7 +229,7 @@ func iOSTargets() -> [Target] {
             destinations: .iOS,
             product: .app,
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
-            infoPlist: .file(path: .path(Constant.Path.iPhoneExampleInfoPlist)),
+            infoPlist: .file(path: .path(Constant.Path.iOSExampleInfoPlist)),
             dependencies: [
                 .target(name: Module.iOSScene.wordChecking),
                 .target(name: "UseCase_WordTesting"),
@@ -302,7 +302,7 @@ func iOSTargets() -> [Target] {
             destinations: .iOS,
             product: .app,
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
-            infoPlist: .file(path: .path(Constant.Path.iPhoneExampleInfoPlist)),
+            infoPlist: .file(path: .path(Constant.Path.iOSExampleInfoPlist)),
             dependencies: [
                 .target(name: Module.iOSScene.userSettings),
                 .target(name: "UseCase_LocalNotificationTesting"),
@@ -312,8 +312,8 @@ func iOSTargets() -> [Target] {
             appendSchemeTo: &schemes
         ),
         Target.makeTargets(
-            name: Module.iPhoneDriver,
-            destinations: [.iPhone],
+            name: Module.iOSDriver,
+            destinations: [.iPhone, .iPad],
             product: .framework,
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
             dependencies: [
@@ -325,17 +325,41 @@ func iOSTargets() -> [Target] {
                 .target(name: Module.iOSScene.userSettings),
                 .external(name: ExternalDependencyName.swinjectDIContainer),
             ],
+            appendSchemeTo: &schemes
+        ),
+        Target.makeTargets(
+            name: Module.iPhoneDriver,
+            destinations: [.iPhone],
+            product: .framework,
+            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            dependencies: [
+                .target(name: Module.iOSDriver),
+            ],
             resourceOptions: [.own],
-            appendSchemeTo: &disposedSchemes
+            appendSchemeTo: &schemes
+        ),
+        Target.makeTargets(
+            name: Module.iPadDriver,
+            destinations: [.iPad],
+            product: .framework,
+            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            dependencies: [
+                .target(name: Module.iOSDriver),
+            ],
+            resourceOptions: [.own],
+            appendSchemeTo: &schemes
         ),
         Target.makeTargets(
             name: PROJECT_NAME,
-            destinations: [.iPhone],
+            destinations: [.iPhone, .iPad],
             product: .app,
             bundleID: BASIC_BUNDLE_ID,
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
-            infoPlist: .file(path: .path(Constant.Path.iPhoneInfoPlist)),
-            dependencies: [.target(name: Module.iPhoneDriver),],
+            infoPlist: .file(path: .path(Constant.Path.iOSInfoPlist)),
+            dependencies: [
+                .target(name: Module.iPhoneDriver),
+                .target(name: Module.iPadDriver),
+            ],
             settings: .settings(
                 base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.Security.TEAM_ID)
             ),
@@ -344,12 +368,15 @@ func iOSTargets() -> [Target] {
         ),
         Target.makeTargets(
             name: "\(PROJECT_NAME)Dev",
-            destinations: [.iPhone],
+            destinations: [.iPhone, .iPad],
             product: .app,
             bundleID: "\(BASIC_BUNDLE_ID)Dev",
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
-            infoPlist: .file(path: .path(Constant.Path.iPhoneInfoPlist)),
-            dependencies: [.target(name: Module.iPhoneDriver),],
+            infoPlist: .file(path: .path(Constant.Path.iOSInfoPlist)),
+            dependencies: [
+                .target(name: Module.iPhoneDriver),
+                .target(name: Module.iPadDriver),
+            ],
             settings: .settings(
                 base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.Security.TEAM_ID)
             ),

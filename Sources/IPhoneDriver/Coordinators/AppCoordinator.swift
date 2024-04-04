@@ -18,14 +18,14 @@ import UIKit
 ///
 /// 이 Coordinator 는 iPhone 에 종속적이게 정의되었습니다. iPad 는 큰 화면을 활용하여 ViewController 를 보여주는 방식이 달라질 수 있기 때문입니다.
 /// 후에 iPhone / iPad 둘 다 지원할 경우 `ViewController` 를 공유하며 `Coordinator` 객체만 따로 작성하여 모듈로 분리가 가능합니다.
-final class AppCoordinator: NSObject, Coordinator {
+public final class AppCoordinator: NSObject, Coordinator {
 
-    static let shared = AppCoordinator(rootTabBarController: .shared)
+    public static let shared = AppCoordinator(rootTabBarController: .shared)
     
     private var observation: NSKeyValueObservation?
     
-    weak var parentCoordinator: Coordinator?
-    var childCoordinators: [Coordinator] = []
+    public weak var parentCoordinator: Coordinator?
+    public var childCoordinators: [Coordinator] = []
 
     let rootTabBarController: RootTabBarController
 
@@ -33,7 +33,7 @@ final class AppCoordinator: NSObject, Coordinator {
         self.rootTabBarController = rootTabBarController
     }
 
-    func start() {
+    public func start() {
         let tabBarItemSymbolConfig: UIImage.SymbolConfiguration = .init(weight: .bold)
 
         let wordCheckingNC = UINavigationController().then {
@@ -80,7 +80,7 @@ final class AppCoordinator: NSObject, Coordinator {
 
 extension AppCoordinator: UNUserNotificationCenterDelegate {
 
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         rootTabBarController.selectedIndex = 0
         completionHandler()
     }

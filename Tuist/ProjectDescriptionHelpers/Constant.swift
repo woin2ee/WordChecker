@@ -11,8 +11,8 @@ public enum Constant {
 
 extension Constant {
     public enum Path {
-        public static let iPhoneInfoPlist = "Resources/InfoPlists/IPhone/Info.plist"
-        public static let iPhoneExampleInfoPlist = "Resources/InfoPlists/IPhone/InfoExample.plist"
+        public static let iOSInfoPlist = "Resources/InfoPlists/IOS/Info.plist"
+        public static let iOSExampleInfoPlist = "Resources/InfoPlists/IOS/InfoExample.plist"
         public static let macInfoPlist = "Resources/InfoPlists/Mac/Info.plist"
         public static let macEntitlements = "Resources/Entitlements/Mac/WordCheckerMac.entitlements"
     }

@@ -1,7 +1,4 @@
 //
-//  IPhoneAppDelegate.swift
-//  iPhoneDriver
-//
 //  Created by Jaewon Yun on 1/30/24.
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
@@ -35,15 +32,14 @@ import IOSScene_WordList
 import Swinject
 import SwinjectDIContainer
 
-open class IPhoneAppDelegate: UIResponder, UIApplicationDelegate {
+open class CommonAppDelegate: UIResponder, UIApplicationDelegate {
 
-    public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    open func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         initDIContainer()
         initGlobalState()
         restoreGoogleSignInState()
         NetworkMonitor.start()
-        UNUserNotificationCenter.current().delegate = AppCoordinator.shared
-
+        
         return true
     }
 
@@ -69,7 +65,12 @@ open class IPhoneAppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: UISceneSession Lifecycle
 
     public func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        return .init(name: "DefaultConfiguration", sessionRole: connectingSceneSession.role)
+        switch UIDevice.current.userInterfaceIdiom {
+        case .pad:
+            return .init(name: "IPadSceneConfiguration", sessionRole: connectingSceneSession.role)
+        default:
+            return .init(name: "IPhoneSceneConfiguration", sessionRole: connectingSceneSession.role)
+        }
     }
 
     public func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {

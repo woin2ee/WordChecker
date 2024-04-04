@@ -55,7 +55,9 @@ public struct Module {
     public static var iOSScene = IOSSceneModule()
     
     public static var iOSSupport = "IOSSupport"
+    public static var iOSDriver = "IOSDriver"
     public static var iPhoneDriver = "IPhoneDriver"
+    public static var iPadDriver = "IPadDriver"
     public static var utility = "Utility"
     public static var testsSupport = "TestsSupport"
     
