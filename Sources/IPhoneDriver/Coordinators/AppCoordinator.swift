@@ -21,9 +21,9 @@ import UIKit
 public final class AppCoordinator: NSObject, Coordinator {
 
     public static let shared = AppCoordinator(rootTabBarController: .shared)
-    
+
     private var observation: NSKeyValueObservation?
-    
+
     public weak var parentCoordinator: Coordinator?
     public var childCoordinators: [Coordinator] = []
 
@@ -68,9 +68,9 @@ public final class AppCoordinator: NSObject, Coordinator {
         let userSettingsCoordinator: UserSettingsCoordinator = .init(navigationController: userSettingsNC)
         childCoordinators.append(userSettingsCoordinator)
         userSettingsCoordinator.start()
-        
+
         rootTabBarController.viewControllers = [wordCheckingNC, wordListNC, userSettingsNC]
-        
+
         observation = rootTabBarController.observe(to: .doubleTap, tabBarItemAt: 2) {
             userSettingsCoordinator.childCoordinators = []
         }

@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let navigationController: UINavigationController = .init()
         navigationController.tabBarItem = .init(tabBarSystemItem: .favorites, tag: 0)
-        
+
         let tabBarController: UITabBarController = .init()
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -31,7 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabBarController.viewControllers = [navigationController]
 
         window?.rootViewController = tabBarController
-        
+
         coordinator = WordCheckingCoordinator(navigationController: navigationController)
         coordinator?.start()
     }

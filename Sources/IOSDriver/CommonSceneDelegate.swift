@@ -29,7 +29,7 @@ open class CommonSceneDelegate: UIResponder, UIWindowSceneDelegate {
     public func sceneDidBecomeActive(_ scene: UIScene) {
         globalAction.sceneDidBecomeActive.accept(())
     }
-    
+
     /// `window` 의 `rootViewController` 를 설정합니다.
     ///
     /// 이 메소드는 `UISceneDelegate.scene(_:willConnectTo:options:)` 함수 내에서 `window` 가 초기화 된 후 호출됩니다.

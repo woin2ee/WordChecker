@@ -27,7 +27,7 @@ internal struct LocalizedString {
 
     static let google_drive_download = NSLocalizedString("google_drive_download", bundle: Bundle.module, comment: "")
     static let google_drive_download_successfully = NSLocalizedString("google_drive_download_successfully", bundle: Bundle.module, comment: "")
-    
+
     static let haptics = NSLocalizedString("haptics", bundle: Bundle.module, comment: "")
     static let theme = NSLocalizedString("theme", bundle: Bundle.module, comment: "")
     static let system_mode = NSLocalizedString("system_mode", bundle: Bundle.module, comment: "")
@@ -39,7 +39,7 @@ internal struct LocalizedString {
 
     static let allow_notifications_is_required = NSLocalizedString("allow_notifications_is_required", bundle: Bundle.module, comment: "")
     static let dailyReminderFooter = NSLocalizedString("dailyReminderFooter", bundle: Bundle.module, comment: "")
-    
+
     static let hapticsSettingsFooterTextWhenHapticsIsOn = NSLocalizedString("hapticsSettingsFooterTextWhenHapticsIsOn", bundle: Bundle.module, comment: "")
     static let hapticsSettingsFooterTextWhenHapticsIsOff = NSLocalizedString("hapticsSettingsFooterTextWhenHapticsIsOff", bundle: Bundle.module, comment: "")
 }

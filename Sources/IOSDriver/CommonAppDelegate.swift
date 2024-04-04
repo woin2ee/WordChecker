@@ -39,7 +39,7 @@ open class CommonAppDelegate: UIResponder, UIApplicationDelegate {
         initGlobalState()
         restoreGoogleSignInState()
         NetworkMonitor.start()
-        
+
         return true
     }
 

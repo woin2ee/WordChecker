@@ -13,7 +13,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    
+
     let disposeBag = DisposeBag()
     var coordinator: UserSettingsCoordinator?
 
@@ -33,12 +33,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabBarController.tabBar.scrollEdgeAppearance = appearance
 
         tabBarController.viewControllers = [navigationController]
-        
+
         window?.rootViewController = tabBarController
-        
+
         coordinator = UserSettingsCoordinator(navigationController: navigationController)
         coordinator?.start()
-        
+
         GlobalState.shared.themeStyle
             .asDriver()
             .drive(with: self) { owner, userInterfaceStyle in

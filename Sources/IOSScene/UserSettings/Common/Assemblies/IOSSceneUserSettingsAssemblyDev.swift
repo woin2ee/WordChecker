@@ -6,9 +6,9 @@
 import Swinject
 
 public struct IOSSceneUserSettingsAssemblyDev: Assembly {
-    
+
     public init() {}
-    
+
     public func assemble(container: Container) {
         let subAsseblies: [Assembly] = [
             GeneralSettingsAssembly(),

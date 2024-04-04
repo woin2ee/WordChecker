@@ -16,13 +16,13 @@ import UseCase_WordTesting
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
+
         DIContainer.shared.assembler.apply(assemblies: [
             WordCheckingAssembly(),
             WordUseCaseFakeAssembly(),
             UserSettingsUseCaseFakeAssembly(),
         ])
-        
+
         NetworkMonitor.start()
         return true
     }

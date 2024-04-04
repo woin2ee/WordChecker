@@ -13,7 +13,7 @@ import UIKit
 public final class AppCoordinator: NSObject, Coordinator {
 
     public static let shared = AppCoordinator(rootSplitViewController: UISplitViewController())
-    
+
     public weak var parentCoordinator: Coordinator?
     public var childCoordinators: [Coordinator] = []
 
@@ -30,8 +30,8 @@ public final class AppCoordinator: NSObject, Coordinator {
 }
 
 extension AppCoordinator: UNUserNotificationCenterDelegate {
-    
+
     public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        
+
     }
 }
