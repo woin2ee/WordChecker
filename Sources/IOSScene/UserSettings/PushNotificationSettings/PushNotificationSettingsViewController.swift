@@ -168,6 +168,7 @@ class PushNotificationSettingsViewController: RxBaseViewController, View, PushNo
             .disposed(by: self.disposeBag)
 
         reactor.pulse(\.$needAuthAlert)
+            .unwrapOrIgnore()
             .asDriverOnErrorJustComplete()
             .drive(with: self) { owner, _ in
                 owner.presentOKAlert(title: LocalizedString.notice, message: LocalizedString.allow_notifications_is_required)
@@ -175,6 +176,7 @@ class PushNotificationSettingsViewController: RxBaseViewController, View, PushNo
             .disposed(by: self.disposeBag)
 
         reactor.pulse(\.$moveToAuthSettingAlert)
+            .unwrapOrIgnore()
             .asDriverOnErrorJustComplete()
             .drive(with: self) { owner, _ in
                 owner.presentOKAlert(title: LocalizedString.notice, message: LocalizedString.allow_notifications_is_required)
