@@ -42,7 +42,7 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
         .googleDriveSignOut: .button(.init(title: LocalizedString.google_drive_logout, textColor: .systemRed)),
     ]
 
-    lazy var settingsTableViewDataSource: UITableViewDiffableDataSource<UserSettingsSectionIdentifier, UserSettingsItemIdentifier> = .init(tableView: settingsTableView) { tableView, indexPath, id in
+    private lazy var settingsTableViewDataSource: UITableViewDiffableDataSource<UserSettingsSectionIdentifier, UserSettingsItemIdentifier> = .init(tableView: rootTableView) { tableView, indexPath, id in
         guard let itemModel = self.dataSourceModel[id] else {
             preconditionFailure("dataSourceModel 에 해당 \(id) 를 가진 Item 이 없습니다.")
         }
@@ -61,19 +61,27 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
 
     weak var delegate: UserSettingsViewControllerDelegate?
 
-    lazy var settingsTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
+    let rootTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
         $0.register(DisclosureIndicatorCell.self)
         $0.register(ButtonCell.self)
     }
-
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        setUpSnapshot()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
-        self.view = settingsTableView
+        self.view = rootTableView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemGroupedBackground
-        applyDefaultSnapshot()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -81,7 +89,7 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
         setupNavigationBar()
     }
 
-    func applyDefaultSnapshot() {
+    func setUpSnapshot() {
         var snapshot: NSDiffableDataSourceSnapshot<UserSettingsSectionIdentifier, UserSettingsItemIdentifier> = .init()
         snapshot.appendSections([.changeLanguage, .notifications, .googleDriveSync])
 
@@ -110,8 +118,8 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
     }
 
     override func bindAction() {
-        let itemSelectedEvent = settingsTableView.rx.itemSelected.asSignal()
-            .doOnNext { [weak self] in self?.settingsTableView.deselectRow(at: $0, animated: true) }
+        let itemSelectedEvent = rootTableView.rx.itemSelected.asSignal()
+            .doOnNext { [weak self] in self?.rootTableView.deselectRow(at: $0, animated: true) }
 
         itemSelectedEvent
             .filter { self.settingsTableViewDataSource.itemIdentifier(for: $0) == .changeSourceLanguage }
@@ -144,8 +152,8 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
 
     // swiftlint:disable:next function_body_length
     func bind(reactor: UserSettingsReactor) {
-        // Action
-        let itemSelectedEvent = settingsTableView.rx.itemSelected.asSignal()
+        // MARK: Bind Reactor's Action
+        let itemSelectedEvent = rootTableView.rx.itemSelected.asSignal()
 
         let presentingWindow: PresentingConfiguration = .init(window: self)
 
@@ -172,7 +180,7 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
 
-        // State
+        // MARK: Bind Reactor's State
         reactor.state
             .map(\.hasSigned)
             .distinctUntilChanged()
@@ -195,6 +203,7 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
             .disposed(by: self.disposeBag)
 
         reactor.pulse(\.$showSignOutAlert)
+            .unwrapOrIgnore()
             .asDriverOnErrorJustComplete()
             .drive(with: self, onNext: { owner, _ in
                 owner.presentOKAlert(title: LocalizedString.notice, message: LocalizedString.signed_out_of_google_drive_successfully)

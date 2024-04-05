@@ -28,6 +28,7 @@ final class UserSettingsReactor: Reactor {
         case setTargetLanguage(TranslationLanguage)
         case signIn
         case signOut
+        case showSignOutAlert
         case setUploadStatus(ProgressStatus)
         case setDownloadStatus(ProgressStatus)
     }
@@ -112,7 +113,10 @@ final class UserSettingsReactor: Reactor {
 
         case .signOut:
             googleDriveUseCase.signOut()
-            return .just(.signOut)
+            return .merge([
+                .just(.signOut),
+                .just(.showSignOutAlert),
+            ])
         }
     }
 
@@ -138,6 +142,7 @@ final class UserSettingsReactor: Reactor {
             state.hasSigned = true
         case .signOut:
             state.hasSigned = false
+        case .showSignOutAlert:
             state.showSignOutAlert = ()
         case .setUploadStatus(let progressStatus):
             state.uploadStatus = progressStatus
