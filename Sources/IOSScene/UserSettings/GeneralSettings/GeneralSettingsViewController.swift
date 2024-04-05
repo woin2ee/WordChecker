@@ -106,7 +106,7 @@ final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSe
         dataSource.applySnapshotUsingReloadData(snapshot)
     }
 
-    override func bindAction() {
+    override func bindActions() {
         let itemSelectedEvent = rootView.rx.itemSelected.asSignal()
             .doOnNext { [weak self] in self?.rootView.deselectRow(at: $0, animated: true) }
 

@@ -110,7 +110,7 @@ final class WordDetailViewController: RxBaseViewController, WordDetailViewContro
         self.navigationItem.leftBarButtonItem = cancelBarButton
     }
 
-    override func bindAction() {
+    override func bindActions() {
         cancelBarButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in

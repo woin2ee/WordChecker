@@ -136,7 +136,7 @@ final class WordListViewController: RxBaseViewController, WordListViewController
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
 
-    override func bindAction() {
+    override func bindActions() {
         addWordButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in

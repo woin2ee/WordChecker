@@ -117,7 +117,7 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
         self.navigationController?.navigationBar.sizeToFit()
     }
 
-    override func bindAction() {
+    override func bindActions() {
         let itemSelectedEvent = rootTableView.rx.itemSelected.asSignal()
             .doOnNext { [weak self] in self?.rootTableView.deselectRow(at: $0, animated: true) }
 
