@@ -76,7 +76,7 @@ Tuist/master.key
 Tuist/ProjectDescriptionHelpers/Constant+Security.swift
 
 ### info.plist
-Resources/InfoPlist/Info.plist
+Resources/InfoPlists/**/Info.plist
 
 ### Using tests
 Tests/**/*.plist
