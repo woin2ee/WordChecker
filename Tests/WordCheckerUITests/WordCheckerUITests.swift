@@ -5,10 +5,6 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
-@testable import IOSScene_GeneralSettings
-@testable import IOSScene_LanguageSetting
-@testable import IOSScene_PushNotificationSettings
-@testable import IOSScene_ThemeSetting
 @testable import IOSScene_UserSettings
 @testable import IOSScene_WordChecking
 @testable import IOSScene_WordList

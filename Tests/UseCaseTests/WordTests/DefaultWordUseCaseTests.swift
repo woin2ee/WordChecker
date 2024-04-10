@@ -265,7 +265,7 @@ final class DefaultWordUseCaseTests: XCTestCase {
 
 // MARK: - Helpers
 
-extension WordUseCaseTests {
+extension DefaultWordUseCaseTests {
 
     private func makePreparedRepositories() -> (wordRepositoryFake: WordRepositoryFake, unmemorizedWordListRepository: UnmemorizedWordListRepository) {
         let wordRepositoryFake = WordRepositoryFake()

@@ -1,4 +1,4 @@
-@testable import IOSScene_PushNotificationSettings
+@testable import IOSScene_UserSettings
 @testable import IOSSupport
 @testable import UseCase_LocalNotificationTesting
 
