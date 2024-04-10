@@ -52,5 +52,7 @@ let package = Package(
         .package(url: "https://github.com/siteline/swiftui-introspect", from: "1.0.0"),
         // PinLayout
         .package(url: "https://github.com/layoutBox/PinLayout", from: "1.0.0"),
+        // Swift Collections
+        .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.0"),
     ]
 )

@@ -46,8 +46,7 @@ func commonTargets() -> [Target] {
             name: Module.domain.word,
             dependencies: [
                 .target(name: Module.domain.core),
-                .package(product: ExternalDependencyName.realm),
-                .package(product: ExternalDependencyName.realmSwift),
+                .external(name: ExternalDependencyName.realmSwift),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -60,9 +59,9 @@ func commonTargets() -> [Target] {
             name: Module.domain.googleDrive,
             dependencies: [
                 .target(name: Module.domain.core),
-                .package(product: ExternalDependencyName.googleAPIClientForRESTCore),
-                .package(product: ExternalDependencyName.googleAPIClientForREST_Drive),
-                .package(product: ExternalDependencyName.googleSignIn),
+                .external(name: ExternalDependencyName.googleAPIClientForRESTCore),
+                .external(name: ExternalDependencyName.googleAPIClientForREST_Drive),
+                .external(name: ExternalDependencyName.googleSignIn),
             ],
             withTesting: true,
             appendSchemeTo: &schemes
@@ -204,7 +203,7 @@ func iOSTargets() -> [Target] {
                 .external(name: ExternalDependencyName.swinjectExtension),
                 .external(name: ExternalDependencyName.swinjectDIContainer),
                 .external(name: ExternalDependencyName.uiKitPlus),
-                .package(product: ExternalDependencyName.swiftCollections),
+                .external(name: ExternalDependencyName.swiftCollections),
             ],
             resourceOptions: [.own],
             appendSchemeTo: &schemes
@@ -426,12 +425,6 @@ let project: Project = .init(
     name: PROJECT_NAME,
     organizationName: ORGANIZATION,
     options: .options(automaticSchemesOptions: .disabled),
-    packages: [
-        .package(url: "https://github.com/realm/realm-swift.git", from: "10.42.0"),
-        .package(url: "https://github.com/google/GoogleSignIn-iOS", from: "6.0.0"),
-        .package(url: "https://github.com/google/google-api-objectivec-client-for-rest.git", from: "3.0.0"),
-        .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.0"),
-    ],
     settings: .settings(
         base: ["SWIFT_EMIT_LOC_STRINGS": true]
     ),
