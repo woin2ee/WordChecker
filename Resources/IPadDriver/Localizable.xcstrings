@@ -1,7 +1,50 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-
+    "Memorizer" : {
+      "comment" : "appName",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "외우미"
+          }
+        }
+      }
+    },
+    "Memorizing" : {
+      "comment" : "wordCheckingMenu",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "암기"
+          }
+        }
+      }
+    },
+    "Settings" : {
+      "comment" : "userSettingsMenu",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정"
+          }
+        }
+      }
+    },
+    "Word List" : {
+      "comment" : "wordListMenu",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단어 목록"
+          }
+        }
+      }
+    }
   },
   "version" : "1.0"
 }
