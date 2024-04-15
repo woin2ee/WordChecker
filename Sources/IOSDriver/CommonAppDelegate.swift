@@ -65,11 +65,11 @@ open class CommonAppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: UISceneSession Lifecycle
 
     public func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        switch UIDevice.current.userInterfaceIdiom {
-        case .pad:
-            return .init(name: "IPadSceneConfiguration", sessionRole: connectingSceneSession.role)
-        default:
+        switch UIDevice.current.allowedIdiom {
+        case .iPhone:
             return .init(name: "IPhoneSceneConfiguration", sessionRole: connectingSceneSession.role)
+        case .iPad:
+            return .init(name: "IPadSceneConfiguration", sessionRole: connectingSceneSession.role)
         }
     }
 
