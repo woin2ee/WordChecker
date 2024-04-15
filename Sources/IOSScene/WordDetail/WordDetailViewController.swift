@@ -115,8 +115,15 @@ final class WordDetailViewController: RxBaseViewController, WordDetailViewContro
             .asDriver()
             .drive(with: self) { owner, _ in
                 if owner.reactor!.currentState.hasChanges {
-                    owner.presentDismissActionSheet {
-                        owner.delegate?.viewControllerMustBeDismissed(owner)
+                    switch UIDevice.current.allowedIdiom {
+                    case .iPhone:
+                        owner.presentDismissActionSheet {
+                            owner.delegate?.viewControllerMustBeDismissed(owner)
+                        }
+                    case .iPad:
+                        owner.presentDismissPopover(on: owner.cancelBarButton) {
+                            owner.delegate?.viewControllerMustBeDismissed(owner)
+                        }
                     }
                 } else {
                     owner.delegate?.viewControllerMustBeDismissed(owner)
@@ -223,8 +230,15 @@ extension WordDetailViewController: View {
 extension WordDetailViewController: UIAdaptivePresentationControllerDelegate {
 
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
-        self.presentDismissActionSheet {
-            self.delegate?.viewControllerMustBeDismissed(self)
+        switch UIDevice.current.allowedIdiom {
+        case .iPhone:
+            self.presentDismissActionSheet {
+                self.delegate?.viewControllerMustBeDismissed(self)
+            }
+        case .iPad:
+            self.presentDismissPopover(on: cancelBarButton) {
+                self.delegate?.viewControllerMustBeDismissed(self)
+            }
         }
     }
 

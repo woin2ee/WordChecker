@@ -98,32 +98,46 @@ final class WordAdditionViewController: RxBaseViewController, WordAdditionViewCo
         )
         let output = viewModel.transform(input: input)
 
-        [
-            output.saveComplete
-                .emit(with: self, onNext: { owner, _ in
-                    owner.delegate?.viewControllerMustBeDismissed(owner)
-                }),
-            output.reconfirmDismiss
-                .emit(with: self, onNext: { owner, _ in
+        output.saveComplete
+            .emit(with: self, onNext: { owner, _ in
+                owner.delegate?.viewControllerMustBeDismissed(owner)
+            })
+            .disposed(by: disposeBag)
+        
+        output.reconfirmDismiss
+            .emit(with: self, onNext: { owner, _ in
+                switch UIDevice.current.allowedIdiom {
+                case .iPhone:
                     owner.presentDismissActionSheet {
                         owner.delegate?.viewControllerMustBeDismissed(owner)
                     }
-                }),
-            output.dismissComplete
-                .emit(with: self, onNext: { owner, _ in
-                    owner.delegate?.viewControllerMustBeDismissed(owner)
-                }),
+                case .iPad:
+                    owner.presentDismissPopover(on: owner.cancelBarButton) {
+                        owner.delegate?.viewControllerMustBeDismissed(owner)
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        output.dismissComplete
+            .emit(with: self, onNext: { owner, _ in
+                owner.delegate?.viewControllerMustBeDismissed(owner)
+            })
+            .disposed(by: disposeBag)
+        
+        output.enteredWordIsDuplicated
+            .distinctUntilChanged()
+            .map { !$0 }
+            .drive(duplicatedWordAlertLabel.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        Driver.combineLatest(
+            output.wordIsEntered,
             output.enteredWordIsDuplicated
-                .distinctUntilChanged()
-                .map { !$0 }
-                .drive(duplicatedWordAlertLabel.rx.isHidden),
-            Driver.combineLatest(
-                output.wordIsEntered,
-                output.enteredWordIsDuplicated
-            ).map { $0.0 && !$0.1 }
-                .drive(doneBarButton.rx.isEnabled),
-        ]
-            .forEach { $0.disposed(by: disposeBag) }
+        )
+        .map { $0.0 && !$0.1 }
+        .drive(doneBarButton.rx.isEnabled)
+        .disposed(by: disposeBag)
     }
 
 }

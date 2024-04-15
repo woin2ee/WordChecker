@@ -23,6 +23,9 @@ extension UIViewController {
         self.present(actionController, animated: true)
     }
 
+    /// Dismiss 하기 전에 확인 Action sheet 를 제시합니다.
+    ///
+    /// - Parameter discardChangesAction: 변경 사항 폐기를 선택했을 때 실행되는 클로저.
     public func presentDismissActionSheet(discardChangesAction: (() -> Void)?) {
         let actionSheetController: UIAlertController = .init(title: nil, message: nil, preferredStyle: .actionSheet)
 
@@ -36,6 +39,25 @@ extension UIViewController {
         actionSheetController.addAction(discardChangesAction)
         actionSheetController.addAction(cancelAction)
 
+        self.present(actionSheetController, animated: true)
+    }
+    
+    /// Dismiss 하기 전에 확인 Popover 를 제시합니다.
+    /// - Parameters:
+    ///   - anchorItem: The item on which to anchor the popover.
+    ///   - discardChangesAction: 변경 사항 폐기를 선택했을 때 실행되는 클로저.
+    public func presentDismissPopover(on anchorItem: (some UIPopoverPresentationControllerSourceItem), discardChangesAction: (() -> Void)?) {
+        let actionSheetController: UIAlertController = .init(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        let discardChangesAction: UIAlertAction = .init(
+            title: LocalizedString.discardChanges,
+            style: .destructive,
+            handler: { _ in discardChangesAction?() }
+        )
+        
+        actionSheetController.addAction(discardChangesAction)
+        actionSheetController.popoverPresentationController?.sourceItem = anchorItem
+        
         self.present(actionSheetController, animated: true)
     }
 }
