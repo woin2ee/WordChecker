@@ -15,7 +15,7 @@ internal final class GeneralSettingsCoordinator: BasicCoordinator {
     override func start() {
         let viewController: GeneralSettingsViewControllerProtocol = DIContainer.shared.resolver.resolve()
         viewController.delegate = self
-        navigationController.pushViewController(viewController, animated: true)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 
 }

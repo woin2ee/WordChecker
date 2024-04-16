@@ -16,7 +16,7 @@ internal final class PushNotificationSettingsCoordinator: BasicCoordinator {
     override func start() {
         let viewController: PushNotificationSettingsViewControllerProtocol = DIContainer.shared.resolver.resolve()
         viewController.delegate = self
-        self.navigationController.pushViewController(viewController, animated: true)
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 
 }

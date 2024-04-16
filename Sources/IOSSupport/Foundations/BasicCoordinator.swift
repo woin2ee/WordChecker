@@ -17,9 +17,9 @@ open class BasicCoordinator: Coordinator {
     public weak var parentCoordinator: Coordinator?
     public var childCoordinators: [Coordinator] = []
 
-    public let navigationController: UINavigationController
+    public weak var navigationController: UINavigationController?
 
-    public init(navigationController: UINavigationController) {
+    public init(navigationController: UINavigationController?) {
         self.navigationController = navigationController
     }
 
@@ -48,7 +48,7 @@ extension BasicCoordinator: ViewControllerDelegate {
 
     public func viewControllerMustBeDismissed(_ viewController: UIViewController) {
         // In this case, `navigationController` property is represented the presented view controller.
-        navigationController.dismiss(animated: true)
+        navigationController?.dismiss(animated: true)
         parentCoordinator?.childCoordinators.removeAll(where: { $0 === self })
     }
 

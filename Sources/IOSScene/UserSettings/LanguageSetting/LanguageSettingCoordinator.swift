@@ -16,7 +16,7 @@ internal final class LanguageSettingCoordinator: BasicCoordinator {
     override func start<Arg1>(with argument: Arg1) {
         let viewController: LanguageSettingViewControllerProtocol = DIContainer.shared.resolver.resolve(argument: argument)
         viewController.delegate = self
-        navigationController.pushViewController(viewController, animated: true)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 
 }

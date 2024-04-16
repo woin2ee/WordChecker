@@ -16,7 +16,7 @@ public final class UserSettingsCoordinator: BasicCoordinator {
     public override func start() {
         let viewController: UserSettingsViewControllerProtocol = DIContainer.shared.resolver.resolve()
         viewController.delegate = self
-        navigationController.setViewControllers([viewController], animated: false)
+        navigationController?.setViewControllers([viewController], animated: false)
     }
 
 }
