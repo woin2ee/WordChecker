@@ -7,8 +7,22 @@
 
 import UIKit
 
-open class BaseViewController: UIViewController {
+public protocol DeallocChecking {
+    
+    /// Dealloc checking 활성화 여부
+    ///
+    /// Configuration 이 `DEBUG` 일 때는 기본값이 `true`, `RELEASE` 일 때는 기본값이 `flase` 입니다.
+    var isDeallocCheckEnabled: Bool { get set }
+}
 
+open class BaseViewController: UIViewController, DeallocChecking {
+
+    #if DEBUG
+    public var isDeallocCheckEnabled: Bool = true
+    #elseif RELEASE
+    public var isDeallocCheckEnabled: Bool = false
+    #endif
+    
     open override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -17,9 +31,9 @@ open class BaseViewController: UIViewController {
 
     open override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-
-        #if DEBUG
+        
+        if isDeallocCheckEnabled {
             self.checkDeallocation()
-        #endif
+        }
     }
 }

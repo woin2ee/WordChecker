@@ -66,7 +66,7 @@ extension UIViewController {
 
 extension UIViewController {
 
-    public func checkDeallocation(afterDelay delay: TimeInterval = 1.0) {
+    public func checkDeallocation(afterDelay delay: TimeInterval = 1.5) {
         if isMovingFromParent || rootParentViewController.isBeingDismissed {
             let viewControllerType = type(of: self)
             let disappearanceSource: String = isMovingFromParent ? "removed from its parent" : "dismissed"
