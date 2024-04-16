@@ -266,6 +266,18 @@ func iOSTargets() -> [Target] {
             ],
             appendSchemeTo: &schemes
         ),
+        Target.makeTargets(
+            name: "\(Module.iOSScene.wordDetail)Example",
+            destinations: .iOS,
+            product: .app,
+            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            infoPlist: .file(path: .path(Constant.Path.iOSExampleInfoPlist)),
+            dependencies: [
+                .target(name: Module.iOSScene.wordDetail),
+                .target(name: "UseCase_WordTesting"),
+            ],
+            appendSchemeTo: &schemes
+        ),
         Target.makeIOSFramework(
             name: Module.iOSScene.wordAddition,
             dependencies: [
