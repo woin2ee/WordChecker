@@ -65,16 +65,16 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
         $0.register(DisclosureIndicatorCell.self)
         $0.register(ButtonCell.self)
     }
-    
+
     init() {
         super.init(nibName: nil, bundle: nil)
         setUpSnapshot()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func loadView() {
         self.view = rootTableView
     }

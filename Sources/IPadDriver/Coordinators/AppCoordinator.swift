@@ -29,19 +29,19 @@ public final class AppCoordinator: NSObject, Coordinator {
 
     public func start() {
         sideBarViewController.menuTableView.delegate = self
-        
+
         let wordCheckingCoordinator = WordCheckingCoordinator(navigationController: wordCheckingNC)
         childCoordinators.append(wordCheckingCoordinator)
         wordCheckingCoordinator.start()
-        
+
         let wordListCoordinator = WordListCoordinator(navigationController: wordListNC)
         childCoordinators.append(wordListCoordinator)
         wordListCoordinator.start()
-        
+
         let userSettingsCoordinator = UserSettingsCoordinator(navigationController: userSettingsNC)
         childCoordinators.append(userSettingsCoordinator)
         userSettingsCoordinator.start()
-        
+
         rootSplitViewController.viewControllers = [sideBarViewController, wordCheckingNC]
     }
 }
@@ -56,7 +56,7 @@ extension AppCoordinator: UNUserNotificationCenterDelegate {
 }
 
 extension AppCoordinator: UITableViewDelegate {
-    
+
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedMenu = sideBarViewController.menuList[indexPath.section][indexPath.row]
         switch selectedMenu {

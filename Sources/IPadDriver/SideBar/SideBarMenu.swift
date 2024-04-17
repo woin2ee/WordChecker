@@ -7,11 +7,11 @@
 //
 
 internal enum SideBarMenu {
-    
+
     case wordChecking
     case wordList
     case userSettings
-    
+
     var title: String {
         switch self {
         case .wordChecking:

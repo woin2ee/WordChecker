@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIDevice {
-    
+
     public var allowedIdiom: AllowedIdiom {
         switch self.userInterfaceIdiom {
         case .phone:

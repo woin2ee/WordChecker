@@ -5,7 +5,7 @@ import UseCase_WordTesting
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    
+
     var coordinator: WordDetailCoordinator?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -14,13 +14,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
 
         let navigationController = UINavigationController()
-        
+
         window?.rootViewController = navigationController
-        
+
         let modallyNavigationController = UINavigationController()
         coordinator = WordDetailCoordinator(navigationController: modallyNavigationController)
         coordinator?.start(with: UUID())
-        
+
         navigationController.present(modallyNavigationController, animated: true)
     }
 }

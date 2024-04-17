@@ -41,7 +41,7 @@ extension UIViewController {
 
         self.present(actionSheetController, animated: true)
     }
-    
+
     /// Dismiss 하기 전에 확인 Popover 를 제시합니다.
     /// - Parameters:
     ///   - anchorItem: The item on which to anchor the popover.
@@ -54,10 +54,10 @@ extension UIViewController {
             style: .destructive,
             handler: { _ in discardChangesAction?() }
         )
-        
+
         actionSheetController.addAction(discardChangesAction)
         actionSheetController.popoverPresentationController?.sourceItem = anchorItem
-        
+
         self.present(actionSheetController, animated: true)
     }
 }

@@ -103,7 +103,7 @@ final class WordAdditionViewController: RxBaseViewController, WordAdditionViewCo
                 owner.delegate?.viewControllerMustBeDismissed(owner)
             })
             .disposed(by: disposeBag)
-        
+
         output.reconfirmDismiss
             .emit(with: self, onNext: { owner, _ in
                 switch UIDevice.current.allowedIdiom {
@@ -118,19 +118,19 @@ final class WordAdditionViewController: RxBaseViewController, WordAdditionViewCo
                 }
             })
             .disposed(by: disposeBag)
-        
+
         output.dismissComplete
             .emit(with: self, onNext: { owner, _ in
                 owner.delegate?.viewControllerMustBeDismissed(owner)
             })
             .disposed(by: disposeBag)
-        
+
         output.enteredWordIsDuplicated
             .distinctUntilChanged()
             .map { !$0 }
             .drive(duplicatedWordAlertLabel.rx.isHidden)
             .disposed(by: disposeBag)
-        
+
         Driver.combineLatest(
             output.wordIsEntered,
             output.enteredWordIsDuplicated

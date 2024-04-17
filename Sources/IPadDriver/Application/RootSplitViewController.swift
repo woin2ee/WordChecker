@@ -11,10 +11,10 @@ import UIKit
 internal final class RootSplitViewController: UISplitViewController {
 
     static let shared: RootSplitViewController = .init()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.preferredSplitBehavior = .tile
         self.preferredDisplayMode = .oneBesideSecondary
     }

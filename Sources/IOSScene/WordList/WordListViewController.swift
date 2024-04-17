@@ -102,7 +102,7 @@ final class WordListViewController: RxBaseViewController, WordListViewController
         super.viewWillTransition(to: size, with: coordinator)
         wordListTableView.frame = .init(origin: .zero, size: size)
     }
-    
+
     override func viewWillLayoutSubviews() {
         wordListTableView.frame = self.view.frame
         super.viewWillLayoutSubviews()
