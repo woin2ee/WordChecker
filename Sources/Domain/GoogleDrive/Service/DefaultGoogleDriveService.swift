@@ -14,7 +14,7 @@ import Utility
 
 public final class DefaultGoogleDriveService: GoogleDriveService {
 
-    let gidSignIn: GIDSignIn
+    private let gidSignIn: GIDSignIn
 
     init(gidSignIn: GIDSignIn) {
         self.gidSignIn = gidSignIn

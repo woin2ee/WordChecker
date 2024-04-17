@@ -12,8 +12,8 @@ import RxSwift
 
 internal final class DefaultWordUseCase: WordUseCase {
 
-    let wordService: WordService
-    let localNotificationService: LocalNotificationService
+    private let wordService: WordService
+    private let localNotificationService: LocalNotificationService
 
     init(wordService: WordService, localNotificationService: LocalNotificationService) {
         self.wordService = wordService

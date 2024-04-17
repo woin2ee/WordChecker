@@ -9,8 +9,8 @@ import UserNotifications
 
 final class DefaultLocalNotificationService: LocalNotificationService {
 
-    let userDefaults: ExtendedUserDefaults
-    let notificationCenter: UNUserNotificationCenter
+    private let userDefaults: ExtendedUserDefaults
+    private let notificationCenter: UNUserNotificationCenter
 
     init(userDefaults: ExtendedUserDefaults, userNotificationCenter: UNUserNotificationCenter) {
         self.userDefaults = userDefaults

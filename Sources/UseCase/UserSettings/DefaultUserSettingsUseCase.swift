@@ -15,7 +15,7 @@ import Utility
 
 internal final class DefaultUserSettingsUseCase: UserSettingsUseCase {
 
-    let userSettingsService: UserSettingsService
+    private let userSettingsService: UserSettingsService
 
     init(
         userSettingsService: UserSettingsService

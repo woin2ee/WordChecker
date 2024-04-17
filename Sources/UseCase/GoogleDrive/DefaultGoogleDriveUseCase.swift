@@ -13,9 +13,9 @@ import RxSwiftSugar
 
 internal final class DefaultGoogleDriveUseCase: GoogleDriveUseCase {
 
-    let googleDriveService: GoogleDriveService
-    let wordService: WordService
-    let localNotificationService: LocalNotificationService
+    private let googleDriveService: GoogleDriveService
+    private let wordService: WordService
+    private let localNotificationService: LocalNotificationService
 
     init(googleDriveService: GoogleDriveService, wordService: WordService, localNotificationService: LocalNotificationService) {
         self.googleDriveService = googleDriveService
