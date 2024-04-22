@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/google-api-objectivec-client-for-rest.git",
       "state" : {
-        "revision" : "8b200e6e447c04140ac027cba4f368402766965f",
-        "version" : "3.5.1"
+        "revision" : "11941123a0d9c2641197fa83d57e6ff9f088b907",
+        "version" : "3.5.2"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-core.git",
       "state" : {
-        "revision" : "374dd672af357732dccc135fecc905406fec3223",
-        "version" : "14.4.1"
+        "revision" : "4d815c6e6883bfdcb67cf755d0f0f29a4b399ea7",
+        "version" : "14.5.2"
       }
     },
     {
@@ -95,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-swift.git",
       "state" : {
-        "revision" : "e0c2fbb442979fbf1e4be80e01d142f310a9c762",
-        "version" : "10.49.1"
+        "revision" : "a4d731076e6a52f4366d844c78369ac7c9c6b1c0",
+        "version" : "10.49.2"
       }
     },
     {
@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ReactiveX/RxSwift.git",
       "state" : {
-        "revision" : "9dcaa4b333db437b0fbfaf453fad29069044a8b4",
-        "version" : "6.6.0"
+        "revision" : "5949cbd3d4f3f97968bb40b6cd232f8315c6341c",
+        "version" : "6.7.0"
       }
     },
     {
@@ -194,8 +194,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Woin2ee-Modules/UIKitPlus.git",
       "state" : {
-        "revision" : "9dbc90e9adc5cdc47e81f34fa1684d50cc7f0c84",
-        "version" : "1.0.1"
+        "revision" : "a2c1ba70e17dba65f78a25cf264c88d1b619cbba",
+        "version" : "1.1.0"
       }
     },
     {
