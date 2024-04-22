@@ -64,7 +64,7 @@ extension SideBarViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(SideBarCell.self, for: indexPath)
         var config = UIListContentConfiguration.cell()
         config.text = menuList[indexPath.section][indexPath.row].title
-        config.image
+        config.image = menuList[indexPath.section][indexPath.row].symbol
         cell.contentConfiguration = config
         return cell
     }
