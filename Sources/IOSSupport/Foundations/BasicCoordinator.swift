@@ -29,15 +29,6 @@ open class BasicCoordinator: Coordinator {
     open func start() {
         abstractMethod()
     }
-
-    open func start<Arg1>(with argument: Arg1) {
-        abstractMethod()
-    }
-
-    open func start<Arg1, Arg2>(with arguments: Arg1, _ arg2: Arg2) {
-        abstractMethod()
-    }
-
 }
 
 extension BasicCoordinator: ViewControllerDelegate {

@@ -13,8 +13,15 @@ import UIKit
 
 internal final class LanguageSettingCoordinator: BasicCoordinator {
 
-    override func start<Arg1>(with argument: Arg1) {
-        let viewController: LanguageSettingViewControllerProtocol = DIContainer.shared.resolver.resolve(argument: argument)
+    let translationDirection: TranslationDirection
+    
+    init(navigationController: UINavigationController, translationDirection: TranslationDirection) {
+        self.translationDirection = translationDirection
+        super.init(navigationController: navigationController)
+    }
+    
+    override func start() {
+        let viewController: LanguageSettingViewControllerProtocol = DIContainer.shared.resolver.resolve(argument: translationDirection)
         viewController.delegate = self
         navigationController.pushViewController(viewController, animated: true)
     }

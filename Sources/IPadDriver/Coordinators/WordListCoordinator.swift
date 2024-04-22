@@ -1,3 +1,4 @@
+import IOSScene_WordDetail
 import IOSScene_WordList
 import IOSSupport
 import SwinjectDIContainer
@@ -18,10 +19,13 @@ extension WordListCoordinator: WordListViewControllerDelegate, WordSearchResults
     func didTapWordRow(with uuid: UUID) {
         let presentedNavigationController: UINavigationController = .init()
 
-        let coordinator: WordDetailCoordinator = .init(navigationController: presentedNavigationController)
+        let coordinator: WordDetailCoordinator = .init(
+            navigationController: presentedNavigationController,
+            uuid: uuid
+        )
         coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)
-        coordinator.start(with: uuid)
+        coordinator.start()
 
         navigationController.present(presentedNavigationController, animated: true)
     }

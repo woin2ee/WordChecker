@@ -18,8 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = navigationController
 
         let modallyNavigationController = UINavigationController()
-        coordinator = WordDetailCoordinator(navigationController: modallyNavigationController)
-        coordinator?.start(with: UUID())
+        coordinator = WordDetailCoordinator(navigationController: modallyNavigationController, uuid: UUID())
+        coordinator?.start()
 
         navigationController.present(modallyNavigationController, animated: true)
     }
