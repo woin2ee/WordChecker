@@ -30,7 +30,8 @@ final class UserDefaultsUserSettingsServiceTests: XCTestCase {
                 translationSourceLocale: .english,
                 translationTargetLocale: .korean,
                 hapticsIsOn: true,
-                themeStyle: .system
+                themeStyle: .system, 
+                memorizingWordSize: .default
             )
 
             // When
@@ -52,7 +53,8 @@ final class UserDefaultsUserSettingsServiceTests: XCTestCase {
                 translationSourceLocale: .korean,
                 translationTargetLocale: .english,
                 hapticsIsOn: false,
-                themeStyle: .dark
+                themeStyle: .dark,
+                memorizingWordSize: .default
             )
 
             // When
@@ -66,5 +68,27 @@ final class UserDefaultsUserSettingsServiceTests: XCTestCase {
             XCTAssertEqual(result.hapticsIsOn, false)
             XCTAssertEqual(result.themeStyle, .dark)
         }
+    }
+    
+    func test_getUserSettings_whenUpdatedUserSettings() throws {
+        // Given
+        let oldUserSettings = OldUserSettings(
+            translationSourceLocale: .chinese,
+            translationTargetLocale: .english,
+            hapticsIsOn: true,
+            themeStyle: .system
+        )
+        let userDefauls = ExtendedUserDefaults(suiteName: "Temporary")!
+        userDefauls.setCodable(oldUserSettings, forKey: UserDefaultsKey.userSettings)
+        sut = UserDefaultsUserSettingsService(userDefaults: userDefauls)
+        
+        // When
+        let newUserSettings = try sut.getUserSettings()
+        
+        // Then
+        XCTAssertEqual(newUserSettings.translationSourceLocale, oldUserSettings.translationSourceLocale)
+        XCTAssertEqual(newUserSettings.translationTargetLocale, oldUserSettings.translationTargetLocale)
+        XCTAssertEqual(newUserSettings.hapticsIsOn, oldUserSettings.hapticsIsOn)
+        XCTAssertEqual(newUserSettings.themeStyle, oldUserSettings.themeStyle)
     }
 }
