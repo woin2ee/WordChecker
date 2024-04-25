@@ -1,9 +1,6 @@
+import ExternalDependencyPlugin
 import ProjectDescription
 import ProjectDescriptionHelpers
-import MyPlugin
-
-// Local plugin loaded
-let localHelper = LocalHelper(name: "MyPlugin")
 
 var schemes: [Scheme] = []
 var disposedSchemes: [Scheme] = []
@@ -34,11 +31,11 @@ func commonTargets() -> [Target] {
             name: Module.domain.core,
             dependencies: [
                 .target(name: Module.utility),
-                .external(name: ExternalDependencyName.foundationPlus),
-                .external(name: ExternalDependencyName.swinject),
-                .external(name: ExternalDependencyName.swinjectExtension),
-                .external(name: ExternalDependencyName.rxSwift),
-                .external(name: ExternalDependencyName.rxSwiftSugarDynamic),
+                .external(name: .foundationPlus),
+                .external(name: .swinject),
+                .external(name: .swinjectExtension),
+                .external(name: .rxSwift),
+                .external(name: .rxSwiftSugarDynamic),
             ],
             appendSchemeTo: &schemes
         ),
@@ -46,7 +43,7 @@ func commonTargets() -> [Target] {
             name: Module.domain.word,
             dependencies: [
                 .target(name: Module.domain.core),
-                .external(name: ExternalDependencyName.realmSwift),
+                .external(name: .realmSwift),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -59,9 +56,9 @@ func commonTargets() -> [Target] {
             name: Module.domain.googleDrive,
             dependencies: [
                 .target(name: Module.domain.core),
-                .external(name: ExternalDependencyName.googleAPIClientForRESTCore),
-                .external(name: ExternalDependencyName.googleAPIClientForREST_Drive),
-                .external(name: ExternalDependencyName.googleSignIn),
+                .external(name: .googleAPIClientForRESTCore),
+                .external(name: .googleAPIClientForREST_Drive),
+                .external(name: .googleSignIn),
             ],
             withTesting: true,
             appendSchemeTo: &schemes
@@ -70,7 +67,7 @@ func commonTargets() -> [Target] {
             name: Module.domain.userSettings,
             dependencies: [
                 .target(name: Module.domain.core),
-                .external(name: ExternalDependencyName.extendedUserDefaults),
+                .external(name: .extendedUserDefaults),
             ],
             hasTests: true,
             withTesting: true,
@@ -80,7 +77,7 @@ func commonTargets() -> [Target] {
             name: Module.domain.localNotification,
             dependencies: [
                 .target(name: Module.domain.core),
-                .external(name: ExternalDependencyName.extendedUserDefaults),
+                .external(name: .extendedUserDefaults),
             ],
             resourceOptions: [.own],
             withTesting: true,
@@ -99,7 +96,7 @@ func commonTargets() -> [Target] {
             additionalTestDependencies: [
                 .target(name: "Domain_WordTesting"),
                 .target(name: "Domain_LocalNotificationTesting"),
-                .external(name: ExternalDependencyName.rxBlocking),
+                .external(name: .rxBlocking),
             ],
             withTesting: true,
             appendSchemeTo: &schemes
@@ -116,7 +113,7 @@ func commonTargets() -> [Target] {
                 .target(name: "Domain_GoogleDriveTesting"),
                 .target(name: "Domain_LocalNotificationTesting"),
                 .target(name: "Domain_WordTesting"),
-                .external(name: ExternalDependencyName.rxBlocking),
+                .external(name: .rxBlocking),
             ],
             withTesting: true,
             appendSchemeTo: &schemes
@@ -129,7 +126,7 @@ func commonTargets() -> [Target] {
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "Domain_UserSettingsTesting"),
-                .external(name: ExternalDependencyName.rxBlocking),
+                .external(name: .rxBlocking),
             ],
             withTesting: true,
             appendSchemeTo: &schemes
@@ -144,7 +141,7 @@ func commonTargets() -> [Target] {
             additionalTestDependencies: [
                 .target(name: "Domain_LocalNotificationTesting"),
                 .target(name: "Domain_WordTesting"),
-                .external(name: ExternalDependencyName.rxBlocking),
+                .external(name: .rxBlocking),
             ],
             withTesting: true,
             appendSchemeTo: &schemes
@@ -153,8 +150,8 @@ func commonTargets() -> [Target] {
         Target.makeCommonFramework(
             name: Module.testsSupport,
             dependencies: [
-                .external(name: ExternalDependencyName.rxSwift),
-                .external(name: ExternalDependencyName.rxTest),
+                .external(name: .rxSwift),
+                .external(name: .rxTest),
             ],
             settings: .settings(base: ["ENABLE_TESTING_SEARCH_PATHS": "YES"]),
             appendSchemeTo: &disposedSchemes
@@ -191,19 +188,19 @@ func iOSTargets() -> [Target] {
                 .target(name: Module.useCase.localNotification),
                 .target(name: Module.useCase.userSettings),
                 .target(name: Module.useCase.word),
-                .external(name: ExternalDependencyName.rxSwift),
-                .external(name: ExternalDependencyName.rxCocoa),
-                .external(name: ExternalDependencyName.rxSwiftSugarDynamic),
-                .external(name: ExternalDependencyName.reactorKit),
-                .external(name: ExternalDependencyName.snapKit),
-                .external(name: ExternalDependencyName.then),
-                .external(name: ExternalDependencyName.toast),
-                .external(name: ExternalDependencyName.sfSafeSymbols),
-                .external(name: ExternalDependencyName.swinject),
-                .external(name: ExternalDependencyName.swinjectExtension),
-                .external(name: ExternalDependencyName.swinjectDIContainer),
-                .external(name: ExternalDependencyName.uiKitPlus),
-                .external(name: ExternalDependencyName.swiftCollections),
+                .external(name: .rxSwift),
+                .external(name: .rxCocoa),
+                .external(name: .rxSwiftSugarDynamic),
+                .external(name: .reactorKit),
+                .external(name: .snapKit),
+                .external(name: .then),
+                .external(name: .toast),
+                .external(name: .sfSafeSymbols),
+                .external(name: .swinject),
+                .external(name: .swinjectExtension),
+                .external(name: .swinjectDIContainer),
+                .external(name: .uiKitPlus),
+                .external(name: .swiftCollections),
             ],
             resourceOptions: [.own],
             appendSchemeTo: &schemes
@@ -218,8 +215,8 @@ func iOSTargets() -> [Target] {
             additionalTestDependencies: [
                 .target(name: "UseCase_UserSettingsTesting"),
                 .target(name: "UseCase_WordTesting"),
-                .external(name: ExternalDependencyName.rxBlocking),
-                .external(name: ExternalDependencyName.rxTest),
+                .external(name: .rxBlocking),
+                .external(name: .rxTest),
             ],
             appendSchemeTo: &schemes
         ),
@@ -247,8 +244,8 @@ func iOSTargets() -> [Target] {
                 .target(name: "UseCase_WordTesting"),
                 .target(name: "Domain_LocalNotificationTesting"),
                 .target(name: "Domain_WordTesting"),
-                .external(name: ExternalDependencyName.rxBlocking),
-                .external(name: ExternalDependencyName.rxTest),
+                .external(name: .rxBlocking),
+                .external(name: .rxTest),
             ],
             appendSchemeTo: &schemes
         ),
@@ -261,8 +258,8 @@ func iOSTargets() -> [Target] {
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "UseCase_WordTesting"),
-                .external(name: ExternalDependencyName.rxBlocking),
-                .external(name: ExternalDependencyName.rxTest),
+                .external(name: .rxBlocking),
+                .external(name: .rxTest),
             ],
             appendSchemeTo: &schemes
         ),
@@ -286,8 +283,8 @@ func iOSTargets() -> [Target] {
             resourceOptions: [.own],
             hasTests: true,
             additionalTestDependencies: [
-                .external(name: ExternalDependencyName.rxBlocking),
-                .external(name: ExternalDependencyName.rxTest),
+                .external(name: .rxBlocking),
+                .external(name: .rxTest),
             ],
             appendSchemeTo: &schemes
         ),
@@ -303,8 +300,8 @@ func iOSTargets() -> [Target] {
                 .target(name: "UseCase_UserSettingsTesting"),
                 .target(name: "UseCase_GoogleDriveTesting"),
                 .target(name: "UseCase_LocalNotificationTesting"),
-                .external(name: ExternalDependencyName.rxBlocking),
-                .external(name: ExternalDependencyName.rxTest),
+                .external(name: .rxBlocking),
+                .external(name: .rxTest),
             ],
             appendSchemeTo: &schemes
         ),
@@ -334,7 +331,7 @@ func iOSTargets() -> [Target] {
                 .target(name: Module.iOSScene.wordAddition),
                 .target(name: Module.iOSScene.wordDetail),
                 .target(name: Module.iOSScene.userSettings),
-                .external(name: ExternalDependencyName.swinjectDIContainer),
+                .external(name: .swinjectDIContainer),
             ],
             appendSchemeTo: &schemes
         ),
@@ -409,15 +406,15 @@ let macAppTargets = Target.makeTargets(
     dependencies: [
         .target(name: Module.domain.word),
         .target(name: Module.useCase.word),
-        .external(name: ExternalDependencyName.then),
-        .external(name: ExternalDependencyName.swinject),
-        .external(name: ExternalDependencyName.swinjectExtension),
-        .external(name: ExternalDependencyName.swinjectDIContainer),
-        .external(name: ExternalDependencyName.pinLayout),
-        .external(name: ExternalDependencyName.rxSwift),
-        .external(name: ExternalDependencyName.rxSwiftSugarDynamic),
-        .external(name: ExternalDependencyName.rxCocoa),
-        .external(name: ExternalDependencyName.reactorKit),
+        .external(name: .then),
+        .external(name: .swinject),
+        .external(name: .swinjectExtension),
+        .external(name: .swinjectDIContainer),
+        .external(name: .pinLayout),
+        .external(name: .rxSwift),
+        .external(name: .rxSwiftSugarDynamic),
+        .external(name: .rxCocoa),
+        .external(name: .reactorKit),
     ],
     settings: .settings(),
     resourceOptions: [.own],
