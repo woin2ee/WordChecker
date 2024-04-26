@@ -23,96 +23,77 @@ public protocol WordCheckingViewControllerProtocol: UIViewController {}
 final class WordCheckingViewController: RxBaseViewController, View, WordCheckingViewControllerProtocol {
 
     let rootView: WordCheckingView = .init()
-
-    let addWordButton: UIBarButtonItem = .init().then {
-        $0.image = .init(systemSymbol: .plusApp)
-        $0.accessibilityIdentifier = AccessibilityIdentifier.addWordButton
-        $0.accessibilityLabel = LocalizedString.addWord
-    }
-
-    let moreMenuButton: UIBarButtonItem = .init().then {
-        $0.image = .init(systemSymbol: .ellipsisCircle)
-        $0.accessibilityIdentifier = AccessibilityIdentifier.moreButton
-        $0.accessibilityLabel = LocalizedString.more_menu
-    }
+    let ownNavigationItem = WordCheckingNavigationItem()
 
     override func loadView() {
         self.view = rootView
+    }
+    
+    override var navigationItem: UINavigationItem {
+        return ownNavigationItem
+    }
+    
+    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
+        return [.left, .right]
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupNavigationBar()
+        setupNavigationBarAppearance()
 
         self.setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
     }
-
-    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
-        return [.left, .right]
-    }
-
-    private func setupNavigationBar() {
-        self.navigationItem.titleView = UILabel.init().then {
-            $0.text = LocalizedString.memorize_words
-            $0.textColor = .clear
-        }
-
+    
+    private func setupNavigationBarAppearance() {
         let appearance: UINavigationBarAppearance = .init()
         appearance.configureWithOpaqueBackground()
 
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-
-        self.navigationItem.rightBarButtonItems = [moreMenuButton, addWordButton]
-
-        let menuGroup: UIMenu = .init(
-            options: .displayInline,
-            children: [
-                UIAction(
-                    title: LocalizedString.memorized,
-                    image: .init(systemSymbol: .checkmarkDiamondFill),
-                    handler: { [weak self] _ in self?.reactor?.action.onNext(.markCurrentWordAsMemorized) }
-                ),
-                UIAction(
-                    title: LocalizedString.shuffleOrder,
-                    image: .init(systemSymbol: .shuffle),
-                    handler: { [weak self] _ in self?.reactor?.action.onNext(.shuffleWordList) }
-                ),
-            ]
-        )
-        let deleteMenu: UIAction = .init(
-            title: LocalizedString.deleteWord,
-            image: .init(systemSymbol: .trash),
-            attributes: .destructive,
-            handler: { [weak self] _ in self?.reactor?.action.onNext(.deleteCurrentWord) }
-        )
-
-        moreMenuButton.menu = .init(children: [menuGroup, deleteMenu])
     }
 
     func bind(reactor: WordCheckingReactor) {
         // Action
-        [
-            self.rx.sentMessage(#selector(self.viewDidLoad))
-                .map { _ in Reactor.Action.viewDidLoad },
-            addWordButton.rx.tap
-                .flatMapFirst { _ in
-                    return self.presentAddWordAlert()
-                }
-                .map { Reactor.Action.addWord($0) },
-            rootView.nextButton.rx.tap
-                .doOnNext { HapticGenerator.shared.selectionChanged() }
-                .map { Reactor.Action.updateToNextWord },
-            rootView.previousButton.rx.tap
-                .doOnNext { HapticGenerator.shared.selectionChanged() }
-                .map { Reactor.Action.updateToPreviousWord },
-        ]
-            .forEach { action in
-                action
-                    .bind(to: reactor.action)
-                    .disposed(by: self.disposeBag)
+        self.rx.sentMessage(#selector(self.viewDidLoad))
+            .map { _ in Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        ownNavigationItem.addWordButton.rx.tap
+            .flatMapFirst { _ in
+                return self.presentAddWordAlert()
             }
+            .map { Reactor.Action.addWord($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        rootView.nextButton.rx.tap
+            .doOnNext { HapticGenerator.shared.selectionChanged() }
+            .map { Reactor.Action.updateToNextWord }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        rootView.previousButton.rx.tap
+            .doOnNext { HapticGenerator.shared.selectionChanged() }
+            .map { Reactor.Action.updateToPreviousWord }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        ownNavigationItem.tapMemorizedMenu
+            .map { Reactor.Action.markCurrentWordAsMemorized }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        ownNavigationItem.tapShuffleOrderMenu
+            .map { Reactor.Action.shuffleWordList }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        ownNavigationItem.tapDeleteWordMenu
+            .map { Reactor.Action.deleteCurrentWord }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
 
         rootView.translateButton.rx.tap
             .subscribe(with: self, onNext: { owner, _ in
@@ -142,7 +123,7 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
 
                 owner.navigationController?.pushViewController(translationWebViewController, animated: true)
             })
-            .disposed(by: self.disposeBag)
+            .disposed(by: disposeBag)
 
         // State
         reactor.state
@@ -161,7 +142,7 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
 
                 owner.setAccessibilityLanguage()
             }
-            .disposed(by: self.disposeBag)
+            .disposed(by: disposeBag)
 
         reactor.state
             .map(\.translationSourceLanguage)
@@ -169,7 +150,7 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
             .drive(with: self) { owner, _ in
                 owner.setAccessibilityLanguage()
             }
-            .disposed(by: self.disposeBag)
+            .disposed(by: disposeBag)
 
         reactor.pulse(\.$showAddCompleteToast)
             .unwrapOrIgnore()
@@ -185,7 +166,7 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
                     }
                 }
             }
-            .disposed(by: self.disposeBag)
+            .disposed(by: disposeBag)
     }
 
     func setAccessibilityLanguage() {
