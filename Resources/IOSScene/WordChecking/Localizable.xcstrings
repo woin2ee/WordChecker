@@ -120,7 +120,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Delete word"
+            "value" : "Delete Word"
           }
         },
         "ko" : {
@@ -312,7 +312,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Shuffle order"
+            "value" : "Shuffle Order"
           }
         },
         "ko" : {
