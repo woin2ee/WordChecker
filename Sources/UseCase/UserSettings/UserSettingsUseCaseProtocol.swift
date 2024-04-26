@@ -24,4 +24,5 @@ public protocol UserSettingsUseCase {
 
     func updateThemeStyle(_ style: ThemeStyle) -> Single<Void>
 
+    func changeMemorizingWordSize(fontSize: MemorizingWordSize) -> Single<Void>
 }

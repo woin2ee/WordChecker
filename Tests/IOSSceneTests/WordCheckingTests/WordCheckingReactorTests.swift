@@ -76,4 +76,21 @@ final class WordCheckingReactorTests: XCTestCase {
         XCTAssertNotNil(sut.currentState.showAddCompleteToast)
     }
 
+    func test_initialFontSize() {
+        // Given
+        let wordUseCase = WordUseCaseFake()
+        let userSettingsUseCase = UserSettingsUseCaseFake()
+        userSettingsUseCase.currentUserSettings.memorizingWordSize = .veryLarge
+        sut = .init(
+            wordUseCase: wordUseCase,
+            userSettingsUseCase: userSettingsUseCase,
+            globalAction: .shared
+        )
+        
+        // When
+        sut.action.onNext(.viewDidLoad)
+        
+        // Then
+        XCTAssertEqual(sut.currentState.fontSize, .veryLarge)
+    }
 }

@@ -1,11 +1,3 @@
-//
-//  LocalizedString.swift
-//  WordAddition
-//
-//  Created by Jaewon Yun on 2/25/24.
-//  Copyright © 2024 woin2ee. All rights reserved.
-//
-
 import Foundation
 
 internal struct LocalizedString {
@@ -19,6 +11,10 @@ internal struct LocalizedString {
     static let memorize_words = NSLocalizedString("memorize_words", bundle: Bundle.module, comment: "")
     static let memorized = NSLocalizedString("memorized", bundle: Bundle.module, comment: "")
     static let shuffleOrder = NSLocalizedString("shuffleOrder", bundle: Bundle.module, comment: "")
+    static let fontSize = NSLocalizedString("fontSize", bundle: Bundle.module, comment: "")
+    static let `default` = NSLocalizedString("default", bundle: Bundle.module, comment: "")
+    static let large = NSLocalizedString("large", bundle: Bundle.module, comment: "")
+    static let veryLarge = NSLocalizedString("veryLarge", bundle: Bundle.module, comment: "")
     static let deleteWord = NSLocalizedString("deleteWord", bundle: Bundle.module, comment: "")
     static let please_check_your_network_connection = NSLocalizedString("please_check_your_network_connection", bundle: Bundle.module, comment: "")
     static let noWords = NSLocalizedString("noWords", bundle: Bundle.module, comment: "")

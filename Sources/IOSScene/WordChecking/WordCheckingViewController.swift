@@ -39,9 +39,7 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupNavigationBarAppearance()
-
         self.setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
     }
     
@@ -60,7 +58,7 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        ownNavigationItem.addWordButton.rx.tap
+        ownNavigationItem.tapAddWordButton
             .flatMapFirst { _ in
                 return self.presentAddWordAlert()
             }
@@ -92,6 +90,11 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
         
         ownNavigationItem.tapDeleteWordMenu
             .map { Reactor.Action.deleteCurrentWord }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        ownNavigationItem.selectedFontSize
+            .map(Reactor.Action.changeFontSize)
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
@@ -166,6 +169,12 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
                     }
                 }
             }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map(\.fontSize)
+            .asDriver(onErrorJustReturn: .default)
+            .drive(rootView.fontSizeBinder, ownNavigationItem.fontSizeBinder)
             .disposed(by: disposeBag)
     }
 

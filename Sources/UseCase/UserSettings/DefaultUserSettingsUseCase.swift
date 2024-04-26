@@ -123,6 +123,18 @@ internal final class DefaultUserSettingsUseCase: UserSettingsUseCase {
         return .just(())
     }
 
+    func changeMemorizingWordSize(fontSize: Domain_UserSettings.MemorizingWordSize) -> RxSwift.Single<Void> {
+        return .create { observer in
+            do {
+                var userSettings = try self.userSettingsService.getUserSettings()
+                userSettings.memorizingWordSize = fontSize
+                try self.userSettingsService.saveUserSettings(userSettings)
+            } catch {
+                observer(.failure(error))
+            }
+            return Disposables.create()
+        }
+    }
 }
 
 // MARK: - Helpers

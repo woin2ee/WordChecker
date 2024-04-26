@@ -99,6 +99,22 @@
         }
       }
     },
+    "default" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Default"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기본"
+          }
+        }
+      }
+    },
     "deleteWord" : {
       "localizations" : {
         "en" : {
@@ -111,6 +127,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "단어 삭제"
+          }
+        }
+      }
+    },
+    "fontSize" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Font Size"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "글자 크기"
+          }
+        }
+      }
+    },
+    "large" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Large"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "크게"
           }
         }
       }
@@ -303,6 +351,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "현재 번역 사이트에 문제가 있습니다. 설정으로 이동하여 다른 번역 사이트로 설정해주세요."
+          }
+        }
+      }
+    },
+    "veryLarge" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Very Large"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "매우 크게"
           }
         }
       }
