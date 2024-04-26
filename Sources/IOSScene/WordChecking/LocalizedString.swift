@@ -12,6 +12,7 @@ internal struct LocalizedString {
     static let memorized = NSLocalizedString("memorized", bundle: Bundle.module, comment: "")
     static let shuffleOrder = NSLocalizedString("shuffleOrder", bundle: Bundle.module, comment: "")
     static let fontSize = NSLocalizedString("fontSize", bundle: Bundle.module, comment: "")
+    static let small = NSLocalizedString("small", bundle: Bundle.module, comment: "")
     static let `default` = NSLocalizedString("default", bundle: Bundle.module, comment: "")
     static let large = NSLocalizedString("large", bundle: Bundle.module, comment: "")
     static let veryLarge = NSLocalizedString("veryLarge", bundle: Bundle.module, comment: "")

@@ -36,12 +36,20 @@ final class WordCheckingNavigationItem: UINavigationItem {
         image: UIImage(systemSymbol: .textformatSize),
         options: [.singleSelection],
         children: [
+            smallFontSizeMenu,
             defaultFontSizeMenu,
             largeFontSizeMenu,
             veryLargeFontSizeMenu,
         ]
     )
 
+    private lazy var smallFontSizeMenu = UIAction(
+        title: LocalizedString.small,
+        handler: { [weak self] _ in
+            self?.selectedFontSize.accept(.small)
+        }
+    )
+    
     private lazy var defaultFontSizeMenu = UIAction(
         title: LocalizedString.default,
         handler: { [weak self] _ in
@@ -127,6 +135,9 @@ final class WordCheckingNavigationItem: UINavigationItem {
     var fontSizeBinder: Binder<MemorizingWordSize> {
         return .init(self) { target, fontSize in
             switch fontSize {
+            case .small:
+                target.fontSizeGroup.subtitle = LocalizedString.small
+                target.smallFontSizeMenu.state = .on
             case .default:
                 target.fontSizeGroup.subtitle = LocalizedString.default
                 target.defaultFontSizeMenu.state = .on

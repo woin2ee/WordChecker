@@ -9,6 +9,7 @@
 import Foundation
 
 public enum MemorizingWordSize: Codable {
+    case small
     case `default`
     case large
     case veryLarge
