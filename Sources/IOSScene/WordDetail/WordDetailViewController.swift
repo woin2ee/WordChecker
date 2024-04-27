@@ -67,19 +67,18 @@ final class WordDetailViewController: RxBaseViewController, WordDetailViewContro
         return button
     }()
 
-    let doneBarButton: UIBarButtonItem = .init(title: LocalizedString.done).then {
-        $0.style = .done
+    let ownNavigationItem = WordDetailNavigationItem()
+    
+    override var navigationItem: UINavigationItem {
+        ownNavigationItem
     }
-
-    let cancelBarButton: UIBarButtonItem = .init(systemItem: .cancel)
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.navigationController?.presentationController?.delegate = self
 
         setupSubviews()
-        setupNavigationBar()
     }
 
     private func setupSubviews() {
@@ -103,15 +102,8 @@ final class WordDetailViewController: RxBaseViewController, WordDetailViewContro
         }
     }
 
-    private func setupNavigationBar() {
-        self.navigationItem.title = LocalizedString.details
-
-        self.navigationItem.rightBarButtonItem = doneBarButton
-        self.navigationItem.leftBarButtonItem = cancelBarButton
-    }
-
     override func bindActions() {
-        cancelBarButton.rx.tap
+        ownNavigationItem.cancelBarButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
                 if owner.reactor!.currentState.hasChanges {
@@ -121,7 +113,7 @@ final class WordDetailViewController: RxBaseViewController, WordDetailViewContro
                             owner.delegate?.viewControllerMustBeDismissed(owner)
                         }
                     case .iPad:
-                        owner.presentDismissPopover(on: owner.cancelBarButton) {
+                        owner.presentDismissPopover(on: owner.ownNavigationItem.cancelBarButton) {
                             owner.delegate?.viewControllerMustBeDismissed(owner)
                         }
                     }
@@ -146,7 +138,7 @@ extension WordDetailViewController: View {
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
 
-        doneBarButton.rx.tap
+        ownNavigationItem.doneBarButton.rx.tap
             .doOnNext { [weak self] _ in
                 guard let self = self else { return }
                 self.delegate?.viewControllerMustBeDismissed(self)
@@ -209,7 +201,7 @@ extension WordDetailViewController: View {
                 .map(\.enteredWordIsDuplicated)
                 .asDriverOnErrorJustComplete(),
         ]).map { !$0[0] && !$0[1] }
-            .drive(doneBarButton.rx.isEnabled)
+            .drive(ownNavigationItem.doneBarButton.rx.isEnabled)
             .disposed(by: self.disposeBag)
 
         // 중복 단어 경고 레이블 표시/비표시
@@ -236,7 +228,7 @@ extension WordDetailViewController: UIAdaptivePresentationControllerDelegate {
                 self.delegate?.viewControllerMustBeDismissed(self)
             }
         case .iPad:
-            self.presentDismissPopover(on: cancelBarButton) {
+            self.presentDismissPopover(on: ownNavigationItem.cancelBarButton) {
                 self.delegate?.viewControllerMustBeDismissed(self)
             }
         }
