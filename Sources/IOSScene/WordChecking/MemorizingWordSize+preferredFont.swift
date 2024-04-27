@@ -14,13 +14,13 @@ extension MemorizingWordSize {
     var preferredFont: UIFont {
         switch self {
         case .small:
-            UIFont.preferredFont(forTextStyle: .title3)
+            UIFont.preferredFont(ofSize: 18)
         case .default:
-            UIFont.preferredFont(forTextStyle: .title2)
+            UIFont.preferredFont(ofSize: 21)
         case .large:
-            UIFont.preferredFont(forTextStyle: .title1)
+            UIFont.preferredFont(ofSize: 24)
         case .veryLarge:
-            UIFont.preferredFont(forTextStyle: .largeTitle)
+            UIFont.preferredFont(ofSize: 27)
         }
     }
 }
