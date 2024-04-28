@@ -6,6 +6,7 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
+import Domain_UserSettings
 import Foundation
 
 struct OldUserSettings: Codable {
