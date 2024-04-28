@@ -52,11 +52,11 @@ final class WordDetailViewController: RxBaseViewController, WordDetailViewContro
         button.menu = .init(children: [
             UIAction.init(title: LocalizedString.memorizing) { [weak self] _ in
                 self?.memorizationStatePopupButton.setTitle(LocalizedString.memorizing, for: .normal)
-                self?.reactor?.action.onNext(.changeMemorizedState(.memorizing))
+                self?.reactor?.action.onNext(.changeMemorizationState(.memorizing))
             },
             UIAction.init(title: LocalizedString.memorized) { [weak self] _ in
                 self?.memorizationStatePopupButton.setTitle(LocalizedString.memorized, for: .normal)
-                self?.reactor?.action.onNext(.changeMemorizedState(.memorized))
+                self?.reactor?.action.onNext(.changeMemorizationState(.memorized))
             },
         ])
 

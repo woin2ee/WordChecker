@@ -33,10 +33,10 @@ final class DefaultWordServiceTests: XCTestCase {
         unmemorizedWordListRepository = nil
     }
     
-    func test_updateWordToMemorizedStateSuccess() throws {
+    func test_updateWordToMemorizationStateSuccess() throws {
         // Given
         let uuid = UUID()
-        let originWord = try Word(uuid: uuid, word: "OriginWord", memorizedState: .memorizing)
+        let originWord = try Word(uuid: uuid, word: "OriginWord", memorizationState: .memorizing)
         wordRepositoryFake.save(originWord)
         unmemorizedWordListRepository.addWord(originWord)
         
@@ -47,14 +47,14 @@ final class DefaultWordServiceTests: XCTestCase {
         // Then
         let newWord = sut.fetchWord(by: uuid)!
         XCTAssertEqual(newWord.word, newAttribute.word)
-        XCTAssertEqual(newWord.memorizedState, newAttribute.memorizationState)
+        XCTAssertEqual(newWord.memorizationState, newAttribute.memorizationState)
         XCTAssertEqual(unmemorizedWordListRepository.unmemorizedWordList.count, 0)
     }
     
     func test_updateWordToMemorizingStateSuccess() throws {
         // Given
         let uuid = UUID()
-        let originWord = try Word(uuid: uuid, word: "OriginWord", memorizedState: .memorized)
+        let originWord = try Word(uuid: uuid, word: "OriginWord", memorizationState: .memorized)
         wordRepositoryFake.save(originWord)
         
         // When
@@ -64,14 +64,14 @@ final class DefaultWordServiceTests: XCTestCase {
         // Then
         let newWord = sut.fetchWord(by: uuid)!
         XCTAssertEqual(newWord.word, newAttribute.word)
-        XCTAssertEqual(newWord.memorizedState, newAttribute.memorizationState)
+        XCTAssertEqual(newWord.memorizationState, newAttribute.memorizationState)
         XCTAssertEqual(unmemorizedWordListRepository.unmemorizedWordList.count, 1)
     }
     
     func test_updateWordSuccess_whenDuplicateWord() throws {
         // Given
         let uuid = UUID()
-        let originWord = try Word(uuid: uuid, word: "OriginWord", memorizedState: .memorizing)
+        let originWord = try Word(uuid: uuid, word: "OriginWord", memorizationState: .memorizing)
         wordRepositoryFake.save(originWord)
         
         // When
@@ -81,13 +81,13 @@ final class DefaultWordServiceTests: XCTestCase {
         // Then
         let newWord = sut.fetchWord(by: uuid)!
         XCTAssertEqual(newWord.word, newAttribute.word)
-        XCTAssertEqual(newWord.memorizedState, newAttribute.memorizationState)
+        XCTAssertEqual(newWord.memorizationState, newAttribute.memorizationState)
     }
     
     func test_updateWordFailure_whenInvalidWord() throws {
         // Given
         let uuid = UUID()
-        let originWord = try Word(uuid: uuid, word: "OriginWord", memorizedState: .memorizing)
+        let originWord = try Word(uuid: uuid, word: "OriginWord", memorizationState: .memorizing)
         wordRepositoryFake.save(originWord)
         
         // When
@@ -101,7 +101,7 @@ final class DefaultWordServiceTests: XCTestCase {
     func test_updateWordOnly() throws {
         // Given
         let uuid = UUID()
-        let word = try Word(uuid: uuid, word: "Word", memorizedState: .memorizing)
+        let word = try Word(uuid: uuid, word: "Word", memorizationState: .memorizing)
         wordRepositoryFake.save(word)
         unmemorizedWordListRepository.addWord(word)
         
@@ -111,14 +111,14 @@ final class DefaultWordServiceTests: XCTestCase {
         // Then
         let newWord = sut.fetchWord(by: uuid)
         XCTAssertEqual(newWord?.word, "UpdatedWord")
-        XCTAssertEqual(newWord?.memorizedState, .memorizing)
+        XCTAssertEqual(newWord?.memorizationState, .memorizing)
         XCTAssertEqual(unmemorizedWordListRepository.getCurrentWord()?.word, "UpdatedWord")
     }
     
     func test_updateMemorizationStateOnly() throws {
         // Given
         let uuid = UUID()
-        let word = try Word(uuid: uuid, word: "Word", memorizedState: .memorizing)
+        let word = try Word(uuid: uuid, word: "Word", memorizationState: .memorizing)
         wordRepositoryFake.save(word)
         unmemorizedWordListRepository.addWord(word)
         
@@ -128,7 +128,7 @@ final class DefaultWordServiceTests: XCTestCase {
         // Then
         let newWord = sut.fetchWord(by: uuid)
         XCTAssertEqual(newWord?.word, "Word")
-        XCTAssertEqual(newWord?.memorizedState, .memorized)
+        XCTAssertEqual(newWord?.memorizationState, .memorized)
         XCTAssertNil(unmemorizedWordListRepository.getCurrentWord())
     }
 }

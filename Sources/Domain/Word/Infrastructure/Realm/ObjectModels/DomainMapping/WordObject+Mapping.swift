@@ -10,7 +10,7 @@ extension Word {
     func toObjectModel() -> WordObject {
         let isMemorized: Bool
 
-        switch self.memorizedState {
+        switch self.memorizationState {
         case .memorized:
             isMemorized = true
         case .memorizing:
@@ -25,9 +25,9 @@ extension Word {
 extension WordObject {
 
     func toDomain() throws -> Word {
-        let memorizedState: MemorizationState = self.isMemorized ? .memorized : .memorizing
+        let memorizationState: MemorizationState = self.isMemorized ? .memorized : .memorizing
 
-        return try .init(uuid: self.uuid, word: self.word, memorizedState: memorizedState)
+        return try .init(uuid: self.uuid, word: self.word, memorizationState: memorizationState)
     }
 
 }

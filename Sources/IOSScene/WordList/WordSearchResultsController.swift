@@ -81,7 +81,7 @@ extension WordSearchResultsController {
 
         cell.contentConfiguration = config
 
-        switch searchedList[indexPath.row].memorizedState {
+        switch searchedList[indexPath.row].memorizationState {
         case .memorized:
             cell.accessoryType = .checkmark
         case .memorizing:

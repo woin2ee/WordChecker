@@ -39,10 +39,10 @@ final class WordRepositoryTests: XCTestCase {
     
     func test_saveSamePrimaryKeyItem() throws {
         // Given
-        var testWord: Word = try .init(word: "TestWord", memorizedState: .memorizing)
+        var testWord: Word = try .init(word: "TestWord", memorizationState: .memorizing)
         try sut.save(testWord)
         
-        testWord.memorizedState = .memorized
+        testWord.memorizationState = .memorized
         
         // When
         try sut.save(testWord)

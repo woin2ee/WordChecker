@@ -25,9 +25,9 @@ final class WordListReactorTests: XCTestCase {
         let wordRepositoryFake = WordRepositoryFake()
         wordRepositoryFake.save(try Word(word: "1"))
         wordRepositoryFake.save(try Word(word: "2"))
-        wordRepositoryFake.save(try Word(word: "A", memorizedState: .memorized))
-        wordRepositoryFake.save(try Word(word: "B", memorizedState: .memorized))
-        wordRepositoryFake.save(try Word(word: "C", memorizedState: .memorized))
+        wordRepositoryFake.save(try Word(word: "A", memorizationState: .memorized))
+        wordRepositoryFake.save(try Word(word: "B", memorizationState: .memorized))
+        wordRepositoryFake.save(try Word(word: "C", memorizationState: .memorized))
         
         let wordUseCase = DefaultWordUseCase(
             wordService: DefaultWordService(
@@ -97,7 +97,7 @@ final class WordListReactorTests: XCTestCase {
         // Arrange
         sut.action.onNext(.refreshWordList(.all))
 
-        let index = sut.currentState.wordList.lastIndex(where: { $0.memorizedState == .memorized })!
+        let index = sut.currentState.wordList.lastIndex(where: { $0.memorizationState == .memorized })!
 
         let deletedWord = sut.currentState.wordList[index].word
 
@@ -114,7 +114,7 @@ final class WordListReactorTests: XCTestCase {
         // Arrange
         sut.action.onNext(.refreshWordList(.all))
 
-        let index = sut.currentState.wordList.lastIndex(where: { $0.memorizedState == .memorizing })!
+        let index = sut.currentState.wordList.lastIndex(where: { $0.memorizationState == .memorizing })!
 
         let deletedWord = sut.currentState.wordList[index].word
 

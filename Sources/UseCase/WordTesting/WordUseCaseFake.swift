@@ -54,7 +54,7 @@ public final class WordUseCaseFake: WordUseCase {
 
         self._wordList.append(word)
 
-        if word.memorizedState == .memorizing {
+        if word.memorizationState == .memorizing {
             self._unmemorizedWordList.addWord(word)
         }
     }
@@ -72,12 +72,12 @@ public final class WordUseCaseFake: WordUseCase {
     }
 
     public func fetchMemorizedWordList() -> [Word] {
-        let memorizedList = _wordList.filter { $0.memorizedState == .memorized }
+        let memorizedList = _wordList.filter { $0.memorizationState == .memorized }
         return memorizedList
     }
 
     public func fetchUnmemorizedWordList() -> [Word] {
-        let memorizingList = _wordList.filter { $0.memorizedState == .memorizing }
+        let memorizingList = _wordList.filter { $0.memorizationState == .memorizing }
         return memorizingList
     }
 
@@ -108,19 +108,19 @@ public final class WordUseCaseFake: WordUseCase {
         }
 
         if let newState = newAttribute.memorizationState {
-            wordEntity.memorizedState = newState
+            wordEntity.memorizationState = newState
         }
 
         _wordList[index] = wordEntity
 
         if _unmemorizedWordList.contains(where: { $0.uuid == uuid }) {
-            switch wordEntity.memorizedState {
+            switch wordEntity.memorizationState {
             case .memorized:
                 _unmemorizedWordList.deleteWord(by: uuid)
             case .memorizing:
                 _unmemorizedWordList.replaceWord(where: uuid, with: wordEntity)
             }
-        } else if wordEntity.memorizedState == .memorizing {
+        } else if wordEntity.memorizationState == .memorizing {
             _unmemorizedWordList.addWord(wordEntity)
         }
 
@@ -142,7 +142,7 @@ public final class WordUseCaseFake: WordUseCase {
 
     public func markCurrentWordAsMemorized(uuid: UUID) -> Single<Void> {
         if let index = _wordList.firstIndex(where: { $0.uuid == uuid }) {
-            _wordList[index].memorizedState = .memorized
+            _wordList[index].memorizationState = .memorized
         }
         _unmemorizedWordList.deleteWord(by: uuid)
         return .just(())

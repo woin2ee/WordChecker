@@ -19,10 +19,10 @@ public final class WordServiceStub: WordService {
     ]
 
     var memorizedWordList: [Word] = [
-        try! .init(word: "Egg", memorizedState: .memorized),
-        try! .init(word: "Fail", memorizedState: .memorized),
-        try! .init(word: "Grand", memorizedState: .memorized),
-        try! .init(word: "House", memorizedState: .memorized),
+        try! .init(word: "Egg", memorizationState: .memorized),
+        try! .init(word: "Fail", memorizationState: .memorized),
+        try! .init(word: "Grand", memorizationState: .memorized),
+        try! .init(word: "House", memorizationState: .memorized),
     ]
 
     public init(isEmptyStub: Bool = false) {
