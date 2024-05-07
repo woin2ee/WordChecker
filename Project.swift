@@ -231,6 +231,9 @@ func iOSTargets() -> [Target] {
                 .target(name: "UseCase_WordTesting"),
                 .target(name: "UseCase_UserSettingsTesting"),
             ],
+            settings: .settings(
+                base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.Security.TEAM_ID)
+            ),
             appendSchemeTo: &schemes
         ),
         Target.makeIOSFramework(
@@ -273,6 +276,9 @@ func iOSTargets() -> [Target] {
                 .target(name: Module.iOSScene.wordDetail),
                 .target(name: "UseCase_WordTesting"),
             ],
+            settings: .settings(
+                base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.Security.TEAM_ID)
+            ),
             appendSchemeTo: &schemes
         ),
         Target.makeIOSFramework(
@@ -317,6 +323,9 @@ func iOSTargets() -> [Target] {
                 .target(name: "UseCase_GoogleDriveTesting"),
                 .target(name: "UseCase_UserSettingsTesting"),
             ],
+            settings: .settings(
+                base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.Security.TEAM_ID)
+            ),
             appendSchemeTo: &schemes
         ),
         Target.makeTargets(
