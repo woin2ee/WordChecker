@@ -16,7 +16,7 @@ public let PROJECT_NAME = "WordChecker"
 
 public let BASIC_BUNDLE_ID = "com.\(ORGANIZATION).\(PROJECT_NAME)"
 
-public let MINIMUM_IOS_VERSION = "16.0"
+public let MINIMUM_IOS_VERSION = "17.0"
 
 public let MINIMUM_MACOS_VERSION = "14.0.0"
 
