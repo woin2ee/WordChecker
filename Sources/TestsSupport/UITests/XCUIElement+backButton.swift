@@ -10,7 +10,7 @@ import XCTest
 
 extension XCUIElementTypeQueryProvider {
 
-    var backButton: XCUIElement {
+    public var backButton: XCUIElement {
         return self.buttons.element(boundBy: 0)
     }
 

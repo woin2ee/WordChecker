@@ -12,6 +12,8 @@
 @testable import IOSScene_WordAddition
 @testable import IOSSupport
 @testable import IPhoneDriver
+import TestsSupport
+import Utility
 import XCTest
 
 typealias WordCheckingString            = IOSScene_WordChecking.LocalizedString

@@ -173,6 +173,7 @@ func iOSTargets() -> [Target] {
                 .target(name: "\(PROJECT_NAME)Dev"),
                 .target(name: Module.iOSSupport),
                 .target(name: Module.utility),
+                .target(name: Module.testsSupport),
             ]
         ),
     ] + [
