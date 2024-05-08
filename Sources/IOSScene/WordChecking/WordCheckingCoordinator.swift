@@ -15,7 +15,7 @@ public final class WordCheckingCoordinator: BasicCoordinator {
 
     public override func start() {
         let viewController: WordCheckingViewControllerProtocol = DIContainer.shared.resolver.resolve()
-        navigationController?.setViewControllers([viewController], animated: false)
+        navigationController.setViewControllers([viewController], animated: false)
     }
 
 }

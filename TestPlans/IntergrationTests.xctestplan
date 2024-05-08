@@ -80,6 +80,61 @@
           "containerPath" : "container:WordChecker.xcodeproj",
           "identifier" : "1885EF5C70A64A6421C1616E",
           "name" : "IPhoneDriver"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "A027445479844F9CD9B2A547",
+          "name" : "Domain_Core"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "506C959FFFA863FC373E51B8",
+          "name" : "Domain_Word"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "C87E657CD1CE48F5645DA9BC",
+          "name" : "Domain_GoogleDrive"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "91A836AA997DB82AE96E8EF0",
+          "name" : "Domain_UserSettings"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "FFD00C4A84B31E6FB50A4F02",
+          "name" : "Domain_LocalNotification"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "1CD9187089AE07B0376E9A94",
+          "name" : "UseCase_Word"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "4BA423054FF2591FABA634E9",
+          "name" : "UseCase_GoogleDrive"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "2F758528C8B9A849DD7C9CD7",
+          "name" : "UseCase_UserSettings"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "1F06FD96D8ECEA9216C46BFC",
+          "name" : "UseCase_LocalNotification"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "F45D281F6D6B24CC346BCDDC",
+          "name" : "IOSDriver"
+        },
+        {
+          "containerPath" : "container:WordChecker.xcodeproj",
+          "identifier" : "9813EC98A322DB5042DC546E",
+          "name" : "IPadDriver"
         }
       ]
     }

@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/openid/AppAuth-iOS.git",
       "state" : {
-        "revision" : "8c0b028aedf617d6d780d448dc836f7048166d0f",
-        "version" : "1.7.4"
+        "revision" : "c89ed571ae140f8eb1142735e6e23d7bb8c34cb2",
+        "version" : "1.7.5"
       }
     },
     {
@@ -158,8 +158,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Swinject/Swinject.git",
       "state" : {
-        "revision" : "b45ac37ca19905b2e12c429807e1955a7d43d1fd",
-        "version" : "2.8.6"
+        "revision" : "c7920e1f2b237ee16150ab82388d7411b578d355",
+        "version" : "2.8.7"
       }
     },
     {
@@ -194,8 +194,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Woin2ee-Modules/UIKitPlus.git",
       "state" : {
-        "revision" : "a2c1ba70e17dba65f78a25cf264c88d1b619cbba",
-        "version" : "1.1.0"
+        "revision" : "48bf32ca877e68275247f5f8e285292e40e0ad4c",
+        "version" : "1.2.0"
       }
     },
     {

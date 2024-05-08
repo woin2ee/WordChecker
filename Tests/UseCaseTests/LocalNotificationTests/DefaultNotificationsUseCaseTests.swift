@@ -160,8 +160,8 @@ final class DefaultNotificationsUseCaseTests: XCTestCase {
     func test_updateDailyReminder() throws {
         // Given
         let word1UUID = UUID()
-        let word1 = try Word(uuid: word1UUID, word: "Test1", memorizedState: .memorizing)
-        let word2 = try Word(uuid: UUID(), word: "Test2", memorizedState: .memorizing)
+        let word1 = try Word(uuid: word1UUID, word: "Test1", memorizationState: .memorizing)
+        let word2 = try Word(uuid: UUID(), word: "Test2", memorizationState: .memorizing)
         let wordRepositoryFake = WordRepositoryFake(sampleData: [word1, word2])
         
         sut = .init(

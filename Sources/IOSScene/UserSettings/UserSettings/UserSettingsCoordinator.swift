@@ -16,7 +16,7 @@ public final class UserSettingsCoordinator: BasicCoordinator {
     public override func start() {
         let viewController: UserSettingsViewControllerProtocol = DIContainer.shared.resolver.resolve()
         viewController.delegate = self
-        navigationController?.setViewControllers([viewController], animated: false)
+        navigationController.setViewControllers([viewController], animated: false)
     }
 
 }
@@ -24,17 +24,23 @@ public final class UserSettingsCoordinator: BasicCoordinator {
 extension UserSettingsCoordinator: UserSettingsViewControllerDelegate {
 
     public func didTapSourceLanguageSettingRow() {
-        let coordinator: LanguageSettingCoordinator = .init(navigationController: navigationController)
+        let coordinator: LanguageSettingCoordinator = .init(
+            navigationController: navigationController,
+            translationDirection: .sourceLanguage
+        )
         coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)
-        coordinator.start(with: TranslationDirection.sourceLanguage)
+        coordinator.start()
     }
 
     public func didTapTargetLanguageSettingRow() {
-        let coordinator: LanguageSettingCoordinator = .init(navigationController: navigationController)
+        let coordinator: LanguageSettingCoordinator = .init(
+            navigationController: navigationController,
+            translationDirection: .targetLanguage
+        )
         coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)
-        coordinator.start(with: TranslationDirection.targetLanguage)
+        coordinator.start()
     }
 
     public func didTapNotificationsSettingRow() {

@@ -21,9 +21,9 @@ public struct Word: Entity, Codable, Hashable {
     public private(set) var word: String
 
     /// 암기 상태
-    public var memorizedState: MemorizationState
+    public var memorizationState: MemorizationState
 
-    public init(uuid: UUID = .init(), word: String, memorizedState: MemorizationState = .memorizing) throws {
+    public init(uuid: UUID = .init(), word: String, memorizationState: MemorizationState = .memorizing) throws {
         guard word.hasElements else {
             let logger = Logger(subsystem: "Domain", category: "Entity")
             logger.error("Attempted to create a `Word` entity with an empty word.")
@@ -32,13 +32,13 @@ public struct Word: Entity, Codable, Hashable {
 
         self.uuid = uuid
         self.word = word
-        self.memorizedState = memorizedState
+        self.memorizationState = memorizationState
     }
 
     private init() {
         self.uuid = .init()
         self.word = ""
-        self.memorizedState = .memorizing
+        self.memorizationState = .memorizing
     }
 
     public mutating func setWord(_ word: String) throws {

@@ -22,7 +22,7 @@ final class WordDetailReactor: Reactor {
         /// 현재 입력된 단어
         case enteredWord(String)
 
-        case changeMemorizedState(MemorizationState)
+        case changeMemorizationState(MemorizationState)
     }
 
     enum Mutation {
@@ -94,7 +94,7 @@ final class WordDetailReactor: Reactor {
 
             return .merge([
                 fetchWord.map { Mutation.updateWord($0.word) },
-                fetchWord.map { Mutation.updateMemorizationState($0.memorizedState) },
+                fetchWord.map { Mutation.updateMemorizationState($0.memorizationState) },
             ])
 
         case .beginEditing:
@@ -126,7 +126,7 @@ final class WordDetailReactor: Reactor {
                 .just(.setEmpty(enteredWord.isEmpty)),
             ])
 
-        case .changeMemorizedState(let newState):
+        case .changeMemorizationState(let newState):
             return .merge([
                 .just(.markAsEditing),
                 .just(.updateMemorizationState(newState)),

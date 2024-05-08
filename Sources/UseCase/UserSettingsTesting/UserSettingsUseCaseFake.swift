@@ -54,4 +54,8 @@ public final class UserSettingsUseCaseFake: UserSettingsUseCase {
         return .just(())
     }
 
+    public func changeMemorizingWordSize(fontSize: Domain_UserSettings.MemorizingWordSize) -> RxSwift.Single<Void> {
+        currentUserSettings.memorizingWordSize = fontSize
+        return .just(())
+    }
 }

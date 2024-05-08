@@ -16,11 +16,11 @@ final class DefaultWordUseCaseTests: XCTestCase {
     var sut: DefaultWordUseCase!
 
     let memorizedWordList: [Word] = [
-        try! .init(word: "F", memorizedState: .memorized),
-        try! .init(word: "G", memorizedState: .memorized),
-        try! .init(word: "H", memorizedState: .memorized),
-        try! .init(word: "I", memorizedState: .memorized),
-        try! .init(word: "J", memorizedState: .memorized),
+        try! .init(word: "F", memorizationState: .memorized),
+        try! .init(word: "G", memorizationState: .memorized),
+        try! .init(word: "H", memorizationState: .memorized),
+        try! .init(word: "I", memorizationState: .memorized),
+        try! .init(word: "J", memorizationState: .memorized),
     ]
 
     let unmemorizedWordList: [Word] = [
@@ -121,7 +121,7 @@ final class DefaultWordUseCaseTests: XCTestCase {
 
         // Assert
         XCTAssertEqual(try sut.fetchWord(by: updateTarget.uuid).toBlocking().single().word, "UpdatedWord")
-        XCTAssertEqual(try sut.fetchWord(by: updateTarget.uuid).toBlocking().single().memorizedState, .memorizing)
+        XCTAssertEqual(try sut.fetchWord(by: updateTarget.uuid).toBlocking().single().memorizationState, .memorizing)
     }
 
     func test_updateUnmemorizedWordToMemorized() throws {
@@ -136,7 +136,7 @@ final class DefaultWordUseCaseTests: XCTestCase {
             .single()
 
         // Assert
-        XCTAssertEqual(try sut.fetchWord(by: updateTarget.uuid).toBlocking().single().memorizedState, .memorized)
+        XCTAssertEqual(try sut.fetchWord(by: updateTarget.uuid).toBlocking().single().memorizationState, .memorized)
     }
 
     func test_updateMemorizedWordToUnmemorized() throws {
@@ -151,7 +151,7 @@ final class DefaultWordUseCaseTests: XCTestCase {
             .single()
 
         // Assert
-        XCTAssertEqual(try sut.fetchWord(by: updateTarget.uuid).toBlocking().single().memorizedState, .memorizing)
+        XCTAssertEqual(try sut.fetchWord(by: updateTarget.uuid).toBlocking().single().memorizationState, .memorizing)
     }
 
     func test_shuffleUnmemorizedWordListWhenOnly1Element() throws {
@@ -230,7 +230,7 @@ final class DefaultWordUseCaseTests: XCTestCase {
     func test_dailyReminderMessage_whenCompleteMemorizingLastWord() async throws {
         // Given
         let uuid = UUID()
-        let word = try Word(uuid: uuid, word: "Test", memorizedState: .memorizing)
+        let word = try Word(uuid: uuid, word: "Test", memorizationState: .memorizing)
         
         let wordRepositoryFake = WordRepositoryFake()
         wordRepositoryFake.save(word)

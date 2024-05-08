@@ -195,7 +195,7 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.contentConfiguration = config
 
-        switch self.reactor!.currentState.wordList[indexPath.row].memorizedState {
+        switch self.reactor!.currentState.wordList[indexPath.row].memorizationState {
         case .memorized:
             cell.accessoryType = .checkmark
         case .memorizing:

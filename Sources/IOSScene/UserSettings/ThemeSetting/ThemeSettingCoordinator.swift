@@ -8,7 +8,7 @@ internal final class ThemeSettingCoordinator: BasicCoordinator {
     override func start() {
         let viewController: ThemeSettingViewControllerProtocol = DIContainer.shared.resolver.resolve()
         viewController.delegate = self
-        navigationController?.pushViewController(viewController, animated: true)
+        navigationController.pushViewController(viewController, animated: true)
     }
 
 }

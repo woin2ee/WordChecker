@@ -10,5 +10,6 @@ import Foundation
 
 enum AccessibilityIdentifier {
     static let wordTextField = "WORDDETAIL_WORD_TEXTFIELD"
-    static let memorizationStateButton = "WORDDETAIL_MEMORIZATION_STATE_BUTTON"
+    static let memorizingButton = "WORDDETAIL_MEMORIZING_BUTTON"
+    static let memorizedButton = "WORDDETAIL_MEMORIZED_BUTTON"
 }

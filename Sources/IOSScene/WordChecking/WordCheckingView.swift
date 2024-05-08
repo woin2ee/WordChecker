@@ -6,7 +6,9 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
+import Domain_UserSettings
 import IOSSupport
+import RxSwift
 import SnapKit
 import Then
 import UIKit
@@ -15,7 +17,6 @@ final class WordCheckingView: BaseView {
 
     let wordLabel: UILabel = .init().then {
         $0.adjustsFontForContentSizeCategory = true
-        $0.font = .preferredFont(forTextStyle: .title3)
         $0.numberOfLines = 0
         $0.accessibilityIdentifier = AccessibilityIdentifier.wordLabel
     }
@@ -91,4 +92,9 @@ final class WordCheckingView: BaseView {
         }
     }
 
+    var fontSizeBinder: Binder<MemorizingWordSize> {
+        return .init(wordLabel) { target, fontSize in
+            target.font = fontSize.preferredFont
+        }
+    }
 }

@@ -22,16 +22,6 @@ public protocol Coordinator: AnyObject {
     ///
     /// Coordinator 가 담당하는 View 가 화면에 Display 되며 실제로 메모리에 적재됨을 의미합니다.
     func start()
-
-    /// Start this coordinator with 1 argument.
-    ///
-    /// Coordinator 가 담당하는 View 가 화면에 Display 되며 실제로 메모리에 적재됨을 의미합니다.
-    func start<Arg1>(with argument: Arg1)
-
-    /// Start this coordinator with 2 argument.
-    ///
-    /// Coordinator 가 담당하는 View 가 화면에 Display 되며 실제로 메모리에 적재됨을 의미합니다.
-    func start<Arg1, Arg2>(with arguments: Arg1, _ arg2: Arg2)
 }
 
 public extension Coordinator {
@@ -39,13 +29,4 @@ public extension Coordinator {
     func start() {
         abstractMethod()
     }
-
-    func start<Arg1>(with argument: Arg1) {
-        abstractMethod()
-    }
-
-    func start<Arg1, Arg2>(with arguments: Arg1, _ arg2: Arg2) {
-        abstractMethod()
-    }
-
 }

@@ -73,14 +73,14 @@ internal final class DefaultWordService: WordService {
         }
 
         if let newState = newAttribute.memorizationState {
-            wordEntity.memorizedState = newState
+            wordEntity.memorizationState = newState
             isStateUpdated = true
         }
 
         try wordRepository.save(wordEntity)
 
         if isWordUpdated, isStateUpdated {
-            switch wordEntity.memorizedState {
+            switch wordEntity.memorizationState {
             case .memorized:
                 unmemorizedWordListRepository.deleteWord(by: id)
             case .memorizing:
@@ -93,7 +93,7 @@ internal final class DefaultWordService: WordService {
         } else if isWordUpdated {
             unmemorizedWordListRepository.replaceWord(where: id, with: wordEntity)
         } else if isStateUpdated {
-            switch wordEntity.memorizedState {
+            switch wordEntity.memorizationState {
             case .memorized:
                 unmemorizedWordListRepository.deleteWord(by: id)
             case .memorizing:
@@ -122,7 +122,7 @@ internal final class DefaultWordService: WordService {
             return
         }
 
-        currentWord.memorizedState = .memorized
+        currentWord.memorizationState = .memorized
 
         try wordRepository.save(currentWord)
         unmemorizedWordListRepository.deleteWord(by: currentWord.uuid)

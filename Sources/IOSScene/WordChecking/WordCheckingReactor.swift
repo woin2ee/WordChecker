@@ -27,6 +27,8 @@ enum WordCheckingReactorError: Error {
 
 final class WordCheckingReactor: Reactor {
 
+    typealias FontSize = MemorizingWordSize
+    
     enum Action {
         case viewDidLoad
         case addWord(String)
@@ -35,6 +37,7 @@ final class WordCheckingReactor: Reactor {
         case shuffleWordList
         case deleteCurrentWord
         case markCurrentWordAsMemorized
+        case changeFontSize(FontSize)
     }
 
     enum Mutation {
@@ -42,10 +45,12 @@ final class WordCheckingReactor: Reactor {
         case setSourceLanguage(TranslationLanguage)
         case setTargetLanguage(TranslationLanguage)
         case showAddCompleteToast(Result<String, WordCheckingReactorError>)
+        case setFontSize(FontSize)
     }
 
     struct State {
         var currentWord: Word?
+        var fontSize: MemorizingWordSize
         var translationSourceLanguage: TranslationLanguage
         var translationTargetLanguage: TranslationLanguage
         @Pulse var showAddCompleteToast: Result<String, WordCheckingReactorError>?
@@ -53,6 +58,7 @@ final class WordCheckingReactor: Reactor {
 
     let initialState: State = State(
         currentWord: nil,
+        fontSize: .default,
         translationSourceLanguage: .english,
         translationTargetLanguage: .korean
     )
@@ -87,11 +93,16 @@ final class WordCheckingReactor: Reactor {
                 .map(\.target)
                 .map { Mutation.setTargetLanguage($0) }
                 .asObservable()
+            let currentFontSize = userSettingsUseCase.getCurrentUserSettings()
+                .map(\.memorizingWordSize)
+                .map { Mutation.setFontSize($0) }
+                .asObservable()
 
             return .merge([
                 .just(initCurrrentWord),
                 initTranslationSourceLanguage,
                 initTranslationTargetLanguage,
+                currentFontSize,
             ])
 
         case .addWord(let newWord):
@@ -146,6 +157,11 @@ final class WordCheckingReactor: Reactor {
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
                     return .setCurrentWord(currentWord)
                 }
+            
+        case .changeFontSize(let fontSize):
+            _ = userSettingsUseCase.changeMemorizingWordSize(fontSize: fontSize)
+                .subscribe()
+            return .just(.setFontSize(fontSize))
         }
     }
 
@@ -192,6 +208,8 @@ final class WordCheckingReactor: Reactor {
             state.translationTargetLanguage = translationTargetLanguage
         case .showAddCompleteToast(let result):
             state.showAddCompleteToast = result
+        case .setFontSize(let fontSize):
+            state.fontSize = fontSize
         }
 
         return state

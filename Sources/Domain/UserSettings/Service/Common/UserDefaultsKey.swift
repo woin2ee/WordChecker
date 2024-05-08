@@ -11,20 +11,7 @@ import ExtendedUserDefaults
 
 internal enum UserDefaultsKey: UserDefaultsKeyProtocol, CaseIterable {
 
-    case translationSourceLocale
-
-    case translationTargetLocale
-
-    case dailyReminderTime
-
-    case hapticsIsOn
-
-    case themeStyle
-
     case userSettings
-
-    /// 테스트용 Key 입니다.
-    case test
 
     var identifier: String {
         return String(describing: self)

@@ -118,14 +118,14 @@ final class WordCheckerUITests: XCTestCase {
         // Edit details
         app.tables.element(boundBy: 1).cells.element(boundBy: 0).tap()
         let detailTextField = app.textFields[WordDetailAccessibilityID.wordTextField]
-        let detailMemorizationStateButton = app.buttons[WordDetailAccessibilityID.memorizationStateButton]
+        let detailMemorizingButton = app.buttons[WordDetailAccessibilityID.memorizingButton]
+        let detailMemorizedButton = app.buttons[WordDetailAccessibilityID.memorizedButton]
         XCTAssertEqual(detailTextField.value as? String, currentWord)
-        XCTAssertEqual(detailMemorizationStateButton.label, WordDetailString.memorizing)
+        XCTAssertEqual(detailMemorizingButton.isSelected, true)
         detailTextField.tap()
         detailTextField.typeText("#")
-        detailMemorizationStateButton.tap()
-        app.buttons[WordDetailString.memorized].tap()
-        XCTAssertEqual(detailMemorizationStateButton.label, WordDetailString.memorized)
+        detailMemorizedButton.tap()
+        XCTAssertEqual(detailMemorizedButton.isSelected, true)
         app.navigationBars.buttons[WordDetailString.done].tap()
         app.tables.element(boundBy: 1).cells.staticTexts["\(currentWord)#"].assertExistence()
 
@@ -134,7 +134,7 @@ final class WordCheckerUITests: XCTestCase {
         let newWord: String = app.descendants(matching: .any)[WordCheckingAccessibilityID.wordLabel].label
         XCTAssertNotEqual("\(currentWord)#", newWord)
 
-        // Change state to unmemorized
+        // Change state to memorizing
         do {
             app.navigationBars.buttons[WordCheckingAccessibilityID.moreButton].tap()
             app.collectionViews.buttons[WordCheckingString.memorized].tap()
@@ -144,8 +144,7 @@ final class WordCheckerUITests: XCTestCase {
             moveListTap()
 
             app.tables.element(boundBy: 1).cells.element(boundBy: 0).tap()
-            app.buttons[WordDetailAccessibilityID.memorizationStateButton].tap()
-            app.buttons[WordDetailString.memorizing].tap()
+            app.buttons[WordDetailAccessibilityID.memorizingButton].tap()
             app.navigationBars.buttons[WordDetailString.done].tap()
 
             moveCheckingTap()

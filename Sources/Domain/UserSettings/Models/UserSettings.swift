@@ -21,12 +21,34 @@ public struct UserSettings: Codable {
 
     /// 테마 스타일
     public var themeStyle: ThemeStyle
+    
+    /// 암기 단어 사이즈
+    public var memorizingWordSize: MemorizingWordSize
 
-    public init(translationSourceLocale: TranslationLanguage, translationTargetLocale: TranslationLanguage, hapticsIsOn: Bool, themeStyle: ThemeStyle) {
+    public init(
+        translationSourceLocale: TranslationLanguage,
+        translationTargetLocale: TranslationLanguage,
+        hapticsIsOn: Bool,
+        themeStyle: ThemeStyle,
+        memorizingWordSize: MemorizingWordSize = .default
+    ) {
         self.translationSourceLocale = translationSourceLocale
         self.translationTargetLocale = translationTargetLocale
         self.hapticsIsOn = hapticsIsOn
         self.themeStyle = themeStyle
+        self.memorizingWordSize = memorizingWordSize
     }
-
+    
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.translationSourceLocale = try container.decode(TranslationLanguage.self, forKey: .translationSourceLocale)
+        self.translationTargetLocale = try container.decode(TranslationLanguage.self, forKey: .translationTargetLocale)
+        self.hapticsIsOn = try container.decode(Bool.self, forKey: .hapticsIsOn)
+        self.themeStyle = try container.decode(ThemeStyle.self, forKey: .themeStyle)
+        do {
+            self.memorizingWordSize = try container.decode(MemorizingWordSize.self, forKey: .memorizingWordSize)
+        } catch {
+            self.memorizingWordSize = .default
+        }
+    }
 }
