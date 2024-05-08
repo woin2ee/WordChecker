@@ -176,6 +176,20 @@ func iOSTargets() -> [Target] {
                 .target(name: Module.testsSupport),
             ]
         ),
+        Target.target(
+            name: "SnapshotGenerator",
+            destinations: .iOS,
+            product: .uiTests,
+            bundleId: "\(BASIC_BUNDLE_ID).SnapshotGenerator",
+            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            sources: "Tests/SnapshotGenerator/**",
+            dependencies: [
+                .target(name: "\(PROJECT_NAME)Dev"),
+                .target(name: Module.iOSSupport),
+                .target(name: Module.utility),
+                .target(name: Module.testsSupport),
+            ]
+        ),
     ] + [
         Target.makeIOSFramework(
             name: Module.iOSSupport,
@@ -481,6 +495,14 @@ let project: Project = .init(
             name: "IntergrationTests",
             testAction: .testPlans([.relativeToRoot("TestPlans/IntergrationTests.xctestplan")])
         ),
+        .scheme(
+            name: "snapshot-generator",
+            buildAction: .buildAction(targets: ["SnapshotGenerator"]),
+            testAction: .targets(
+                [.testableTarget(target: "SnapshotGenerator")],
+                attachDebugger: false
+            )
+        )
     ],
     additionalFiles: [
         ".swiftlint.yml",
