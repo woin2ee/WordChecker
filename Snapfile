@@ -29,6 +29,7 @@ override_status_bar(true)
 override_status_bar_arguments("--time 9:41 --dataNetwork wifi --wifiMode active --wifiBars 3 --cellularMode active --operatorName '' --cellularBars 4 --batteryState charged --batteryLevel 100 --dataNetwork wifi")
 
 localize_simulator(true)
+erase_simulator(true)
 concurrent_simulators(true)
 
 # Arguments to pass to the app on launch. See https://docs.fastlane.tools/actions/snapshot/#launch-arguments
