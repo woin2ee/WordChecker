@@ -95,20 +95,23 @@ final class UserSettingsReactor: Reactor {
             ])
 
         case .downloadData(let presentingWindow):
-            return self.currentState.hasSigned
-            ? googleDriveUseCase.download(presenting: presentingWindow)
-                .map(Mutation.setDownloadStatus)
-            : .concat([
-                googleDriveUseCase.signInWithAuthorization(presenting: presentingWindow)
-                    .asObservable()
-                    .map({ _ in Mutation.signIn }),
-                googleDriveUseCase.download(presenting: presentingWindow)
-                    .doOnNext { progressStatus in
-                        if progressStatus == .complete {
-                            self.globalAction.didResetWordList.accept(())
-                        }
+            let signInIfNeedsSequence = self.currentState.hasSigned
+            ? .empty()
+            : googleDriveUseCase.signInWithAuthorization(presenting: presentingWindow)
+                .asObservable()
+                .map { Mutation.signIn  }
+            
+            let downloadSequence = googleDriveUseCase.download(presenting: presentingWindow)
+                .doOnNext { progressStatus in
+                    if progressStatus == .complete {
+                        self.globalAction.didResetWordList.accept(())
                     }
-                    .map(Mutation.setDownloadStatus),
+                }
+                .map(Mutation.setDownloadStatus)
+            
+            return .concat([
+                signInIfNeedsSequence,
+                downloadSequence,
             ])
 
         case .signOut:
