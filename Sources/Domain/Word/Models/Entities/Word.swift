@@ -40,12 +40,32 @@ public struct Word: Entity, Codable, Hashable {
         self.word = ""
         self.memorizationState = .memorizing
     }
+    
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.uuid = try container.decode(UUID.self, forKey: .uuid)
+        self.word = try container.decode(String.self, forKey: .word)
+        
+        do {
+            self.memorizationState = try container.decode(MemorizationState.self, forKey: .memorizationState)
+        } catch {
+            // For compatibility of past coding key
+            self.memorizationState = try container.decode(MemorizationState.self, forKey: .memorizedState)
+        }
+    }
 
     public mutating func setWord(_ word: String) throws {
         guard word.hasElements else {
             throw EntityError.changeRejected(reason: .valueDisallowed)
         }
         self.word = word
+    }
+    
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(uuid, forKey: .uuid)
+        try container.encode(word, forKey: .word)
+        try container.encode(memorizationState, forKey: .memorizationState)
     }
 }
 
@@ -55,4 +75,17 @@ extension Word {
         return .init()
     }
 
+}
+
+extension Word {
+    enum CodingKeys: CodingKey {
+        case uuid
+        case word
+        
+        /// 암기 상태 (memorizationState와 같음)
+        @available(*, deprecated, renamed: "memorizationState")
+        case memorizedState
+        /// 암기 상태 (memorizedState와 같음)
+        case memorizationState
+    }
 }
