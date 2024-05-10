@@ -1,13 +1,34 @@
 # Changelog
 
+## Next releases
+
+### 한국어
+
+### English
+
 ## 1.8.0
+
+### 한국어
+
+#### Added
+- iPad 를 지원합니다.
+
+#### Improved
+- 앱 안정성이 향상되었습니다.
+
+#### Fixed
+- 사소한 버그를 수정했습니다.
+
+### English
 
 #### Added
 - Support for iPad.
 
+#### Improved
+- Improved app stability.
+
 #### Fixed
-- Fixed memory leak.
-- Prevented to crash possibility.
+- Fixed minor bugs.
 
 ## 1.7.3
 
@@ -101,3 +122,12 @@
 #### Enhancement
 - Add exception processing that the device unconnected network.
 - Change text color of `no Word` label
+
+
+
+<!--#### Added 새로운 기능-->
+<!--#### Changed 기존 기능의 변경사항-->
+<!--#### Deprecated 곧 지워질 기능-->
+<!--#### Removed 지금 지워진 기능-->
+<!--#### Fixed 버그 픽스-->
+<!--#### Security 취약점이 있는 경우-->
