@@ -510,6 +510,8 @@ let project: Project = .init(
         "Scripts/",
         ".gitignore",
         "Project.swift",
+        "version.md",
+        "CHANGELOG.md",
     ],
     resourceSynthesizers: []
 )

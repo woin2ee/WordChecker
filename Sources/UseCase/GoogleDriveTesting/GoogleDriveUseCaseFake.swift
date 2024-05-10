@@ -17,6 +17,8 @@ public final class GoogleDriveUseCaseFake: GoogleDriveUseCase {
     let scheduler: SchedulerType
 
     public var _hasSigned: Bool = false
+    public var willAlwaysFailUploading: Bool = false
+    public var willAlwaysFailDownloading: Bool = false
 
     public init(scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .userInitiated)) {
         self.scheduler = scheduler
@@ -36,6 +38,10 @@ public final class GoogleDriveUseCaseFake: GoogleDriveUseCase {
     }
 
     public func upload(presenting: PresentingConfiguration?) -> RxSwift.Observable<ProgressStatus> {
+        if willAlwaysFailUploading {
+            return .error(GoogleDriveUseCaseFakeError.fakeError)
+        }
+        
         func doUpload() -> Observable<ProgressStatus> {
             return .create { observer in
                 observer.onNext(.inProgress)
@@ -63,6 +69,10 @@ public final class GoogleDriveUseCaseFake: GoogleDriveUseCase {
     }
 
     public func download(presenting: PresentingConfiguration?) -> RxSwift.Observable<ProgressStatus> {
+        if willAlwaysFailDownloading {
+            return .error(GoogleDriveUseCaseFakeError.fakeError)
+        }
+        
         func doDownload() -> Observable<ProgressStatus> {
             return .create { observer in
                 observer.onNext(.inProgress)
@@ -102,5 +112,7 @@ public final class GoogleDriveUseCaseFake: GoogleDriveUseCase {
 enum GoogleDriveUseCaseFakeError: Error {
 
     case noPresentingConfiguration
+    
+    case fakeError
 
 }

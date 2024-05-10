@@ -248,7 +248,6 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
                     ActivityIndicatorViewController.shared.startAnimating(on: self)
                 case .complete:
                     ActivityIndicatorViewController.shared.stopAnimating(on: self)
-                    owner.presentOKAlert(title: LocalizedString.notice, message: LocalizedString.google_drive_upload_successfully)
                 }
             })
             .disposed(by: self.disposeBag)
@@ -265,10 +264,41 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
                     ActivityIndicatorViewController.shared.startAnimating(on: self)
                 case .complete:
                     ActivityIndicatorViewController.shared.stopAnimating(on: self)
-                    owner.presentOKAlert(title: LocalizedString.notice, message: LocalizedString.google_drive_download_successfully)
                 }
             })
             .disposed(by: self.disposeBag)
+        
+        reactor.pulse(\.$showDownloadSuccessAlert)
+            .unwrapOrIgnore()
+            .asDriverOnErrorJustComplete()
+            .drive(with: self) { owner, _ in
+                owner.presentOKAlert(title: LocalizedString.notice, message: LocalizedString.google_drive_download_successfully)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.pulse(\.$showDownloadFailureAlert)
+            .unwrapOrIgnore()
+            .asDriverOnErrorJustComplete()
+            .drive(with: self) { owner, _ in
+                owner.presentOKAlert(title: LocalizedString.notice, message: LocalizedString.google_drive_download_failed)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.pulse(\.$showUploadSuccessAlert)
+            .unwrapOrIgnore()
+            .asDriverOnErrorJustComplete()
+            .drive(with: self) { owner, _ in
+                owner.presentOKAlert(title: LocalizedString.notice, message: LocalizedString.google_drive_upload_successfully)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.pulse(\.$showUploadFailureAlert)
+            .unwrapOrIgnore()
+            .asDriverOnErrorJustComplete()
+            .drive(with: self) { owner, _ in
+                owner.presentOKAlert(title: LocalizedString.notice, message: LocalizedString.google_drive_upload_failed)
+            }
+            .disposed(by: disposeBag)
     }
 
 }

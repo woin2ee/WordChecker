@@ -4,7 +4,11 @@
 
 ### 한국어
 
+#### Added
+- 이제 업로드, 다운로드 실패 시 알림 메시지를 통해 알려줍니다. 
+
 ### English
+- From now on, you'll be notified when upload and download fail.
 
 ## 1.8.0
 

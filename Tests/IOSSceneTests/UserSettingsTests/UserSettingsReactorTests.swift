@@ -12,6 +12,7 @@ import IOSSupport
 import UseCase_GoogleDriveTesting
 import UseCase_UserSettingsTesting
 
+import ReactorKit
 import RxTest
 import TestsSupport
 import XCTest
@@ -57,6 +58,7 @@ final class UserSettingsReactorTests: RxBaseTestCase {
             .noTask, // due to commit signIn mutation
             .inProgress,
             .complete,
+            .complete, // due to commit `showUploadSuccessAlert` mutation
         ])
         XCTAssertEqual(sut.currentState.hasSigned, true)
     }
@@ -88,6 +90,7 @@ final class UserSettingsReactorTests: RxBaseTestCase {
             .noTask, // initialState
             .inProgress,
             .complete,
+            .complete, // due to commit `showDownloadSuccessAlert` mutation
         ])
     }
 
@@ -126,6 +129,119 @@ final class UserSettingsReactorTests: RxBaseTestCase {
         XCTAssertEqual(sut.currentState.targetLanguage, .italian)
     }
 
+    func test_showUploadAlert_whenSuccess() {
+        // Given
+        let googleDriveUseCase = GoogleDriveUseCaseFake(scheduler: testScheduler)
+        
+        sut = UserSettingsReactor(
+            userSettingsUseCase: UserSettingsUseCaseFake(),
+            googleDriveUseCase: googleDriveUseCase,
+            globalAction: GlobalAction.shared
+        )
+        
+        let presentingWindow: PresentingConfiguration = .init(window: UIViewController())
+        
+        testScheduler
+            .createTrigger()
+            .map { UserSettingsReactor.Action.uploadData(presentingWindow) }
+            .bind(to: sut.action)
+            .disposed(by: disposeBag)
+        
+        // When
+        let result = testScheduler.start {
+            self.sut.pulse(\.$showUploadSuccessAlert)
+                .unwrapOrIgnore()
+        }
+        
+        // Then
+        XCTAssertRecordedElements(result.events, [()])
+    }
+    
+    func test_showUploadAlert_whenFailed() {
+        // Given
+        let googleDriveUseCase = GoogleDriveUseCaseFake(scheduler: testScheduler)
+        googleDriveUseCase.willAlwaysFailUploading = true
+        
+        sut = UserSettingsReactor(
+            userSettingsUseCase: UserSettingsUseCaseFake(),
+            googleDriveUseCase: googleDriveUseCase,
+            globalAction: GlobalAction.shared
+        )
+        
+        let presentingWindow: PresentingConfiguration = .init(window: UIViewController())
+        
+        testScheduler
+            .createTrigger()
+            .map { UserSettingsReactor.Action.uploadData(presentingWindow) }
+            .bind(to: sut.action)
+            .disposed(by: disposeBag)
+        
+        // When
+        let result = testScheduler.start {
+            self.sut.pulse(\.$showUploadFailureAlert)
+                .unwrapOrIgnore()
+        }
+        
+        // Then
+        XCTAssertRecordedElements(result.events, [()])
+    }
+    
+    func test_showDownloadAlert_whenSuccess() {
+        // Given
+        let googleDriveUseCase = GoogleDriveUseCaseFake(scheduler: testScheduler)
+        
+        sut = UserSettingsReactor(
+            userSettingsUseCase: UserSettingsUseCaseFake(),
+            googleDriveUseCase: googleDriveUseCase,
+            globalAction: GlobalAction.shared
+        )
+        
+        let presentingWindow: PresentingConfiguration = .init(window: UIViewController())
+        
+        testScheduler
+            .createTrigger()
+            .map { UserSettingsReactor.Action.downloadData(presentingWindow) }
+            .bind(to: sut.action)
+            .disposed(by: disposeBag)
+        
+        // When
+        let result = testScheduler.start {
+            self.sut.pulse(\.$showDownloadSuccessAlert)
+                .unwrapOrIgnore()
+        }
+        
+        // Then
+        XCTAssertRecordedElements(result.events, [()])
+    }
+    
+    func test_showDownloadAlert_whenFailed() {
+        // Given
+        let googleDriveUseCase = GoogleDriveUseCaseFake(scheduler: testScheduler)
+        googleDriveUseCase.willAlwaysFailDownloading = true
+        
+        sut = UserSettingsReactor(
+            userSettingsUseCase: UserSettingsUseCaseFake(),
+            googleDriveUseCase: googleDriveUseCase,
+            globalAction: GlobalAction.shared
+        )
+        
+        let presentingWindow: PresentingConfiguration = .init(window: UIViewController())
+        
+        testScheduler
+            .createTrigger()
+            .map { UserSettingsReactor.Action.downloadData(presentingWindow) }
+            .bind(to: sut.action)
+            .disposed(by: disposeBag)
+        
+        // When
+        let result = testScheduler.start {
+            self.sut.pulse(\.$showDownloadFailureAlert)
+                .unwrapOrIgnore()
+        }
+        
+        // Then
+        XCTAssertRecordedElements(result.events, [()])
+    }
 }
 
 // MARK: Templates

@@ -24,9 +24,11 @@ internal struct LocalizedString {
 
     static let google_drive_upload = NSLocalizedString("google_drive_upload", bundle: Bundle.module, comment: "")
     static let google_drive_upload_successfully = NSLocalizedString("google_drive_upload_successfully", bundle: Bundle.module, comment: "")
+    static let google_drive_upload_failed = NSLocalizedString("google_drive_upload_failed", bundle: Bundle.module, comment: "")
 
     static let google_drive_download = NSLocalizedString("google_drive_download", bundle: Bundle.module, comment: "")
     static let google_drive_download_successfully = NSLocalizedString("google_drive_download_successfully", bundle: Bundle.module, comment: "")
+    static let google_drive_download_failed = NSLocalizedString("google_drive_download_failed", bundle: Bundle.module, comment: "")
 
     static let haptics = NSLocalizedString("haptics", bundle: Bundle.module, comment: "")
     static let theme = NSLocalizedString("theme", bundle: Bundle.module, comment: "")

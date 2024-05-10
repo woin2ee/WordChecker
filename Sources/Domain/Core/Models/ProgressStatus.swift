@@ -14,7 +14,7 @@ public enum ProgressStatus {
     /// 진행중
     case inProgress
 
-    /// 완료
+    /// 완료. 작업의 성공/실패 여부는 관계 없습니다.
     case complete
 
     /// 작업 없음

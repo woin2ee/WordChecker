@@ -29,12 +29,20 @@ final class UserSettingsReactor: Reactor {
         case signIn
         case signOut
         case showSignOutAlert
+        case showUploadSuccessAlert
+        case showUploadFailureAlert
+        case showDownloadSuccessAlert
+        case showDownloadFailureAlert
         case setUploadStatus(ProgressStatus)
         case setDownloadStatus(ProgressStatus)
     }
 
     struct State {
         @Pulse var showSignOutAlert: Void?
+        @Pulse var showDownloadSuccessAlert: Void?
+        @Pulse var showDownloadFailureAlert: Void?
+        @Pulse var showUploadSuccessAlert: Void?
+        @Pulse var showUploadFailureAlert: Void?
         var sourceLanguage: TranslationLanguage
         var targetLanguage: TranslationLanguage
         var hasSigned: Bool
@@ -81,17 +89,26 @@ final class UserSettingsReactor: Reactor {
             ])
 
         case .uploadData(let presentingWindow):
-            return self.currentState.hasSigned
-            ? googleDriveUseCase.upload(presenting: presentingWindow)
+            let signInIfNeedsSequence = self.currentState.hasSigned
+            ? .empty()
+            : googleDriveUseCase.signInWithAuthorization(presenting: presentingWindow)
+                .asObservable()
+                .map { Mutation.signIn  }
+            
+            let uploadSequence = googleDriveUseCase.upload(presenting: presentingWindow)
                 .subscribe(on: ConcurrentMainScheduler.instance)
                 .map(Mutation.setUploadStatus)
-            : .concat([
-                googleDriveUseCase.signInWithAuthorization(presenting: presentingWindow)
-                    .asObservable()
-                    .map({ _ in Mutation.signIn }),
-                googleDriveUseCase.upload(presenting: presentingWindow)
-                    .subscribe(on: ConcurrentMainScheduler.instance)
-                    .map(Mutation.setUploadStatus),
+                .concat(Observable<Mutation>.just(.showUploadSuccessAlert))
+                .catch { error in
+                    return .concat([
+                        .just(.setUploadStatus(.complete)),
+                        .just(.showUploadFailureAlert),
+                    ])
+                }
+            
+            return .concat([
+                signInIfNeedsSequence,
+                uploadSequence,
             ])
 
         case .downloadData(let presentingWindow):
@@ -108,6 +125,13 @@ final class UserSettingsReactor: Reactor {
                     }
                 }
                 .map(Mutation.setDownloadStatus)
+                .concat(Observable<Mutation>.just(.showDownloadSuccessAlert))
+                .catch { error in
+                    return .concat([
+                        .just(.setDownloadStatus(.complete)),
+                        .just(.showDownloadFailureAlert),
+                    ])
+                }
             
             return .concat([
                 signInIfNeedsSequence,
@@ -151,6 +175,14 @@ final class UserSettingsReactor: Reactor {
             state.uploadStatus = progressStatus
         case .setDownloadStatus(let progressStatus):
             state.downloadStatus = progressStatus
+        case .showDownloadSuccessAlert:
+            state.showDownloadSuccessAlert = ()
+        case .showDownloadFailureAlert:
+            state.showDownloadFailureAlert = ()
+        case .showUploadSuccessAlert:
+            state.showUploadSuccessAlert = ()
+        case .showUploadFailureAlert:
+            state.showUploadFailureAlert = ()
         }
 
         return state
