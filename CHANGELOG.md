@@ -10,7 +10,7 @@
 ### English
 - From now on, you'll be notified when upload and download fail.
 
-## 1.8.0
+## 1.8.0 - 2024-05-10
 
 ### 한국어
 
