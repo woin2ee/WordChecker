@@ -1,0 +1,22 @@
+name: Create new release
+
+on:
+  push:
+    # branches:
+    #   - main
+    tags:
+    - '*.*.*'
+
+jobs:
+  create_new_release:
+    name: Create new release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - run: echo "Release for tag ${CURRENT_TAG}"
+    - uses: actions/checkout@v3
+    - name: Create Release
+      uses: ncipollo/release-action@v1.13.0
+      with:
+        bodyFile: "Changelog/${{ github.ref_name }}.md"
