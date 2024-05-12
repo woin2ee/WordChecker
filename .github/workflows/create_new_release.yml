@@ -2,8 +2,6 @@ name: Create new release
 
 on:
   push:
-    # branches:
-    #   - main
     tags:
     - '*.*.*'
 
@@ -17,6 +15,7 @@ jobs:
     - run: echo "Release for tag ${CURRENT_TAG}"
     - uses: actions/checkout@v3
     - name: Create Release
-      uses: ncipollo/release-action@v1.13.0
+      uses: ncipollo/release-action@v1.14.0
       with:
-        bodyFile: "Changelog/${{ github.ref_name }}.md"
+        draft: true
+        omitName: true
