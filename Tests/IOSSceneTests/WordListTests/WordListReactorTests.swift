@@ -72,7 +72,7 @@ final class WordListReactorTests: XCTestCase {
         sut.action.onNext(.viewDidLoad)
 
         // Act
-        sut.action.onNext(.refreshWordList(.unmemorized))
+        sut.action.onNext(.refreshWordList(.memorizing))
 
         // Assert
         XCTAssertEqual(sut.currentState.wordList.count, 2)
@@ -80,7 +80,7 @@ final class WordListReactorTests: XCTestCase {
 
     func testEditUnmemorizedWordWhenShowUnmemorized() {
         // Arrange
-        sut.action.onNext(.refreshWordList(.unmemorized))
+        sut.action.onNext(.refreshWordList(.memorizing))
 
         let index = 1
 
@@ -123,7 +123,7 @@ final class WordListReactorTests: XCTestCase {
 
         // Assert
         XCTAssertFalse(sut.currentState.wordList.contains(where: { $0.word == deletedWord }))
-        sut.action.onNext(.refreshWordList(.unmemorized))
+        sut.action.onNext(.refreshWordList(.memorizing))
         XCTAssertFalse(sut.currentState.wordList.contains(where: { $0.word == deletedWord }))
     }
 

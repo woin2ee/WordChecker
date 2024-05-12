@@ -19,7 +19,7 @@ import XCTest
 typealias WordCheckingString            = IOSScene_WordChecking.LocalizedString
 typealias WordCheckingAccessibilityID   = IOSScene_WordChecking.AccessibilityIdentifier
 typealias WordListString                = IOSScene_WordList.LocalizedString
-typealias WordListAccessibilityID       = IOSScene_WordList.AccessibilityIdentifier
+typealias WordListAccessibilityID       = IOSScene_WordList.AccessibilityID
 typealias WordDetailString              = IOSScene_WordDetail.LocalizedString
 typealias WordDetailAccessibilityID     = IOSScene_WordDetail.AccessibilityIdentifier
 typealias UserSettingsString            = IOSScene_UserSettings.LocalizedString

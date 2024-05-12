@@ -107,7 +107,7 @@ final class WordListReactor: Reactor {
             wordList = wordUseCase.fetchWordList()
         case .memorized:
             wordList = wordUseCase.fetchMemorizedWordList()
-        case .unmemorized:
+        case .memorizing:
             wordList = wordUseCase.fetchUnmemorizedWordList()
         }
 
@@ -124,9 +124,11 @@ extension WordListReactor {
 
         case all
 
+        /// 암기 완료
         case memorized
 
-        case unmemorized
+        /// 암기중
+        case memorizing
 
     }
 

@@ -33,6 +33,16 @@
         }
       }
     },
+    "All" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모두"
+          }
+        }
+      }
+    },
     "cancel" : {
       "localizations" : {
         "en" : {
@@ -113,6 +123,16 @@
         }
       }
     },
+    "Memorized" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "암기 완료"
+          }
+        }
+      }
+    },
     "memorizing" : {
       "localizations" : {
         "en" : {
@@ -129,6 +149,26 @@
         }
       }
     },
+    "Memorizing" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "암기중"
+          }
+        }
+      }
+    },
+    "Showing" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보기 옵션"
+          }
+        }
+      }
+    },
     "there_are_no_words" : {
       "localizations" : {
         "en" : {
@@ -141,6 +181,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "단어가 없습니다."
+          }
+        }
+      }
+    },
+    "Words" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단어"
           }
         }
       }

@@ -32,8 +32,24 @@ final class WordListViewController: RxBaseViewController, WordListViewController
 
     var cellReuseIdentifier: String = "WORD_LIST_CELL"
 
-    weak var delegate: WordListViewControllerDelegate?
+    weak var delegate: WordListViewControllerDelegate? {
+        didSet {
+            searchResultsController.delegate = delegate as? WordSearchResultsControllerDelegate
+        }
+    }
 
+    private lazy var searchResultsController = WordSearchResultsController().then {
+        $0.reactor = self.reactor
+    }
+    
+    private lazy var ownNavigationItem = WordListNavigationItem().then {
+        $0.attachSearchBar(searchResultsController: searchResultsController)
+        $0.searchController?.delegate = self
+    }
+    override var navigationItem: UINavigationItem {
+        ownNavigationItem
+    }
+    
     lazy var wordListTableView: UITableView = {
         let tableView: UITableView = .init()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,48 +59,18 @@ final class WordListViewController: RxBaseViewController, WordListViewController
         return tableView
     }()
 
-    let addWordButton: UIBarButtonItem = {
-        let button: UIBarButtonItem = .init(systemItem: .add)
-        button.accessibilityIdentifier = AccessibilityIdentifier.addWordButton
-        button.style = .done
-        button.accessibilityLabel = LocalizedString.addWord
-        return button
-    }()
-
-    lazy var segmentedControl: UISegmentedControl = .init().then {
-        let showAllListAction: UIAction = .init(title: LocalizedString.all) { [weak self] _ in
-            self?.reactor?.action.onNext(.refreshWordList(.all))
-        }
-
-        let showUnmemorizedListAction: UIAction = .init(title: LocalizedString.memorizing) { [weak self] _ in
-            self?.reactor?.action.onNext(.refreshWordList(.unmemorized))
-        }
-
-        let showMemorizedListAction: UIAction = .init(title: LocalizedString.memorized) { [weak self] _ in
-            self?.reactor?.action.onNext(.refreshWordList(.memorized))
-        }
-
-        $0.insertSegment(action: showAllListAction, at: 0, animated: false)
-        $0.insertSegment(action: showUnmemorizedListAction, at: 1, animated: false)
-        $0.insertSegment(action: showMemorizedListAction, at: 2, animated: false)
-
-        $0.selectedSegmentIndex = 0
-    }
-
     let noWordListLabel: UILabel = .init().then {
         $0.adjustsFontForContentSizeCategory = true
         $0.font = .preferredFont(forTextStyle: .title3, weight: .medium)
         $0.text = LocalizedString.there_are_no_words
         $0.textColor = .systemGray3
     }
-
+    
     // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupSubviews()
-        setupNavigationBar()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -120,29 +106,8 @@ final class WordListViewController: RxBaseViewController, WordListViewController
         }
     }
 
-    private func setupNavigationBar() {
-        self.navigationItem.titleView = segmentedControl
-        self.navigationItem.rightBarButtonItem = addWordButton
-        setupSearchBar()
-    }
-
-    func setupSearchBar() {
-        let searchResultsController: WordSearchResultsController = .init().then {
-            $0.reactor = self.reactor
-            $0.delegate = self.delegate as? WordSearchResultsControllerDelegate
-        }
-        let searchController: UISearchController = .init(searchResultsController: searchResultsController)
-
-        searchController.obscuresBackgroundDuringPresentation = true
-        searchController.searchResultsUpdater = searchResultsController
-        searchController.delegate = self
-
-        self.navigationItem.searchController = searchController
-        self.navigationItem.hidesSearchBarWhenScrolling = false
-    }
-
     override func bindActions() {
-        addWordButton.rx.tap
+        ownNavigationItem.addWordButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
                 owner.delegate?.didTapAddWordButton()
@@ -163,6 +128,10 @@ extension WordListViewController: View {
 
     func bind(reactor: WordListReactor) {
         // Action
+        ownNavigationItem.didSelectSortType
+            .map(Reactor.Action.refreshWordList)
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
 
         // State
         reactor.state
@@ -175,6 +144,13 @@ extension WordListViewController: View {
                 owner.noWordListLabel.isHidden = !wordList.isEmpty
             }
             .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map(\.listType)
+            .distinctUntilChanged()
+            .asDriverOnErrorJustComplete()
+            .drive(ownNavigationItem.listTypeBinder)
+            .disposed(by: disposeBag)
     }
 
 }

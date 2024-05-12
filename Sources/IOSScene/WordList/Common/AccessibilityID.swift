@@ -1,5 +1,5 @@
 //
-//  AccessibilityIdentifier.swift
+//  AccessibilityID.swift
 //  IOSScene_WordList
 //
 //  Created by Jaewon Yun on 2/26/24.
@@ -8,6 +8,7 @@
 
 import Foundation
 
-enum AccessibilityIdentifier {
+enum AccessibilityID {
     static let addWordButton = "WORDLIST_ADD_WORD_BUTTON"
+    static let settingsButton = "WORDLIST_SETTINGS_BAR_BUTTON"
 }
