@@ -18,4 +18,4 @@ jobs:
       uses: ncipollo/release-action@v1.14.0
       with:
         draft: true
-        omitName: true
+        tag: ${{ github.ref_name }}
