@@ -6,6 +6,7 @@
 
 #### Features
 - 이제 업로드, 다운로드 실패 시 알림 메시지를 통해 알려줍니다.
+- 단어 목록 화면에 일괄 편집 기능을 추가했습니다.
 
 #### Changes
 - 단어 필터링 방식이 변경되었습니다.
@@ -14,6 +15,7 @@
 
 #### Features
 - From now on, you'll be notified when upload and download fail.
+- Added bulk editing function to the words screen.
 
 #### Changes
 - Changed filtering way of words.

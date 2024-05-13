@@ -20,6 +20,7 @@ public protocol WordService {
     func updateToNextWord()
     func updateToPreviousWord()
     func markCurrentWordAsMemorized() throws
+    func markWordsAsMemorized(by uuids: [UUID]) throws
     func getCurrentUnmemorizedWord() -> Word?
     func isWordDuplicated(_ word: String) throws -> Bool
     func reset(to newWordList: [Word]) throws

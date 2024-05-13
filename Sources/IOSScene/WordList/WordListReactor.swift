@@ -20,19 +20,28 @@ final class WordListReactor: Reactor {
         case editWord(String, IndexPath.Index)
         case refreshWordList(ListType)
         case refreshWordListByCurrentType
+        case setEditing(Bool)
+        case deleteWords([IndexPath])
+        case markWordsAsMemorized([IndexPath])
     }
 
     enum Mutation {
         case changeListType(ListType)
         case updateWordList([Word])
+        case setEditing(Bool)
     }
 
     struct State {
         var listType: ListType
         var wordList: [Word]
+        var isEditing: Bool
     }
 
-    var initialState: State = State(listType: .all, wordList: [])
+    var initialState: State = State(
+        listType: .all,
+        wordList: [],
+        isEditing: false
+    )
 
     let globalAction: GlobalAction
     let wordUseCase: WordUseCase
@@ -51,7 +60,7 @@ final class WordListReactor: Reactor {
             let target = self.currentState.wordList[index]
 
             return wordUseCase.deleteWord(by: target.uuid).asObservable()
-                .doOnNext { self.globalAction.didDeleteWord.accept(target) }
+                .doOnNext { self.globalAction.didDeleteWords.accept([target]) }
                 .flatMap { self.updateWordList(by: self.currentState.listType) }
 
         case .editWord(let word, let index):
@@ -70,6 +79,38 @@ final class WordListReactor: Reactor {
 
         case .refreshWordListByCurrentType:
             return updateWordList(by: self.currentState.listType)
+            
+        case .deleteWords(let indexPaths):
+            let targets = indexPaths.map { indexPath -> Word in
+                return self.currentState.wordList[indexPath.row]
+            }
+            let deletesSequence = Observable.zip(
+                targets.map { target -> Observable<Void> in
+                    self.wordUseCase.deleteWord(by: target.uuid)
+                        .asObservable()
+                }
+            )
+            return .concat([
+                deletesSequence
+                    .doOnNext { _ in self.globalAction.didDeleteWords.accept(targets) }
+                    .flatMap { _ in self.updateWordList(by: self.currentState.listType) },
+                .just(.setEditing(false)),
+            ])
+            
+        case .setEditing(let isEditing):
+            return .just(.setEditing(isEditing))
+            
+        case .markWordsAsMemorized(let indexPaths):
+            let uuids = indexPaths.map { indexPath -> UUID in
+                return self.currentState.wordList[indexPath.row].uuid
+            }
+            return .concat([
+                wordUseCase.markWordsAsMemorized(by: uuids)
+                    .asObservable()
+                    .doOnNext { self.globalAction.didMarkWordsAsMemorized.accept(()) }
+                    .flatMap { self.updateWordList(by: self.currentState.listType) },
+                .just(.setEditing(false)),
+            ])
         }
     }
 
@@ -91,6 +132,8 @@ final class WordListReactor: Reactor {
             state.listType = listType
         case .updateWordList(let wordList):
             state.wordList = wordList
+        case .setEditing(let isEditing):
+            state.isEditing = isEditing
         }
 
         return state

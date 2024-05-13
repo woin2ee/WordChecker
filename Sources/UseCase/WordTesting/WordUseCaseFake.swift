@@ -147,6 +147,20 @@ public final class WordUseCaseFake: WordUseCase {
         _unmemorizedWordList.deleteWord(by: uuid)
         return .just(())
     }
+    
+    public func markWordsAsMemorized(by uuids: [UUID]) -> RxSwift.Single<Void> {
+        return .create { observer in
+            uuids.forEach { uuid in
+                if let index = self._wordList.firstIndex(where: { $0.uuid == uuid }) {
+                    self._wordList[index].memorizationState = .memorized
+                }
+                self._unmemorizedWordList.deleteWord(by: uuid)
+            }
+            
+            observer(.success(()))
+            return Disposables.create()
+        }
+    }
 
     public func getCurrentUnmemorizedWord() -> Word? {
         return _unmemorizedWordList.getCurrentWord()

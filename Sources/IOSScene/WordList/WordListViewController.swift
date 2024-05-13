@@ -56,6 +56,7 @@ final class WordListViewController: RxBaseViewController, WordListViewController
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
+        tableView.allowsMultipleSelectionDuringEditing = true
         return tableView
     }()
 
@@ -64,6 +65,10 @@ final class WordListViewController: RxBaseViewController, WordListViewController
         $0.font = .preferredFont(forTextStyle: .title3, weight: .medium)
         $0.text = LocalizedString.there_are_no_words
         $0.textColor = .systemGray3
+    }
+    
+    let editingToolBar = EditingToolBar().then {
+        $0.isHidden = true
     }
     
     // MARK: - Life cycle
@@ -97,12 +102,18 @@ final class WordListViewController: RxBaseViewController, WordListViewController
     private func setupSubviews() {
         self.view.addSubview(wordListTableView)
         self.view.addSubview(noWordListLabel)
+        self.view.addSubview(editingToolBar)
 
         wordListTableView.frame = self.view.frame
 
         noWordListLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(self.view.safeAreaLayoutGuide).offset(40)
+        }
+        
+        editingToolBar.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(78)
         }
     }
 
@@ -132,7 +143,33 @@ extension WordListViewController: View {
             .map(Reactor.Action.refreshWordList)
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-
+        
+        ownNavigationItem.editButton.rx.tap
+            .map { Reactor.Action.setEditing(true) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        ownNavigationItem.cancelButton.rx.tap
+            .map { Reactor.Action.setEditing(false) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        editingToolBar.markAsMemorizedButton.rx.tap
+            .compactMap { [weak self] _ -> [IndexPath]? in
+                return self?.wordListTableView.indexPathsForSelectedRows
+            }
+            .map(Reactor.Action.markWordsAsMemorized)
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        editingToolBar.deleteButton.rx.tap
+            .compactMap { [weak self] _ -> [IndexPath]? in
+                return self?.wordListTableView.indexPathsForSelectedRows
+            }
+            .map(Reactor.Action.deleteWords)
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // State
         reactor.state
             .map(\.wordList)
@@ -151,6 +188,25 @@ extension WordListViewController: View {
             .asDriverOnErrorJustComplete()
             .drive(ownNavigationItem.listTypeBinder)
             .disposed(by: disposeBag)
+        
+        do { // Bind `isEditing` state of Reactor
+            var isEditingBinder: Binder<Bool> {
+                Binder(self) { target, isEditing in
+                    target.editingToolBar.isHidden = !isEditing
+                    target.tabBarController?.tabBar.isHidden = isEditing
+                }
+            }
+            
+            reactor.state
+                .map(\.isEditing)
+                .asDriverOnErrorJustComplete()
+                .drive(
+                    ownNavigationItem.isEditingBinder,
+                    wordListTableView.rx.isEditing,
+                    isEditingBinder
+                )
+                .disposed(by: disposeBag)
+        }
     }
 
 }
@@ -216,6 +272,8 @@ extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView.isEditing { return }
+            
         let uuid: UUID = self.reactor!.currentState.wordList[indexPath.row].uuid
         delegate?.didTapWordRow(with: uuid)
         tableView.deselectRow(at: indexPath, animated: true)

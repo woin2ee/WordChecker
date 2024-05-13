@@ -177,8 +177,8 @@ final class WordCheckingReactor: Reactor {
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
                     return Mutation.setCurrentWord(currentWord)
                 },
-            globalAction.didDeleteWord
-                .filter { $0.uuid == self.currentState.currentWord?.uuid }
+            globalAction.didDeleteWords
+                .filter { $0.contains(where: { $0.uuid == self.currentState.currentWord?.uuid }) }
                 .map { _ in
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
                     return Mutation.setCurrentWord(currentWord)
@@ -189,6 +189,11 @@ final class WordCheckingReactor: Reactor {
                     return Mutation.setCurrentWord(currentWord)
                 },
             globalAction.didAddWord
+                .map {
+                    let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
+                    return Mutation.setCurrentWord(currentWord)
+                },
+            globalAction.didMarkWordsAsMemorized
                 .map {
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
                     return Mutation.setCurrentWord(currentWord)

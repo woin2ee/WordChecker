@@ -203,6 +203,7 @@ func iOSTargets() -> [Target] {
                 .target(name: Module.useCase.localNotification),
                 .target(name: Module.useCase.userSettings),
                 .target(name: Module.useCase.word),
+                .external(name: .pinLayout),
                 .external(name: .rxSwift),
                 .external(name: .rxCocoa),
                 .external(name: .rxSwiftSugarDynamic),

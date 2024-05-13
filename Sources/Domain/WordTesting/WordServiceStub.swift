@@ -68,6 +68,9 @@ public final class WordServiceStub: WordService {
 
     public func markCurrentWordAsMemorized() throws {
     }
+    
+    public func markWordsAsMemorized(by uuids: [UUID]) throws {
+    }
 
     public func getCurrentUnmemorizedWord() -> Domain_Word.Word? {
         return try? .init(word: "Current")

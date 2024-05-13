@@ -94,6 +94,19 @@ internal final class DefaultWordUseCase: WordUseCase {
             return .error(error)
         }
     }
+    
+    func markWordsAsMemorized(by uuids: [UUID]) -> Single<Void> {
+        return .create { observer in
+            do {
+                try self.wordService.markWordsAsMemorized(by: uuids)
+                self.updateDailyReminder()
+                observer(.success(()))
+            } catch {
+                observer(.failure(error))
+            }
+            return Disposables.create()
+        }
+    }
 
     func getCurrentUnmemorizedWord() -> Word? {
         return wordService.getCurrentUnmemorizedWord()

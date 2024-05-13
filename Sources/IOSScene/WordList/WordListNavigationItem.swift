@@ -30,6 +30,9 @@ final class WordListNavigationItem: UINavigationItem {
         ])
     }
     
+    let editButton = UIBarButtonItem(systemItem: .edit)
+    let cancelButton = UIBarButtonItem(systemItem: .cancel)
+    
     private lazy var filterWordsGroup = UIDeferredMenuElement.uncached { [weak self] completion in
         let menu = UIMenu(
             title: String(localized: "Showing", bundle: .module),
@@ -78,8 +81,19 @@ final class WordListNavigationItem: UINavigationItem {
         }
     }
     
+    var isEditingBinder: Binder<Bool> {
+        Binder(self) { target, isEditing in
+            if isEditing {
+                target.setLeftBarButton(target.cancelButton, animated: true)
+            } else {
+                target.setLeftBarButton(target.editButton, animated: true)
+            }
+        }
+    }
+    
     init() {
         super.init(title: String(localized: "Words", bundle: .module))
+        self.leftBarButtonItems = [editButton]
         self.rightBarButtonItems = [settingsButton, addWordButton]
     }
     

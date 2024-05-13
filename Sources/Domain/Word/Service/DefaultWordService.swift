@@ -127,6 +127,16 @@ internal final class DefaultWordService: WordService {
         try wordRepository.save(currentWord)
         unmemorizedWordListRepository.deleteWord(by: currentWord.uuid)
     }
+    
+    func markWordsAsMemorized(by uuids: [UUID]) throws {
+        try uuids.compactMap { wordRepository.getWord(by: $0) }
+            .forEach { word in
+                var word = word
+                word.memorizationState = .memorized
+                try wordRepository.save(word)
+                unmemorizedWordListRepository.deleteWord(by: word.uuid)
+            }
+    }
 
     func getCurrentUnmemorizedWord() -> Word? {
         return unmemorizedWordListRepository.getCurrentWord()

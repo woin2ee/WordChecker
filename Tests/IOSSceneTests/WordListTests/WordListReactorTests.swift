@@ -11,6 +11,7 @@
 @testable import Domain_Word
 @testable import Domain_WordTesting
 @testable import UseCase_Word
+@testable import UseCase_WordTesting
 import IOSSupport
 
 import RxBlocking
@@ -127,4 +128,63 @@ final class WordListReactorTests: XCTestCase {
         XCTAssertFalse(sut.currentState.wordList.contains(where: { $0.word == deletedWord }))
     }
 
+    func test_markWordsAsMemorized() throws {
+        // Given
+        let wordUseCase = WordUseCaseFake()
+        try wordUseCase.addNewWord(Word(word: "A"))
+        try wordUseCase.addNewWord(Word(word: "B"))
+        try wordUseCase.addNewWord(Word(word: "C"))
+        try wordUseCase.addNewWord(Word(word: "D"))
+        try wordUseCase.addNewWord(Word(word: "E"))
+        
+        sut = WordListReactor(
+            globalAction: GlobalAction.shared,
+            wordUseCase: wordUseCase
+        )
+        sut.action.onNext(.viewDidLoad)
+        
+        // When
+        sut.action.onNext(.markWordsAsMemorized([
+            IndexPath(row: 0, section: 0),
+            IndexPath(row: 1, section: 0),
+            IndexPath(row: 2, section: 0),
+        ]))
+        
+        // Then
+        XCTAssertEqual(
+            sut.currentState.wordList.map(\.memorizationState),
+            [.memorized, .memorized, .memorized, .memorizing, .memorizing]
+        )
+    }
+    
+    func test_deleteWords() throws {
+        // Given
+        let wordUseCase = WordUseCaseFake()
+        try wordUseCase.addNewWord(Word(word: "A"))
+        try wordUseCase.addNewWord(Word(word: "B"))
+        try wordUseCase.addNewWord(Word(word: "C"))
+        try wordUseCase.addNewWord(Word(word: "D"))
+        try wordUseCase.addNewWord(Word(word: "E"))
+        
+        sut = WordListReactor(
+            globalAction: GlobalAction.shared,
+            wordUseCase: wordUseCase
+        )
+        sut.action.onNext(.viewDidLoad)
+        
+        let originList = sut.currentState.wordList
+        
+        // When
+        sut.action.onNext(.deleteWords([
+            IndexPath(row: 0, section: 0),
+            IndexPath(row: 1, section: 0),
+            IndexPath(row: 2, section: 0),
+        ]))
+        
+        // Then
+        XCTAssertEqual(
+            sut.currentState.wordList.map(\.word),
+            [originList[3].word, originList[4].word]
+        )
+    }
 }
