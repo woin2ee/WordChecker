@@ -9,7 +9,7 @@ import Foundation
 import Realm
 import RealmSwift
 
-internal final class WordRepository: WordRepositoryProtocol {
+internal final class RealmWordRepository: WordRepository {
 
     let realm: Realm
     let realmConfinedQueue: DispatchQueue?
@@ -155,7 +155,7 @@ internal final class WordRepository: WordRepositoryProtocol {
 
 // MARK: Helpers
 
-extension WordRepository {
+extension RealmWordRepository {
 
     private func find(by uuid: UUID) -> WordObject? {
         // Because it is a helper method, it is called from a confined queue.

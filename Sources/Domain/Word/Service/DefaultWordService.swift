@@ -10,11 +10,11 @@ import Foundation
 
 internal final class DefaultWordService: WordService {
 
-    private let wordRepository: WordRepositoryProtocol
+    private let wordRepository: WordRepository
     private let unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol
     private let wordDuplicateSpecification: WordDuplicateSpecification
 
-    init(wordRepository: WordRepositoryProtocol, unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol, wordDuplicateSpecification: WordDuplicateSpecification) {
+    init(wordRepository: WordRepository, unmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol, wordDuplicateSpecification: WordDuplicateSpecification) {
         self.wordRepository = wordRepository
         self.unmemorizedWordListRepository = unmemorizedWordListRepository
         self.wordDuplicateSpecification = wordDuplicateSpecification

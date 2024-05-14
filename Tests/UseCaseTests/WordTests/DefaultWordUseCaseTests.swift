@@ -232,7 +232,7 @@ final class DefaultWordUseCaseTests: XCTestCase {
         let uuid = UUID()
         let word = try Word(uuid: uuid, word: "Test", memorizationState: .memorizing)
         
-        let wordRepositoryFake = WordRepositoryFake()
+        let wordRepositoryFake = FakeWordRepository()
         wordRepositoryFake.save(word)
         
         let localNotificationServiceFake = LocalNotificationServiceFake()
@@ -267,8 +267,8 @@ final class DefaultWordUseCaseTests: XCTestCase {
 
 extension DefaultWordUseCaseTests {
 
-    private func makePreparedRepositories() -> (wordRepositoryFake: WordRepositoryFake, unmemorizedWordListRepository: UnmemorizedWordListRepository) {
-        let wordRepositoryFake = WordRepositoryFake()
+    private func makePreparedRepositories() -> (wordRepositoryFake: FakeWordRepository, unmemorizedWordListRepository: UnmemorizedWordListRepository) {
+        let wordRepositoryFake = FakeWordRepository()
         zip(memorizedWordList, unmemorizedWordList).forEach {
             wordRepositoryFake.save($0)
             wordRepositoryFake.save($1)

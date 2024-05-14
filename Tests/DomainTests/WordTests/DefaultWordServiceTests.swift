@@ -14,22 +14,22 @@ import XCTest
 final class DefaultWordServiceTests: XCTestCase {
     
     var sut: DefaultWordService!
-    var wordRepositoryFake: WordRepositoryFake!
+    var fakeWordRepository: FakeWordRepository!
     var unmemorizedWordListRepository: UnmemorizedWordListRepository!
 
     override func setUpWithError() throws {
-        wordRepositoryFake = .init()
+        fakeWordRepository = .init()
         unmemorizedWordListRepository = .init()
         sut = .init(
-            wordRepository: wordRepositoryFake,
+            wordRepository: fakeWordRepository,
             unmemorizedWordListRepository: unmemorizedWordListRepository,
-            wordDuplicateSpecification: WordDuplicateSpecification(wordRepository: wordRepositoryFake)
+            wordDuplicateSpecification: WordDuplicateSpecification(wordRepository: fakeWordRepository)
         )
     }
     
     override func tearDownWithError() throws {
         sut = nil
-        wordRepositoryFake = nil
+        fakeWordRepository = nil
         unmemorizedWordListRepository = nil
     }
     
@@ -37,7 +37,7 @@ final class DefaultWordServiceTests: XCTestCase {
         // Given
         let uuid = UUID()
         let originWord = try Word(uuid: uuid, word: "OriginWord", memorizationState: .memorizing)
-        wordRepositoryFake.save(originWord)
+        fakeWordRepository.save(originWord)
         unmemorizedWordListRepository.addWord(originWord)
         
         // When
@@ -55,7 +55,7 @@ final class DefaultWordServiceTests: XCTestCase {
         // Given
         let uuid = UUID()
         let originWord = try Word(uuid: uuid, word: "OriginWord", memorizationState: .memorized)
-        wordRepositoryFake.save(originWord)
+        fakeWordRepository.save(originWord)
         
         // When
         let newAttribute = WordAttribute(word: "NewWord", memorizationState: .memorizing)
@@ -72,7 +72,7 @@ final class DefaultWordServiceTests: XCTestCase {
         // Given
         let uuid = UUID()
         let originWord = try Word(uuid: uuid, word: "OriginWord", memorizationState: .memorizing)
-        wordRepositoryFake.save(originWord)
+        fakeWordRepository.save(originWord)
         
         // When
         let newAttribute = WordAttribute(word: "OriginWord", memorizationState: .memorized)
@@ -88,7 +88,7 @@ final class DefaultWordServiceTests: XCTestCase {
         // Given
         let uuid = UUID()
         let originWord = try Word(uuid: uuid, word: "OriginWord", memorizationState: .memorizing)
-        wordRepositoryFake.save(originWord)
+        fakeWordRepository.save(originWord)
         
         // When
         let newAttribute = WordAttribute(word: "", memorizationState: .memorized)
@@ -102,7 +102,7 @@ final class DefaultWordServiceTests: XCTestCase {
         // Given
         let uuid = UUID()
         let word = try Word(uuid: uuid, word: "Word", memorizationState: .memorizing)
-        wordRepositoryFake.save(word)
+        fakeWordRepository.save(word)
         unmemorizedWordListRepository.addWord(word)
         
         // When
@@ -119,7 +119,7 @@ final class DefaultWordServiceTests: XCTestCase {
         // Given
         let uuid = UUID()
         let word = try Word(uuid: uuid, word: "Word", memorizationState: .memorizing)
-        wordRepositoryFake.save(word)
+        fakeWordRepository.save(word)
         unmemorizedWordListRepository.addWord(word)
         
         // When
@@ -146,7 +146,7 @@ final class DefaultWordServiceTests: XCTestCase {
         let word4 = try Word(uuid: uuid4, word: "D", memorizationState: .memorizing)
         let word5 = try Word(uuid: uuid5, word: "E", memorizationState: .memorizing)
         
-        wordRepositoryFake._wordList = [
+        fakeWordRepository._wordList = [
             word1,
             word2,
             word3,

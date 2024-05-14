@@ -86,7 +86,7 @@ final class DefaultGoogleDriveUseCaseTests: XCTestCase {
         googleDriveServiceFake.isGrantedAppDataScope = true
         googleDriveServiceFake.backupFiles = [BackupFile(name: .wordListBackup, data: wordListData)]
         
-        let wordRepositoryFake = WordRepositoryFake()
+        let wordRepositoryFake = FakeWordRepository()
         let wordServiceFake = DefaultWordService(
             wordRepository: wordRepositoryFake,
             unmemorizedWordListRepository: UnmemorizedWordListRepository(),

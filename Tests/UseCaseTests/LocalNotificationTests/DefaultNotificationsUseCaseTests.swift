@@ -162,7 +162,7 @@ final class DefaultNotificationsUseCaseTests: XCTestCase {
         let word1UUID = UUID()
         let word1 = try Word(uuid: word1UUID, word: "Test1", memorizationState: .memorizing)
         let word2 = try Word(uuid: UUID(), word: "Test2", memorizationState: .memorizing)
-        let wordRepositoryFake = WordRepositoryFake(sampleData: [word1, word2])
+        let wordRepositoryFake = FakeWordRepository(sampleData: [word1, word2])
         
         sut = .init(
             localNotificationService: LocalNotificationServiceFake(),

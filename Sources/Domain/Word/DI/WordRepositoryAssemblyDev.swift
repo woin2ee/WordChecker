@@ -14,7 +14,7 @@ import Utility
 internal final class WordRepositoryAssemblyDev: Assembly {
 
     func assemble(container: Container) {
-        container.register(WordRepositoryProtocol.self) { _ in
+        container.register(WordRepository.self) { _ in
             LaunchArgument.verify()
 
             if LaunchArgument.contains(.useInMemoryDatabase) {
@@ -40,7 +40,7 @@ internal final class WordRepositoryAssemblyDev: Assembly {
             return realm
         }
 
-        return WordRepository(realm: realm, realmConfinedQueue: realmExecutionQueue)
+        return RealmWordRepository(realm: realm, realmConfinedQueue: realmExecutionQueue)
     }
 
     private func makeSampledWordRepository() -> WordRepository {
@@ -65,7 +65,7 @@ internal final class WordRepositoryAssemblyDev: Assembly {
             fatalError("Failed to create sample data.")
         }
 
-        return WordRepository(realm: realm, realmConfinedQueue: realmExecutionQueue)
+        return RealmWordRepository(realm: realm, realmConfinedQueue: realmExecutionQueue)
     }
 
     private func makePersistenceWordRepository() -> WordRepository {
@@ -88,7 +88,7 @@ internal final class WordRepositoryAssemblyDev: Assembly {
             print("Realm file url : \(realm.configuration.fileURL?.debugDescription ?? "nil")")
         #endif
 
-        return WordRepository(realm: realm, realmConfinedQueue: realmExecutionQueue)
+        return RealmWordRepository(realm: realm, realmConfinedQueue: realmExecutionQueue)
     }
 
 }

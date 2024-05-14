@@ -23,7 +23,7 @@ final class WordListReactorTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Prepare word list (memorizing: 2개, memorized: 3개)
-        let wordRepositoryFake = WordRepositoryFake()
+        let wordRepositoryFake = FakeWordRepository()
         wordRepositoryFake.save(try Word(word: "1"))
         wordRepositoryFake.save(try Word(word: "2"))
         wordRepositoryFake.save(try Word(word: "A", memorizationState: .memorized))

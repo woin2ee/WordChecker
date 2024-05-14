@@ -13,7 +13,7 @@ import Swinject
 internal final class WordRepositoryAssembly: Assembly {
 
     func assemble(container: Container) {
-        container.register(WordRepositoryProtocol.self) { _ in
+        container.register(WordRepository.self) { _ in
             var config: Realm.Configuration = makeDefaultRealmConfiguration()
             guard config.fileURL != nil else {
                 fatalError("Realm's url is nil.")
@@ -33,7 +33,7 @@ internal final class WordRepositoryAssembly: Assembly {
                 print("Realm file url : \(realm.configuration.fileURL?.debugDescription ?? "nil")")
             #endif
 
-            return WordRepository(realm: realm, realmConfinedQueue: realmExecutionQueue)
+            return RealmWordRepository(realm: realm, realmConfinedQueue: realmExecutionQueue)
         }
         .inObjectScope(.container)
     }

@@ -1,5 +1,5 @@
 //
-//  WordRepositoryFake.swift
+//  FakeWordRepository.swift
 //  DomainUnitTests
 //
 //  Created by Jaewon Yun on 2023/09/04.
@@ -8,7 +8,7 @@
 @testable import Domain_Word
 import Foundation
 
-public final class WordRepositoryFake: WordRepositoryProtocol {
+public final class FakeWordRepository: WordRepository {
 
     public var _wordList: [Word] = []
 

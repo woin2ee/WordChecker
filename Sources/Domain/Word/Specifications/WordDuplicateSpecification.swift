@@ -10,9 +10,9 @@ import Domain_Core
 
 internal final class WordDuplicateSpecification: Specification {
 
-    private let wordRepository: WordRepositoryProtocol
+    private let wordRepository: WordRepository
 
-    init(wordRepository: WordRepositoryProtocol) {
+    init(wordRepository: WordRepository) {
         self.wordRepository = wordRepository
     }
 
