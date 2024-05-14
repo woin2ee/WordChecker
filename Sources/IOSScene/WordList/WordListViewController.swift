@@ -30,8 +30,6 @@ public protocol WordListViewControllerProtocol: UIViewController {
 
 final class WordListViewController: RxBaseViewController, WordListViewControllerProtocol {
 
-    var cellReuseIdentifier: String = "WORD_LIST_CELL"
-
     weak var delegate: WordListViewControllerDelegate? {
         didSet {
             searchResultsController.delegate = delegate as? WordSearchResultsControllerDelegate
@@ -55,7 +53,7 @@ final class WordListViewController: RxBaseViewController, WordListViewController
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
+        tableView.register(WordCell.self)
         tableView.allowsMultipleSelectionDuringEditing = true
         return tableView
     }()
@@ -216,24 +214,19 @@ extension WordListViewController: View {
 extension WordListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.reactor!.currentState.wordList.count
+        guard let reactor = self.reactor else { return 0 }
+        return reactor.currentState.wordList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath)
-
-        var config: UIListContentConfiguration = .cell()
-        config.text = self.reactor!.currentState.wordList[indexPath.row].word
-
-        cell.contentConfiguration = config
-
-        switch self.reactor!.currentState.wordList[indexPath.row].memorizationState {
-        case .memorized:
-            cell.accessoryType = .checkmark
-        case .memorizing:
-            cell.accessoryType = .none
-        }
-
+        guard let reactor = self.reactor else { return UITableViewCell() }
+        
+        let cell = tableView.dequeueReusableCell(WordCell.self, for: indexPath)
+        let cellModel = WordCell.Model(
+            word: reactor.currentState.wordList[indexPath.row].word,
+            memorizationState: reactor.currentState.wordList[indexPath.row].memorizationState
+        )
+        cell.update(model: cellModel)
         return cell
     }
 
