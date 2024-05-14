@@ -140,7 +140,11 @@ public final class WordUseCaseFake: WordUseCase {
         _unmemorizedWordList.updateToPreviousWord()
     }
 
-    public func markCurrentWordAsMemorized(uuid: UUID) -> Single<Void> {
+    public func markCurrentWordAsMemorized() -> Single<Void> {
+        guard let uuid = _unmemorizedWordList.getCurrentWord()?.uuid else {
+            return .just(())
+        }
+        
         if let index = _wordList.firstIndex(where: { $0.uuid == uuid }) {
             _wordList[index].memorizationState = .memorized
         }

@@ -147,11 +147,7 @@ final class WordCheckingReactor: Reactor {
                 }
 
         case .markCurrentWordAsMemorized:
-            guard let uuid = currentState.currentWord?.uuid else {
-                return .empty()
-            }
-
-            return wordUseCase.markCurrentWordAsMemorized(uuid: uuid)
+            return wordUseCase.markCurrentWordAsMemorized()
                 .asObservable()
                 .map { _ -> Mutation in
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()

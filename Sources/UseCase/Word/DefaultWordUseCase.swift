@@ -85,7 +85,7 @@ internal final class DefaultWordUseCase: WordUseCase {
         wordService.updateToPreviousWord()
     }
 
-    func markCurrentWordAsMemorized(uuid: UUID) -> RxSwift.Single<Void> {
+    func markCurrentWordAsMemorized() -> RxSwift.Single<Void> {
         do {
             try wordService.markCurrentWordAsMemorized()
             updateDailyReminder()

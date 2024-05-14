@@ -41,7 +41,7 @@ public protocol WordUseCase {
 
     func updateToPreviousWord()
 
-    func markCurrentWordAsMemorized(uuid: UUID) -> Single<Void>
+    func markCurrentWordAsMemorized() -> Single<Void>
     
     func markWordsAsMemorized(by uuids: [UUID]) -> Single<Void>
 
