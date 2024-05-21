@@ -11,7 +11,7 @@ import XCTest
 
 final class WordRepositoryTests: XCTestCase {
 
-    var sut: WordRepository!
+    var sut: RealmWordRepository!
     
     override func setUpWithError() throws {
         let config: Realm.Configuration = .init(inMemoryIdentifier: String(describing: self))

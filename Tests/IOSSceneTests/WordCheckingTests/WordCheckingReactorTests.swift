@@ -7,6 +7,7 @@
 //
 
 @testable import IOSScene_WordChecking
+import IOSSupport
 import UseCase_WordTesting
 import UseCase_UserSettingsTesting
 
@@ -25,7 +26,8 @@ final class WordCheckingReactorTests: XCTestCase {
         sut = .init(
             wordUseCase: wordUseCase,
             userSettingsUseCase: userSettingsUseCase,
-            globalAction: .shared
+            globalAction: .shared, 
+            globalState: GlobalState.shared
         )
     }
 
@@ -84,7 +86,8 @@ final class WordCheckingReactorTests: XCTestCase {
         sut = .init(
             wordUseCase: wordUseCase,
             userSettingsUseCase: userSettingsUseCase,
-            globalAction: .shared
+            globalAction: .shared,
+            globalState: GlobalState.shared
         )
         
         // When
