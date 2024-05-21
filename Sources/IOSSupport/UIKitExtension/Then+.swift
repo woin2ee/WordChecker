@@ -11,3 +11,5 @@ import Then
 
 extension UIListContentConfiguration: Then {}
 extension UIBackgroundConfiguration: Then {}
+
+extension NSDiffableDataSourceSnapshot: Then {}
