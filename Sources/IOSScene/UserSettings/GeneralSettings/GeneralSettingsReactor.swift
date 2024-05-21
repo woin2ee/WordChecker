@@ -46,10 +46,18 @@ final class GeneralSettingsReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            return userSettingsUseCase.getCurrentUserSettings()
+            let userSettings = userSettingsUseCase.getCurrentUserSettings()
                 .asObservable()
+            let hapticsSettingSequence = userSettings
                 .map(\.hapticsIsOn)
                 .map { $0 ? Mutation.onHaptics : Mutation.offHaptics }
+            let autoCapitalizationSettingSequence = userSettings
+                .map(\.autoCapitalizationIsOn)
+                .map { $0 ? Mutation.onAutoCapitalization : Mutation.offAutoCapitalization }
+            return .merge([
+                hapticsSettingSequence,
+                autoCapitalizationSettingSequence,
+            ])
 
         case .tapHapticsSwitch:
             if self.currentState.hapticsIsOn {
