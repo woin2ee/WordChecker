@@ -203,6 +203,7 @@ func iOSTargets() -> [Target] {
                 .target(name: Module.useCase.localNotification),
                 .target(name: Module.useCase.userSettings),
                 .target(name: Module.useCase.word),
+                .external(name: .inject),
                 .external(name: .pinLayout),
                 .external(name: .rxSwift),
                 .external(name: .rxCocoa),
@@ -266,6 +267,21 @@ func iOSTargets() -> [Target] {
                 .external(name: .rxBlocking),
                 .external(name: .rxTest),
             ],
+            appendSchemeTo: &schemes
+        ),
+        Target.makeTargets(
+            name: "\(Module.iOSScene.wordList)Example",
+            destinations: .iOS,
+            product: .app,
+            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            infoPlist: .file(path: .path(Constant.Path.iOSExampleInfoPlist)),
+            dependencies: [
+                .target(name: Module.iOSScene.wordList),
+                .target(name: "UseCase_WordTesting"),
+            ],
+            settings: .settings(
+                base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.Security.TEAM_ID)
+            ),
             appendSchemeTo: &schemes
         ),
         Target.makeIOSFramework(
@@ -461,6 +477,10 @@ let project: Project = .init(
     options: .options(automaticSchemesOptions: .disabled),
     settings: .settings(
         base: ["SWIFT_EMIT_LOC_STRINGS": true]
+            .otherLinkerFlags([
+                "-Xlinker",
+                "-interposable"
+            ])
     ),
     targets: allTargets,
     schemes: schemes + [

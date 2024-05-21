@@ -54,5 +54,7 @@ let package = Package(
         .package(url: "https://github.com/layoutBox/PinLayout", from: "1.0.0"),
         // Swift Collections
         .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.0"),
+        // Inject
+        .package(url: "https://github.com/krzysztofzablocki/Inject.git", from: "1.2.4"),
     ]
 )
