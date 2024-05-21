@@ -15,6 +15,7 @@ public final class GoogleDriveServiceFake: GoogleDriveService {
     var backupFiles: [BackupFile]
     public var hasSigned: Bool
     public var isGrantedAppDataScope: Bool
+    private let testEmail = "Lorem-ipsum@gmail.com"
 
     public init() {
         self.backupFiles = []
@@ -48,23 +49,27 @@ public final class GoogleDriveServiceFake: GoogleDriveService {
         return .just(())
     }
 
-    public func signInWithAppDataScope(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
+    public func signInWithAppDataScope(presenting: Domain_GoogleDrive.PresentingConfiguration) -> RxSwift.Single<Domain_GoogleDrive.Email?> {
         hasSigned = true
         isGrantedAppDataScope = true
 
-        return .just(())
+        return .just(testEmail)
+    }
+    
+    public var currentUserEmail: Domain_GoogleDrive.Email? {
+        testEmail
+    }
+    
+    public func restorePreviousSignIn() -> RxSwift.Single<Domain_GoogleDrive.Email?> {
+        hasSigned = true
+        isGrantedAppDataScope = true
+
+        return .just(testEmail)
     }
 
     public func signOut() {
         hasSigned = false
         isGrantedAppDataScope = false
-    }
-
-    public func restorePreviousSignIn() -> RxSwift.Single<Void> {
-        hasSigned = true
-        isGrantedAppDataScope = true
-
-        return .just(())
     }
 
     public func requestAppDataScopeAccess(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {

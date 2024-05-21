@@ -8,6 +8,7 @@
 - 이제 업로드, 다운로드 실패 시 알림 메시지를 통해 알려줍니다.
 - 단어 목록 화면에 일괄 편집 기능을 추가했습니다.
 - 자동 대문자 기능 및 관련 설정이 추가되었습니다.
+- 로그인한 이메일을 표시하는 Footer view를 추가했습니다.
 
 #### Changes
 - 단어 필터링 방식이 변경되었습니다.
@@ -18,6 +19,7 @@
 - From now on, you'll be notified when upload and download fail.
 - Added bulk editing function to the words screen.
 - Added auto capitalization feature and associated setting.
+- Added footer that show the email who signed in.
 
 #### Changes
 - Changed filtering way of words.

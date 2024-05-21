@@ -23,13 +23,16 @@ internal final class DefaultGoogleDriveUseCase: GoogleDriveUseCase {
         self.localNotificationService = localNotificationService
     }
 
-    func signInWithAuthorization(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
+    func signInWithAuthorization(presenting: PresentingConfiguration) -> RxSwift.Single<Email?> {
         if hasSigned, googleDriveService.isGrantedAppDataScope {
-            return .just(())
+            return .just(googleDriveService.currentUserEmail)
         }
 
         return googleDriveService.restorePreviousSignIn()
-            .flatMap { self.googleDriveService.requestAppDataScopeAccess(presenting: presenting) }
+            .flatMap { email in
+                return self.googleDriveService.requestAppDataScopeAccess(presenting: presenting)
+                    .map { email }
+            }
             .catch { _ in self.googleDriveService.signInWithAppDataScope(presenting: presenting) }
     }
 
@@ -37,6 +40,10 @@ internal final class DefaultGoogleDriveUseCase: GoogleDriveUseCase {
         googleDriveService.signOut()
     }
 
+    var currentUserEmail: Email? {
+        googleDriveService.currentUserEmail
+    }
+    
     var hasSigned: Bool {
         return googleDriveService.hasSigned
     }
@@ -103,6 +110,7 @@ internal final class DefaultGoogleDriveUseCase: GoogleDriveUseCase {
             }
 
             let disposable = self.signInWithAuthorization(presenting: presenting)
+                .mapToVoid()
                 .subscribe(doUpload(authorizationStatus:))
             disposables.append(disposable)
             return Disposables.create(disposables)
@@ -169,13 +177,14 @@ internal final class DefaultGoogleDriveUseCase: GoogleDriveUseCase {
             }
 
             let disposable = self.signInWithAuthorization(presenting: presenting)
+                .mapToVoid()
                 .subscribe(doDownload(authorizationStatus:))
             disposables.append(disposable)
             return Disposables.create(disposables)
         }
     }
 
-    func restoreSignIn() -> Observable<Void> {
+    func restoreSignIn() -> Observable<Email?> {
         return googleDriveService.restorePreviousSignIn()
             .asObservable()
     }

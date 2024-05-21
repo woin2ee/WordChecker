@@ -69,7 +69,7 @@ final class UserSettingsReactorTests: RxBaseTestCase {
         sut.initialState = .init(
             sourceLanguage: .english,
             targetLanguage: .korean,
-            hasSigned: true,
+            signState: .signed(email: ""),
             uploadStatus: .noTask,
             downloadStatus: .noTask
         )
@@ -99,7 +99,7 @@ final class UserSettingsReactorTests: RxBaseTestCase {
         sut.initialState = .init(
             sourceLanguage: .english,
             targetLanguage: .korean,
-            hasSigned: true,
+            signState: .signed(email: "Test@gmail.com"),
             uploadStatus: .noTask,
             downloadStatus: .noTask
         )
@@ -109,6 +109,7 @@ final class UserSettingsReactorTests: RxBaseTestCase {
 
         // Then
         XCTAssertEqual(sut.currentState.hasSigned, false)
+        XCTAssertEqual(sut.currentState.signState, .unsigned)
     }
 
     func test_viewDidLoad() {

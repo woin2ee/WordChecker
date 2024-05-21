@@ -19,16 +19,26 @@ public final class GoogleDriveUseCaseFake: GoogleDriveUseCase {
     public var _hasSigned: Bool = false
     public var willAlwaysFailUploading: Bool = false
     public var willAlwaysFailDownloading: Bool = false
+    private let testEmail = "Lorem-ipsum@gmail.com"
 
     public init(scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .userInitiated)) {
         self.scheduler = scheduler
     }
 
-    public func signInWithAuthorization(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
+    public func signInWithAuthorization(presenting: Domain_GoogleDrive.PresentingConfiguration) -> RxSwift.Single<Domain_GoogleDrive.Email?> {
         _hasSigned = true
-        return .just(())
+        return .just(testEmail)
     }
-
+    
+    public var currentUserEmail: Domain_GoogleDrive.Email? {
+        testEmail
+    }
+    
+    public func restoreSignIn() -> RxSwift.Observable<Domain_GoogleDrive.Email?> {
+        _hasSigned = true
+        return .just(testEmail)
+    }
+    
     public func signOut() {
         _hasSigned = false
     }
@@ -97,11 +107,6 @@ public final class GoogleDriveUseCaseFake: GoogleDriveUseCase {
 
         _hasSigned = true
         return doDownload()
-    }
-
-    public func restoreSignIn() -> RxSwift.Observable<Void> {
-        _hasSigned = true
-        return .just(())
     }
 
     public func syncWordList(using strategy: SyncStrategy) -> RxSwift.Single<Void> {

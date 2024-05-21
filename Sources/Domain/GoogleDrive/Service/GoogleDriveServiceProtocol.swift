@@ -12,15 +12,17 @@ import RxSwift
 public protocol GoogleDriveService {
 
     /// App data scope 를 가지고 로그인을 합니다.
-    func signInWithAppDataScope(presenting: PresentingConfiguration) -> Single<Void>
+    func signInWithAppDataScope(presenting: PresentingConfiguration) -> Single<Email?>
 
     func signOut()
 
+    var currentUserEmail: Email? { get }
+    
     /// 로그인 여부를 반환합니다.
     var hasSigned: Bool { get }
 
     /// 이전에 로그인했던 사용자를 복구합니다.
-    func restorePreviousSignIn() -> Single<Void>
+    func restorePreviousSignIn() -> Single<Email?>
 
     /// App data scope 에 대한 접근 권한을 요청합니다.
     func requestAppDataScopeAccess(presenting: PresentingConfiguration) -> Single<Void>

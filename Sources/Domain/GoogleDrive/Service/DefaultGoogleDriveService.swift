@@ -20,7 +20,7 @@ public final class DefaultGoogleDriveService: GoogleDriveService {
         self.gidSignIn = gidSignIn
     }
 
-    public func signInWithAppDataScope(presenting: PresentingConfiguration) -> RxSwift.Single<Void> {
+    public func signInWithAppDataScope(presenting: PresentingConfiguration) -> RxSwift.Single<Email?> {
 #if os(macOS)
         guard let presentingViewController = presenting.window as? NSWindow else {
             return .error(GoogleDriveServiceError.unSupportedWindow)
@@ -45,11 +45,17 @@ public final class DefaultGoogleDriveService: GoogleDriveService {
                 hint: nil,
                 additionalScopes: [ScopeCode.appData]
             ) { user, error in
-                if error != nil || user == nil {
-                    result(.failure(GoogleDriveServiceError.failedSignIn))
-                } else {
-                    result(.success(()))
+                if let error = error {
+                    result(.failure(error))
+                    return
                 }
+                
+                guard let user = user else {
+                    result(.failure(GoogleDriveServiceError.failedSignIn))
+                    return
+                }
+                
+                result(.success(user.profile?.email))
             }
 
             return Disposables.create()
@@ -59,19 +65,29 @@ public final class DefaultGoogleDriveService: GoogleDriveService {
     public func signOut() {
         gidSignIn.signOut()
     }
+    
+    public var currentUserEmail: Email? {
+        gidSignIn.currentUser?.profile?.email
+    }
 
     public var hasSigned: Bool {
         return gidSignIn.currentUser != nil
     }
 
-    public func restorePreviousSignIn() -> Single<Void> {
+    public func restorePreviousSignIn() -> Single<Email?> {
         return .create { result in
             self.gidSignIn.restorePreviousSignIn { user, error in
-                if error != nil || user == nil {
-                    result(.failure(GoogleDriveServiceError.failedRestorePreviousSignIn))
-                } else {
-                    result(.success(()))
+                if let error = error {
+                    result(.failure(error))
+                    return
                 }
+                
+                guard let user = user else {
+                    result(.failure(GoogleDriveServiceError.failedRestorePreviousSignIn))
+                    return
+                }
+                
+                result(.success(user.profile?.email))
             }
 
             return Disposables.create()

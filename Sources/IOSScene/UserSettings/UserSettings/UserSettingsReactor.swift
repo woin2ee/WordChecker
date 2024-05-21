@@ -26,7 +26,7 @@ final class UserSettingsReactor: Reactor {
     enum Mutation {
         case setSourceLanguage(TranslationLanguage)
         case setTargetLanguage(TranslationLanguage)
-        case signIn
+        case signIn(email: String?)
         case signOut
         case showSignOutAlert
         case showUploadSuccessAlert
@@ -45,7 +45,14 @@ final class UserSettingsReactor: Reactor {
         @Pulse var showUploadFailureAlert: Void?
         var sourceLanguage: TranslationLanguage
         var targetLanguage: TranslationLanguage
-        var hasSigned: Bool
+        var signState: SignState
+        var hasSigned: Bool {
+            if case SignState.signed = signState {
+                return true
+            } else {
+                return false
+            }
+        }
         var uploadStatus: ProgressStatus
         var downloadStatus: ProgressStatus
     }
@@ -53,7 +60,7 @@ final class UserSettingsReactor: Reactor {
     var initialState: State = .init(
         sourceLanguage: .english,
         targetLanguage: .korean,
-        hasSigned: false,
+        signState: .unsigned,
         uploadStatus: .noTask,
         downloadStatus: .noTask
     )
@@ -84,7 +91,7 @@ final class UserSettingsReactor: Reactor {
                     ])
                 }
             return .merge([
-                .just(googleDriveUseCase.hasSigned ? .signIn : .signOut),
+                .just(googleDriveUseCase.hasSigned ? .signIn(email: googleDriveUseCase.currentUserEmail) : .signOut),
                 setCurrentLanguageSequence,
             ])
 
@@ -93,7 +100,7 @@ final class UserSettingsReactor: Reactor {
             ? .empty()
             : googleDriveUseCase.signInWithAuthorization(presenting: presentingWindow)
                 .asObservable()
-                .map { Mutation.signIn  }
+                .map { Mutation.signIn(email: $0)  }
             
             let uploadSequence = googleDriveUseCase.upload(presenting: presentingWindow)
                 .subscribe(on: ConcurrentMainScheduler.instance)
@@ -116,7 +123,7 @@ final class UserSettingsReactor: Reactor {
             ? .empty()
             : googleDriveUseCase.signInWithAuthorization(presenting: presentingWindow)
                 .asObservable()
-                .map { Mutation.signIn  }
+                .map { Mutation.signIn(email: $0)  }
             
             let downloadSequence = googleDriveUseCase.download(presenting: presentingWindow)
                 .doOnNext { progressStatus in
@@ -165,10 +172,10 @@ final class UserSettingsReactor: Reactor {
             state.sourceLanguage = translationLanguage
         case .setTargetLanguage(let translationLanguage):
             state.targetLanguage = translationLanguage
-        case .signIn:
-            state.hasSigned = true
+        case .signIn(let email):
+            state.signState = .signed(email: email)
         case .signOut:
-            state.hasSigned = false
+            state.signState = .unsigned
         case .showSignOutAlert:
             state.showSignOutAlert = ()
         case .setUploadStatus(let progressStatus):
@@ -188,4 +195,12 @@ final class UserSettingsReactor: Reactor {
         return state
     }
 
+}
+
+extension UserSettingsReactor {
+    
+    enum SignState: Equatable {
+        case signed(email: Email?)
+        case unsigned
+    }
 }

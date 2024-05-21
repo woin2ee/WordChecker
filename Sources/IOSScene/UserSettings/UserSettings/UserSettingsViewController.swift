@@ -32,7 +32,7 @@ public protocol UserSettingsViewControllerProtocol: UIViewController {
 
 final class UserSettingsViewController: RxBaseViewController, View, UserSettingsViewControllerProtocol {
 
-    private(set) var dataSourceModel: [UserSettingsItemIdentifier: UserSettingsItemModel] = [
+    private(set) var dataSourceModel: [ItemID: ItemModel] = [
         .changeSourceLanguage: .disclosureIndicator(.init(title: LocalizedString.source_language, value: nil)),
         .changeTargetLanguage: .disclosureIndicator(.init(title: LocalizedString.translation_language, value: nil)),
         .notifications: .disclosureIndicator(.init(title: LocalizedString.notifications, value: nil)),
@@ -42,7 +42,7 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
         .googleDriveSignOut: .button(.init(title: LocalizedString.google_drive_logout, textColor: .systemRed)),
     ]
 
-    private lazy var settingsTableViewDataSource: UITableViewDiffableDataSource<UserSettingsSectionIdentifier, UserSettingsItemIdentifier> = .init(tableView: rootTableView) { tableView, indexPath, id in
+    private lazy var settingsTableViewDataSource: UITableViewDiffableDataSource<SectionID, ItemID> = .init(tableView: rootTableView) { tableView, indexPath, id in
         guard let itemModel = self.dataSourceModel[id] else {
             preconditionFailure("dataSourceModel 에 해당 \(id) 를 가진 Item 이 없습니다.")
         }
@@ -61,14 +61,32 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
 
     weak var delegate: UserSettingsViewControllerDelegate?
 
-    let rootTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
+    private lazy var rootTableView: UITableView = .init(frame: .zero, style: .insetGrouped).then {
         $0.register(DisclosureIndicatorCell.self)
         $0.register(ButtonCell.self)
+        $0.register(TextFooterView.self)
+        $0.delegate = self
     }
 
     init() {
         super.init(nibName: nil, bundle: nil)
-        setUpSnapshot()
+        
+        let initialSnapshot = NSDiffableDataSourceSnapshot<SectionID, ItemID>().with {
+            $0.appendSections([.changeLanguage, .notifications, .googleDriveSync])
+            $0.appendItems(
+                [.changeSourceLanguage, .changeTargetLanguage],
+                toSection: .changeLanguage
+            )
+            $0.appendItems(
+                [.general, .notifications],
+                toSection: .notifications
+            )
+            $0.appendItems(
+                [.googleDriveUpload, .googleDriveDownload],
+                toSection: .googleDriveSync
+            )
+        }
+        settingsTableViewDataSource.apply(initialSnapshot)
     }
 
     required init?(coder: NSCoder) {
@@ -87,28 +105,6 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationBar()
-    }
-
-    func setUpSnapshot() {
-        var snapshot: NSDiffableDataSourceSnapshot<UserSettingsSectionIdentifier, UserSettingsItemIdentifier> = .init()
-        snapshot.appendSections([.changeLanguage, .notifications, .googleDriveSync])
-
-        snapshot.appendItems(
-            [.changeSourceLanguage, .changeTargetLanguage],
-            toSection: .changeLanguage
-        )
-
-        snapshot.appendItems(
-            [.general, .notifications],
-            toSection: .notifications
-        )
-
-        snapshot.appendItems(
-            [.googleDriveUpload, .googleDriveDownload],
-            toSection: .googleDriveSync
-        )
-
-        settingsTableViewDataSource.apply(snapshot)
     }
 
     func setupNavigationBar() {
@@ -182,22 +178,23 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
 
         // MARK: Bind Reactor's State
         reactor.state
-            .map(\.hasSigned)
+            .map(\.signState)
             .distinctUntilChanged()
             .asDriverOnErrorJustComplete()
-            .drive(with: self, onNext: { owner, hasSigned in
+            .drive(with: self, onNext: { owner, signState in
                 var snapshot = owner.settingsTableViewDataSource.snapshot()
 
-                if hasSigned {
+                switch signState {
+                case .signed:
                     snapshot.insertSections([.signOut], afterSection: .googleDriveSync)
                     snapshot.appendItems(
                         [.googleDriveSignOut],
                         toSection: .signOut
                     )
-                } else {
+                case .unsigned:
                     snapshot.deleteSections([.signOut])
                 }
-
+                
                 owner.settingsTableViewDataSource.apply(snapshot)
             })
             .disposed(by: self.disposeBag)
@@ -301,4 +298,24 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
             .disposed(by: disposeBag)
     }
 
+}
+
+// MARK: UITableViewDelegate
+
+extension UserSettingsViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section == SectionID.signOut.rawValue {
+            let footerView = tableView.dequeueReusableHeaderFooterView(TextFooterView.self)
+            
+            if case .signed(let email) = self.reactor?.currentState.signState {
+                let errorMessage = String(localized: "Failed to fetch your email.", bundle: .module)
+                footerView.text = email ?? errorMessage
+            }
+            
+            return footerView
+        }
+        
+        return nil
+    }
 }

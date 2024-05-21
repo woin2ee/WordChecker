@@ -75,6 +75,16 @@
         }
       }
     },
+    "Failed to fetch your email." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이메일을 가져오지 못했습니다."
+          }
+        }
+      }
+    },
     "general" : {
       "localizations" : {
         "en" : {

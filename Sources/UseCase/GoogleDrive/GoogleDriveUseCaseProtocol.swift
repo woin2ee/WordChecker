@@ -11,10 +11,12 @@ import RxSwift
 public protocol GoogleDriveUseCase {
 
     /// 외부 저장소에 로그인합니다.
-    func signInWithAuthorization(presenting: PresentingConfiguration) -> RxSwift.Single<Void>
+    func signInWithAuthorization(presenting: PresentingConfiguration) -> RxSwift.Single<Email?>
 
     /// 외부 저장소에서 로그아웃합니다.
     func signOut()
+    
+    var currentUserEmail: Email? { get }
 
     var hasSigned: Bool { get }
 
@@ -27,7 +29,7 @@ public protocol GoogleDriveUseCase {
     func download(presenting: PresentingConfiguration?) -> Observable<ProgressStatus>
 
     /// 이전에 로그인했던 사용자 복구를 시도합니다.
-    func restoreSignIn() -> Observable<Void>
+    func restoreSignIn() -> Observable<Email?>
 
     /// 단어 목록을 동기화합니다.
     /// - Parameter strategy: 어떻게 동기화 할 것인지 결정하는 동기화 전략입니다.
