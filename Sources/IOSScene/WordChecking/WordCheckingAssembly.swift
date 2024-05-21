@@ -25,7 +25,8 @@ public final class WordCheckingAssembly: Assembly {
             return WordCheckingReactor(
                 wordUseCase: wordUseCase,
                 userSettingsUseCase: userSettingsUseCase,
-                globalAction: GlobalAction.shared
+                globalAction: GlobalAction.shared, 
+                globalState: GlobalState.shared
             )
         }
 

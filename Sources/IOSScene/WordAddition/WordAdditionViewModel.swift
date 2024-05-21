@@ -16,10 +16,12 @@ import UseCase_Word
 
 final class WordAdditionViewModel: ViewModelType {
 
-    let wordUseCase: WordUseCase
+    private let wordUseCase: WordUseCase
+    private let globalState: GlobalState
 
-    init(wordUseCase: WordUseCase) {
+    init(wordUseCase: WordUseCase, globalState: GlobalState) {
         self.wordUseCase = wordUseCase
+        self.globalState = globalState
     }
 
     func transform(input: Input) -> Output {
@@ -30,6 +32,12 @@ final class WordAdditionViewModel: ViewModelType {
         let saveComplete = input.saveAttempt
             .withLatestFrom(input.wordText)
             .flatMapFirst { newWord in
+                var newWord = newWord
+                
+                if self.globalState.autoCapitalizationIsOn {
+                    newWord = newWord.prefix(1).uppercased() + newWord.dropFirst()
+                }
+                
                 return self.wordUseCase.addNewWord(newWord)
                     .asSignalOnErrorJustComplete()
             }

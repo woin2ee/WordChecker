@@ -27,15 +27,18 @@ public final class GlobalState {
             HapticGenerator.shared.isOn = hapticsIsOn
         }
     }
+    
+    public var autoCapitalizationIsOn: Bool = true
 
     public var themeStyle: BehaviorRelay<UIUserInterfaceStyle> = .init(value: .unspecified)
 
     /// 전역 상태를 초기화합니다.
     ///
     /// 전달된 파라미터를 이용하여 전역 상태를 초기화합니다. 이 함수를 호출하여 초기화하지 않으면, 고정된 값으로 전역 상태가 초기화됩니다.
-    public func initialize(hapticsIsOn: Bool, themeStyle: UIUserInterfaceStyle) {
+    public func initialize(hapticsIsOn: Bool, themeStyle: UIUserInterfaceStyle, autoCapitalizationIsOn: Bool) {
         self.hapticsIsOn = hapticsIsOn
         self.themeStyle = .init(value: themeStyle)
+        self.autoCapitalizationIsOn = autoCapitalizationIsOn
     }
 
 }

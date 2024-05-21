@@ -24,19 +24,24 @@ public struct UserSettings: Codable {
     
     /// 암기 단어 사이즈
     public var memorizingWordSize: MemorizingWordSize
+    
+    /// 자동 대문자 변환
+    public var autoCapitalizationIsOn: Bool
 
     public init(
         translationSourceLocale: TranslationLanguage,
         translationTargetLocale: TranslationLanguage,
         hapticsIsOn: Bool,
         themeStyle: ThemeStyle,
-        memorizingWordSize: MemorizingWordSize = .default
+        memorizingWordSize: MemorizingWordSize = .default,
+        autoCapitalizationIsOn: Bool = true
     ) {
         self.translationSourceLocale = translationSourceLocale
         self.translationTargetLocale = translationTargetLocale
         self.hapticsIsOn = hapticsIsOn
         self.themeStyle = themeStyle
         self.memorizingWordSize = memorizingWordSize
+        self.autoCapitalizationIsOn = autoCapitalizationIsOn
     }
     
     public init(from decoder: any Decoder) throws {
@@ -50,5 +55,12 @@ public struct UserSettings: Codable {
         } catch {
             self.memorizingWordSize = .default
         }
+        
+        do {
+            self.autoCapitalizationIsOn = try container.decode(Bool.self, forKey: .autoCapitalizationIsOn)
+        } catch {
+            self.autoCapitalizationIsOn = true
+        }
+        
     }
 }

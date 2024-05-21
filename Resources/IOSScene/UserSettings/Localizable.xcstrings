@@ -17,6 +17,16 @@
         }
       }
     },
+    "Auto Capitalization" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자동 대문자화"
+          }
+        }
+      }
+    },
     "daily_reminder" : {
       "localizations" : {
         "en" : {
@@ -397,6 +407,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "번역 언어"
+          }
+        }
+      }
+    },
+    "When you add a word, it automatically capitalizes the first letter." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단어를 추가할 때 자동으로 첫 문자를 대문자로 저장합니다."
           }
         }
       }

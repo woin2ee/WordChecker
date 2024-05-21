@@ -15,18 +15,25 @@ final class GeneralSettingsReactor: Reactor {
     enum Action {
         case viewDidLoad
         case tapHapticsSwitch
+        case tapAutoCapitalizationSwitch
     }
 
     enum Mutation {
         case onHaptics
         case offHaptics
+        case onAutoCapitalization
+        case offAutoCapitalization
     }
 
     struct State {
         var hapticsIsOn: Bool
+        var autoCapitalizationIsOn: Bool
     }
 
-    var initialState: State = .init(hapticsIsOn: true)
+    var initialState = State(
+        hapticsIsOn: true,
+        autoCapitalizationIsOn: true
+    )
 
     let userSettingsUseCase: UserSettingsUseCase
     let globalState: GlobalState
@@ -56,6 +63,19 @@ final class GeneralSettingsReactor: Reactor {
                     .doOnNext { self.globalState.hapticsIsOn = true }
                     .map { Mutation.onHaptics }
             }
+            
+        case .tapAutoCapitalizationSwitch:
+            if self.currentState.autoCapitalizationIsOn {
+                return userSettingsUseCase.offAutoCapitalization()
+                    .asObservable()
+                    .doOnNext { self.globalState.autoCapitalizationIsOn = false }
+                    .map { Mutation.offAutoCapitalization }
+            } else {
+                return userSettingsUseCase.onAutoCapitalization()
+                    .asObservable()
+                    .doOnNext { self.globalState.autoCapitalizationIsOn = true }
+                    .map { Mutation.onAutoCapitalization }
+            }
         }
     }
 
@@ -67,6 +87,10 @@ final class GeneralSettingsReactor: Reactor {
             state.hapticsIsOn = true
         case .offHaptics:
             state.hapticsIsOn = false
+        case .onAutoCapitalization:
+            state.autoCapitalizationIsOn = true
+        case .offAutoCapitalization:
+            state.autoCapitalizationIsOn = false
         }
 
         return state

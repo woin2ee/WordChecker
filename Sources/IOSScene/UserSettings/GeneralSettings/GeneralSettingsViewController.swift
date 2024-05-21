@@ -25,11 +25,13 @@ final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSe
 
     enum SectionIdentifier: Int {
         case hapticsSettings = 0
+        case autoCapitalizationSettings
         case themeSetting
     }
 
     enum ItemIdentifier {
         case hapticsOnOffSwitch
+        case autoCapitalizationOnOffSwitch
         case themeSetting
     }
 
@@ -51,7 +53,7 @@ final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSe
         switch item {
         case .hapticsOnOffSwitch:
             let cell = tableView.dequeueReusableCell(ManualSwitchCell.self, for: indexPath)
-            cell.prepareForReuse()
+            cell.disposeBag = DisposeBag()
             cell.bind(model: .init(title: LocalizedString.haptics, isOn: reactor.currentState.hapticsIsOn))
             // Bind to Reactor.Action
             cell.wrappingButton.rx.tap
@@ -64,7 +66,20 @@ final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSe
                 .bind(to: reactor.action)
                 .disposed(by: cell.disposeBag)
             return cell
-
+            
+        case .autoCapitalizationOnOffSwitch:
+            let cell = tableView.dequeueReusableCell(ManualSwitchCell.self, for: indexPath)
+            let title = String(localized: "Auto Capitalization", bundle: .module)
+            let model = SwitchCell.Model(title: title, isOn: reactor.currentState.autoCapitalizationIsOn)
+            cell.bind(model: model)
+            cell.disposeBag = DisposeBag()
+            cell.wrappingButton.rx.tap
+                .doOnNext { HapticGenerator.shared.impactOccurred(style: .light) }
+                .map { Reactor.Action.tapAutoCapitalizationSwitch }
+                .bind(to: reactor.action)
+                .disposed(by: cell.disposeBag)
+            return cell
+            
         case .themeSetting:
             let cell = tableView.dequeueReusableCell(DisclosureIndicatorCell.self, for: indexPath)
             cell.bind(model: .init(title: LocalizedString.theme))
@@ -99,9 +114,11 @@ final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSe
         var snapshot = dataSource.snapshot()
         snapshot.appendSections([
             .hapticsSettings,
+            .autoCapitalizationSettings,
             .themeSetting,
         ])
         snapshot.appendItems([.hapticsOnOffSwitch], toSection: .hapticsSettings)
+        snapshot.appendItems([.autoCapitalizationOnOffSwitch], toSection: .autoCapitalizationSettings)
         snapshot.appendItems([.themeSetting], toSection: .themeSetting)
         dataSource.applySnapshotUsingReloadData(snapshot)
     }
@@ -146,6 +163,27 @@ final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSe
                 owner.dataSource.apply(snapshot)
             }
             .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map(\.autoCapitalizationIsOn)
+            .distinctUntilChanged()
+            .asDriverOnErrorJustComplete()
+            .drive(with: self) { owner, autoCapitalizationIsOn in
+                guard let footerView = owner.rootView.footerView(forSection: SectionIdentifier.autoCapitalizationSettings.rawValue) as? TextFooterView else {
+                    return
+                }
+                
+                if autoCapitalizationIsOn {
+                    footerView.text = String(localized: "When you add a word, it automatically capitalizes the first letter.", bundle: .module)
+                } else {
+                    footerView.text = ""
+                }
+                
+                var snapshot = owner.dataSource.snapshot()
+                snapshot.reconfigureItems([.autoCapitalizationOnOffSwitch])
+                owner.dataSource.apply(snapshot)
+            }
+            .disposed(by: disposeBag)
     }
 
 }
@@ -163,6 +201,16 @@ extension GeneralSettingsViewController: UITableViewDelegate {
                 footerView.text = LocalizedString.hapticsSettingsFooterTextWhenHapticsIsOn
             } else {
                 footerView.text = LocalizedString.hapticsSettingsFooterTextWhenHapticsIsOff
+            }
+            return footerView
+        }
+        
+        if section == SectionIdentifier.autoCapitalizationSettings.rawValue {
+            let footerView = tableView.dequeueReusableHeaderFooterView(TextFooterView.self)
+            if reactor.currentState.autoCapitalizationIsOn {
+                footerView.text = String(localized: "When you add a word, it automatically capitalizes the first letter.", bundle: .module)
+            } else {
+                footerView.text = ""
             }
             return footerView
         }

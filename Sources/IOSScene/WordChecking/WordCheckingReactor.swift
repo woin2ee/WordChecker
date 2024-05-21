@@ -66,15 +66,18 @@ final class WordCheckingReactor: Reactor {
     let wordUseCase: WordUseCase
     let userSettingsUseCase: UserSettingsUseCase
     let globalAction: GlobalAction
+    let globalState: GlobalState
 
     init(
         wordUseCase: WordUseCase,
         userSettingsUseCase: UserSettingsUseCase,
-        globalAction: GlobalAction
+        globalAction: GlobalAction,
+        globalState: GlobalState
     ) {
         self.wordUseCase = wordUseCase
         self.userSettingsUseCase = userSettingsUseCase
         self.globalAction = globalAction
+        self.globalState = globalState
     }
 
     // swiftlint:disable:next cyclomatic_complexity
@@ -106,6 +109,12 @@ final class WordCheckingReactor: Reactor {
             ])
 
         case .addWord(let newWord):
+            var newWord = newWord
+            
+            if globalState.autoCapitalizationIsOn {
+                newWord = newWord.prefix(1).uppercased() + newWord.dropFirst()
+            }
+            
             return wordUseCase.addNewWord(newWord)
                 .asObservable()
                 .flatMap { _ -> Observable<Mutation> in

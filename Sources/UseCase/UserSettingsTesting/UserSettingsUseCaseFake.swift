@@ -58,4 +58,14 @@ public final class UserSettingsUseCaseFake: UserSettingsUseCase {
         currentUserSettings.memorizingWordSize = fontSize
         return .just(())
     }
+    
+    public func onAutoCapitalization() -> RxSwift.Single<Void> {
+        currentUserSettings.autoCapitalizationIsOn = true
+        return .just(())
+    }
+    
+    public func offAutoCapitalization() -> RxSwift.Single<Void> {
+        currentUserSettings.autoCapitalizationIsOn = false
+        return .just(())
+    }
 }

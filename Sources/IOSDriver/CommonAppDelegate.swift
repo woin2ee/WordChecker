@@ -116,7 +116,11 @@ open class CommonAppDelegate: UIResponder, UIApplicationDelegate {
         let userSettingsUseCase: UserSettingsUseCase = DIContainer.shared.resolver.resolve()
         _ = userSettingsUseCase.getCurrentUserSettings()
             .doOnSuccess {
-                GlobalState.shared.initialize(hapticsIsOn: $0.hapticsIsOn, themeStyle: $0.themeStyle.toUIKit())
+                GlobalState.shared.initialize(
+                    hapticsIsOn: $0.hapticsIsOn,
+                    themeStyle: $0.themeStyle.toUIKit(),
+                    autoCapitalizationIsOn: $0.autoCapitalizationIsOn
+                )
             }
             .subscribe(on: ConcurrentMainScheduler.instance)
             .subscribe()

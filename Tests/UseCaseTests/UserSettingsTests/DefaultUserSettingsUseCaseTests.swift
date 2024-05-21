@@ -93,4 +93,43 @@ final class DefaultUserSettingsUseCaseTests: XCTestCase {
             XCTAssertEqual(hapticsIsOn, true)
         }
     }
+    
+    func test_onOffAutoCapitalization() throws {
+        // Given
+        let autoCapitalizationIsOn = try sut.getCurrentUserSettings()
+            .map(\.autoCapitalizationIsOn)
+            .toBlocking()
+            .single()
+        XCTAssertEqual(autoCapitalizationIsOn, true) // Default value
+        
+        // Off
+        do {
+            // When
+            try sut.offAutoCapitalization()
+                .toBlocking()
+                .single()
+
+            // Then
+            let hapticsIsOn = try sut.getCurrentUserSettings()
+                .map(\.autoCapitalizationIsOn)
+                .toBlocking()
+                .single()
+            XCTAssertEqual(hapticsIsOn, false)
+        }
+
+        // On
+        do {
+            // When
+            try sut.onAutoCapitalization()
+                .toBlocking()
+                .single()
+
+            // Then
+            let hapticsIsOn = try sut.getCurrentUserSettings()
+                .map(\.autoCapitalizationIsOn)
+                .toBlocking()
+                .single()
+            XCTAssertEqual(hapticsIsOn, true)
+        }
+    }
 }

@@ -136,6 +136,34 @@ internal final class DefaultUserSettingsUseCase: UserSettingsUseCase {
             return Disposables.create()
         }
     }
+    
+    func onAutoCapitalization() -> RxSwift.Single<Void> {
+        return .create { [self] observer in
+            do {
+                var userSettings = try userSettingsService.getUserSettings()
+                userSettings.autoCapitalizationIsOn = true
+                try userSettingsService.saveUserSettings(userSettings)
+                observer(.success(()))
+            } catch {
+                observer(.failure(error))
+            }
+            return Disposables.create()
+        }
+    }
+    
+    func offAutoCapitalization() -> RxSwift.Single<Void> {
+        return .create { [self] observer in
+            do {
+                var userSettings = try userSettingsService.getUserSettings()
+                userSettings.autoCapitalizationIsOn = false
+                try userSettingsService.saveUserSettings(userSettings)
+                observer(.success(()))
+            } catch {
+                observer(.failure(error))
+            }
+            return Disposables.create()
+        }
+    }
 }
 
 // MARK: - Helpers
