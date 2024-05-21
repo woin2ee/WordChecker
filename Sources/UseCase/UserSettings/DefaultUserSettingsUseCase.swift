@@ -129,6 +129,7 @@ internal final class DefaultUserSettingsUseCase: UserSettingsUseCase {
                 var userSettings = try self.userSettingsService.getUserSettings()
                 userSettings.memorizingWordSize = fontSize
                 try self.userSettingsService.saveUserSettings(userSettings)
+                observer(.success(()))
             } catch {
                 observer(.failure(error))
             }

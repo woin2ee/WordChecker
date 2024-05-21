@@ -155,9 +155,9 @@ final class WordCheckingReactor: Reactor {
                 }
             
         case .changeFontSize(let fontSize):
-            _ = userSettingsUseCase.changeMemorizingWordSize(fontSize: fontSize)
-                .subscribe()
-            return .just(.setFontSize(fontSize))
+            return userSettingsUseCase.changeMemorizingWordSize(fontSize: fontSize)
+                .asObservable()
+                .map { Mutation.setFontSize(fontSize) }
         }
     }
 
