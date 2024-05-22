@@ -43,11 +43,14 @@ func commonTargets() -> [Target] {
             name: Module.domain.word,
             dependencies: [
                 .target(name: Module.domain.core),
+                .external(name: .realm),
                 .external(name: .realmSwift),
             ],
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "Domain_WordTesting"),
+                .external(name: .realm),
+                .external(name: .realmSwift),
             ],
             withTesting: true,
             appendSchemeTo: &schemes
@@ -354,6 +357,20 @@ func iOSTargets() -> [Target] {
                 .target(name: "UseCase_LocalNotificationTesting"),
                 .target(name: "UseCase_GoogleDriveTesting"),
                 .target(name: "UseCase_UserSettingsTesting"),
+            ],
+            settings: .settings(
+                base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.Security.TEAM_ID)
+            ),
+            appendSchemeTo: &schemes
+        ),
+        Target.makeTargets(
+            name: "TestingApp",
+            destinations: .iOS,
+            product: .app,
+            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            infoPlist: .file(path: .path(Constant.Path.iOSExampleInfoPlist)),
+            dependencies: [
+                .target(name: Module.iOSSupport),
             ],
             settings: .settings(
                 base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.Security.TEAM_ID)

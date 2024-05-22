@@ -10,7 +10,7 @@ import Then
 import UIKit
 import UIKitPlus
 
-internal final class SideBarCell: UITableViewCell, ReuseIdentifying {
+internal final class SideBarCell: UITableViewCell {
 
     let overlayView = UIView().then {
         $0.backgroundColor = .systemGray

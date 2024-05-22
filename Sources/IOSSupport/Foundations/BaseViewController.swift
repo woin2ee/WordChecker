@@ -9,6 +9,19 @@ import UIKit
 
 open class BaseViewController: UIViewController {
 
+    public var performsDeallocationChecking: Bool = false
+    
+    public init() {
+        super.init(nibName: nil, bundle: nil)
+#if DEBUG
+        self.performsDeallocationChecking = true
+#endif
+    }
+    
+    public required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     open override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
@@ -18,7 +31,9 @@ open class BaseViewController: UIViewController {
         super.viewDidDisappear(animated)
 
 #if DEBUG
-        self.checkDeallocation()
+        if performsDeallocationChecking {
+            self.checkDeallocation()
+        }
 #endif
     }
 }

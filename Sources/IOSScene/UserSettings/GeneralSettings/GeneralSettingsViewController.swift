@@ -87,8 +87,8 @@ final class GeneralSettingsViewController: RxBaseViewController, View, GeneralSe
         }
     }
     
-    init() {
-        super.init(nibName: nil, bundle: nil)
+    override init() {
+        super.init()
         
         let initialSnapshot = NSDiffableDataSourceSnapshot<SectionIdentifier, ItemIdentifier>().with {
             $0.appendSections([

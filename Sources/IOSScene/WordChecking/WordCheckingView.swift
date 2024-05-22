@@ -7,6 +7,7 @@
 //
 
 import Domain_UserSettings
+import Domain_Word
 import IOSSupport
 import RxSwift
 import SnapKit
@@ -15,31 +16,36 @@ import UIKit
 
 final class WordCheckingView: BaseView {
 
-    let wordLabel: UILabel = .init().then {
-        $0.adjustsFontForContentSizeCategory = true
-        $0.numberOfLines = 0
-        $0.accessibilityIdentifier = AccessibilityIdentifier.wordLabel
-    }
+    let wordLabel: UILabel
+    let previousButton: ChangeWordButton
+    let previousButtonSymbol: ChangeWordSymbol
+    let nextButton: ChangeWordButton
+    let nextButtonSymbol: ChangeWordSymbol
+    let translateButton: BottomButton
 
-    lazy var previousButton: ChangeWordButton = .init().then {
-        $0.accessibilityIdentifier = AccessibilityIdentifier.previousButton
-        $0.accessibilityLabel = LocalizedString.previous_word
-    }
+    init() {
+        wordLabel = UILabel().then {
+            $0.adjustsFontForContentSizeCategory = true
+            $0.numberOfLines = 0
+        }
+        previousButton = ChangeWordButton()
+        previousButtonSymbol = ChangeWordSymbol(direction: .left)
+        nextButton = ChangeWordButton()
+        nextButtonSymbol = ChangeWordSymbol(direction: .right)
+        translateButton = BottomButton(title: LocalizedString.translate)
+        
+        super.init(frame: .zero)
 
-    let previousButtonSymbol: ChangeWordSymbol = .init(direction: .left)
-
-    lazy var nextButton: ChangeWordButton = .init().then {
-        $0.accessibilityIdentifier = AccessibilityIdentifier.nextButton
-        $0.accessibilityLabel = LocalizedString.next_word
-    }
-
-    let nextButtonSymbol: ChangeWordSymbol = .init(direction: .right)
-
-    lazy var translateButton: BottomButton = .init(title: LocalizedString.translate)
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
+        // MARK: Accessibility settings
+        
+        wordLabel.accessibilityIdentifier = AccessibilityIdentifier.wordLabel
+        
+        previousButton.accessibilityIdentifier = AccessibilityIdentifier.previousButton
+        previousButton.accessibilityLabel = LocalizedString.previous_word
+        
+        nextButton.accessibilityIdentifier = AccessibilityIdentifier.nextButton
+        nextButton.accessibilityLabel = LocalizedString.next_word
+        
         self.accessibilityElements = [
             previousButton,
             wordLabel,
@@ -91,10 +97,22 @@ final class WordCheckingView: BaseView {
             make.bottom.equalTo(self.safeAreaLayoutGuide).inset(12)
         }
     }
+    
+    // MARK: Binders
 
     var fontSizeBinder: Binder<MemorizingWordSize> {
         return .init(wordLabel) { target, fontSize in
             target.font = fontSize.preferredFont
+        }
+    }
+    
+    var accessibilityLanguageBinder: Binder<(currentWord: Word?, translationSourceLanguage: TranslationLanguage)> {
+        return .init(wordLabel) { target, element in
+            if element.currentWord == nil {
+                target.accessibilityLanguage = Locale.current.language.languageCode?.identifier
+            } else {
+                target.accessibilityLanguage = element.translationSourceLanguage.bcp47tag.rawValue
+            }
         }
     }
 }

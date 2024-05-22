@@ -25,7 +25,7 @@ public final class TranslationWebViewController: BaseViewController {
 
     init(translationSite: TranslationSite) {
         self.translationSite = translationSite
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
 
     required init?(coder: NSCoder) {

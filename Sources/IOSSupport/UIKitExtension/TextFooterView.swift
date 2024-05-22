@@ -9,7 +9,7 @@
 import UIKit
 import UIKitPlus
 
-public final class TextFooterView: UITableViewHeaderFooterView, ReuseIdentifying {
+public final class TextFooterView: UITableViewHeaderFooterView {
 
     public var text: String = "" {
         didSet {

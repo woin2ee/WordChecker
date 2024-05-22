@@ -70,8 +70,8 @@ class PushNotificationSettingsViewController: RxBaseViewController, View, PushNo
     private var isViewAppeared: Bool = false
     var dailyReminderDatePickerMinuteInterval: Int { 5 }
 
-    init() {
-        super.init(nibName: nil, bundle: nil)
+    override init() {
+        super.init()
         initDataSource()
     }
 

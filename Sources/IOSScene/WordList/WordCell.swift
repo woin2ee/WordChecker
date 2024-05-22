@@ -14,7 +14,7 @@ import Then
 import UIKit
 import UIKitPlus
 
-final class WordCell: UITableViewCell, ReuseIdentifying {
+final class WordCell: UITableViewCell {
     
     struct Model {
         let word: String

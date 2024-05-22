@@ -10,7 +10,7 @@ import RxSwift
 import UIKit
 import UIKitPlus
 
-open class RxBaseReusableCell: UITableViewCell, ReuseIdentifying {
+open class RxBaseReusableCell: UITableViewCell {
 
     /// Cell 이 재사용될 때 폐기할 subscriptions 를 모아놓는 disposeBag 입니다.
     ///

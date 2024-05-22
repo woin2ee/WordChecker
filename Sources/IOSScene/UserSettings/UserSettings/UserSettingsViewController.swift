@@ -68,8 +68,8 @@ final class UserSettingsViewController: RxBaseViewController, View, UserSettings
         $0.delegate = self
     }
 
-    init() {
-        super.init(nibName: nil, bundle: nil)
+    override init() {
+        super.init()
         
         let initialSnapshot = NSDiffableDataSourceSnapshot<SectionID, ItemID>().with {
             $0.appendSections([.changeLanguage, .notifications, .googleDriveSync])

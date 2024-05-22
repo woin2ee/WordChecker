@@ -25,10 +25,6 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
     let rootView: WordCheckingView = .init()
     let ownNavigationItem = WordCheckingNavigationItem()
 
-    override func loadView() {
-        self.view = rootView
-    }
-    
     override var navigationItem: UINavigationItem {
         return ownNavigationItem
     }
@@ -37,6 +33,18 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
         return [.left, .right]
     }
 
+    override init() {
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func loadView() {
+        self.view = rootView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBarAppearance()
@@ -142,17 +150,16 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
                     owner.rootView.wordLabel.textColor = .systemGray2
                     owner.rootView.translateButton.isEnabled = false
                 }
-
-                owner.setAccessibilityLanguage()
             }
             .disposed(by: disposeBag)
 
         reactor.state
             .map(\.translationSourceLanguage)
-            .asDriverOnErrorJustComplete()
-            .drive(with: self) { owner, _ in
-                owner.setAccessibilityLanguage()
+            .withLatestFrom(reactor.state.map(\.currentWord)) {
+                return (currentWord: $1, translationSourceLanguage: $0)
             }
+            .asDriverOnErrorJustComplete()
+            .drive(rootView.accessibilityLanguageBinder)
             .disposed(by: disposeBag)
 
         reactor.pulse(\.$showAddCompleteToast)
@@ -176,14 +183,15 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
             .asDriver(onErrorJustReturn: .default)
             .drive(rootView.fontSizeBinder, ownNavigationItem.fontSizeBinder)
             .disposed(by: disposeBag)
-    }
-
-    func setAccessibilityLanguage() {
-        if self.reactor?.currentState.currentWord == nil {
-            rootView.wordLabel.accessibilityLanguage = Locale.current.language.languageCode?.identifier
-        } else {
-            rootView.wordLabel.accessibilityLanguage = self.reactor?.currentState.translationSourceLanguage.bcp47tag.rawValue
-        }
+        
+        reactor.state
+            .map(\.currentWord)
+            .withLatestFrom(reactor.state.map(\.translationSourceLanguage)) {
+                return (currentWord: $0, translationSourceLanguage: $1)
+            }
+            .asDriverOnErrorJustComplete()
+            .drive(rootView.accessibilityLanguageBinder)
+            .disposed(by: disposeBag)
     }
 
     func presentAddWordAlert() -> Maybe<String> {
