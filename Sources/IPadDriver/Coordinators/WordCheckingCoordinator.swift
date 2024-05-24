@@ -6,15 +6,16 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
+import Container
+import IOSScene_WordChecking
 import IOSSupport
-import SwinjectDIContainer
 import SwinjectExtension
 import UIKit
 
 public final class WordCheckingCoordinator: BasicCoordinator {
 
     public override func start() {
-        let viewController: WordCheckingViewControllerProtocol = DIContainer.shared.resolver.resolve()
+        let viewController: WordCheckingViewControllerProtocol = container.resolve()
         navigationController.setViewControllers([viewController], animated: false)
     }
 

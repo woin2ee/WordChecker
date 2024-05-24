@@ -64,4 +64,6 @@ public struct Module {
     public static var wordChecker = "WordChecker"
     public static var wordCheckerDev = "WordCheckerDev"
     public static var wordCheckerMac = "WordCheckerMac"
+    
+    public static var container = "Container"
 }

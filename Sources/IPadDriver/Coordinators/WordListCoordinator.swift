@@ -1,14 +1,12 @@
-import IOSScene_WordDetail
+import Container
 import IOSScene_WordList
 import IOSSupport
-import SwinjectDIContainer
-import SwinjectExtension
 import UIKit
 
 final class WordListCoordinator: BasicCoordinator {
 
     override func start() {
-        let viewController: WordListViewControllerProtocol = DIContainer.shared.resolver.resolve()
+        let viewController: WordListViewControllerProtocol = container.resolve()
         viewController.delegate = self
         navigationController.setViewControllers([viewController], animated: false)
     }

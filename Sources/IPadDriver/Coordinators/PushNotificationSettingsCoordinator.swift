@@ -6,15 +6,15 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
+import Container
+import IOSScene_UserSettings
 import IOSSupport
-import SwinjectDIContainer
-import SwinjectExtension
 import UIKit
 
 internal final class PushNotificationSettingsCoordinator: BasicCoordinator {
 
     override func start() {
-        let viewController: PushNotificationSettingsViewControllerProtocol = DIContainer.shared.resolver.resolve()
+        let viewController: PushNotificationSettingsViewControllerProtocol = container.resolve()
         viewController.delegate = self
         self.navigationController.pushViewController(viewController, animated: true)
     }

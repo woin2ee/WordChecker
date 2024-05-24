@@ -6,9 +6,9 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
+import Container
+import IOSScene_UserSettings
 import IOSSupport
-import SwinjectDIContainer
-import SwinjectExtension
 import UIKit
 
 internal final class LanguageSettingCoordinator: BasicCoordinator {
@@ -21,7 +21,7 @@ internal final class LanguageSettingCoordinator: BasicCoordinator {
     }
     
     override func start() {
-        let viewController: LanguageSettingViewControllerProtocol = DIContainer.shared.resolver.resolve(argument: translationDirection)
+        let viewController: LanguageSettingViewControllerProtocol = container.resolve(argument: translationDirection)
         viewController.delegate = self
         navigationController.pushViewController(viewController, animated: true)
     }

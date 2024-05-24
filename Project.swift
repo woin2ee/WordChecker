@@ -9,6 +9,14 @@ var disposedSchemes: [Scheme] = []
 
 func commonTargets() -> [Target] {
     [
+        Target.makeCommonFramework(
+            name: Module.container,
+            dependencies: [
+                .external(name: .swinject),
+            ],
+            appendSchemeTo: &schemes
+        ),
+        
         // MARK: Utility
         
         Target.makeCommonFramework(
@@ -218,7 +226,6 @@ func iOSTargets() -> [Target] {
                 .external(name: .sfSafeSymbols),
                 .external(name: .swinject),
                 .external(name: .swinjectExtension),
-                .external(name: .swinjectDIContainer),
                 .external(name: .uiKitPlus),
                 .external(name: .swiftCollections),
             ],
@@ -383,13 +390,13 @@ func iOSTargets() -> [Target] {
             product: .framework,
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
             dependencies: [
+                .target(name: Module.container),
                 .target(name: Module.iOSSupport),
                 .target(name: Module.iOSScene.wordChecking),
                 .target(name: Module.iOSScene.wordList),
                 .target(name: Module.iOSScene.wordAddition),
                 .target(name: Module.iOSScene.wordDetail),
                 .target(name: Module.iOSScene.userSettings),
-                .external(name: .swinjectDIContainer),
             ],
             appendSchemeTo: &schemes
         ),
@@ -399,6 +406,7 @@ func iOSTargets() -> [Target] {
             product: .framework,
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
             dependencies: [
+                .target(name: Module.container),
                 .target(name: Module.iOSDriver),
             ],
             resourceOptions: [.own],
@@ -410,6 +418,7 @@ func iOSTargets() -> [Target] {
             product: .framework,
             deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
             dependencies: [
+                .target(name: Module.container),
                 .target(name: Module.iOSDriver),
             ],
             resourceOptions: [.own],
@@ -462,12 +471,12 @@ let macAppTargets = Target.makeTargets(
     infoPlist: .file(path: .path(Constant.Path.macInfoPlist)),
     entitlements: .file(path: .path(Constant.Path.macEntitlements)),
     dependencies: [
+        .target(name: Module.container),
         .target(name: Module.domain.word),
         .target(name: Module.useCase.word),
         .external(name: .then),
         .external(name: .swinject),
         .external(name: .swinjectExtension),
-        .external(name: .swinjectDIContainer),
         .external(name: .pinLayout),
         .external(name: .rxSwift),
         .external(name: .rxSwiftSugarDynamic),

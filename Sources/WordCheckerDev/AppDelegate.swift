@@ -5,33 +5,19 @@
 //  Created by Jaewon Yun on 2023/08/23.
 //
 
+import Container
 import IOSDriver
 import IPadDriver
 import IPhoneDriver
+import Swinject
 import UIKit
 
 // Domain
-import Domain_GoogleDrive
-import Domain_LocalNotification
 import Domain_UserSettings
 import Domain_Word
 
-// UseCase
-import UseCase_GoogleDrive
-import UseCase_LocalNotification
-import UseCase_UserSettings
-import UseCase_Word
-
 // Scenes
 import IOSScene_UserSettings
-import IOSScene_WordAddition
-import IOSScene_WordChecking
-import IOSScene_WordDetail
-import IOSScene_WordList
-
-// DI
-import Swinject
-import SwinjectDIContainer
 
 @main
 class AppDelegate: CommonAppDelegate {
@@ -51,28 +37,15 @@ class AppDelegate: CommonAppDelegate {
     override func restoreGoogleSignInState() {
         // No restore for dev.
     }
-
-    override func initDIContainer() {
-        DIContainer.shared.assembler.apply(assemblies: [
-            // Domain
-            DomainGoogleDriveAssembly(),
-            DomainLocalNotificationAssembly(),
+    
+    override func initializeContainer() {
+        super.initializeContainer()
+        
+        // Overwrite Assemblies
+        container.apply(assemblies: [
             DomainUserSettingsAssemblyDev(),
             DomainWordAssemblyDev(),
-
-            // UseCase
-            GoogleDriveUseCaseAssembly(),
-            LocalNotificationsUseCaseAssembly(),
-            UserSettingsUseCaseAssembly(),
-            WordUseCaseAssembly(),
-
-            // IOSScene
-            WordCheckingAssembly(),
-            WordListAssembly(),
-            WordDetailAssembly(),
-            WordAdditionAssembly(),
             IOSSceneUserSettingsAssemblyDev(),
         ])
     }
-
 }

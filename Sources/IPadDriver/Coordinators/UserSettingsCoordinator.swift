@@ -6,15 +6,15 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
+import Container
+import IOSScene_UserSettings
 import IOSSupport
-import SwinjectDIContainer
-import SwinjectExtension
 import UIKit
 
 public final class UserSettingsCoordinator: BasicCoordinator {
 
     public override func start() {
-        let viewController: UserSettingsViewControllerProtocol = DIContainer.shared.resolver.resolve()
+        let viewController: UserSettingsViewControllerProtocol = container.resolve()
         viewController.delegate = self
         navigationController.setViewControllers([viewController], animated: false)
     }

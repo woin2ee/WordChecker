@@ -3,9 +3,11 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
+import Container
 import GoogleSignIn
 import IOSSupport
 import RxSwift
+import Swinject
 import UIKit
 import Utility
 
@@ -28,15 +30,14 @@ import IOSScene_WordChecking
 import IOSScene_WordDetail
 import IOSScene_WordList
 
-// DI
-import Swinject
-import SwinjectDIContainer
-
 open class CommonAppDelegate: UIResponder, UIApplicationDelegate {
 
-    open func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        initDIContainer()
-        initGlobalState()
+    open func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
+        initializeContainer()
+        initializeGlobalState()
         restoreGoogleSignInState()
         NetworkMonitor.start()
 
@@ -79,18 +80,16 @@ open class CommonAppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
-    // MARK: Helpers
-
     open func restoreGoogleSignInState() {
-        let googleDriveUseCase: GoogleDriveUseCase = DIContainer.shared.resolver.resolve()
+        let googleDriveUseCase: GoogleDriveUseCase = container.resolve()
         googleDriveUseCase.restoreSignIn()
             .subscribe(on: ConcurrentMainScheduler.instance)
             .subscribe()
             .dispose()
     }
 
-    open func initDIContainer() {
-        DIContainer.shared.assembler.apply(assemblies: [
+    open func initializeContainer() {
+        container.apply(assemblies: [
             // Domain
             DomainGoogleDriveAssembly(),
             DomainLocalNotificationAssembly(),
@@ -111,9 +110,14 @@ open class CommonAppDelegate: UIResponder, UIApplicationDelegate {
             IOSSceneUserSettingsAssembly(),
         ])
     }
+}
 
-    func initGlobalState() {
-        let userSettingsUseCase: UserSettingsUseCase = DIContainer.shared.resolver.resolve()
+// MARK: Helpers
+
+extension CommonAppDelegate {
+    
+    private func initializeGlobalState() {
+        let userSettingsUseCase: UserSettingsUseCase = container.resolve()
         _ = userSettingsUseCase.getCurrentUserSettings()
             .doOnSuccess {
                 GlobalState.shared.initialize(
@@ -125,5 +129,4 @@ open class CommonAppDelegate: UIResponder, UIApplicationDelegate {
             .subscribe(on: ConcurrentMainScheduler.instance)
             .subscribe()
     }
-
 }

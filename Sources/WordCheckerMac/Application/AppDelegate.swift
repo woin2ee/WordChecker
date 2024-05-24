@@ -7,10 +7,9 @@
 //
 
 import Cocoa
+import Container
 import Domain_LocalNotification
 import Domain_Word
-import Swinject
-import SwinjectDIContainer
 import UseCase_Word
 
 internal final class WordCheckerApplication: NSApplication {
@@ -33,12 +32,12 @@ internal final class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBar: MenuConfigurator?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        initDIContainer()
+        initializeContainer()
         statusBar = .init()
     }
 
-    func initDIContainer() {
-        DIContainer.shared.assembler.apply(assemblies: [
+    private func initializeContainer() {
+        container.apply(assemblies: [
             DomainLocalNotificationAssembly(),
             DomainWordAssembly(),
             WordUseCaseAssembly(),

@@ -1,12 +1,12 @@
+import Container
+import IOSScene_UserSettings
 import IOSSupport
-import SwinjectDIContainer
-import SwinjectExtension
 import UIKit
 
 internal final class ThemeSettingCoordinator: BasicCoordinator {
 
     override func start() {
-        let viewController: ThemeSettingViewControllerProtocol = DIContainer.shared.resolver.resolve()
+        let viewController: ThemeSettingViewControllerProtocol = container.resolve()
         viewController.delegate = self
         navigationController.pushViewController(viewController, animated: true)
     }

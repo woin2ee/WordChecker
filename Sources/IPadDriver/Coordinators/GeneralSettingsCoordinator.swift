@@ -6,14 +6,15 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
+import Container
+import IOSScene_UserSettings
 import IOSSupport
 import UIKit
-import SwinjectDIContainer
 
 internal final class GeneralSettingsCoordinator: BasicCoordinator {
 
     override func start() {
-        let viewController: GeneralSettingsViewControllerProtocol = DIContainer.shared.resolver.resolve()
+        let viewController: GeneralSettingsViewControllerProtocol = container.resolve()
         viewController.delegate = self
         navigationController.pushViewController(viewController, animated: true)
     }

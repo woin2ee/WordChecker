@@ -6,9 +6,9 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
+import Container
+import IOSScene_WordDetail
 import IOSSupport
-import SwinjectDIContainer
-import SwinjectExtension
 import UIKit
 
 public final class WordDetailCoordinator: BasicCoordinator {
@@ -25,7 +25,7 @@ public final class WordDetailCoordinator: BasicCoordinator {
     }
     
     public override func start() {
-        let viewController: WordDetailViewControllerProtocol = DIContainer.shared.resolver.resolve(argument: uuid)
+        let viewController: WordDetailViewControllerProtocol = container.resolve(argument: uuid)
         viewController.delegate = self
         navigationController.setViewControllers([viewController], animated: false)
     }

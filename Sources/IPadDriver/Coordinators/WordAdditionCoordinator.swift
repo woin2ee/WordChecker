@@ -6,16 +6,15 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
+import Container
 import IOSScene_WordAddition
 import IOSSupport
-import SwinjectDIContainer
-import SwinjectExtension
 import UIKit
 
 final class WordAdditionCoordinator: BasicCoordinator {
 
     override func start() {
-        let viewController: WordAdditionViewControllerProtocol = DIContainer.shared.resolver.resolve()
+        let viewController: WordAdditionViewControllerProtocol = container.resolve()
         viewController.delegate = self
         navigationController.setViewControllers([viewController], animated: true)
     }

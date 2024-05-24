@@ -7,15 +7,14 @@
 //
 
 import AppKit
-import SwinjectExtension
-import SwinjectDIContainer
+import Container
 import Then
 
 internal final class MenuConfigurator {
 
     let statusItem: NSStatusItem
     let statusBarButton: NSStatusBarButton
-    var mainWindow: MainWindow = DIContainer.shared.resolver.resolve()
+    var mainWindow: MainWindow = container.resolve()
     let menu: WCStatusItemMenu
 
     init() {
