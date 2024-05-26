@@ -5,7 +5,7 @@
 //  Created by Jaewon Yun on 2023/09/04.
 //
 
-import Domain_Word
+import Domain_WordManagement
 import Foundation
 import RxSwift
 

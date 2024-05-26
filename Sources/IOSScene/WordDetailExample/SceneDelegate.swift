@@ -1,4 +1,4 @@
-import Domain_Word
+import Domain_WordManagement
 @testable import IOSScene_WordDetail
 import IOSSupport
 import Then

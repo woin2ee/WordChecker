@@ -7,7 +7,7 @@
 //
 
 import Cocoa
-import Domain_Word
+import Domain_WordManagement
 import RxSwift
 import RxSwiftSugar
 import RxCocoa

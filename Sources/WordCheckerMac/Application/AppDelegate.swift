@@ -9,7 +9,7 @@
 import Cocoa
 import Container
 import Domain_LocalNotification
-import Domain_Word
+import Domain_WordManagement
 import UseCase_Word
 
 internal final class WordCheckerApplication: NSApplication {

@@ -48,7 +48,7 @@ func commonTargets() -> [Target] {
             appendSchemeTo: &schemes
         ),
         Target.makeCommonFramework(
-            name: Module.domain.word,
+            name: Module.domain.wordManagement,
             dependencies: [
                 .target(name: Module.domain.core),
                 .external(name: .realm),
@@ -56,9 +56,21 @@ func commonTargets() -> [Target] {
             ],
             hasTests: true,
             additionalTestDependencies: [
-                .target(name: "Domain_WordTesting"),
+                .target(name: "\(Module.domain.wordManagement)Testing"),
                 .external(name: .realm),
                 .external(name: .realmSwift),
+            ],
+            withTesting: true,
+            appendSchemeTo: &schemes
+        ),
+        Target.makeCommonFramework(
+            name: Module.domain.wordMemorization,
+            dependencies: [
+                .target(name: Module.domain.core),
+            ],
+            hasTests: true,
+            additionalTestDependencies: [
+                .target(name: "\(Module.domain.wordMemorization)Testing"),
             ],
             withTesting: true,
             appendSchemeTo: &schemes
@@ -100,12 +112,12 @@ func commonTargets() -> [Target] {
         Target.makeCommonFramework(
             name: Module.useCase.word,
             dependencies: [
-                .target(name: Module.domain.word),
+                .target(name: Module.domain.wordManagement),
                 .target(name: Module.domain.localNotification),
             ],
             hasTests: true,
             additionalTestDependencies: [
-                .target(name: "Domain_WordTesting"),
+                .target(name: "\(Module.domain.wordManagement)Testing"),
                 .target(name: "Domain_LocalNotificationTesting"),
                 .external(name: .rxBlocking),
             ],
@@ -117,13 +129,13 @@ func commonTargets() -> [Target] {
             dependencies: [
                 .target(name: Module.domain.googleDrive),
                 .target(name: Module.domain.localNotification),
-                .target(name: Module.domain.word),
+                .target(name: Module.domain.wordManagement),
             ],
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "Domain_GoogleDriveTesting"),
                 .target(name: "Domain_LocalNotificationTesting"),
-                .target(name: "Domain_WordTesting"),
+                .target(name: "\(Module.domain.wordManagement)Testing"),
                 .external(name: .rxBlocking),
             ],
             withTesting: true,
@@ -146,12 +158,12 @@ func commonTargets() -> [Target] {
             name: "UseCase_LocalNotification",
             dependencies: [
                 .target(name: Module.domain.localNotification),
-                .target(name: Module.domain.word),
+                .target(name: Module.domain.wordManagement),
             ],
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "Domain_LocalNotificationTesting"),
-                .target(name: "Domain_WordTesting"),
+                .target(name: "\(Module.domain.wordManagement)Testing"),
                 .external(name: .rxBlocking),
             ],
             withTesting: true,
@@ -209,7 +221,7 @@ func iOSTargets() -> [Target] {
                 .target(name: Module.domain.googleDrive),
                 .target(name: Module.domain.localNotification),
                 .target(name: Module.domain.userSettings),
-                .target(name: Module.domain.word),
+                .target(name: Module.domain.wordManagement),
                 .target(name: Module.useCase.googleDrive),
                 .target(name: Module.useCase.localNotification),
                 .target(name: Module.useCase.userSettings),
@@ -273,7 +285,7 @@ func iOSTargets() -> [Target] {
             additionalTestDependencies: [
                 .target(name: "UseCase_WordTesting"),
                 .target(name: "Domain_LocalNotificationTesting"),
-                .target(name: "Domain_WordTesting"),
+                .target(name: "\(Module.domain.wordManagement)Testing"),
                 .external(name: .rxBlocking),
                 .external(name: .rxTest),
             ],
@@ -472,7 +484,7 @@ let macAppTargets = Target.makeTargets(
     entitlements: .file(path: .path(Constant.Path.macEntitlements)),
     dependencies: [
         .target(name: Module.container),
-        .target(name: Module.domain.word),
+        .target(name: Module.domain.wordManagement),
         .target(name: Module.useCase.word),
         .external(name: .then),
         .external(name: .swinject),

@@ -6,7 +6,7 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
-import Domain_Word
+import Domain_WordManagement
 import Foundation
 import IOSSupport
 import ReactorKit

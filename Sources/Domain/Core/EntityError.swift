@@ -15,7 +15,14 @@ public enum EntityError: Error {
         /// 허용되지 않은 값입니다.
         case valueDisallowed
     }
+    
+    public enum CreateFailedReason {
+        case containsInvalidValue
+    }
 
     /// 엔티티 변경 거부됨
     case changeRejected(reason: ChangeRejectReason)
+    
+    /// 엔티티 생성 실패
+    case createFailed(reason: CreateFailedReason)
 }

@@ -7,7 +7,7 @@
 //
 
 @testable import IOSScene_WordDetail
-import Domain_Word
+import Domain_WordManagement
 import UseCase_WordTesting
 
 import XCTest

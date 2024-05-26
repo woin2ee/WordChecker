@@ -27,7 +27,8 @@ public struct Module {
     
     public struct DomainModule {
         public let core = "Domain_Core"
-        public let word = "Domain_Word"
+        public let wordManagement = "Domain_WordManagement"
+        public let wordMemorization = "Domain_WordMemorization"
         public let localNotification = "Domain_LocalNotification"
         public let googleDrive = "Domain_GoogleDrive"
         public let userSettings = "Domain_UserSettings"

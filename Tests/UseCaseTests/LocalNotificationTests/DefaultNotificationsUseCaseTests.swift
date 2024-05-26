@@ -6,8 +6,8 @@
 @testable import UseCase_LocalNotification
 @testable import Domain_LocalNotification
 @testable import Domain_LocalNotificationTesting
-@testable import Domain_Word
-@testable import Domain_WordTesting
+@testable import Domain_WordManagement
+@testable import Domain_WordManagementTesting
 
 import RxBlocking
 import XCTest

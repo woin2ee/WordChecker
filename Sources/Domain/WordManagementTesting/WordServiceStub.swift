@@ -6,7 +6,7 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
-import Domain_Word
+import Domain_WordManagement
 import Foundation
 
 public final class WordServiceStub: WordService {
@@ -38,23 +38,23 @@ public final class WordServiceStub: WordService {
     public func deleteWord(by uuid: UUID) throws {
     }
 
-    public func fetchWordList() -> [Domain_Word.Word] {
+    public func fetchWordList() -> [Word] {
         return unmemorizedWordList + memorizedWordList
     }
 
-    public func fetchUnmemorizedWordList() -> [Domain_Word.Word] {
+    public func fetchUnmemorizedWordList() -> [Word] {
         return unmemorizedWordList
     }
 
-    public func fetchMemorizedWordList() -> [Domain_Word.Word] {
+    public func fetchMemorizedWordList() -> [Word] {
         return memorizedWordList
     }
 
-    public func fetchWord(by uuid: UUID) -> Domain_Word.Word? {
+    public func fetchWord(by uuid: UUID) -> Word? {
         return try? .init(word: "Phone")
     }
 
-    public func updateWord(with newAttribute: Domain_Word.WordAttribute, id: UUID) throws {
+    public func updateWord(with newAttribute: WordAttribute, id: UUID) throws {
     }
 
     public func shuffleUnmemorizedWordList() {
@@ -72,7 +72,7 @@ public final class WordServiceStub: WordService {
     public func markWordsAsMemorized(by uuids: [UUID]) throws {
     }
 
-    public func getCurrentUnmemorizedWord() -> Domain_Word.Word? {
+    public func getCurrentUnmemorizedWord() -> Word? {
         return try? .init(word: "Current")
     }
 
@@ -80,6 +80,6 @@ public final class WordServiceStub: WordService {
         return true
     }
 
-    public func reset(to newWordList: [Domain_Word.Word]) throws {
+    public func reset(to newWordList: [Word]) throws {
     }
 }

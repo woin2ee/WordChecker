@@ -8,8 +8,8 @@
 
 @testable import IOSScene_WordList
 @testable import Domain_LocalNotificationTesting
-@testable import Domain_Word
-@testable import Domain_WordTesting
+@testable import Domain_WordManagement
+@testable import Domain_WordManagementTesting
 @testable import UseCase_Word
 @testable import UseCase_WordTesting
 import IOSSupport

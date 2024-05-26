@@ -6,7 +6,7 @@
 import Domain_Core
 import Domain_GoogleDrive
 import Domain_LocalNotification
-import Domain_Word
+import Domain_WordManagement
 import Foundation
 import RxSwift
 import RxSwiftSugar

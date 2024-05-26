@@ -6,7 +6,7 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
-import Domain_Word
+import Domain_WordManagement
 import IOSSupport
 import RxCocoa
 import RxSwift

@@ -7,7 +7,7 @@
 //
 
 import Domain_UserSettings
-import Domain_Word
+import Domain_WordManagement
 import IOSSupport
 import RxSwift
 import SnapKit

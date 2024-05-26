@@ -5,7 +5,7 @@
 //  Created by Jaewon Yun on 2023/09/12.
 //
 
-@testable import Domain_Word
+@testable import Domain_WordManagement
 import Foundation
 import RxSwift
 import RxSwiftSugar

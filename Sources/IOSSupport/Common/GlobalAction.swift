@@ -7,7 +7,7 @@
 //
 
 import Domain_UserSettings
-import Domain_Word
+import Domain_WordManagement
 import Foundation
 import RxSwift
 import RxCocoa

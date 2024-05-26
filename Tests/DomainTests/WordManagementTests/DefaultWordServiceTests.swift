@@ -6,8 +6,8 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
-@testable import Domain_Word
-import Domain_WordTesting
+@testable import Domain_WordManagement
+import Domain_WordManagementTesting
 
 import XCTest
 

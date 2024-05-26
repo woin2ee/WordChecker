@@ -15,7 +15,7 @@ import Utility
 import Domain_GoogleDrive
 import Domain_LocalNotification
 import Domain_UserSettings
-import Domain_Word
+import Domain_WordManagement
 
 // UseCase
 import UseCase_GoogleDrive

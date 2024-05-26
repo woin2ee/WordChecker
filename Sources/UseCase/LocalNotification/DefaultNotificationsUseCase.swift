@@ -7,7 +7,7 @@
 //
 
 import Domain_LocalNotification
-import Domain_Word
+import Domain_WordManagement
 import Foundation
 import FoundationPlus
 import RxSwift

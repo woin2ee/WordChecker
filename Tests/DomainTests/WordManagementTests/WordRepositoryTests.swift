@@ -3,7 +3,7 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
-@testable import Domain_Word
+@testable import Domain_WordManagement
 
 import Realm
 import RealmSwift

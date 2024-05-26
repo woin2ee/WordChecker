@@ -14,7 +14,7 @@ import UIKit
 
 // Domain
 import Domain_UserSettings
-import Domain_Word
+import Domain_WordManagement
 
 // Scenes
 import IOSScene_UserSettings
