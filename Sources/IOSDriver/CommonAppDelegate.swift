@@ -16,6 +16,7 @@ import Domain_GoogleDrive
 import Domain_LocalNotification
 import Domain_UserSettings
 import Domain_WordManagement
+import Domain_WordMemorization
 
 // UseCase
 import UseCase_GoogleDrive
@@ -95,6 +96,7 @@ open class CommonAppDelegate: UIResponder, UIApplicationDelegate {
             DomainLocalNotificationAssembly(),
             DomainUserSettingsAssembly(),
             DomainWordAssembly(),
+            DomainWordMemorizationAssembly(),
 
             // UseCase
             GoogleDriveUseCaseAssembly(),

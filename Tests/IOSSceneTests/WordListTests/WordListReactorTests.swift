@@ -9,6 +9,7 @@
 @testable import IOSScene_WordList
 @testable import Domain_LocalNotificationTesting
 @testable import Domain_WordManagement
+@testable import Domain_WordMemorizationTesting
 @testable import Domain_WordManagementTesting
 @testable import UseCase_Word
 @testable import UseCase_WordTesting
@@ -31,11 +32,11 @@ final class WordListReactorTests: XCTestCase {
         wordRepositoryFake.save(try Word(word: "C", memorizationState: .memorized))
         
         let wordUseCase = DefaultWordUseCase(
-            wordService: DefaultWordService(
+            wordManagementService: DefaultWordManagementService(
                 wordRepository: wordRepositoryFake,
-                unmemorizedWordListRepository: UnmemorizedWordListRepository(),
                 wordDuplicateSpecification: WordDuplicateSpecification(wordRepository: wordRepositoryFake)
             ),
+            wordMemorizationService: FakeWordMemorizationService.fake(),
             localNotificationService: LocalNotificationServiceDummy()
         )
 
@@ -130,12 +131,12 @@ final class WordListReactorTests: XCTestCase {
 
     func test_markWordsAsMemorized() throws {
         // Given
-        let wordUseCase = WordUseCaseFake()
-        try wordUseCase.addNewWord(Word(word: "A"))
-        try wordUseCase.addNewWord(Word(word: "B"))
-        try wordUseCase.addNewWord(Word(word: "C"))
-        try wordUseCase.addNewWord(Word(word: "D"))
-        try wordUseCase.addNewWord(Word(word: "E"))
+        let wordUseCase = FakeWordUseCase()
+        try wordUseCase.addNewWord("A").toBlocking().single()
+        try wordUseCase.addNewWord("B").toBlocking().single()
+        try wordUseCase.addNewWord("C").toBlocking().single()
+        try wordUseCase.addNewWord("D").toBlocking().single()
+        try wordUseCase.addNewWord("E").toBlocking().single()
         
         sut = WordListReactor(
             globalAction: GlobalAction.shared,
@@ -159,12 +160,12 @@ final class WordListReactorTests: XCTestCase {
     
     func test_deleteWords() throws {
         // Given
-        let wordUseCase = WordUseCaseFake()
-        try wordUseCase.addNewWord(Word(word: "A"))
-        try wordUseCase.addNewWord(Word(word: "B"))
-        try wordUseCase.addNewWord(Word(word: "C"))
-        try wordUseCase.addNewWord(Word(word: "D"))
-        try wordUseCase.addNewWord(Word(word: "E"))
+        let wordUseCase = FakeWordUseCase()
+        try wordUseCase.addNewWord("A").toBlocking().single()
+        try wordUseCase.addNewWord("B").toBlocking().single()
+        try wordUseCase.addNewWord("C").toBlocking().single()
+        try wordUseCase.addNewWord("D").toBlocking().single()
+        try wordUseCase.addNewWord("E").toBlocking().single()
         
         sut = WordListReactor(
             globalAction: GlobalAction.shared,

@@ -35,6 +35,7 @@ fileprivate func _module(
     hasTests: Bool = false,
     additionalTestDependencies: [ProjectDescription.TargetDependency] = [],
     withTesting: Bool = false,
+    additionalTestingDependencies: [ProjectDescription.TargetDependency] = [],
     appendSchemeTo schemes: inout [Scheme]
 ) -> [Target] {
     var namePrefix: String?
@@ -183,7 +184,7 @@ fileprivate func _module(
             headers: nil,
             entitlements: entitlements,
             scripts: scripts,
-            dependencies: [.target(name: name)], // 인터페이스 의존하게
+            dependencies: [.target(name: name)] + additionalTestingDependencies,
             settings: settings,
             coreDataModels: [],
             environmentVariables: [:],
@@ -251,6 +252,7 @@ extension Target {
         hasTests: Bool = false,
         additionalTestDependencies: [ProjectDescription.TargetDependency] = [],
         withTesting: Bool = false,
+        additionalTestingDependencies: [ProjectDescription.TargetDependency] = [],
         appendSchemeTo schemes: inout [Scheme]
     ) -> [Target] {
         return _module(
@@ -269,6 +271,7 @@ extension Target {
             hasTests: hasTests,
             additionalTestDependencies: additionalTestDependencies,
             withTesting: withTesting,
+            additionalTestingDependencies: additionalTestingDependencies,
             appendSchemeTo: &schemes
         )
     }

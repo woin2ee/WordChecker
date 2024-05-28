@@ -8,6 +8,7 @@
 import Foundation
 import Utility
 
+@available(*, deprecated)
 final class UnmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol {
 
     private(set) var unmemorizedWordList: CircularLinkedList<Word>

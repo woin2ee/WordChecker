@@ -9,7 +9,7 @@
 import Domain_WordManagement
 import Foundation
 
-public final class WordServiceStub: WordService {
+public final class WordServiceStub: WordManagementService {
 
     var unmemorizedWordList: [Word] = [
         try! .init(word: "Apple"),
@@ -32,7 +32,7 @@ public final class WordServiceStub: WordService {
         }
     }
 
-    public func addNewWord(_ word: String) throws {
+    public func addNewWord(_ word: String, with id: UUID) throws {
     }
 
     public func deleteWord(by uuid: UUID) throws {

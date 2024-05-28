@@ -6,6 +6,7 @@
 //
 
 import Domain_WordManagement
+import Domain_WordMemorization
 import Foundation
 import RxSwift
 
@@ -25,8 +26,8 @@ public protocol WordUseCase {
     /// 암기 완료된 단어의 목록을 가져옵니다.
     func fetchMemorizedWordList() -> [Word]
 
-    /// 암기되지 않은 단어의 목록을 가져옵니다.
-    func fetchUnmemorizedWordList() -> [Word]
+    /// 암기중인 단어 목록을 가져옵니다.
+    func fetchMemorizingWordList() -> [Word]
 
     /// 특정 단어를 가져옵니다.
     func fetchWord(by uuid: UUID) -> Single<Word>
@@ -37,16 +38,18 @@ public protocol WordUseCase {
     /// 암기되지 않은 단어 목록을 섞습니다.
     func shuffleUnmemorizedWordList()
 
-    func updateToNextWord()
-
-    func updateToPreviousWord()
+    @discardableResult
+    func updateToNextWord() -> MemorizingWord?
+    
+    @discardableResult
+    func updateToPreviousWord() -> MemorizingWord?
 
     func markCurrentWordAsMemorized() -> Single<Void>
     
     func markWordsAsMemorized(by uuids: [UUID]) -> Single<Void>
 
-    func getCurrentUnmemorizedWord() -> Word?
-
+    func getCurrentUnmemorizedWord() -> MemorizingWord?
+    
     /// `word` 파라미터로 전달된 단어가 이미 저장된 단어인지 검사합니다.
     ///
     /// 대소문자가 다른 단어는 같은 단어로 취급합니다.
@@ -54,4 +57,8 @@ public protocol WordUseCase {
     /// - Returns: 이미 저장된 단어이면 `true` 를, 아니면 `false` 값의 next 이벤트를 방출하는 Sequence 를 반환합니다.
     /// - Throws: 파라미터로 전달된 문자열이 유효하지 않아서 저장될 수 없는 단어일 때 Error 를 방출합니다.
     func isWordDuplicated(_ word: String) -> Single<Bool>
+    
+    func getCheckedCount() -> Int
+    
+    func initializeMemorizingList()
 }

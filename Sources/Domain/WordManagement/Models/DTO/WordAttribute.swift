@@ -7,8 +7,8 @@
 //
 
 public struct WordAttribute {
-    let word: String?
-    let memorizationState: MemorizationState?
+    public let word: String?
+    public let memorizationState: MemorizationState?
 
     public init(word: String? = nil, memorizationState: MemorizationState? = nil) {
         self.word = word

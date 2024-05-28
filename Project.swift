@@ -69,9 +69,6 @@ func commonTargets() -> [Target] {
                 .target(name: Module.domain.core),
             ],
             hasTests: true,
-            additionalTestDependencies: [
-                .target(name: "\(Module.domain.wordMemorization)Testing"),
-            ],
             withTesting: true,
             appendSchemeTo: &schemes
         ),
@@ -113,15 +110,22 @@ func commonTargets() -> [Target] {
             name: Module.useCase.word,
             dependencies: [
                 .target(name: Module.domain.wordManagement),
+                .target(name: Module.domain.wordMemorization),
                 .target(name: Module.domain.localNotification),
             ],
             hasTests: true,
             additionalTestDependencies: [
                 .target(name: "\(Module.domain.wordManagement)Testing"),
-                .target(name: "Domain_LocalNotificationTesting"),
+                .target(name: "\(Module.domain.wordMemorization)Testing"),
+                .target(name: "\(Module.domain.localNotification)Testing"),
                 .external(name: .rxBlocking),
             ],
             withTesting: true,
+            additionalTestingDependencies: [
+                .target(name: "\(Module.domain.wordManagement)Testing"),
+                .target(name: "\(Module.domain.wordMemorization)Testing"),
+                .target(name: "\(Module.domain.localNotification)Testing"),
+            ],
             appendSchemeTo: &schemes
         ),
         Target.makeCommonFramework(
@@ -130,6 +134,7 @@ func commonTargets() -> [Target] {
                 .target(name: Module.domain.googleDrive),
                 .target(name: Module.domain.localNotification),
                 .target(name: Module.domain.wordManagement),
+                .target(name: Module.domain.wordMemorization),
             ],
             hasTests: true,
             additionalTestDependencies: [
@@ -252,6 +257,9 @@ func iOSTargets() -> [Target] {
             resourceOptions: [.own],
             hasTests: true,
             additionalTestDependencies: [
+                .target(name: "\(Module.domain.wordManagement)Testing"),
+                .target(name: "\(Module.domain.wordMemorization)Testing"),
+                .target(name: "\(Module.domain.localNotification)Testing"),
                 .target(name: "UseCase_UserSettingsTesting"),
                 .target(name: "UseCase_WordTesting"),
                 .external(name: .rxBlocking),

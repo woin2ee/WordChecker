@@ -6,9 +6,14 @@
 //  Copyright © 2023 woin2ee. All rights reserved.
 //
 
+import Domain_LocalNotificationTesting
+import Domain_WordManagementTesting
+@testable import Domain_WordMemorization
+import Domain_WordMemorizationTesting
 @testable import IOSScene_WordChecking
 import IOSSupport
-import UseCase_WordTesting
+@testable import UseCase_Word
+@testable import UseCase_WordTesting
 import UseCase_UserSettingsTesting
 
 import XCTest
@@ -18,22 +23,19 @@ final class WordCheckingReactorTests: XCTestCase {
     var sut: WordCheckingReactor!
 
     override func setUpWithError() throws {
-        try super.setUpWithError()
-
-        let wordUseCase: WordUseCaseFake = .init()
-        let userSettingsUseCase: UserSettingsUseCaseFake = .init()
-
-        sut = .init(
-            wordUseCase: wordUseCase,
-            userSettingsUseCase: userSettingsUseCase,
-            globalAction: .shared, 
+        sut = WordCheckingReactor(
+            wordUseCase: DefaultWordUseCase(
+                wordManagementService: FakeWordManagementService(),
+                wordMemorizationService: FakeWordMemorizationService(),
+                localNotificationService: LocalNotificationServiceFake()
+            ),
+            userSettingsUseCase: UserSettingsUseCaseFake(),
+            globalAction: GlobalAction.shared,
             globalState: GlobalState.shared
         )
     }
 
     override func tearDownWithError() throws {
-        try super.tearDownWithError()
-
         sut = nil
     }
 
@@ -80,7 +82,11 @@ final class WordCheckingReactorTests: XCTestCase {
 
     func test_initialFontSize() {
         // Given
-        let wordUseCase = WordUseCaseFake()
+        let wordUseCase = DefaultWordUseCase(
+            wordManagementService: FakeWordManagementService(),
+            wordMemorizationService: FakeWordMemorizationService(),
+            localNotificationService: LocalNotificationServiceFake()
+        )
         let userSettingsUseCase = UserSettingsUseCaseFake()
         userSettingsUseCase.currentUserSettings.memorizingWordSize = .veryLarge
         sut = .init(

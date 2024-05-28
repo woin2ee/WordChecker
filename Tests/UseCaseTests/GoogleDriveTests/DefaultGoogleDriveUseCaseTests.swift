@@ -13,6 +13,8 @@
 @testable import Domain_LocalNotificationTesting
 @testable import Domain_WordManagement
 @testable import Domain_WordManagementTesting
+@testable import Domain_WordMemorization
+@testable import Domain_WordMemorizationTesting
 
 import RxBlocking
 import XCTest
@@ -33,7 +35,8 @@ final class DefaultGoogleDriveUseCaseTests: XCTestCase {
         
         sut = .init(
             googleDriveService: googleDriveServiceFake,
-            wordService: WordServiceStub(),
+            wordService: WordServiceStub(), 
+            wordMemorizationService: FakeWordMemorizationService.fake(),
             localNotificationService: LocalNotificationServiceDummy()
         )
         
@@ -59,6 +62,7 @@ final class DefaultGoogleDriveUseCaseTests: XCTestCase {
         sut = .init(
             googleDriveService: googleDriveServiceFake,
             wordService: WordServiceStub(),
+            wordMemorizationService: FakeWordMemorizationService.fake(),
             localNotificationService: LocalNotificationServiceDummy()
         )
         
@@ -87,9 +91,8 @@ final class DefaultGoogleDriveUseCaseTests: XCTestCase {
         googleDriveServiceFake.backupFiles = [BackupFile(name: .wordListBackup, data: wordListData)]
         
         let wordRepositoryFake = FakeWordRepository()
-        let wordServiceFake = DefaultWordService(
+        let wordServiceFake = DefaultWordManagementService(
             wordRepository: wordRepositoryFake,
-            unmemorizedWordListRepository: UnmemorizedWordListRepository(),
             wordDuplicateSpecification: WordDuplicateSpecification(wordRepository: wordRepositoryFake)
         )
         
@@ -101,6 +104,7 @@ final class DefaultGoogleDriveUseCaseTests: XCTestCase {
         sut = .init(
             googleDriveService: googleDriveServiceFake,
             wordService: wordServiceFake,
+            wordMemorizationService: FakeWordMemorizationService.fake(),
             localNotificationService: localNotificationServiceFake
         )
         

@@ -17,9 +17,9 @@ import UserNotifications
 internal final class DefaultNotificationsUseCase: NotificationsUseCase {
 
     private let localNotificationService: LocalNotificationService
-    private let wordService: WordService
+    private let wordService: WordManagementService
 
-    init(localNotificationService: LocalNotificationService, wordService: WordService) {
+    init(localNotificationService: LocalNotificationService, wordService: WordManagementService) {
         self.localNotificationService = localNotificationService
         self.wordService = wordService
     }

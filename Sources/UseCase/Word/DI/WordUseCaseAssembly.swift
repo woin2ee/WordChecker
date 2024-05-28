@@ -16,7 +16,8 @@ public final class WordUseCaseAssembly: Assembly {
     public func assemble(container: Container) {
         container.register(WordUseCase.self) { resolver in
             return DefaultWordUseCase(
-                wordService: resolver.resolve(),
+                wordManagementService: resolver.resolve(), 
+                wordMemorizationService: resolver.resolve(),
                 localNotificationService: resolver.resolve()
             )
         }

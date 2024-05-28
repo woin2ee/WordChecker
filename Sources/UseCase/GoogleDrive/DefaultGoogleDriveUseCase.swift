@@ -7,6 +7,7 @@ import Domain_Core
 import Domain_GoogleDrive
 import Domain_LocalNotification
 import Domain_WordManagement
+import Domain_WordMemorization
 import Foundation
 import RxSwift
 import RxSwiftSugar
@@ -14,12 +15,14 @@ import RxSwiftSugar
 internal final class DefaultGoogleDriveUseCase: GoogleDriveUseCase {
 
     private let googleDriveService: GoogleDriveService
-    private let wordService: WordService
+    private let wordService: WordManagementService
+    private let wordMemorizationService: WordMemorizationService
     private let localNotificationService: LocalNotificationService
 
-    init(googleDriveService: GoogleDriveService, wordService: WordService, localNotificationService: LocalNotificationService) {
+    init(googleDriveService: GoogleDriveService, wordService: WordManagementService, wordMemorizationService: WordMemorizationService, localNotificationService: LocalNotificationService) {
         self.googleDriveService = googleDriveService
         self.wordService = wordService
+        self.wordMemorizationService = wordMemorizationService
         self.localNotificationService = localNotificationService
     }
 
@@ -141,7 +144,15 @@ internal final class DefaultGoogleDriveUseCase: GoogleDriveUseCase {
                         .observe(on: MainScheduler.instance)
                         .doOnSuccess { wordList in
                             try self.wordService.reset(to: wordList)
-                            self.wordService.shuffleUnmemorizedWordList()
+                            let memorizingList = wordList.compactMap {
+                                do {
+                                    return try MemorizingWord(id: $0.id, word: $0.word, isChecked: false)
+                                } catch {
+                                    logger.warning("\(error)")
+                                    return nil
+                                }
+                            }
+                            self.wordMemorizationService.setList(memorizingList)
                             self.updateDailyReminder()
                         }
                         .subscribe(

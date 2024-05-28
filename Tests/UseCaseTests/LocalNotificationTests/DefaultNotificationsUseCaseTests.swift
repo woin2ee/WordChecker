@@ -166,9 +166,8 @@ final class DefaultNotificationsUseCaseTests: XCTestCase {
         
         sut = .init(
             localNotificationService: LocalNotificationServiceFake(),
-            wordService: DefaultWordService(
+            wordService: DefaultWordManagementService(
                 wordRepository: wordRepositoryFake,
-                unmemorizedWordListRepository: UnmemorizedWordListRepository(),
                 wordDuplicateSpecification: WordDuplicateSpecification(wordRepository: wordRepositoryFake)
             )
         )

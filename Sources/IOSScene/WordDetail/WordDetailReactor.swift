@@ -108,17 +108,20 @@ final class WordDetailReactor: Reactor {
                 .flatMap { return Observable<Mutation>.empty() }
 
         case .enteredWord(let enteredWord):
-            let setDuplicatedMutation = wordUseCase.isWordDuplicated(enteredWord)
-                .asObservable()
-                .map { [weak self] isWordDuplicated in
-                    if isWordDuplicated &&
-                        (enteredWord.lowercased() != self?.originWord?.lowercased()) // 원래 단어와 달라야 중복이므로
-                    {
-                        return Mutation.setDuplicated(true)
-                    } else {
-                        return Mutation.setDuplicated(false)
+            var setDuplicatedMutation: Observable<Mutation> = .empty()
+            if enteredWord.hasElements {
+                setDuplicatedMutation = wordUseCase.isWordDuplicated(enteredWord)
+                    .asObservable()
+                    .map { [weak self] isWordDuplicated in
+                        if isWordDuplicated &&
+                            (enteredWord.lowercased() != self?.originWord?.lowercased()) // 원래 단어와 달라야 중복이므로
+                        {
+                            return Mutation.setDuplicated(true)
+                        } else {
+                            return Mutation.setDuplicated(false)
+                        }
                     }
-                }
+            }
 
             return .merge([
                 .just(.updateWord(enteredWord)),

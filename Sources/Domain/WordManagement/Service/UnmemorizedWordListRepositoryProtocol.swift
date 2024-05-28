@@ -7,7 +7,7 @@
 
 import Foundation
 
-// FIXME: It's not repository
+@available(*, deprecated)
 public protocol UnmemorizedWordListRepositoryProtocol {
 
     func updateToNextWord()

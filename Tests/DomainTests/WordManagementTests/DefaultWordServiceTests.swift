@@ -13,16 +13,13 @@ import XCTest
 
 final class DefaultWordServiceTests: XCTestCase {
     
-    var sut: DefaultWordService!
+    var sut: DefaultWordManagementService!
     var fakeWordRepository: FakeWordRepository!
-    var unmemorizedWordListRepository: UnmemorizedWordListRepository!
 
     override func setUpWithError() throws {
         fakeWordRepository = .init()
-        unmemorizedWordListRepository = .init()
         sut = .init(
             wordRepository: fakeWordRepository,
-            unmemorizedWordListRepository: unmemorizedWordListRepository,
             wordDuplicateSpecification: WordDuplicateSpecification(wordRepository: fakeWordRepository)
         )
     }
@@ -30,7 +27,6 @@ final class DefaultWordServiceTests: XCTestCase {
     override func tearDownWithError() throws {
         sut = nil
         fakeWordRepository = nil
-        unmemorizedWordListRepository = nil
     }
     
     func test_updateWordToMemorizationStateSuccess() throws {
@@ -38,7 +34,6 @@ final class DefaultWordServiceTests: XCTestCase {
         let uuid = UUID()
         let originWord = try Word(uuid: uuid, word: "OriginWord", memorizationState: .memorizing)
         fakeWordRepository.save(originWord)
-        unmemorizedWordListRepository.addWord(originWord)
         
         // When
         let newAttribute = WordAttribute(word: "NewWord", memorizationState: .memorized)
@@ -48,7 +43,6 @@ final class DefaultWordServiceTests: XCTestCase {
         let newWord = sut.fetchWord(by: uuid)!
         XCTAssertEqual(newWord.word, newAttribute.word)
         XCTAssertEqual(newWord.memorizationState, newAttribute.memorizationState)
-        XCTAssertEqual(unmemorizedWordListRepository.unmemorizedWordList.count, 0)
     }
     
     func test_updateWordToMemorizingStateSuccess() throws {
@@ -65,7 +59,6 @@ final class DefaultWordServiceTests: XCTestCase {
         let newWord = sut.fetchWord(by: uuid)!
         XCTAssertEqual(newWord.word, newAttribute.word)
         XCTAssertEqual(newWord.memorizationState, newAttribute.memorizationState)
-        XCTAssertEqual(unmemorizedWordListRepository.unmemorizedWordList.count, 1)
     }
     
     func test_updateWordSuccess_whenDuplicateWord() throws {
@@ -103,7 +96,6 @@ final class DefaultWordServiceTests: XCTestCase {
         let uuid = UUID()
         let word = try Word(uuid: uuid, word: "Word", memorizationState: .memorizing)
         fakeWordRepository.save(word)
-        unmemorizedWordListRepository.addWord(word)
         
         // When
         try sut.updateWord(with: WordAttribute(word: "UpdatedWord"), id: uuid)
@@ -112,7 +104,6 @@ final class DefaultWordServiceTests: XCTestCase {
         let newWord = sut.fetchWord(by: uuid)
         XCTAssertEqual(newWord?.word, "UpdatedWord")
         XCTAssertEqual(newWord?.memorizationState, .memorizing)
-        XCTAssertEqual(unmemorizedWordListRepository.getCurrentWord()?.word, "UpdatedWord")
     }
     
     func test_updateMemorizationStateOnly() throws {
@@ -120,7 +111,6 @@ final class DefaultWordServiceTests: XCTestCase {
         let uuid = UUID()
         let word = try Word(uuid: uuid, word: "Word", memorizationState: .memorizing)
         fakeWordRepository.save(word)
-        unmemorizedWordListRepository.addWord(word)
         
         // When
         try sut.updateWord(with: WordAttribute(memorizationState: .memorized), id: uuid)
@@ -129,7 +119,6 @@ final class DefaultWordServiceTests: XCTestCase {
         let newWord = sut.fetchWord(by: uuid)
         XCTAssertEqual(newWord?.word, "Word")
         XCTAssertEqual(newWord?.memorizationState, .memorized)
-        XCTAssertNil(unmemorizedWordListRepository.getCurrentWord())
     }
     
     func test_markWordsAsMemorized() throws {
@@ -153,13 +142,6 @@ final class DefaultWordServiceTests: XCTestCase {
             word4,
             word5,
         ]
-        
-        unmemorizedWordListRepository.addWord(word1)
-        unmemorizedWordListRepository.addWord(word2)
-        unmemorizedWordListRepository.addWord(word3)
-        unmemorizedWordListRepository.addWord(word4)
-        unmemorizedWordListRepository.addWord(word5)
-        
         // When
         try sut.markWordsAsMemorized(by: [
             uuid3,
@@ -172,6 +154,5 @@ final class DefaultWordServiceTests: XCTestCase {
             Set(sut.fetchMemorizedWordList().map(\.word)),
             Set([word3, word4, word5].map(\.word))
         )
-        XCTAssertEqual(unmemorizedWordListRepository.unmemorizedWordList.count, 2)
     }
 }

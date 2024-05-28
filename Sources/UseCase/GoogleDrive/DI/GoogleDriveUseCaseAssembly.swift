@@ -18,6 +18,7 @@ public final class GoogleDriveUseCaseAssembly: Assembly {
             return DefaultGoogleDriveUseCase(
                 googleDriveService: resolver.resolve(),
                 wordService: resolver.resolve(),
+                wordMemorizationService: resolver.resolve(),
                 localNotificationService: resolver.resolve()
             )
         }

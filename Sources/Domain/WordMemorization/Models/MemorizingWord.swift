@@ -2,10 +2,10 @@ import Domain_Core
 import Foundation
 import FoundationPlus
 
-public struct Word: Entity, Equatable, Hashable {
+public struct MemorizingWord: Entity, Equatable, Hashable {
     
     public let id: UUID
-    public let word: String
+    public var word: String
     var isChecked: Bool
 
     public init(id: UUID, word: String, isChecked: Bool) throws {

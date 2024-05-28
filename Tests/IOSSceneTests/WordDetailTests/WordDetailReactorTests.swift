@@ -8,8 +8,9 @@
 
 @testable import IOSScene_WordDetail
 import Domain_WordManagement
+import IOSSupport
+import RxBlocking
 import UseCase_WordTesting
-
 import XCTest
 
 final class WordDetailReactorTests: XCTestCase {
@@ -17,23 +18,18 @@ final class WordDetailReactorTests: XCTestCase {
     var sut: WordDetailReactor!
 
     override func tearDownWithError() throws {
-        try super.tearDownWithError()
         sut = nil
     }
 
     func test_enteredWordIsDuplicated() throws {
         // Given
-        let uuid1: UUID = .init()
-        let word1: Word = try! .init(uuid: uuid1, word: "Word1")
+        let wordUseCase = FakeWordUseCase()
+        try wordUseCase.addNewWord("Word1").toBlocking().single()
+        try wordUseCase.addNewWord("Word2").toBlocking().single()
+        
+        let word1 = wordUseCase.fetchWordList().first(where: { $0.word == "Word1" })!
 
-        let uuid2: UUID = .init()
-        let word2: Word = try!.init(uuid: uuid2, word: "Word2")
-
-        let wordUseCase = WordUseCaseFake()
-        try wordUseCase.addNewWord(word1)
-        try wordUseCase.addNewWord(word2)
-
-        sut = .init(uuid: word1.uuid, globalAction: .shared, wordUseCase: wordUseCase)
+        sut = .init(uuid: word1.uuid, globalAction: GlobalAction.shared, wordUseCase: wordUseCase)
         sut.action.onNext(.viewDidLoad)
 
         // When
@@ -45,13 +41,11 @@ final class WordDetailReactorTests: XCTestCase {
 
     func test_enteredWordIsDuplicated_whenSameOriginWord() throws {
         // Given
-        let uuid1: UUID = .init()
-        let word1: Word = try!.init(uuid: uuid1, word: "Word1")
+        let wordUseCase = FakeWordUseCase()
+        try wordUseCase.addNewWord("Word1").toBlocking().single()
+        let word1 = wordUseCase.fetchWordList().first(where: { $0.word == "Word1" })!
 
-        let wordUseCase = WordUseCaseFake()
-        try wordUseCase.addNewWord(word1)
-
-        sut = .init(uuid: word1.uuid, globalAction: .shared, wordUseCase: wordUseCase)
+        sut = .init(uuid: word1.uuid, globalAction: GlobalAction.shared, wordUseCase: wordUseCase)
         sut.action.onNext(.viewDidLoad)
 
         // When
@@ -63,13 +57,11 @@ final class WordDetailReactorTests: XCTestCase {
 
     func test_enteredWordIsEmpty() throws {
         // Given
-        let uuid1: UUID = .init()
-        let word1: Word = try!.init(uuid: uuid1, word: "Word1")
+        let wordUseCase = FakeWordUseCase()
+        try wordUseCase.addNewWord("Word1").toBlocking().single()
+        let word1 = wordUseCase.fetchWordList().first(where: { $0.word == "Word1" })!
 
-        let wordUseCase = WordUseCaseFake()
-        try wordUseCase.addNewWord(word1)
-
-        sut = .init(uuid: word1.uuid, globalAction: .shared, wordUseCase: wordUseCase)
+        sut = .init(uuid: word1.uuid, globalAction: GlobalAction.shared, wordUseCase: wordUseCase)
         sut.action.onNext(.viewDidLoad)
 
         // When

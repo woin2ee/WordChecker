@@ -8,5 +8,6 @@ public final class DomainWordMemorizationAssembly: Assembly {
         container.register(WordMemorizationService.self) { _ in
             return DefaultWordMemorizationService()
         }
+        .inObjectScope(.container)
     }
 }

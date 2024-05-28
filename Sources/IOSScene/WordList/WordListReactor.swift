@@ -151,7 +151,7 @@ final class WordListReactor: Reactor {
         case .memorized:
             wordList = wordUseCase.fetchMemorizedWordList()
         case .memorizing:
-            wordList = wordUseCase.fetchUnmemorizedWordList()
+            wordList = wordUseCase.fetchMemorizingWordList()
         }
 
         return .just(Mutation.updateWordList(wordList))
