@@ -179,7 +179,7 @@ final class WordCheckingReactor: Reactor {
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
                     return Mutation.setCurrentWord(currentWord?.toDTO())
                 },
-            globalAction.didMarkWordsAsMemorized
+            globalAction.didMarkSomeWordsAsMemorized
                 .map {
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
                     return Mutation.setCurrentWord(currentWord?.toDTO())

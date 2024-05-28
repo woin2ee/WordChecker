@@ -24,7 +24,7 @@ public final class GlobalAction {
     public var didEditWord: PublishRelay<UUID> = .init()
     public var didDeleteWords: PublishRelay<[Word]> = .init()
     public var didAddWord: PublishRelay<Void> = .init()
-    public var didMarkWordsAsMemorized = PublishRelay<Void>()
+    public var didMarkSomeWordsAsMemorized = PublishRelay<Void>()
 
     public var didResetWordList: PublishRelay<Void> = .init()
 

@@ -107,7 +107,7 @@ final class WordListReactor: Reactor {
             return .concat([
                 wordUseCase.markWordsAsMemorized(by: uuids)
                     .asObservable()
-                    .doOnNext { self.globalAction.didMarkWordsAsMemorized.accept(()) }
+                    .doOnNext { self.globalAction.didMarkSomeWordsAsMemorized.accept(()) }
                     .flatMap { self.updateWordList(by: self.currentState.listType) },
                 .just(.setEditing(false)),
             ])
