@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     let reactor = WordCheckingReactor(
-        wordUseCase: WordUseCaseFake().then { useCase in
+        wordUseCase: FakeWordUseCase().then { useCase in
             (1...10).forEach { number in
                 _ = useCase.addNewWord("lorem ipsum \(number)")
                     .subscribe()
@@ -59,4 +59,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
-extension WordUseCaseFake: Then {}
+extension FakeWordUseCase: Then {}

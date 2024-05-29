@@ -102,4 +102,90 @@ final class WordCheckingReactorTests: XCTestCase {
         // Then
         XCTAssertEqual(sut.currentState.fontSize, .veryLarge)
     }
+    
+    func test_memorizingCount_whenViewDidLoad() {
+        // Given
+        sut.action.onNext(.addWord("A"))
+        sut.action.onNext(.addWord("B"))
+        sut.action.onNext(.addWord("C"))
+        
+        // When
+        sut.action.onNext(.viewDidLoad)
+        
+        // Then
+        XCTAssertEqual(sut.currentState.memorizingCount.checked, 0)
+        XCTAssertEqual(sut.currentState.memorizingCount.total, 3)
+    }
+    
+    func test_memorizingCount_whenUpdateToNextWord() {
+        // Given
+        sut.action.onNext(.addWord("A"))
+        sut.action.onNext(.addWord("B"))
+        sut.action.onNext(.addWord("C"))
+        sut.action.onNext(.viewDidLoad)
+        
+        // When
+        sut.action.onNext(.updateToNextWord)
+        
+        // Then
+        XCTAssertEqual(sut.currentState.memorizingCount.checked, 1)
+        XCTAssertEqual(sut.currentState.memorizingCount.total, 3)
+    }
+    
+    func test_memorizingCount_whenUpdateToPreviousWord() {
+        // Given
+        sut.action.onNext(.addWord("A"))
+        sut.action.onNext(.addWord("B"))
+        sut.action.onNext(.addWord("C"))
+        sut.action.onNext(.viewDidLoad)
+        sut.action.onNext(.updateToNextWord)
+        sut.action.onNext(.updateToNextWord)
+        
+        // When
+        sut.action.onNext(.updateToPreviousWord)
+        
+        // Then
+        XCTAssertEqual(sut.currentState.memorizingCount.checked, 2)
+        XCTAssertEqual(sut.currentState.memorizingCount.total, 3)
+    }
+    
+    func test_memorizingCount_whenBackAndForth() {
+        // Given
+        sut.action.onNext(.addWord("A"))
+        sut.action.onNext(.addWord("B"))
+        sut.action.onNext(.addWord("C"))
+        sut.action.onNext(.addWord("D"))
+        sut.action.onNext(.viewDidLoad)
+        
+        // When
+        sut.action.onNext(.updateToPreviousWord)
+        sut.action.onNext(.updateToNextWord)
+        sut.action.onNext(.updateToNextWord)
+        sut.action.onNext(.updateToPreviousWord)
+        sut.action.onNext(.updateToNextWord)
+        sut.action.onNext(.updateToNextWord)
+        
+        // Then
+        XCTAssertEqual(sut.currentState.memorizingCount.checked, 3)
+        XCTAssertEqual(sut.currentState.memorizingCount.total, 4)
+    }
+    
+    func test_memorizingCount_whenShuffleWordList() {
+        // Given
+        sut.action.onNext(.addWord("A"))
+        sut.action.onNext(.addWord("B"))
+        sut.action.onNext(.addWord("C"))
+        sut.action.onNext(.viewDidLoad)
+        sut.action.onNext(.updateToNextWord)
+        sut.action.onNext(.updateToNextWord)
+        let currentWord = sut.currentState.currentWord?.word
+        
+        // When
+        sut.action.onNext(.shuffleWordList)
+        
+        // Then
+        XCTAssertEqual(sut.currentState.memorizingCount.checked, 0)
+        XCTAssertEqual(sut.currentState.memorizingCount.total, 3)
+        XCTAssertNotEqual(currentWord, sut.currentState.currentWord?.word)
+    }
 }

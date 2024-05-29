@@ -9,6 +9,7 @@
 - 단어 목록 화면에 일괄 편집 기능을 추가했습니다.
 - 자동 대문자 기능 및 관련 설정이 추가되었습니다.
 - 로그인한 이메일을 표시하는 Footer view를 추가했습니다.
+- 단어 암기 화면 상단에 암기 진행바가 추가되었습니다.
 
 #### Changes
 - 단어 필터링 방식이 변경되었습니다.
@@ -20,6 +21,7 @@
 - Added bulk editing function to the words screen.
 - Added auto capitalization feature and associated setting.
 - Added footer that show the email who signed in.
+- Added memorizing progress bar in top of WordChecking view
 
 #### Changes
 - Changed filtering way of words.

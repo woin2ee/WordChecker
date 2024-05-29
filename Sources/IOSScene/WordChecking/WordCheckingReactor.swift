@@ -26,6 +26,9 @@ final class WordCheckingReactor: Reactor {
         case setTargetLanguage(TranslationLanguage)
         case showAddCompleteToast(Result<String, WordCheckingReactorError>)
         case setFontSize(FontSize)
+        case setCheckedWordsCount(Int)
+        case resetCheckedWordsCount
+        case setMemorizingWordsCount(Int)
     }
 
     struct State {
@@ -33,6 +36,7 @@ final class WordCheckingReactor: Reactor {
         var fontSize: FontSize
         var translationSourceLanguage: TranslationLanguage
         var translationTargetLanguage: TranslationLanguage
+        var memorizingCount: MemorizingCount
         @Pulse var showAddCompleteToast: Result<String, WordCheckingReactorError>?
     }
 
@@ -40,7 +44,8 @@ final class WordCheckingReactor: Reactor {
         currentWord: nil,
         fontSize: .default,
         translationSourceLanguage: .english,
-        translationTargetLanguage: .korean
+        translationTargetLanguage: .korean,
+        memorizingCount: MemorizingCount(checked: 0, total: 0)
     )
 
     let wordUseCase: WordUseCase
@@ -87,6 +92,7 @@ final class WordCheckingReactor: Reactor {
                 initTranslationSourceLanguage,
                 initTranslationTargetLanguage,
                 currentFontSize,
+                .just(.setMemorizingWordsCount(wordUseCase.fetchMemorizingWordList().count))
             ])
 
         case .addWord(let newWord):
@@ -112,7 +118,10 @@ final class WordCheckingReactor: Reactor {
         case .updateToNextWord:
             wordUseCase.updateToNextWord()
             let currentWord = wordUseCase.getCurrentUnmemorizedWord()
-            return .just(Mutation.setCurrentWord(currentWord?.toDTO()))
+            return .merge([
+                .just(Mutation.setCurrentWord(currentWord?.toDTO())),
+                .just(.setCheckedWordsCount(wordUseCase.getCheckedCount())),
+            ])
 
         case .updateToPreviousWord:
             wordUseCase.updateToPreviousWord()
@@ -122,7 +131,10 @@ final class WordCheckingReactor: Reactor {
         case .shuffleWordList:
             wordUseCase.shuffleUnmemorizedWordList()
             let currentWord = wordUseCase.getCurrentUnmemorizedWord()
-            return .just(Mutation.setCurrentWord(currentWord?.toDTO()))
+            return .merge([
+                .just(.setCurrentWord(currentWord?.toDTO())),
+                .just(.setCheckedWordsCount(0))
+            ])
 
         case .deleteCurrentWord:
             guard let id = currentState.currentWord?.id else {
@@ -201,6 +213,12 @@ final class WordCheckingReactor: Reactor {
             state.showAddCompleteToast = result
         case .setFontSize(let fontSize):
             state.fontSize = fontSize
+        case .setCheckedWordsCount(let count):
+            state.memorizingCount.checked = count
+        case .resetCheckedWordsCount:
+            state.memorizingCount.checked = 0
+        case .setMemorizingWordsCount(let count):
+            state.memorizingCount.total = count
         }
 
         return state

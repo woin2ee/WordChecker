@@ -13,9 +13,11 @@ import RxSwift
 import SnapKit
 import Then
 import UIKit
+import UIKitPlus
 
 final class WordCheckingView: BaseView {
 
+    let memorizingProgressBar: MemorizingProgressBar
     let wordLabel: UILabel
     let previousButton: ChangeWordButton
     let previousButtonSymbol: ChangeWordSymbol
@@ -24,6 +26,10 @@ final class WordCheckingView: BaseView {
     let translateButton: BottomButton
 
     init() {
+        memorizingProgressBar = MemorizingProgressBar().then {
+            $0.backgroundColor = .systemGray3
+            $0.progressBarColor = .systemBlue
+        }
         wordLabel = UILabel().then {
             $0.adjustsFontForContentSizeCategory = true
             $0.numberOfLines = 0
@@ -65,7 +71,14 @@ final class WordCheckingView: BaseView {
         self.addSubview(nextButtonSymbol)
         self.addSubview(translateButton)
         self.addSubview(wordLabel)
+        self.addSubview(memorizingProgressBar)
 
+        memorizingProgressBar.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide).inset(26)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(50)
+            make.height.equalTo(26)
+        }
+        
         wordLabel.snp.makeConstraints { make in
             make.centerX.centerY.equalTo(self.safeAreaLayoutGuide)
             make.leading.greaterThanOrEqualTo(self.safeAreaLayoutGuide).inset(30)
