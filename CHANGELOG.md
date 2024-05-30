@@ -13,6 +13,8 @@
 
 #### Changes
 - 단어 필터링 방식이 변경되었습니다.
+- 단어 암기 방법이 변경되었습니다.
+  - 이제 단어를 무한대로 넘기는 대신 한 번에 한 세트의 단어를 확인하게 됩니다.
 
 ### English
 
@@ -25,6 +27,8 @@
 
 #### Changes
 - Changed filtering way of words.
+- Changed the way we memorize words.
+  - Now, instead of infinitely going through the words, we check one set of words at a time.
 
 ## 1.8.0 - 2024-05-10
 
