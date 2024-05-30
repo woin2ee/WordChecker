@@ -128,4 +128,27 @@ final class WordCheckingView: BaseView {
             }
         }
     }
+    
+    var memorizingCountAndIndexBinder: Binder<(memorizingCount: MemorizingCount, index: Int?)> {
+        return .init(self) { (target: WordCheckingView, memorizingCountAndIndex) in
+            let index = memorizingCountAndIndex.index
+            let memorizingCount = memorizingCountAndIndex.memorizingCount
+            
+            if index == 0 {
+                target.previousButton.isEnabled = false
+                target.previousButtonSymbol.tintColor = .systemGray
+            } else {
+                target.previousButton.isEnabled = true
+                target.previousButtonSymbol.tintColor = .systemBlue
+            }
+            
+            if index == memorizingCount.total - 1 && memorizingCount.checked == memorizingCount.total {
+                target.nextButton.isEnabled = false
+                target.nextButtonSymbol.tintColor = .systemGray
+            } else {
+                target.nextButton.isEnabled = true
+                target.nextButtonSymbol.tintColor = .systemBlue
+            }
+        }
+    }
 }

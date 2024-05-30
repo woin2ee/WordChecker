@@ -198,6 +198,12 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
             .asDriver(onErrorJustReturn: MemorizingCount(checked: 0, total: 0))
             .drive(rootView.memorizingProgressBar.memorizingCountBinder)
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { ($0.memorizingCount, $0.currentIndex) }
+            .asDriverOnErrorJustComplete()
+            .drive(rootView.memorizingCountAndIndexBinder)
+            .disposed(by: disposeBag)
     }
 
     func presentAddWordAlert() -> Maybe<String> {

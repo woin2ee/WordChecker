@@ -17,6 +17,7 @@ extension WordCheckingView {
 
             let symbolScale: UIImage.SymbolScale = .large
             let config: UIImage.SymbolConfiguration = .init(scale: symbolScale)
+                .applying(UIImage.SymbolConfiguration(weight: .bold))
 
             switch direction {
             case .left:

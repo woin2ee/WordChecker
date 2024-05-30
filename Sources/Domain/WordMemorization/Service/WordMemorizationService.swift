@@ -33,6 +33,11 @@ public protocol WordMemorizationService {
     /// 아직 확인하지 않은 단어 갯수
     var unCheckedCount: Int { get }
     
+    /// 단어 목록에서 현재 단어에 해당하는 Index
+    ///
+    /// 목록이 비어있을 때는 `nil` 입니다.
+    var currentIndex: Int? { get }
+    
     /// 현재 단어를 목록에서 삭제합니다.
     func deleteCurrent()
     

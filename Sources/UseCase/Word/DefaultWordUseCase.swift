@@ -160,8 +160,8 @@ internal final class DefaultWordUseCase: WordUseCase {
         }
     }
 
-    func getCurrentUnmemorizedWord() -> Domain_WordMemorization.MemorizingWord? {
-        return wordMemorizationService.current
+    func getCurrentUnmemorizedWord() -> (word: Domain_WordMemorization.MemorizingWord?, index: Int?) {
+        return (wordMemorizationService.current, wordMemorizationService.currentIndex)
     }
 
     func isWordDuplicated(_ word: String) -> RxSwift.Single<Bool> {

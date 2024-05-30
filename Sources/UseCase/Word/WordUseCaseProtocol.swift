@@ -48,7 +48,7 @@ public protocol WordUseCase {
     
     func markWordsAsMemorized(by uuids: [UUID]) -> Single<Void>
 
-    func getCurrentUnmemorizedWord() -> MemorizingWord?
+    func getCurrentUnmemorizedWord() -> (word: MemorizingWord?, index: Int?)
     
     /// `word` 파라미터로 전달된 단어가 이미 저장된 단어인지 검사합니다.
     ///

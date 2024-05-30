@@ -21,7 +21,7 @@ final class WordCheckingReactor: Reactor {
     }
 
     enum Mutation {
-        case setCurrentWord(Word?)
+        case setCurrentWordAndIndex(Word?, Int?)
         case setSourceLanguage(TranslationLanguage)
         case setTargetLanguage(TranslationLanguage)
         case showAddCompleteToast(Result<String, WordCheckingReactorError>)
@@ -33,6 +33,7 @@ final class WordCheckingReactor: Reactor {
 
     struct State {
         var currentWord: Word?
+        var currentIndex: Int?
         var fontSize: FontSize
         var translationSourceLanguage: TranslationLanguage
         var translationTargetLanguage: TranslationLanguage
@@ -42,6 +43,7 @@ final class WordCheckingReactor: Reactor {
 
     let initialState: State = State(
         currentWord: nil,
+        currentIndex: nil,
         fontSize: .default,
         translationSourceLanguage: .english,
         translationTargetLanguage: .korean,
@@ -72,7 +74,7 @@ final class WordCheckingReactor: Reactor {
             wordUseCase.initializeMemorizingList()
             
             let currentWord = wordUseCase.getCurrentUnmemorizedWord()
-            let initCurrrentWord: Mutation = .setCurrentWord(currentWord?.toDTO())
+            let initCurrrent: Mutation = .setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)
 
             let initTranslationSourceLanguage = userSettingsUseCase.getCurrentTranslationLocale()
                 .map(\.source)
@@ -88,7 +90,7 @@ final class WordCheckingReactor: Reactor {
                 .asObservable()
 
             return .merge([
-                .just(initCurrrentWord),
+                .just(initCurrrent),
                 initTranslationSourceLanguage,
                 initTranslationTargetLanguage,
                 currentFontSize,
@@ -107,7 +109,7 @@ final class WordCheckingReactor: Reactor {
                 .flatMap { _ -> Observable<Mutation> in
                     let currentUnmemorizedWord = self.wordUseCase.getCurrentUnmemorizedWord()
                     return .merge([
-                        .just(.setCurrentWord(currentUnmemorizedWord?.toDTO())),
+                        .just(.setCurrentWordAndIndex(currentUnmemorizedWord.word?.toDTO(), currentUnmemorizedWord.index)),
                         .just(.showAddCompleteToast(.success(newWord))),
                     ])
                 }
@@ -119,20 +121,20 @@ final class WordCheckingReactor: Reactor {
             wordUseCase.updateToNextWord()
             let currentWord = wordUseCase.getCurrentUnmemorizedWord()
             return .merge([
-                .just(Mutation.setCurrentWord(currentWord?.toDTO())),
+                .just(Mutation.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)),
                 .just(.setCheckedWordsCount(wordUseCase.getCheckedCount())),
             ])
 
         case .updateToPreviousWord:
             wordUseCase.updateToPreviousWord()
             let currentWord = wordUseCase.getCurrentUnmemorizedWord()
-            return .just(Mutation.setCurrentWord(currentWord?.toDTO()))
+            return .just(Mutation.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index))
 
         case .shuffleWordList:
             wordUseCase.shuffleUnmemorizedWordList()
             let currentWord = wordUseCase.getCurrentUnmemorizedWord()
             return .merge([
-                .just(.setCurrentWord(currentWord?.toDTO())),
+                .just(Mutation.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)),
                 .just(.setCheckedWordsCount(0))
             ])
 
@@ -145,7 +147,7 @@ final class WordCheckingReactor: Reactor {
                 .asObservable()
                 .map { _ -> Mutation in
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
-                    return .setCurrentWord(currentWord?.toDTO())
+                    return .setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)
                 }
 
         case .markCurrentWordAsMemorized:
@@ -153,7 +155,7 @@ final class WordCheckingReactor: Reactor {
                 .asObservable()
                 .map { _ -> Mutation in
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
-                    return .setCurrentWord(currentWord?.toDTO())
+                    return .setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)
                 }
             
         case .changeFontSize(let fontSize):
@@ -173,28 +175,28 @@ final class WordCheckingReactor: Reactor {
             globalAction.didEditWord
                 .map { _ in
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
-                    return Mutation.setCurrentWord(currentWord?.toDTO())
+                    return Mutation.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)
                 },
             globalAction.didDeleteWords
                 .filter { $0.contains(where: { $0.uuid == self.currentState.currentWord?.id }) }
                 .map { _ in
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
-                    return Mutation.setCurrentWord(currentWord?.toDTO())
+                    return Mutation.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)
                 },
             globalAction.didResetWordList
                 .map {
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
-                    return Mutation.setCurrentWord(currentWord?.toDTO())
+                    return Mutation.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)
                 },
             globalAction.didAddWord
                 .map {
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
-                    return Mutation.setCurrentWord(currentWord?.toDTO())
+                    return Mutation.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)
                 },
             globalAction.didMarkSomeWordsAsMemorized
                 .map {
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
-                    return Mutation.setCurrentWord(currentWord?.toDTO())
+                    return Mutation.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)
                 },
         ])
     }
@@ -203,8 +205,9 @@ final class WordCheckingReactor: Reactor {
         var state = state
 
         switch mutation {
-        case .setCurrentWord(let currentWord):
-            state.currentWord = currentWord
+        case .setCurrentWordAndIndex(let word, let index):
+            state.currentWord = word
+            state.currentIndex = index
         case .setSourceLanguage(let translationSourceLanguage):
             state.translationSourceLanguage = translationSourceLanguage
         case .setTargetLanguage(let translationTargetLanguage):

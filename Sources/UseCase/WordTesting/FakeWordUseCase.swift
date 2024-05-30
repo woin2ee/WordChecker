@@ -75,7 +75,7 @@ public final class FakeWordUseCase: WordUseCase {
         return _wordUseCase.markWordsAsMemorized(by: uuids)
     }
 
-    public func getCurrentUnmemorizedWord() -> Domain_WordMemorization.MemorizingWord? {
+    public func getCurrentUnmemorizedWord() -> (word: Domain_WordMemorization.MemorizingWord?, index: Int?) {
         return _wordUseCase.getCurrentUnmemorizedWord()
     }
 

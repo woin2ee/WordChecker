@@ -77,7 +77,7 @@ final class DefaultWordMemorizationServiceTests: XCTestCase {
         
         // Then
         XCTAssertNotEqual(subject.current?.word, "3")
-        XCTAssertEqual(subject.currentIndex.rawValue, 0)
+        XCTAssertEqual(subject._currentIndex.rawValue, 0)
     }
     
     func test_shuffleList_whenEmptyList() {
@@ -89,7 +89,7 @@ final class DefaultWordMemorizationServiceTests: XCTestCase {
         
         // Then
         XCTAssertNil(subject.current)
-        XCTAssertEqual(subject.currentIndex, .undefined)
+        XCTAssertEqual(subject._currentIndex, .undefined)
     }
     
 //    func test_shuffleList_whenEmptyList() {
@@ -155,7 +155,7 @@ final class DefaultWordMemorizationServiceTests: XCTestCase {
         
         // Then
         XCTAssertEqual(subject.current?.word, "B")
-        XCTAssertEqual(subject.currentIndex.rawValue, 1)
+        XCTAssertEqual(subject._currentIndex.rawValue, 1)
         XCTAssertTrue(subject.isCompletedAllChecking)
     }
     
@@ -197,7 +197,7 @@ final class DefaultWordMemorizationServiceTests: XCTestCase {
         subject.deleteCurrent()
         
         // Then
-        XCTAssertEqual(subject.currentIndex, .undefined)
+        XCTAssertEqual(subject._currentIndex, .undefined)
         XCTAssertEqual(subject.current, nil)
     }
     
@@ -212,7 +212,7 @@ final class DefaultWordMemorizationServiceTests: XCTestCase {
         subject.deleteCurrent()
         
         // Then
-        XCTAssertEqual(subject.currentIndex, .undefined)
+        XCTAssertEqual(subject._currentIndex, .undefined)
         XCTAssertEqual(subject.current, nil)
         XCTAssertEqual(subject.wordList, [])
     }
@@ -269,7 +269,7 @@ final class DefaultWordMemorizationServiceTests: XCTestCase {
         
         // Then
         XCTAssertEqual(subject.count, 0)
-        XCTAssertEqual(subject.currentIndex, .undefined)
+        XCTAssertEqual(subject._currentIndex, .undefined)
     }
     
     func test_deleteUncheckedWord_whileMemorizing() {
@@ -315,7 +315,7 @@ final class DefaultWordMemorizationServiceTests: XCTestCase {
         // Then
         XCTAssertEqual(subject.checkedCount, 1)
         XCTAssertEqual(subject.current?.word, "C")
-        XCTAssertEqual(subject.currentIndex.rawValue, 1)
+        XCTAssertEqual(subject._currentIndex.rawValue, 1)
     }
     
     func test_deleteCheckedWord_whileMemorizing_with1Previous() {
@@ -339,7 +339,7 @@ final class DefaultWordMemorizationServiceTests: XCTestCase {
         // Then
         XCTAssertEqual(subject.checkedCount, 1)
         XCTAssertEqual(subject.current?.word, "C")
-        XCTAssertEqual(subject.currentIndex.rawValue, 1)
+        XCTAssertEqual(subject._currentIndex.rawValue, 1)
     }
     
     func test_deleteCheckedWord_whileMemorizing_with2Previous() {
@@ -364,7 +364,7 @@ final class DefaultWordMemorizationServiceTests: XCTestCase {
         // Then
         XCTAssertEqual(subject.checkedCount, 1)
         XCTAssertEqual(subject.current?.word, "A")
-        XCTAssertEqual(subject.currentIndex.rawValue, 0)
+        XCTAssertEqual(subject._currentIndex.rawValue, 0)
     }
     
     func test_deleteCheckedWord_whenIsCompletedAllChecking() {
@@ -389,7 +389,7 @@ final class DefaultWordMemorizationServiceTests: XCTestCase {
         // Then
         XCTAssertTrue(subject.isCompletedAllChecking)
         XCTAssertEqual(subject.current?.word, "C")
-        XCTAssertEqual(subject.currentIndex.rawValue, 1)
+        XCTAssertEqual(subject._currentIndex.rawValue, 1)
     }
     
     func test_turnToUnChecked_whenShuffle() {
@@ -451,7 +451,7 @@ final class DefaultWordMemorizationServiceTests: XCTestCase {
         
         // Then
         XCTAssertEqual(subject.current?.word, "A")
-        XCTAssertEqual(subject.currentIndex.rawValue, 0)
+        XCTAssertEqual(subject._currentIndex.rawValue, 0)
     }
     
     func test_insert_whileMemorizing() throws {
@@ -469,7 +469,7 @@ final class DefaultWordMemorizationServiceTests: XCTestCase {
         
         // Then
         let insertedIndex = subject.wordList.firstIndex(where: { $0.word == "E" })
-        XCTAssertGreaterThan(insertedIndex!, subject.currentIndex.rawValue)
+        XCTAssertGreaterThan(insertedIndex!, subject._currentIndex.rawValue)
     }
     
     func test_updateWord() {
@@ -489,5 +489,30 @@ final class DefaultWordMemorizationServiceTests: XCTestCase {
         XCTAssertTrue(subject.wordList.contains(where: { $0.word == "Update" }))
         XCTAssertFalse(subject.wordList.contains(where: { $0.word == "C" }))
         XCTAssertEqual(subject.count, 3)
+    }
+    
+    func test_currentIndex() {
+        // Given
+        let wordList: [MemorizingWord] = [
+            try! MemorizingWord(id: UUID(), word: "A", isChecked: false),
+            try! MemorizingWord(id: UUID(), word: "B", isChecked: false),
+            try! MemorizingWord(id: UUID(), word: "C", isChecked: false),
+        ]
+        subject.setList(wordList)
+        subject.next()
+        subject.next()
+        
+        // When & Then
+        XCTAssertEqual(subject.currentIndex, 2)
+    }
+    
+    func test_currentIndex_whenEmptyList() {
+        // Given
+        subject.setList([])
+        subject.next()
+        subject.next()
+        
+        // When & Then
+        XCTAssertNil(subject.currentIndex)
     }
 }
