@@ -70,7 +70,7 @@ final class UserDefaultsUserSettingsServiceTests: XCTestCase {
         }
     }
     
-    func test_getUserSettings_whenUpdatedUserSettings() throws {
+    func test_getUserSettings_whenOldUserSettings() throws {
         // Given
         let oldUserSettings = OldUserSettings(
             translationSourceLocale: .chinese,
@@ -86,9 +86,34 @@ final class UserDefaultsUserSettingsServiceTests: XCTestCase {
         let newUserSettings = try sut.getUserSettings()
         
         // Then
-        XCTAssertEqual(newUserSettings.translationSourceLocale, oldUserSettings.translationSourceLocale)
-        XCTAssertEqual(newUserSettings.translationTargetLocale, oldUserSettings.translationTargetLocale)
-        XCTAssertEqual(newUserSettings.hapticsIsOn, oldUserSettings.hapticsIsOn)
-        XCTAssertEqual(newUserSettings.themeStyle, oldUserSettings.themeStyle)
+        let newUserSettingsMirror = Mirror(reflecting: newUserSettings)
+        XCTAssertEqual(newUserSettingsMirror.children.count, 6)
+        
+        let properties = newUserSettingsMirror.children.map(\.label)
+        let expectedProperties = [
+            "translationSourceLocale",
+            "translationTargetLocale",
+            "hapticsIsOn",
+            "themeStyle",
+            "memorizingWordSize",
+            "autoCapitalizationIsOn",
+        ]
+        let values = newUserSettingsMirror.children.map(\.value)
+        let expectedValues: [Any] = [
+            TranslationLanguage.chinese,
+            TranslationLanguage.english,
+            true,
+            ThemeStyle.system,
+            MemorizingWordSize.default,
+            true,
+        ]
+        
+        XCTAssertEqual(properties, expectedProperties)
+        XCTAssertEqual(values[0] as! TranslationLanguage, expectedValues[0] as! TranslationLanguage)
+        XCTAssertEqual(values[1] as! TranslationLanguage, expectedValues[1] as! TranslationLanguage)
+        XCTAssertEqual(values[2] as! Bool, expectedValues[2] as! Bool)
+        XCTAssertEqual(values[3] as! ThemeStyle, expectedValues[3] as! ThemeStyle)
+        XCTAssertEqual(values[4] as! MemorizingWordSize, expectedValues[4] as! MemorizingWordSize)
+        XCTAssertEqual(values[5] as! Bool, expectedValues[5] as! Bool)
     }
 }
