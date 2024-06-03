@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct MemorizingCount {
+struct MemorizingCount: Equatable {
     var checked: Int
     var total: Int
 }

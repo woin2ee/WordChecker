@@ -28,15 +28,19 @@ final class WordCheckingReactor: Reactor {
         case setFontSize(FontSize)
         case setCheckedWordsCount(Int)
         case resetCheckedWordsCount
-        case setMemorizingWordsCount(Int)
+        case setTotalWordsCount(Int)
     }
 
     struct State {
         var currentWord: Word?
+        
+        // 현재 표시되는 단어의 인덱스.
         var currentIndex: Int?
         var fontSize: FontSize
         var translationSourceLanguage: TranslationLanguage
         var translationTargetLanguage: TranslationLanguage
+        
+        /// 현재 화면에서 외우고 있는 단어들의 개수 정보
         var memorizingCount: MemorizingCount
         @Pulse var showAddCompleteToast: Result<String, WordCheckingReactorError>?
     }
@@ -94,7 +98,7 @@ final class WordCheckingReactor: Reactor {
                 initTranslationSourceLanguage,
                 initTranslationTargetLanguage,
                 currentFontSize,
-                .just(.setMemorizingWordsCount(wordUseCase.fetchMemorizingWordList().count))
+                .just(.setTotalWordsCount(wordUseCase.fetchMemorizingWordList().count))
             ])
 
         case .addWord(let newWord):
@@ -103,6 +107,8 @@ final class WordCheckingReactor: Reactor {
             if globalState.autoCapitalizationIsOn {
                 newWord = newWord.prefix(1).uppercased() + newWord.dropFirst()
             }
+            
+            let setTotalWordsCountMutation = Observable<Mutation>.just(.setTotalWordsCount(currentState.memorizingCount.total + 1))
             
             return wordUseCase.addNewWord(newWord)
                 .asObservable()
@@ -116,6 +122,7 @@ final class WordCheckingReactor: Reactor {
                 .catch { _ in
                     return .just(.showAddCompleteToast(.failure(.addWordFailed(reason: nil, word: newWord))))
                 }
+                .concat(setTotalWordsCountMutation)
 
         case .updateToNextWord:
             wordUseCase.updateToNextWord()
@@ -220,7 +227,7 @@ final class WordCheckingReactor: Reactor {
             state.memorizingCount.checked = count
         case .resetCheckedWordsCount:
             state.memorizingCount.checked = 0
-        case .setMemorizingWordsCount(let count):
+        case .setTotalWordsCount(let count):
             state.memorizingCount.total = count
         }
 

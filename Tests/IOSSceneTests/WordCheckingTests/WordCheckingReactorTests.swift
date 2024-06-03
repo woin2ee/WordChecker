@@ -103,6 +103,28 @@ final class WordCheckingReactorTests: XCTestCase {
         XCTAssertEqual(sut.currentState.fontSize, .veryLarge)
     }
     
+    func test_currentIndex_whenEmptyList() {
+        sut.action.onNext(.viewDidLoad)
+        XCTAssertEqual(sut.currentState.currentIndex, nil)
+    }
+    
+    func test_currentIndex_whileMemorizing() {
+        // Given
+        sut.action.onNext(.addWord("A"))
+        sut.action.onNext(.addWord("B"))
+        sut.action.onNext(.addWord("C"))
+        sut.action.onNext(.viewDidLoad)
+        XCTAssertEqual(sut.currentState.currentIndex, 0)
+        
+        // When
+        sut.action.onNext(.updateToNextWord)
+        sut.action.onNext(.updateToNextWord)
+        sut.action.onNext(.updateToPreviousWord)
+        
+        // Then
+        XCTAssertEqual(sut.currentState.currentIndex, 1)
+    }
+    
     func test_memorizingCount_whenViewDidLoad() {
         // Given
         sut.action.onNext(.addWord("A"))
@@ -187,5 +209,38 @@ final class WordCheckingReactorTests: XCTestCase {
         XCTAssertEqual(sut.currentState.memorizingCount.checked, 0)
         XCTAssertEqual(sut.currentState.memorizingCount.total, 3)
         XCTAssertNotEqual(currentWord, sut.currentState.currentWord?.word)
+    }
+    
+    func test_memorizingCount_whenWordIsAdded() {
+        // Given
+        sut.action.onNext(.addWord("A"))
+        sut.action.onNext(.addWord("B"))
+        sut.action.onNext(.addWord("C"))
+        sut.action.onNext(.viewDidLoad)
+        
+        // When
+        sut.action.onNext(.addWord("D"))
+        
+        // Then
+        XCTAssertEqual(sut.currentState.memorizingCount.checked, 0)
+        XCTAssertEqual(sut.currentState.memorizingCount.total, 4)
+    }
+    
+    func test_memorizingCount_whenWordIsAdded_whileMemorizing() {
+        // Given
+        sut.action.onNext(.addWord("A"))
+        sut.action.onNext(.addWord("B"))
+        sut.action.onNext(.addWord("C"))
+        sut.action.onNext(.viewDidLoad)
+        sut.action.onNext(.updateToNextWord)
+        sut.action.onNext(.updateToNextWord)
+        
+        // When
+        sut.action.onNext(.addWord("D"))
+        
+        // Then
+        XCTAssertEqual(sut.currentState.memorizingCount.checked, 2)
+        XCTAssertEqual(sut.currentState.memorizingCount.total, 4)
+        XCTAssertEqual(sut.currentState.currentIndex, 2)
     }
 }

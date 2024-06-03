@@ -195,6 +195,7 @@ final class WordCheckingViewController: RxBaseViewController, View, WordChecking
 
         reactor.state
             .map(\.memorizingCount)
+            .distinctUntilChanged()
             .asDriver(onErrorJustReturn: MemorizingCount(checked: 0, total: 0))
             .drive(rootView.memorizingProgressBar.memorizingCountBinder)
             .disposed(by: disposeBag)
