@@ -53,9 +53,8 @@ internal final class MainViewController: NSViewController {
             }
         }
         .filter { !$0 }
-        .compactMap { _ in try? Word(word: self.ownView.wordTextField.stringValue) }
-        .flatMapFirst {
-            return self.wordUseCase.addNewWord($0)
+        .flatMapFirst { _ in
+            return self.wordUseCase.addNewWord(self.ownView.wordTextField.stringValue)
                 .asSignalOnErrorJustComplete()
         }
         .emit(with: self, onNext: { owner, _ in

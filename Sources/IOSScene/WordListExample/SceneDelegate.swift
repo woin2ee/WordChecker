@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         wordListViewController = WordListViewController().then {
             $0.reactor = WordListReactor(
                 globalAction: GlobalAction.shared,
-                wordUseCase: WordUseCaseFake().then { useCase in
+                wordUseCase: FakeWordUseCase().then { useCase in
                     (1...50).forEach { number in
                         _ = useCase.addNewWord("Lorem ipsum \(number)").subscribe()
                     }
@@ -67,4 +67,4 @@ final class WordListViewControllerDelegateProxy: WordListViewControllerDelegate 
     }
 }
 
-extension WordUseCaseFake: Then {}
+extension FakeWordUseCase: Then {}
