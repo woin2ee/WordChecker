@@ -14,16 +14,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
-        let uuid = UUID()
+        let wordUseCase = FakeWordUseCase().then {
+            _ = $0.addNewWord("Testing").subscribe()
+        }
         
         let viewController = WordDetailViewController().then {
             $0.reactor = WordDetailReactor(
-                uuid: uuid,
+                uuid: wordUseCase.fetchWordList().first!.uuid,
                 globalAction: GlobalAction.shared,
-                wordUseCase: WordUseCaseFake().then {
-                    let word = try! Word(uuid: uuid, word: "Testing", memorizationState: .memorizing)
-                    try! $0.addNewWord(word)
-                }
+                wordUseCase: wordUseCase
             )
             $0.delegate = delegateProxy
         }
@@ -60,4 +59,4 @@ private final class WordDetailViewControllerDelegateProxy: WordDetailViewControl
     }
 }
 
-extension WordUseCaseFake: Then {}
+extension FakeWordUseCase: Then {}

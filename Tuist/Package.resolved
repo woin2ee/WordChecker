@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Woin2ee-Modules/FoundationPlus.git",
       "state" : {
-        "revision" : "797375eca524c8a4f8aeb34c6573dd81aa2d087c",
-        "version" : "1.4.1"
+        "revision" : "5fa0787a2bcc1023a77928d4130eea5107312dd2",
+        "version" : "1.4.2"
       }
     },
     {
