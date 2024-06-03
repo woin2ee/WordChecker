@@ -226,6 +226,21 @@ final class WordCheckingReactorTests: XCTestCase {
         XCTAssertEqual(sut.currentState.memorizingCount.total, 4)
     }
     
+    func test_memorizingCount_whenDuplicatedWordIsAdded() {
+        // Given
+        sut.action.onNext(.addWord("A"))
+        sut.action.onNext(.addWord("B"))
+        sut.action.onNext(.addWord("C"))
+        sut.action.onNext(.viewDidLoad)
+        
+        // When
+        sut.action.onNext(.addWord("A"))
+        
+        // Then
+        XCTAssertEqual(sut.currentState.memorizingCount.checked, 0)
+        XCTAssertEqual(sut.currentState.memorizingCount.total, 3)
+    }
+    
     func test_memorizingCount_whenWordIsAdded_whileMemorizing() {
         // Given
         sut.action.onNext(.addWord("A"))
@@ -242,5 +257,97 @@ final class WordCheckingReactorTests: XCTestCase {
         XCTAssertEqual(sut.currentState.memorizingCount.checked, 2)
         XCTAssertEqual(sut.currentState.memorizingCount.total, 4)
         XCTAssertEqual(sut.currentState.currentIndex, 2)
+    }
+    
+    func test_memorizingCount_whenWordIsMemorized() {
+        // Given
+        sut.action.onNext(.addWord("A"))
+        sut.action.onNext(.addWord("B"))
+        sut.action.onNext(.addWord("C"))
+        sut.action.onNext(.viewDidLoad)
+        sut.action.onNext(.updateToNextWord)
+        
+        // When
+        sut.action.onNext(.markCurrentWordAsMemorized)
+        
+        // Then
+        XCTAssertEqual(sut.currentState.memorizingCount.checked, 1)
+        XCTAssertEqual(sut.currentState.memorizingCount.total, 2)
+    }
+    
+    func test_memorizingCount_whenWordIsMemorized_withEmptyList() {
+        // Given
+        sut.action.onNext(.viewDidLoad)
+        
+        // When
+        sut.action.onNext(.markCurrentWordAsMemorized)
+        
+        // Then
+        XCTAssertEqual(sut.currentState.memorizingCount.checked, 0)
+        XCTAssertEqual(sut.currentState.memorizingCount.total, 0)
+    }
+    
+    func test_memorizingCount_whenWordIsMemorized_withAllChecked() {
+        // Given
+        sut.action.onNext(.addWord("A"))
+        sut.action.onNext(.addWord("B"))
+        sut.action.onNext(.addWord("C"))
+        sut.action.onNext(.viewDidLoad)
+        sut.action.onNext(.updateToNextWord)
+        sut.action.onNext(.updateToNextWord)
+        sut.action.onNext(.updateToNextWord)
+        
+        // When
+        sut.action.onNext(.markCurrentWordAsMemorized)
+        
+        // Then
+        XCTAssertEqual(sut.currentState.memorizingCount.checked, 2)
+        XCTAssertEqual(sut.currentState.memorizingCount.total, 2)
+    }
+
+    func test_memorizingCount_whenWordIsDeleted() {
+        // Given
+        sut.action.onNext(.addWord("A"))
+        sut.action.onNext(.addWord("B"))
+        sut.action.onNext(.addWord("C"))
+        sut.action.onNext(.viewDidLoad)
+        sut.action.onNext(.updateToNextWord)
+        
+        // When
+        sut.action.onNext(.deleteCurrentWord)
+        
+        // Then
+        XCTAssertEqual(sut.currentState.memorizingCount.checked, 1)
+        XCTAssertEqual(sut.currentState.memorizingCount.total, 2)
+    }
+    
+    func test_memorizingCount_whenWordIsDeleted_withEmptyList() {
+        // Given
+        sut.action.onNext(.viewDidLoad)
+        
+        // When
+        sut.action.onNext(.deleteCurrentWord)
+        
+        // Then
+        XCTAssertEqual(sut.currentState.memorizingCount.checked, 0)
+        XCTAssertEqual(sut.currentState.memorizingCount.total, 0)
+    }
+    
+    func test_memorizingCount_whenWordIsDeleted_withAllChecked() {
+        // Given
+        sut.action.onNext(.addWord("A"))
+        sut.action.onNext(.addWord("B"))
+        sut.action.onNext(.addWord("C"))
+        sut.action.onNext(.viewDidLoad)
+        sut.action.onNext(.updateToNextWord)
+        sut.action.onNext(.updateToNextWord)
+        sut.action.onNext(.updateToNextWord)
+        
+        // When
+        sut.action.onNext(.deleteCurrentWord)
+        
+        // Then
+        XCTAssertEqual(sut.currentState.memorizingCount.checked, 2)
+        XCTAssertEqual(sut.currentState.memorizingCount.total, 2)
     }
 }

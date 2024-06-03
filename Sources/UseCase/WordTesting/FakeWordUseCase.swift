@@ -46,6 +46,10 @@ public final class FakeWordUseCase: WordUseCase {
     public func fetchMemorizingWordList() -> [Domain_WordManagement.Word] {
         return _wordUseCase.fetchMemorizingWordList()
     }
+    
+    public func fetchMemorizingWordList() -> RxSwift.Infallible<[Domain_WordManagement.Word]> {
+        return _wordUseCase.fetchMemorizingWordList()
+    }
 
     public func fetchWord(by uuid: UUID) -> RxSwift.Single<Domain_WordManagement.Word> {
         return _wordUseCase.fetchWord(by: uuid)
@@ -86,7 +90,11 @@ public final class FakeWordUseCase: WordUseCase {
     public func getCheckedCount() -> Int {
         return _wordUseCase.getCheckedCount()
     }
-
+    
+    public func getCheckedCount() -> RxSwift.Infallible<Int> {
+        return _wordUseCase.getCheckedCount()
+    }
+    
     public func initializeMemorizingList() {
         _wordUseCase.initializeMemorizingList()
     }

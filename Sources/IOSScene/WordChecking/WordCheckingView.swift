@@ -134,6 +134,14 @@ final class WordCheckingView: BaseView {
             let index = memorizingCountAndIndex.index
             let memorizingCount = memorizingCountAndIndex.memorizingCount
             
+            if memorizingCount.total == 0 {
+                target.previousButton.isEnabled = false
+                target.previousButtonSymbol.tintColor = .systemGray
+                target.nextButton.isEnabled = false
+                target.nextButtonSymbol.tintColor = .systemGray
+                return
+            }
+            
             if index == 0 {
                 target.previousButton.isEnabled = false
                 target.previousButtonSymbol.tintColor = .systemGray

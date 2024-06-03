@@ -66,7 +66,15 @@ internal final class DefaultWordUseCase: WordUseCase {
     func fetchMemorizingWordList() -> [Domain_WordManagement.Word] {
         return wordManagementService.fetchUnmemorizedWordList()
     }
-
+    
+    func fetchMemorizingWordList() -> RxSwift.Infallible<[Domain_WordManagement.Word]> {
+        return .create { observer in
+            observer(.next(self.wordManagementService.fetchUnmemorizedWordList()))
+            observer(.completed)
+            return Disposables.create()
+        }
+    }
+    
     func fetchWord(by uuid: UUID) -> RxSwift.Single<Domain_WordManagement.Word> {
         guard let word = wordManagementService.fetchWord(by: uuid) else {
             return .error(WordUseCaseError.uuidInvalid)
@@ -175,6 +183,14 @@ internal final class DefaultWordUseCase: WordUseCase {
     
     func getCheckedCount() -> Int {
         wordMemorizationService.checkedCount
+    }
+    
+    func getCheckedCount() -> RxSwift.Infallible<Int> {
+        return .create { observer in
+            observer(.next(self.wordMemorizationService.checkedCount))
+            observer(.completed)
+            return Disposables.create()
+        }
     }
     
     func initializeMemorizingList() {

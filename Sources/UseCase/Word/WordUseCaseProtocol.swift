@@ -28,6 +28,9 @@ public protocol WordUseCase {
 
     /// 암기중인 단어 목록을 가져옵니다.
     func fetchMemorizingWordList() -> [Word]
+    
+    /// 암기중인 단어 목록을 가져옵니다.
+    func fetchMemorizingWordList() -> Infallible<[Word]>
 
     /// 특정 단어를 가져옵니다.
     func fetchWord(by uuid: UUID) -> Single<Word>
@@ -58,7 +61,11 @@ public protocol WordUseCase {
     /// - Throws: 파라미터로 전달된 문자열이 유효하지 않아서 저장될 수 없는 단어일 때 Error 를 방출합니다.
     func isWordDuplicated(_ word: String) -> Single<Bool>
     
+    /// 이미 확인한 단어의 개수
     func getCheckedCount() -> Int
+    
+    /// 이미 확인한 단어의 개수
+    func getCheckedCount() -> Infallible<Int>
     
     func initializeMemorizingList()
 }

@@ -103,13 +103,9 @@ final class WordCheckingReactor: Reactor {
 
         case .addWord(let newWord):
             var newWord = newWord
-            
             if globalState.autoCapitalizationIsOn {
                 newWord = newWord.prefix(1).uppercased() + newWord.dropFirst()
             }
-            
-            let setTotalWordsCountMutation = Observable<Mutation>.just(.setTotalWordsCount(currentState.memorizingCount.total + 1))
-            
             return wordUseCase.addNewWord(newWord)
                 .asObservable()
                 .flatMap { _ -> Observable<Mutation> in
@@ -122,7 +118,10 @@ final class WordCheckingReactor: Reactor {
                 .catch { _ in
                     return .just(.showAddCompleteToast(.failure(.addWordFailed(reason: nil, word: newWord))))
                 }
-                .concat(setTotalWordsCountMutation)
+                .concat(
+                    wordUseCase.fetchMemorizingWordList()
+                        .map { Mutation.setTotalWordsCount($0.count) }
+                )
 
         case .updateToNextWord:
             wordUseCase.updateToNextWord()
@@ -149,13 +148,20 @@ final class WordCheckingReactor: Reactor {
             guard let id = currentState.currentWord?.id else {
                 return .empty()
             }
-
             return wordUseCase.deleteWord(by: id)
                 .asObservable()
                 .map { _ -> Mutation in
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
                     return .setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)
                 }
+                .concat(
+                    wordUseCase.fetchMemorizingWordList()
+                        .map { Mutation.setTotalWordsCount($0.count) }
+                )
+                .concat(
+                    wordUseCase.getCheckedCount()
+                        .map { Mutation.setCheckedWordsCount($0) }
+                )
 
         case .markCurrentWordAsMemorized:
             return wordUseCase.markCurrentWordAsMemorized()
@@ -164,6 +170,14 @@ final class WordCheckingReactor: Reactor {
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
                     return .setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)
                 }
+                .concat(
+                    wordUseCase.fetchMemorizingWordList()
+                        .map { Mutation.setTotalWordsCount($0.count) }
+                )
+                .concat(
+                    wordUseCase.getCheckedCount()
+                        .map { Mutation.setCheckedWordsCount($0) }
+                )
             
         case .changeFontSize(let fontSize):
             return userSettingsUseCase.changeMemorizingWordSize(fontSize: fontSize)
