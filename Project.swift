@@ -522,7 +522,8 @@ let project: Project = .init(
     organizationName: ORGANIZATION,
     options: .options(automaticSchemesOptions: .disabled),
     settings: .settings(
-        base: ["SWIFT_EMIT_LOC_STRINGS": true]
+        base: ["SWIFT_EMIT_LOC_STRINGS": true],
+        debug: SettingsDictionary()
             .otherLinkerFlags([
                 "-Xlinker",
                 "-interposable"
