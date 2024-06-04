@@ -534,7 +534,11 @@ let project: Project = .init(
         .scheme(
             name: PROJECT_NAME,
             buildAction: .buildAction(targets: ["\(PROJECT_NAME)"]),
-            runAction: .runAction(executable: "\(PROJECT_NAME)"),
+            runAction: .runAction(
+                configuration: .release,
+                attachDebugger: false,
+                executable: "\(PROJECT_NAME)"
+            ),
             profileAction: .profileAction(executable: "\(PROJECT_NAME)")
         ),
         .scheme(
