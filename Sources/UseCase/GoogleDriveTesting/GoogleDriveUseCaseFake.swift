@@ -8,43 +8,60 @@
 
 import Domain_Core
 import Domain_GoogleDrive
+import Domain_GoogleDriveTesting
+import Domain_LocalNotification
+import Domain_LocalNotificationTesting
+import Domain_WordManagement
+import Domain_WordManagementTesting
+import Domain_WordMemorization
+import Domain_WordMemorizationTesting
 import Foundation
 import RxSwift
-import UseCase_GoogleDrive
+@testable import UseCase_GoogleDrive
 
 public final class GoogleDriveUseCaseFake: GoogleDriveUseCase {
 
+    private let _googleDriveUseCase: GoogleDriveUseCase
+    
     let scheduler: SchedulerType
 
-    public var _hasSigned: Bool = false
     public var willAlwaysFailUploading: Bool = false
     public var willAlwaysFailDownloading: Bool = false
-    private let testEmail = "Lorem-ipsum@gmail.com"
 
-    public init(scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .userInitiated)) {
+    public init(
+        scheduler: SchedulerType = ConcurrentMainScheduler.instance,
+        googleDriveService: GoogleDriveService = GoogleDriveServiceFake(),
+        wordService: WordManagementService = FakeWordManagementService(),
+        wordMemorizationService: WordMemorizationService = FakeWordMemorizationService.fake(),
+        localNotificationService: LocalNotificationService = LocalNotificationServiceFake()
+    ) {
         self.scheduler = scheduler
+        self._googleDriveUseCase = DefaultGoogleDriveUseCase(
+            googleDriveService: googleDriveService,
+            wordService: wordService,
+            wordMemorizationService: wordMemorizationService,
+            localNotificationService: localNotificationService
+        )
     }
 
     public func signInWithAuthorization(presenting: Domain_GoogleDrive.PresentingConfiguration) -> RxSwift.Single<Domain_GoogleDrive.Email?> {
-        _hasSigned = true
-        return .just(testEmail)
+        _googleDriveUseCase.signInWithAuthorization(presenting: presenting)
     }
     
     public var currentUserEmail: Domain_GoogleDrive.Email? {
-        testEmail
+        _googleDriveUseCase.currentUserEmail
     }
     
     public func restoreSignIn() -> RxSwift.Observable<Domain_GoogleDrive.Email?> {
-        _hasSigned = true
-        return .just(testEmail)
+        _googleDriveUseCase.restoreSignIn()
     }
     
     public func signOut() {
-        _hasSigned = false
+        _googleDriveUseCase.signOut()
     }
 
     public var hasSigned: Bool {
-        _hasSigned
+        _googleDriveUseCase.hasSigned
     }
 
     public func upload(presenting: PresentingConfiguration?) -> RxSwift.Observable<ProgressStatus> {
@@ -52,30 +69,8 @@ public final class GoogleDriveUseCaseFake: GoogleDriveUseCase {
             return .error(GoogleDriveUseCaseFakeError.fakeError)
         }
         
-        func doUpload() -> Observable<ProgressStatus> {
-            return .create { observer in
-                observer.onNext(.inProgress)
-
-                sleep(1)
-
-                observer.onNext(.complete)
-                observer.onCompleted()
-
-                return Disposables.create()
-            }
+        return _googleDriveUseCase.upload(presenting: presenting)
             .subscribe(on: scheduler)
-        }
-
-        if _hasSigned {
-            return doUpload()
-        }
-
-        guard presenting != nil else {
-            return .error(GoogleDriveUseCaseFakeError.noPresentingConfiguration)
-        }
-
-        _hasSigned = true
-        return doUpload()
     }
 
     public func download(presenting: PresentingConfiguration?) -> RxSwift.Observable<ProgressStatus> {
@@ -83,34 +78,12 @@ public final class GoogleDriveUseCaseFake: GoogleDriveUseCase {
             return .error(GoogleDriveUseCaseFakeError.fakeError)
         }
         
-        func doDownload() -> Observable<ProgressStatus> {
-            return .create { observer in
-                observer.onNext(.inProgress)
-
-                sleep(1)
-
-                observer.onNext(.complete)
-                observer.onCompleted()
-
-                return Disposables.create()
-            }
+        return _googleDriveUseCase.download(presenting: presenting)
             .subscribe(on: scheduler)
-        }
-
-        if _hasSigned {
-            return doDownload()
-        }
-
-        guard presenting != nil else {
-            return .error(GoogleDriveUseCaseFakeError.noPresentingConfiguration)
-        }
-
-        _hasSigned = true
-        return doDownload()
     }
 
     public func syncWordList(using strategy: SyncStrategy) -> RxSwift.Single<Void> {
-        fatalError()
+        _googleDriveUseCase.syncWordList(using: strategy)
     }
 }
 

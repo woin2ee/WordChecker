@@ -18,10 +18,12 @@ final class WordAdditionViewModel: ViewModelType {
 
     private let wordUseCase: WordUseCase
     private let globalState: GlobalState
+    private let globalAction: GlobalAction
 
-    init(wordUseCase: WordUseCase, globalState: GlobalState) {
+    init(wordUseCase: WordUseCase, globalState: GlobalState, globalAction: GlobalAction) {
         self.wordUseCase = wordUseCase
         self.globalState = globalState
+        self.globalAction = globalAction
     }
 
     func transform(input: Input) -> Output {
@@ -42,7 +44,7 @@ final class WordAdditionViewModel: ViewModelType {
                     .asSignalOnErrorJustComplete()
             }
             .doOnNext { _ in
-                GlobalAction.shared.didAddWord.accept(())
+                self.globalAction.didAddWord.accept(())
             }
 
         let wordIsEntered = input.wordText.map(\.hasElements)
