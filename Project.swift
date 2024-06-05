@@ -218,6 +218,25 @@ func iOSTargets() -> [Target] {
                 .target(name: Module.testsSupport),
             ]
         ),
+        Target.target(
+            name: "IOSSceneIntegrationTests",
+            destinations: .iOS,
+            product: .unitTests,
+            bundleId: "\(BASIC_BUNDLE_ID).IOSSceneIntegrationTests",
+            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            sources: "Tests/IOSSceneIntegrationTests/**",
+            dependencies: [
+                .target(name: Module.iOSScene.wordChecking),
+                .target(name: Module.iOSScene.wordList),
+                .target(name: Module.iOSScene.wordDetail),
+                .target(name: Module.iOSScene.wordAddition),
+                .target(name: Module.iOSScene.userSettings),
+                .target(name: Module.iOSSupport),
+                .target(name: Module.testsSupport),
+                .external(name: .rxBlocking),
+                .external(name: .rxTest),
+            ]
+        ),
     ] + [
         Target.makeIOSFramework(
             name: Module.iOSSupport,
@@ -564,8 +583,8 @@ let project: Project = .init(
             )
         ),
         .scheme(
-            name: "IntergrationTests",
-            testAction: .testPlans([.relativeToRoot("TestPlans/IntergrationTests.xctestplan")])
+            name: "IntegrationTests",
+            testAction: .testPlans([.relativeToRoot("TestPlans/IntegrationTests.xctestplan")])
         ),
         .scheme(
             name: "snapshot-generator",

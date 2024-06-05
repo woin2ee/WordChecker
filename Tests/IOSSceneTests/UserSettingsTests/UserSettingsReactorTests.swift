@@ -8,6 +8,8 @@
 
 @testable import IOSScene_UserSettings
 import Domain_GoogleDrive
+@testable import Domain_GoogleDriveTesting
+import Domain_WordManagement
 import IOSSupport
 import UseCase_GoogleDriveTesting
 import UseCase_UserSettingsTesting
@@ -187,9 +189,16 @@ final class UserSettingsReactorTests: RxBaseTestCase {
         XCTAssertRecordedElements(result.events, [()])
     }
     
-    func test_showDownloadAlert_whenSuccess() {
+    func test_showDownloadAlert_whenSuccess() throws {
         // Given
-        let googleDriveUseCase = GoogleDriveUseCaseFake(scheduler: testScheduler)
+        let googleDriveService = GoogleDriveServiceFake()
+        let word = try Word(word: "Test")
+        let data = try JSONEncoder().encode([word])
+        googleDriveService.backupFiles = [BackupFile(name: .wordListBackup, data: data)]
+        let googleDriveUseCase = GoogleDriveUseCaseFake(
+            scheduler: testScheduler,
+            googleDriveService: googleDriveService
+        )
         
         sut = UserSettingsReactor(
             userSettingsUseCase: UserSettingsUseCaseFake(),
