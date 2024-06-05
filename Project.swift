@@ -564,8 +564,8 @@ let project: Project = .init(
             )
         ),
         .scheme(
-            name: "IntergrationTests",
-            testAction: .testPlans([.relativeToRoot("TestPlans/IntergrationTests.xctestplan")])
+            name: "IntegrationTests",
+            testAction: .testPlans([.relativeToRoot("TestPlans/IntegrationTests.xctestplan")])
         ),
         .scheme(
             name: "snapshot-generator",
