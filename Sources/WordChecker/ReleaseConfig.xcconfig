@@ -1,0 +1,13 @@
+//
+//  ReleaseConfig.xcconfig
+//  WordChecker
+//
+//  Created by Jaewon Yun on 6/6/24.
+//  Copyright © 2024 woin2ee. All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+APP_VERSION = 2.0.0
+APP_BUILD_NUMBER = 4
