@@ -203,8 +203,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Woin2ee-Modules/UIKitPlus.git",
       "state" : {
-        "revision" : "a0160a3be6770af0debe2bcc98a29b64d311a401",
-        "version" : "1.6.0"
+        "revision" : "f6d6f8e9fbcf8d5d18bd9413a8602d50175840e0",
+        "version" : "1.7.0"
       }
     },
     {
