@@ -154,7 +154,8 @@ public final class DefaultGoogleDriveService: GoogleDriveService {
         }
 
         return .create { observer in
-            Task {
+            let task = Task {
+                try Task.checkCancellation()
                 let backupFileList = try await self.fetchBackupFileList(backupFileName: backupFileName.rawValue)
 
                 guard let backupFileID = backupFileList.files?.first?.identifier else {
@@ -162,14 +163,18 @@ public final class DefaultGoogleDriveService: GoogleDriveService {
                     return
                 }
 
-                let dataObject = try await GoogleDriveAPI(authentication: currentUser.authentication).files.get(forFileID: backupFileID)
+                try Task.checkCancellation()
+                let api = GoogleDriveAPI(authentication: currentUser.authentication)
+                let dataObject = try await api.files.get(forFileID: backupFileID)
 
                 observer(.success(BackupFile(name: backupFileName, data: dataObject.data)))
             } catch: {
                 observer(.failure($0))
             }
 
-            return Disposables.create()
+            return Disposables.create {
+                task.cancel()
+            }
         }
     }
 
@@ -179,7 +184,8 @@ public final class DefaultGoogleDriveService: GoogleDriveService {
         }
 
         return .create { observer in
-            Task {
+            let task = Task {
+                try Task.checkCancellation()
                 let backupFileList = try await self.fetchBackupFileList(backupFileName: backupFileName.rawValue)
 
                 guard let backupFiles = backupFileList.files else {
@@ -187,9 +193,11 @@ public final class DefaultGoogleDriveService: GoogleDriveService {
                     return
                 }
 
+                try Task.checkCancellation()
+                let api = GoogleDriveAPI(authentication: currentUser.authentication)
                 try await backupFiles.compactMap(\.identifier)
                     .asyncForEach {
-                        try await GoogleDriveAPI(authentication: currentUser.authentication).files.delete(byFileID: $0)
+                        try await api.files.delete(byFileID: $0)
                     }
 
                 observer(.success(()))
@@ -197,7 +205,9 @@ public final class DefaultGoogleDriveService: GoogleDriveService {
                 observer(.failure($0))
             }
 
-            return Disposables.create()
+            return Disposables.create {
+                task.cancel()
+            }
         }
     }
 }
