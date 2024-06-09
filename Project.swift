@@ -475,7 +475,15 @@ func iOSTargets() -> [Target] {
                 .target(name: Module.iPadDriver),
             ],
             settings: .settings(
-                base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.Security.TEAM_ID)
+                base: SettingsDictionary()
+                    .automaticCodeSigning(devTeam: Constant.Security.TEAM_ID),
+                configurations: [
+                    .debug(name: .debug),
+                    .release(
+                        name: .release,
+                        xcconfig: .relativeToRoot("Sources/WordChecker/ReleaseConfig.xcconfig")
+                    ),
+                ]
             ),
             resourceOptions: [.own, .common],
             appendSchemeTo: &schemes
@@ -492,7 +500,15 @@ func iOSTargets() -> [Target] {
                 .target(name: Module.iPadDriver),
             ],
             settings: .settings(
-                base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.Security.TEAM_ID)
+                base: SettingsDictionary()
+                    .automaticCodeSigning(devTeam: Constant.Security.TEAM_ID),
+                configurations: [
+                    .debug(
+                        name: .debug,
+                        xcconfig: .relativeToRoot("Sources/WordCheckerDev/DebugConfig.xcconfig")
+                    ),
+                    .release(name: .release),
+                ]
             ),
             resourceOptions: [.own, .common],
             appendSchemeTo: &schemes
@@ -601,7 +617,6 @@ let project: Project = .init(
         "Scripts/",
         ".gitignore",
         "Project.swift",
-        "version.md",
         "CHANGELOG.md",
     ],
     resourceSynthesizers: []
