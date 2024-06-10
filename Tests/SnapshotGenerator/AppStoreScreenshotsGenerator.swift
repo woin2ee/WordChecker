@@ -23,6 +23,8 @@ final class AppStoreScreenshotsGenerator: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
 
+        SpringboardHelper.showKeyboardIfNeeded()
+        
         app = XCUIApplication()
         app.setLaunchArguments([.sampledDatabase, .initUserDefaults])
         setupSnapshot(app)
