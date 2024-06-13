@@ -3,13 +3,16 @@ import PackageDescription
 
 
 #if TUIST
+    import ExternalDependencyPlugin
     import ProjectDescription
     import ProjectDescriptionHelpers
 
 
     let packageSettings = PackageSettings(
         productTypes: [
-            :
+            ExternalDependencyName.pinLayout.rawValue: .framework,
+            ExternalDependencyName.reactorKit.rawValue: .framework,
+            ExternalDependencyName.sfSafeSymbols.rawValue: .framework,
         ]
     )
 #endif
