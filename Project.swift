@@ -76,9 +76,9 @@ func commonTargets() -> [Target] {
             name: Module.domain.googleDrive,
             dependencies: [
                 .target(name: Module.domain.core),
-                .external(name: .googleAPIClientForRESTCore),
-                .external(name: .googleAPIClientForREST_Drive),
-                .external(name: .googleSignIn),
+                .package(product: ExternalDependencyName.googleAPIClientForRESTCore.rawValue, type: .runtime),
+                .package(product: ExternalDependencyName.googleAPIClientForREST_Drive.rawValue, type: .runtime),
+                .package(product: ExternalDependencyName.googleSignIn.rawValue, type: .runtime),
             ],
             withTesting: true,
             appendSchemeTo: &schemes
@@ -556,6 +556,10 @@ let project: Project = .init(
     name: PROJECT_NAME,
     organizationName: ORGANIZATION,
     options: .options(automaticSchemesOptions: .disabled),
+    packages: [
+        .package(url: "https://github.com/google/google-api-objectivec-client-for-rest.git", .exact("3.5.4")),
+        .package(url: "https://github.com/google/GoogleSignIn-iOS.git", .exact("6.2.4")),
+    ],
     settings: .settings(
         base: ["SWIFT_EMIT_LOC_STRINGS": true],
         debug: SettingsDictionary()

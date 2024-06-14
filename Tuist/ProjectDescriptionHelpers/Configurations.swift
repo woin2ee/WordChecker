@@ -25,4 +25,4 @@ public let ALL_DEPLOYMENT_TARGETS: DeploymentTargets = .multiplatform(
     macOS: MINIMUM_MACOS_VERSION
 )
 
-public let ALL_DESTINATIONS: Destinations = [.iPhone, .mac]
+public let ALL_DESTINATIONS: Destinations = [.iPhone, .iPad, .mac]
