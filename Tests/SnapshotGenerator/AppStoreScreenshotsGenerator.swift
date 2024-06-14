@@ -44,6 +44,10 @@ final class AppStoreScreenshotsGenerator: XCTestCase {
         
         app.launch()
         
+        (1...23).forEach { _ in
+            app.buttons[IOSScene_WordChecking.AccessibilityIdentifier.nextButton].tap()
+        }
+        
         snapshot("01-home")
         
         app.navigationBars.buttons[IOSScene_WordChecking.AccessibilityIdentifier.addWordButton].tap()
@@ -91,6 +95,10 @@ final class AppStoreScreenshotsGenerator: XCTestCase {
         XCUIDevice.shared.orientation = .landscapeLeft
         
         app.launch()
+        
+        (1...23).forEach { _ in
+            app.buttons[IOSScene_WordChecking.AccessibilityIdentifier.nextButton].tap()
+        }
         
         snapshot("01-home")
         
