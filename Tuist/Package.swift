@@ -41,10 +41,10 @@ let package = Package(
         .package(url: "https://github.com/devxoul/Then", from: "3.0.0"),
         // Toast-Swift
         .package(url: "https://github.com/scalessec/Toast-Swift.git", from: "5.0.0"),
-        // GoogleSignIn-iOS
-        .package(url: "https://github.com/google/GoogleSignIn-iOS", from: "6.0.2"),
-        // google-api-objectivec-client-for-rest
-        .package(url: "https://github.com/google/google-api-objectivec-client-for-rest.git", from: "3.0.0"),
+//        // GoogleSignIn-iOS
+//        .package(url: "https://github.com/google/GoogleSignIn-iOS", from: "6.0.2"),
+//        // google-api-objectivec-client-for-rest
+//        .package(url: "https://github.com/google/google-api-objectivec-client-for-rest.git", from: "3.0.0"),
         // ReactorKit
         .package(url: "https://github.com/ReactorKit/ReactorKit.git", from: "3.0.0"),
         // FoundationPlus
