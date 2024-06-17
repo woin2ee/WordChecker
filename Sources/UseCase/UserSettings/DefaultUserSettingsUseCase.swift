@@ -11,7 +11,7 @@ import Foundation
 import RxSwift
 import RxRelay
 import RxSwiftSugar
-import Utility
+import UtilitySource
 
 internal final class DefaultUserSettingsUseCase: UserSettingsUseCase {
 

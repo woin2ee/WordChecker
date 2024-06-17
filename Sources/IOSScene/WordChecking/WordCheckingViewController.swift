@@ -15,7 +15,7 @@ import Then
 import Toast
 import UIKit
 import UIKitPlus
-import Utility
+import UtilitySource
 import WebKit
 
 public protocol WordCheckingViewControllerProtocol: UIViewController {}

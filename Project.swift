@@ -1,4 +1,5 @@
 import ExternalDependencyPlugin
+import MicroFeaturePlugin
 import ProjectDescription
 import ProjectDescriptionHelpers
 
@@ -17,28 +18,12 @@ func commonTargets() -> [Target] {
             appendSchemeTo: &schemes
         ),
         
-        // MARK: Utility
-        
-        Target.makeCommonFramework(
-            name: Module.utility,
-            scripts: [
-                // 공동 작업자의 githook path 자동 세팅을 위함
-                .pre(
-                    path: "Scripts/set_githooks_path.sh",
-                    name: "Set githooks path",
-                    basedOnDependencyAnalysis: false
-                ),
-            ],
-            hasTests: true,
-            appendSchemeTo: &schemes
-        ),
-        
         // MARK: Domain
         
         Target.makeCommonFramework(
             name: Module.domain.core,
             dependencies: [
-                .target(name: Module.utility),
+                .target(utilityFeature.source),
                 .external(name: .foundationPlus),
                 .external(name: .swinject),
                 .external(name: .swinjectExtension),
@@ -191,16 +176,16 @@ func commonTargets() -> [Target] {
 func iOSTargets() -> [Target] {
     [
         Target.target(
-            name: "\(PROJECT_NAME)UITests",
+            name: "\(env.projectName)UITests",
             destinations: [.iPhone],
             product: .uiTests,
-            bundleId: "\(BASIC_BUNDLE_ID)UITests",
-            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
-            sources: "Tests/\(PROJECT_NAME)UITests/**",
+            bundleId: "\(env.baseBundleID)UITests",
+            deploymentTargets: .iOS(env.minimumIOSVersion),
+            sources: "Tests/\(env.projectName)UITests/**",
             dependencies: [
-                .target(name: "\(PROJECT_NAME)Dev"),
+                .target(name: "\(env.projectName)Dev"),
                 .target(name: Module.iOSSupport),
-                .target(name: Module.utility),
+                .target(utilityFeature.source),
                 .target(name: Module.testsSupport),
             ]
         ),
@@ -208,13 +193,13 @@ func iOSTargets() -> [Target] {
             name: "SnapshotGenerator",
             destinations: .iOS,
             product: .uiTests,
-            bundleId: "\(BASIC_BUNDLE_ID).SnapshotGenerator",
-            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            bundleId: "\(env.baseBundleID).SnapshotGenerator",
+            deploymentTargets: .iOS(env.minimumIOSVersion),
             sources: "Tests/SnapshotGenerator/**",
             dependencies: [
-                .target(name: "\(PROJECT_NAME)Dev"),
+                .target(name: "\(env.projectName)Dev"),
                 .target(name: Module.iOSSupport),
-                .target(name: Module.utility),
+                .target(utilityFeature.source),
                 .target(name: Module.testsSupport),
             ]
         ),
@@ -222,8 +207,8 @@ func iOSTargets() -> [Target] {
             name: "IOSSceneIntegrationTests",
             destinations: .iOS,
             product: .unitTests,
-            bundleId: "\(BASIC_BUNDLE_ID).IOSSceneIntegrationTests",
-            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            bundleId: "\(env.baseBundleID).IOSSceneIntegrationTests",
+            deploymentTargets: .iOS(env.minimumIOSVersion),
             sources: "Tests/IOSSceneIntegrationTests/**",
             dependencies: [
                 .target(name: Module.iOSScene.wordChecking),
@@ -241,7 +226,7 @@ func iOSTargets() -> [Target] {
         Target.makeIOSFramework(
             name: Module.iOSSupport,
             dependencies: [
-                .target(name: Module.utility),
+                .target(utilityFeature.source),
                 .target(name: Module.domain.googleDrive),
                 .target(name: Module.domain.localNotification),
                 .target(name: Module.domain.userSettings),
@@ -290,7 +275,7 @@ func iOSTargets() -> [Target] {
             name: "IOSScene_WordCheckingExample",
             destinations: .iOS,
             product: .app,
-            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            deploymentTargets: .iOS(env.minimumIOSVersion),
             infoPlist: .file(path: .path(Constant.Path.iOSExampleInfoPlist)),
             dependencies: [
                 .target(name: Module.iOSScene.wordChecking),
@@ -322,7 +307,7 @@ func iOSTargets() -> [Target] {
             name: "\(Module.iOSScene.wordList)Example",
             destinations: .iOS,
             product: .app,
-            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            deploymentTargets: .iOS(env.minimumIOSVersion),
             infoPlist: .file(path: .path(Constant.Path.iOSExampleInfoPlist)),
             dependencies: [
                 .target(name: Module.iOSScene.wordList),
@@ -351,7 +336,7 @@ func iOSTargets() -> [Target] {
             name: "\(Module.iOSScene.wordDetail)Example",
             destinations: .iOS,
             product: .app,
-            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            deploymentTargets: .iOS(env.minimumIOSVersion),
             infoPlist: .file(path: .path(Constant.Path.iOSExampleInfoPlist)),
             dependencies: [
                 .target(name: Module.iOSScene.wordDetail),
@@ -396,7 +381,7 @@ func iOSTargets() -> [Target] {
             name: "IOSScene_UserSettingsExample",
             destinations: .iOS,
             product: .app,
-            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            deploymentTargets: .iOS(env.minimumIOSVersion),
             infoPlist: .file(path: .path(Constant.Path.iOSExampleInfoPlist)),
             dependencies: [
                 .target(name: Module.iOSScene.userSettings),
@@ -413,7 +398,7 @@ func iOSTargets() -> [Target] {
             name: "TestingApp",
             destinations: .iOS,
             product: .app,
-            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            deploymentTargets: .iOS(env.minimumIOSVersion),
             infoPlist: .file(path: .path(Constant.Path.iOSExampleInfoPlist)),
             dependencies: [
                 .target(name: Module.iOSSupport),
@@ -427,7 +412,7 @@ func iOSTargets() -> [Target] {
             name: Module.iOSDriver,
             destinations: [.iPhone, .iPad],
             product: .framework,
-            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            deploymentTargets: .iOS(env.minimumIOSVersion),
             dependencies: [
                 .target(name: Module.container),
                 .target(name: Module.iOSSupport),
@@ -443,7 +428,7 @@ func iOSTargets() -> [Target] {
             name: Module.iPhoneDriver,
             destinations: [.iPhone],
             product: .framework,
-            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            deploymentTargets: .iOS(env.minimumIOSVersion),
             dependencies: [
                 .target(name: Module.container),
                 .target(name: Module.iOSDriver),
@@ -455,7 +440,7 @@ func iOSTargets() -> [Target] {
             name: Module.iPadDriver,
             destinations: [.iPad],
             product: .framework,
-            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            deploymentTargets: .iOS(env.minimumIOSVersion),
             dependencies: [
                 .target(name: Module.container),
                 .target(name: Module.iOSDriver),
@@ -464,11 +449,11 @@ func iOSTargets() -> [Target] {
             appendSchemeTo: &schemes
         ),
         Target.makeTargets(
-            name: PROJECT_NAME,
+            name: env.projectName,
             destinations: [.iPhone, .iPad],
             product: .app,
-            bundleID: BASIC_BUNDLE_ID,
-            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            bundleID: env.baseBundleID,
+            deploymentTargets: .iOS(env.minimumIOSVersion),
             infoPlist: .file(path: .path(Constant.Path.iOSInfoPlist)),
             dependencies: [
                 .target(name: Module.iPhoneDriver),
@@ -489,11 +474,11 @@ func iOSTargets() -> [Target] {
             appendSchemeTo: &schemes
         ),
         Target.makeTargets(
-            name: "\(PROJECT_NAME)Dev",
+            name: "\(env.projectName)Dev",
             destinations: [.iPhone, .iPad],
             product: .app,
-            bundleID: "\(BASIC_BUNDLE_ID)Dev",
-            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            bundleID: "\(env.baseBundleID)Dev",
+            deploymentTargets: .iOS(env.minimumIOSVersion),
             infoPlist: .file(path: .path(Constant.Path.iOSInfoPlist)),
             dependencies: [
                 .target(name: Module.iPhoneDriver),
@@ -518,11 +503,11 @@ func iOSTargets() -> [Target] {
 }
 
 let macAppTargets = Target.makeTargets(
-    name: "\(PROJECT_NAME)Mac",
+    name: "\(env.projectName)Mac",
     destinations: [.mac],
     product: .app,
-    bundleID: "\(BASIC_BUNDLE_ID)Mac",
-    deploymentTargets: .macOS(MINIMUM_MACOS_VERSION),
+    bundleID: "\(env.baseBundleID)Mac",
+    deploymentTargets: .macOS(env.minimumMacOSVersion),
     infoPlist: .file(path: .path(Constant.Path.macInfoPlist)),
     entitlements: .file(path: .path(Constant.Path.macEntitlements)),
     dependencies: [
@@ -549,13 +534,14 @@ let allTargets: [Target] = [
     macAppTargets
 ]
     .flatMap { $0 }
++ utilityFeature.resolveModules()
 
 // MARK: - Project
 
 let project: Project = .init(
-    name: PROJECT_NAME,
-    organizationName: ORGANIZATION,
-    options: .options(automaticSchemesOptions: .disabled),
+    name: env.projectName,
+    organizationName: env.organization,
+    options: .options(),
     packages: [
         .package(url: "https://github.com/google/google-api-objectivec-client-for-rest.git", .exact("3.5.4")),
         .package(url: "https://github.com/google/GoogleSignIn-iOS.git", .exact("6.2.4")),
@@ -571,32 +557,32 @@ let project: Project = .init(
     targets: allTargets,
     schemes: schemes + [
         .scheme(
-            name: PROJECT_NAME,
-            buildAction: .buildAction(targets: ["\(PROJECT_NAME)"]),
+            name: env.projectName,
+            buildAction: .buildAction(targets: ["\(env.projectName)"]),
             runAction: .runAction(
                 configuration: .release,
                 attachDebugger: false,
-                executable: "\(PROJECT_NAME)"
+                executable: "\(env.projectName)"
             ),
-            profileAction: .profileAction(executable: "\(PROJECT_NAME)")
+            profileAction: .profileAction(executable: "\(env.projectName)")
         ),
         .scheme(
-            name: "\(PROJECT_NAME)Dev",
-            runAction: .runAction(executable: "\(PROJECT_NAME)Dev")
+            name: "\(env.projectName)Dev",
+            runAction: .runAction(executable: "\(env.projectName)Dev")
         ),
         .scheme(
-            name: "\(PROJECT_NAME)Dev_InMemoryDB",
+            name: "\(env.projectName)Dev_InMemoryDB",
             runAction: .runAction(
-                executable: "\(PROJECT_NAME)Dev",
+                executable: "\(env.projectName)Dev",
                 arguments: .arguments(launchArguments: [
                     .launchArgument(name: "-useInMemoryDatabase", isEnabled: true)
                 ])
             )
         ),
         .scheme(
-            name: "\(PROJECT_NAME)Dev_SampleDB",
+            name: "\(env.projectName)Dev_SampleDB",
             runAction: .runAction(
-                executable: "\(PROJECT_NAME)Dev",
+                executable: "\(env.projectName)Dev",
                 arguments: .arguments(launchArguments: [
                     .launchArgument(name: "-sampledDatabase", isEnabled: true)
                 ])

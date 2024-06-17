@@ -1,6 +1,6 @@
 import ExtendedUserDefaults
 import Foundation
-import Utility
+import UtilitySource
 
 public protocol UserSettingsService {
     func saveUserSettings(_ userSettings: UserSettings) throws

@@ -13,7 +13,7 @@
 @testable import IOSSupport
 @testable import IPhoneDriver
 import TestsSupport
-import Utility
+import UtilitySource
 import XCTest
 
 typealias WordCheckingString            = IOSScene_WordChecking.LocalizedString

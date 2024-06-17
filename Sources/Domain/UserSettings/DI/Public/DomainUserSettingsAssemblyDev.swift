@@ -9,7 +9,7 @@
 import ExtendedUserDefaults
 import Foundation
 import Swinject
-import Utility
+import UtilitySource
 
 public final class DomainUserSettingsAssemblyDev: Assembly {
 

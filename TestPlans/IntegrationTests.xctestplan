@@ -150,13 +150,6 @@
     {
       "target" : {
         "containerPath" : "container:WordChecker.xcodeproj",
-        "identifier" : "585092990423BB1A0834B60A",
-        "name" : "UtilityTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:WordChecker.xcodeproj",
         "identifier" : "312637C8AEFA0BF87C1E5266",
         "name" : "IOSScene_UserSettingsTests"
       }
@@ -243,6 +236,13 @@
         "containerPath" : "container:WordChecker.xcodeproj",
         "identifier" : "FEB2EA1DFBE61874EF1A8640",
         "name" : "IOSSceneIntegrationTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WordChecker.xcodeproj",
+        "identifier" : "B4760D68D950DD960933E277",
+        "name" : "UtilityUnitTests"
       }
     }
   ],
