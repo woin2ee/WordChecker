@@ -19,7 +19,8 @@ public final class WordAdditionAssembly: Assembly {
         container.register(WordAdditionViewControllerProtocol.self) { resolver in
             let viewModel = WordAdditionViewModel(
                 wordUseCase: resolver.resolve(),
-                globalState: GlobalState.shared
+                globalState: GlobalState.shared,
+                globalAction: GlobalAction.shared
             )
 
             return WordAdditionViewController.init().then {

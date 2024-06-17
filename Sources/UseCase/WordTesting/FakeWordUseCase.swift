@@ -6,6 +6,7 @@
 //  Copyright © 2024 woin2ee. All rights reserved.
 //
 
+import Domain_LocalNotification
 import Domain_LocalNotificationTesting
 import Domain_WordManagement
 import Domain_WordManagementTesting
@@ -19,11 +20,15 @@ public final class FakeWordUseCase: WordUseCase {
     
     private let _wordUseCase: WordUseCase
     
-    public init() {
+    public init(
+        wordManagementService: WordManagementService = FakeWordManagementService(),
+        wordMemorizationService: WordMemorizationService = FakeWordMemorizationService.fake(),
+        localNotificationService: LocalNotificationService = LocalNotificationServiceFake()
+    ) {
         self._wordUseCase = DefaultWordUseCase(
-            wordManagementService: FakeWordManagementService(),
-            wordMemorizationService: FakeWordMemorizationService.fake(),
-            localNotificationService: LocalNotificationServiceFake()
+            wordManagementService: wordManagementService,
+            wordMemorizationService: wordMemorizationService,
+            localNotificationService: localNotificationService
         )
     }
     

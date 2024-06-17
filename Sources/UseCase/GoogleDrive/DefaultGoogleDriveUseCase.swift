@@ -144,14 +144,16 @@ internal final class DefaultGoogleDriveUseCase: GoogleDriveUseCase {
                         .observe(on: MainScheduler.instance)
                         .doOnSuccess { wordList in
                             try self.wordService.reset(to: wordList)
-                            let memorizingList = wordList.compactMap {
-                                do {
-                                    return try MemorizingWord(id: $0.id, word: $0.word, isChecked: false)
-                                } catch {
-                                    logger.warning("\(error)")
-                                    return nil
+                            let memorizingList = wordList
+                                .filter { $0.memorizationState == .memorizing }
+                                .compactMap {
+                                    do {
+                                        return try MemorizingWord(id: $0.id, word: $0.word, isChecked: false)
+                                    } catch {
+                                        logger.warning("\(error)")
+                                        return nil
+                                    }
                                 }
-                            }
                             self.wordMemorizationService.setList(memorizingList)
                             self.updateDailyReminder()
                         }

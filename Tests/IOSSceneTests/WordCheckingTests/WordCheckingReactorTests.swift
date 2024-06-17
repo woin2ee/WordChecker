@@ -46,6 +46,17 @@ final class WordCheckingReactorTests: XCTestCase {
         // Then
         XCTAssertEqual(sut.currentState.currentWord?.word, "Test")
     }
+    
+    func test_addWord_withAutoCapitalization() {
+        // Given
+        sut.globalState.autoCapitalizationIsOn = true
+        
+        // When
+        sut.action.onNext(.addWord("test"))
+        
+        // Then
+        XCTAssertEqual(sut.currentState.currentWord?.word, "Test")
+    }
 
     func test_deleteLastWord() {
         // Given

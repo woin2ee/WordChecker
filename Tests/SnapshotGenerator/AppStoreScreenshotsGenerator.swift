@@ -23,6 +23,8 @@ final class AppStoreScreenshotsGenerator: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
 
+        SpringboardHelper.showKeyboardIfNeeded()
+        
         app = XCUIApplication()
         app.setLaunchArguments([.sampledDatabase, .initUserDefaults])
         setupSnapshot(app)
@@ -41,6 +43,10 @@ final class AppStoreScreenshotsGenerator: XCTestCase {
         XCUIDevice.shared.orientation = .portrait
         
         app.launch()
+        
+        (1...23).forEach { _ in
+            app.buttons[IOSScene_WordChecking.AccessibilityIdentifier.nextButton].tap()
+        }
         
         snapshot("01-home")
         
@@ -89,6 +95,10 @@ final class AppStoreScreenshotsGenerator: XCTestCase {
         XCUIDevice.shared.orientation = .landscapeLeft
         
         app.launch()
+        
+        (1...23).forEach { _ in
+            app.buttons[IOSScene_WordChecking.AccessibilityIdentifier.nextButton].tap()
+        }
         
         snapshot("01-home")
         

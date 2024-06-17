@@ -76,9 +76,9 @@ func commonTargets() -> [Target] {
             name: Module.domain.googleDrive,
             dependencies: [
                 .target(name: Module.domain.core),
-                .external(name: .googleAPIClientForRESTCore),
-                .external(name: .googleAPIClientForREST_Drive),
-                .external(name: .googleSignIn),
+                .package(product: ExternalDependencyName.googleAPIClientForRESTCore.rawValue, type: .runtime),
+                .package(product: ExternalDependencyName.googleAPIClientForREST_Drive.rawValue, type: .runtime),
+                .package(product: ExternalDependencyName.googleSignIn.rawValue, type: .runtime),
             ],
             withTesting: true,
             appendSchemeTo: &schemes
@@ -216,6 +216,25 @@ func iOSTargets() -> [Target] {
                 .target(name: Module.iOSSupport),
                 .target(name: Module.utility),
                 .target(name: Module.testsSupport),
+            ]
+        ),
+        Target.target(
+            name: "IOSSceneIntegrationTests",
+            destinations: .iOS,
+            product: .unitTests,
+            bundleId: "\(BASIC_BUNDLE_ID).IOSSceneIntegrationTests",
+            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            sources: "Tests/IOSSceneIntegrationTests/**",
+            dependencies: [
+                .target(name: Module.iOSScene.wordChecking),
+                .target(name: Module.iOSScene.wordList),
+                .target(name: Module.iOSScene.wordDetail),
+                .target(name: Module.iOSScene.wordAddition),
+                .target(name: Module.iOSScene.userSettings),
+                .target(name: Module.iOSSupport),
+                .target(name: Module.testsSupport),
+                .external(name: .rxBlocking),
+                .external(name: .rxTest),
             ]
         ),
     ] + [
@@ -456,7 +475,15 @@ func iOSTargets() -> [Target] {
                 .target(name: Module.iPadDriver),
             ],
             settings: .settings(
-                base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.Security.TEAM_ID)
+                base: SettingsDictionary()
+                    .automaticCodeSigning(devTeam: Constant.Security.TEAM_ID),
+                configurations: [
+                    .debug(name: .debug),
+                    .release(
+                        name: .release,
+                        xcconfig: .relativeToRoot("Sources/WordChecker/ReleaseConfig.xcconfig")
+                    ),
+                ]
             ),
             resourceOptions: [.own, .common],
             appendSchemeTo: &schemes
@@ -473,7 +500,15 @@ func iOSTargets() -> [Target] {
                 .target(name: Module.iPadDriver),
             ],
             settings: .settings(
-                base: SettingsDictionary().automaticCodeSigning(devTeam: Constant.Security.TEAM_ID)
+                base: SettingsDictionary()
+                    .automaticCodeSigning(devTeam: Constant.Security.TEAM_ID),
+                configurations: [
+                    .debug(
+                        name: .debug,
+                        xcconfig: .relativeToRoot("Sources/WordCheckerDev/DebugConfig.xcconfig")
+                    ),
+                    .release(name: .release),
+                ]
             ),
             resourceOptions: [.own, .common],
             appendSchemeTo: &schemes
@@ -521,8 +556,13 @@ let project: Project = .init(
     name: PROJECT_NAME,
     organizationName: ORGANIZATION,
     options: .options(automaticSchemesOptions: .disabled),
+    packages: [
+        .package(url: "https://github.com/google/google-api-objectivec-client-for-rest.git", .exact("3.5.4")),
+        .package(url: "https://github.com/google/GoogleSignIn-iOS.git", .exact("6.2.4")),
+    ],
     settings: .settings(
-        base: ["SWIFT_EMIT_LOC_STRINGS": true]
+        base: ["SWIFT_EMIT_LOC_STRINGS": true],
+        debug: SettingsDictionary()
             .otherLinkerFlags([
                 "-Xlinker",
                 "-interposable"
@@ -533,7 +573,11 @@ let project: Project = .init(
         .scheme(
             name: PROJECT_NAME,
             buildAction: .buildAction(targets: ["\(PROJECT_NAME)"]),
-            runAction: .runAction(executable: "\(PROJECT_NAME)"),
+            runAction: .runAction(
+                configuration: .release,
+                attachDebugger: false,
+                executable: "\(PROJECT_NAME)"
+            ),
             profileAction: .profileAction(executable: "\(PROJECT_NAME)")
         ),
         .scheme(
@@ -559,8 +603,8 @@ let project: Project = .init(
             )
         ),
         .scheme(
-            name: "IntergrationTests",
-            testAction: .testPlans([.relativeToRoot("TestPlans/IntergrationTests.xctestplan")])
+            name: "IntegrationTests",
+            testAction: .testPlans([.relativeToRoot("TestPlans/IntegrationTests.xctestplan")])
         ),
         .scheme(
             name: "snapshot-generator",
@@ -577,7 +621,6 @@ let project: Project = .init(
         "Scripts/",
         ".gitignore",
         "Project.swift",
-        "version.md",
         "CHANGELOG.md",
     ],
     resourceSynthesizers: []

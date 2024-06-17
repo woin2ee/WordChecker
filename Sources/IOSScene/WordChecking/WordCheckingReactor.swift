@@ -194,30 +194,57 @@ final class WordCheckingReactor: Reactor {
             globalAction.didSetTargetLanguage
                 .map(Mutation.setTargetLanguage),
             globalAction.didEditWord
-                .map { _ in
+                .flatMap { _ -> Observable<Mutation> in
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
-                    return Mutation.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)
+                    let totalCount = self.wordUseCase.fetchMemorizingWordList().count
+                    let checkedCount: Int = self.wordUseCase.getCheckedCount()
+                    return .merge([
+                        .just(.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)),
+                        .just(.setTotalWordsCount(totalCount)),
+                        .just(.setCheckedWordsCount(checkedCount)),
+                    ])
                 },
             globalAction.didDeleteWords
                 .filter { $0.contains(where: { $0.uuid == self.currentState.currentWord?.id }) }
-                .map { _ in
+                .flatMap { _ -> Observable<Mutation> in
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
-                    return Mutation.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)
+                    let totalCount = self.wordUseCase.fetchMemorizingWordList().count
+                    let checkedCount: Int = self.wordUseCase.getCheckedCount()
+                    return .merge([
+                        .just(.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)),
+                        .just(.setTotalWordsCount(totalCount)),
+                        .just(.setCheckedWordsCount(checkedCount)),
+                    ])
                 },
             globalAction.didResetWordList
-                .map {
+                .flatMap { _ -> Observable<Mutation> in
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
-                    return Mutation.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)
+                    let totalCount = self.wordUseCase.fetchMemorizingWordList().count
+                    return .merge([
+                        .just(.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)),
+                        .just(.setTotalWordsCount(totalCount)),
+                        .just(.setCheckedWordsCount(0)),
+                    ])
                 },
             globalAction.didAddWord
-                .map {
+                .flatMap { _ -> Observable<Mutation> in
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
-                    return Mutation.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)
+                    let count = self.wordUseCase.fetchMemorizingWordList().count
+                    return .merge([
+                        .just(.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)),
+                        .just(.setTotalWordsCount(count)),
+                    ])
                 },
             globalAction.didMarkSomeWordsAsMemorized
-                .map {
+                .flatMap { _ -> Observable<Mutation> in
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
-                    return Mutation.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)
+                    let totalCount = self.wordUseCase.fetchMemorizingWordList().count
+                    let checkedCount: Int = self.wordUseCase.getCheckedCount()
+                    return .merge([
+                        .just(.setCurrentWordAndIndex(currentWord.word?.toDTO(), currentWord.index)),
+                        .just(.setTotalWordsCount(totalCount)),
+                        .just(.setCheckedWordsCount(checkedCount)),
+                    ])
                 },
         ])
     }
