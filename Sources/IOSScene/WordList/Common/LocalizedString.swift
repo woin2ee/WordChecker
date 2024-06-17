@@ -21,4 +21,5 @@ internal struct LocalizedString {
     static let edit = NSLocalizedString("edit", bundle: Bundle.module, comment: "")
     static let editWord = NSLocalizedString("editWord", bundle: Bundle.module, comment: "")
     static let cancel = NSLocalizedString("cancel", bundle: Bundle.module, comment: "")
+    static let edit_list = NSLocalizedString("edit_list", bundle: Bundle.module, comment: "")
 }
