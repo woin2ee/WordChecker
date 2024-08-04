@@ -5,7 +5,7 @@
 //  Created by Jaewon Yun on 2023/09/07.
 //
 
-import Utility
+import UtilitySource
 import XCTest
 
 final class UtilityUnitTests: XCTestCase {

@@ -30,7 +30,9 @@ final class WordListNavigationItem: UINavigationItem {
         ])
     }
     
-    let editButton = UIBarButtonItem(systemItem: .edit)
+    let editButton = UIBarButtonItem(systemItem: .edit).then {
+        $0.accessibilityLabel = LocalizedString.edit_list
+    }
     let cancelButton = UIBarButtonItem(systemItem: .cancel)
     
     private lazy var filterWordsGroup = UIDeferredMenuElement.uncached { [weak self] completion in

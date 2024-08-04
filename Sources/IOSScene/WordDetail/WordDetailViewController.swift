@@ -9,7 +9,7 @@ import IOSSupport
 import ReactorKit
 import RxCocoa
 import UIKit
-import Utility
+import UtilitySource
 
 public protocol WordDetailViewControllerDelegate: AnyObject, ViewControllerDelegate {
 }

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Utility
+import UtilitySource
 
 @available(*, deprecated)
 final class UnmemorizedWordListRepository: UnmemorizedWordListRepositoryProtocol {

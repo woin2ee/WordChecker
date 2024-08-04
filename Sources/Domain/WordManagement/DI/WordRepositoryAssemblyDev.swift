@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 import Swinject
-import Utility
+import UtilitySource
 
 internal final class WordRepositoryAssemblyDev: Assembly {
 

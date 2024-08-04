@@ -5,7 +5,7 @@
 //  Created by Jaewon Yun on 2023/09/10.
 //
 
-@testable import Utility
+@testable import UtilitySource
 import XCTest
 
 final class CircularLinkedListTests: XCTestCase {

@@ -205,7 +205,6 @@ final class WordCheckingReactor: Reactor {
                     ])
                 },
             globalAction.didDeleteWords
-                .filter { $0.contains(where: { $0.uuid == self.currentState.currentWord?.id }) }
                 .flatMap { _ -> Observable<Mutation> in
                     let currentWord = self.wordUseCase.getCurrentUnmemorizedWord()
                     let totalCount = self.wordUseCase.fetchMemorizingWordList().count

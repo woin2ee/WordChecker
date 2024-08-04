@@ -53,7 +53,7 @@ fileprivate func _module(
         nameSuffix = nameComponents[1]
     }
     
-    let bundleID = bundleID ?? "\(BASIC_BUNDLE_ID).\(name.replacing("_", with: "."))"
+    let bundleID = bundleID ?? "\(env.baseBundleID).\(name.replacing("_", with: "."))"
 
     let resourceFileElements = resourceOptions
         .reduce(into: [ResourceFileElement](), { partialResult, option in
@@ -131,7 +131,7 @@ fileprivate func _module(
         } else {
             "Tests/\(testsTargetName)/**"
         }
-        let testBundleID = "\(BASIC_BUNDLE_ID).\(testsTargetName.replacing("_", with: "."))"
+        let testBundleID = "\(env.baseBundleID).\(testsTargetName.replacing("_", with: "."))"
 
         let testsTarget: Target = .target(
             name: testsTargetName,
@@ -168,7 +168,7 @@ fileprivate func _module(
         } else {
             "Sources/\(testingTargetName)/**"
         }
-        let testingBundleID = "\(BASIC_BUNDLE_ID).\(testingTargetName.replacing("_", with: "."))"
+        let testingBundleID = "\(env.baseBundleID).\(testingTargetName.replacing("_", with: "."))"
         
         let testingTarget: Target = .target(
             name: testingTargetName,
@@ -257,10 +257,10 @@ extension Target {
     ) -> [Target] {
         return _module(
             name: name,
-            destinations: ALL_DESTINATIONS,
+            destinations: env.allDestinations,
             product: .framework,
             bundleID: nil,
-            deploymentTargets: ALL_DEPLOYMENT_TARGETS,
+            deploymentTargets: env.allDeploymentTargets,
             infoPlist: .default,
             scripts: scripts,
             dependencies: dependencies,
@@ -293,7 +293,7 @@ extension Target {
             destinations: .iOS,
             product: .framework,
             bundleID: nil,
-            deploymentTargets: .iOS(MINIMUM_IOS_VERSION),
+            deploymentTargets: .iOS(env.minimumIOSVersion),
             infoPlist: .default,
             scripts: scripts,
             dependencies: dependencies,
